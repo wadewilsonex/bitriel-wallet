@@ -109,7 +109,6 @@ class AppState extends State<App> {
       final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
       contractProvider.setSavedList().then((value) async {
-
         /// Fetch and Fill Market Price Into Asset
         MarketProvider.fetchTokenMarketPrice();
 
@@ -131,9 +130,6 @@ class AppState extends State<App> {
         await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
 
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
-
-          if(!mounted) return;
-          Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
           if(!mounted) return;
           Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
@@ -177,7 +173,6 @@ class AppState extends State<App> {
   
   Future<void> downloadAsset({required String fileName}) async {
 
-    print("downloadAsset $fileName");
     dir ??= (await getApplicationDocumentsDirectory()).path;
 
     // ignore: unrelated_type_equality_checks
@@ -202,9 +197,8 @@ class AppState extends State<App> {
       // ignore: use_build_context_synchronously
       Provider.of<AppProvider>(context, listen: false).dirPath = dir;
       
-      print("Finish downloadAsset");
     } else {
-      print("Just read");
+      
       // ignore: use_build_context_synchronously
       Provider.of<AppProvider>(context, listen: false).dirPath = dir;
       // await readFile(fileName);

@@ -26,6 +26,7 @@ class ContractProvider with ChangeNotifier {
   List<TokenModel>? token = [];
 
   String ethAdd = '';
+
   bool? std;
 
   bool isReady = false;
@@ -89,11 +90,21 @@ class ContractProvider with ChangeNotifier {
   ContractProvider(){
     sortListContract.clear();
     listContract.clear();
+    // getEthByCurrentAcc();
     initSwapContract();
     if (listContract.isEmpty){
       initJson();
     }
   }
+
+  // void getEthByCurrentAcc() async {
+  //   await StorageServices.readSecure(DbKey.privateList)!.then((value) async {
+  //     debugPrint("value $value");
+  //     json.decode(value).where( (e) {
+  //       if (e['address'] == )
+  //     });
+  //   });
+  // }
 
   /// Fetch Support Contract From Json Inside Asset
   /// 
@@ -107,40 +118,53 @@ class ContractProvider with ChangeNotifier {
       // True In Case First Time Initialize
       await setSavedList().then((value) async {
 
-        final json = await rootBundle.loadString(AssetPath.contractJson);
+        if (value == false){
+
+          final json = await rootBundle.loadString(AssetPath.contractJson);
         
-        final decode = jsonDecode(json);
+          final decode = jsonDecode(json);
 
-        sortListContract.clear();
-        listContract.clear();
-      
-        for (int i = 0 ; i < decode.length; i++){
+          sortListContract.clear();
+          listContract.clear();
+        
+          for (int i = 0 ; i < decode.length; i++){
 
-          listContract.add(
-            SmartContractModel(
-              id: decode[i]['id'],
-              name: decode[i]["name"],
-              logo: "$_dir/${decode[i]["logo"]}",
-              address: decode[i]['address'],
-              contract: decode[i]['contract'],
-              contractTest: decode[i]['contract_test'],
-              symbol: decode[i]["symbol"],
-              org: decode[i]["org"],
-              orgTest: decode[i]["org_test"],
-              isContain: decode[i]["isContain"],
-              balance: decode[i]["balance"],
-              show: decode[i]["show"],
-              maxSupply: decode[i]["max_supply"],
-              description: decode[i]["description"],
-              // lineChartList: Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data'] != null ? List<List<double>>.from(Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']) : null, //decode[i]['lineChartData'],
-              // lineChartList: decode[i]['lineChartData'],
-              listActivity: [],
-              lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
-            )
-          );
+            if (i != 0){
+              ethAdd = decode[i]['address'];
+
+              notifyListeners();
+            }
+            listContract.add(
+              SmartContractModel(
+                id: decode[i]['id'],
+                name: decode[i]["name"],
+                logo: "$_dir/${decode[i]["logo"]}",
+                address: decode[i]['address'],
+                contract: decode[i]['contract'],
+                contractTest: decode[i]['contract_test'],
+                symbol: decode[i]["symbol"],
+                org: decode[i]["org"],
+                orgTest: decode[i]["org_test"],
+                isContain: decode[i]["isContain"],
+                balance: decode[i]["balance"],
+                show: decode[i]["show"],
+                maxSupply: decode[i]["max_supply"],
+                description: decode[i]["description"],
+                // lineChartList: Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data'] != null ? List<List<double>>.from(Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']) : null, //decode[i]['lineChartData'],
+                // lineChartList: decode[i]['lineChartData'],
+                listActivity: [],
+                lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
+              )
+            );
+          }
+
+          await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
+        } else {
+          
+          ethAdd = listContract[5].address!;
+
+          notifyListeners();
         }
-
-        await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
         
         notifyListeners();
       });
@@ -357,18 +381,14 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> ethWallet() async {
-    debugPrint("ethWallet");
+    
     try {
 
       await initEtherClient();
       debugPrint("finish initEtherClient");
       _eth = NativeService(_etherClient!);
 
-      debugPrint("ethAdd $ethAdd");
-
       final balance = await _eth!.getBalance(getEthAddr(ethAdd));
-      
-      debugPrint("balance $balance");
 
       listContract[apiProvider.ethIndex].balance = balance.toString();
       listContract[apiProvider.ethIndex].chainDecimal = 18;
@@ -631,10 +651,9 @@ class ContractProvider with ChangeNotifier {
 
   Future<String> getBnbMaxGas(String reciever, String amount) async {
     await initBscClient();
-    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
     final maxGas = await _bscClient!.estimateGas(
-      sender: EthereumAddress.fromHex(ethAddr!),
+      sender: EthereumAddress.fromHex(ethAdd),
       to: EthereumAddress.fromHex(reciever),
       value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
     );
@@ -662,11 +681,10 @@ class ContractProvider with ChangeNotifier {
     await initBscClient();
 
     final erc20Contract = await AppUtils.contractfromAssets(AppConfig.erc20Abi, contractAddr);
-    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
     final txFunction = erc20Contract.function('transfer');
 
     final maxGas = await _etherClient!.estimateGas(
-      sender: EthereumAddress.fromHex(ethAddr!),
+      sender: EthereumAddress.fromHex(ethAdd),
       to: erc20Contract.address,
       // maxPriorityFeePerGas: EtherAmount.inWei(BigInt.from(100)),
       //gasPrice: EtherAmount.inWei(BigInt.parse('20')),
@@ -685,13 +703,12 @@ class ContractProvider with ChangeNotifier {
     await initBscClient();
 
     final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
-    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
     final txFunction = bep20Contract.function('transfer');
 
     debugPrint("bep20Contract.address ${bep20Contract.address}");
 
     final maxGas = await _bscClient!.estimateGas(
-      sender: EthereumAddress.fromHex(ethAddr!),
+      sender: EthereumAddress.fromHex(ethAdd),
       to: EthereumAddress.fromHex(reciever),//bep20Contract.address,
       // maxPriorityFeePerGas: EtherAmount.inWei(BigInt.from(100)),
       //gasPrice: EtherAmount.inWei(BigInt.parse('20')),
@@ -748,8 +765,6 @@ class ContractProvider with ChangeNotifier {
       await initBscClient();
       final contract = await initSwapSel(_appConfig.swapAddr);
 
-      final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
-
       final gasPrice = await _bscClient!.getGasPrice();
 
       final ethFunction = contract.function('swap');
@@ -757,7 +772,7 @@ class ContractProvider with ChangeNotifier {
       final credentials = EthPrivateKey.fromHex(privateKey);//_bscClient!.credentialsFromPrivateKey(privateKey);
 
       final maxGas = await _bscClient!.estimateGas(
-        sender: EthereumAddress.fromHex(ethAddr!),
+        sender: EthereumAddress.fromHex(ethAdd),
         to: contract.address,
         data: ethFunction.encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
       );
@@ -766,7 +781,7 @@ class ContractProvider with ChangeNotifier {
         credentials,
         Transaction.callContract(
           contract: contract,
-          from: EthereumAddress.fromHex(ethAddr),
+          from: EthereumAddress.fromHex(ethAdd),
           function: ethFunction,
           gasPrice: gasPrice,
           maxGas: maxGas.toInt(),
@@ -822,29 +837,26 @@ class ContractProvider with ChangeNotifier {
   Future<void> extractAddress(String privateKey) async {
 
     await initBscClient();
-    final EthPrivateKey? credentials = EthPrivateKey.fromHex(privateKey);
+    final EthPrivateKey credentials = EthPrivateKey.fromHex(privateKey);
 
-    if (credentials != null) {
-      debugPrint("credentials.address.toString() ${credentials.address.toString()}");
-      // final addr = await credentials.extractAddress();
-      ethAdd = credentials.address.toString();
+    debugPrint("credentials.address.toString() ${credentials.address.toString()}");
+    // final addr = await credentials.extractAddress();
+    ethAdd = credentials.address.toString();
 
-      notifyListeners();
-      
-      debugPrint("ethAdd $ethAdd");
-      await StorageServices.writeSecure(DbKey.ethAddr, credentials.address.toString());
+    notifyListeners();
+    // if (credentials.address.) {
 
-    }
+    // }
   }
 
   Future<void> getEtherAddr() async {
     debugPrint("getEtherAddr");
     try {
 
-      final ethAddr = "0xe11175d356d20b70abcec858c6b82b226e988941";
-      // await StorageServices.readSecure(DbKey.ethAddr);
-      debugPrint("ethAddr $ethAddr");
-      ethAdd = ethAddr;
+      // final ethAddr = "0xe11175d356d20b70abcec858c6b82b226e988941";
+      // // await StorageServices.readSecure(DbKey.ethAddr);
+      // debugPrint("ethAddr $ethAddr");
+      // ethAdd = ethAddr;
 
       notifyListeners();
     } catch (e) {
@@ -863,9 +875,9 @@ class ContractProvider with ChangeNotifier {
       notifyListeners();
     } catch (e) {
       
-        if (kDebugMode) {
-          debugPrint("Error getEtherAddr $e");
-        }
+      if (kDebugMode) {
+        debugPrint("Error getEtherAddr $e");
+      }
       
     }
   }
@@ -920,10 +932,8 @@ class ContractProvider with ChangeNotifier {
       privateKey.substring(2),
     );
 
-    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
-
     final maxGas = await _bscClient!.estimateGas(
-      sender: EthereumAddress.fromHex(ethAddr!),
+      sender: EthereumAddress.fromHex(ethAdd),
       to: EthereumAddress.fromHex(reciever),
       value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
     );
@@ -954,7 +964,7 @@ class ContractProvider with ChangeNotifier {
       privateKey.substring(2),
     );
 
-    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(ethAdd);
 
     final maxGas = await _etherClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
@@ -988,10 +998,8 @@ class ContractProvider with ChangeNotifier {
     final txFunction = contract.function('transfer');
     final credentials = EthPrivateKey.fromHex(privateKey);
 
-    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
-
     final maxGas = await _etherClient!.estimateGas(
-      sender: EthereumAddress.fromHex(ethAddr!),
+      sender: EthereumAddress.fromHex(ethAdd),
       to: EthereumAddress.fromHex(contractAddr),
       data: txFunction.encodeCall(
         [

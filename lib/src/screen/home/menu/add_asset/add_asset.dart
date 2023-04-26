@@ -243,7 +243,6 @@ class AddAssetState extends State<AddAsset> {
         );
 
         if (mkPro!.queried!.isNotEmpty){
-          print("mkPro!.queried![0]['id'] ${mkPro!.queried!['id']}");
           MarketProvider.id.add(mkPro!.queried!['id']);
         }
         

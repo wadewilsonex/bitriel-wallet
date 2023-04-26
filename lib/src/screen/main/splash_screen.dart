@@ -49,38 +49,38 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
             Navigator.pushReplacement(context, RouteAnimation(enterPage: const Onboarding()));
           } else {
             
-            final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
+            // final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
-            if (ethAddr == '') {
-              if(!mounted) return;
-              await dialogSuccess(
-                context,
-                const Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Text(
-                    'Please reimport your seed phrases to add support to new update.',
-                    textAlign: TextAlign.center,
-                  )
-                ),
-                const Text('New Update!'),
-                action: TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      RouteAnimation(
-                        enterPage: const ImportAcc(
-                          reimport: 'reimport',
-                        ),
-                      ),
-                    );
-                  },
-                  child: const MyText(text: 'Continue', hexaColor: AppColors.secondarytext),
-                ),
-              );
-            } else {
+            // if (ethAddr == '') {
+            //   if(!mounted) return;
+            //   await dialogSuccess(
+            //     context,
+            //     const Padding(
+            //       padding: EdgeInsets.only(left: 20, right: 20),
+            //       child: Text(
+            //         'Please reimport your seed phrases to add support to new update.',
+            //         textAlign: TextAlign.center,
+            //       )
+            //     ),
+            //     const Text('New Update!'),
+            //     action: TextButton(
+            //       onPressed: () {
+            //         Navigator.pushReplacement(
+            //           context,
+            //           RouteAnimation(
+            //             enterPage: const ImportAcc(
+            //               reimport: 'reimport',
+            //             ),
+            //           ),
+            //         );
+            //       },
+            //       child: const MyText(text: 'Continue', hexaColor: AppColors.secondarytext),
+            //     ),
+            //   );
+            // } else {
+            //   // checkBio();
+            // }
               await checkBio();
-              // checkBio();
-            }
           }
         });
       });

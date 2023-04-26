@@ -78,8 +78,18 @@ class StorageServices {
 
       final contract = Provider.of<ContractProvider>(context, listen: false);
 
+      contract.listContract = contract.listContract.where((element) {
+        if(contract.listContract.indexOf(element) != 0) {
+          element.address = contract.ethAdd;
+        }
+        return true;
+      }).toList();
+
+      contract.listContract.forEach((element) {print(element.address);});
+
       final lsContract = SmartContractModel.encode(contract.listContract);
       final adContract = SmartContractModel.encode(contract.addedContract);
+
 
       await _preferences!.setString(DbKey.listContract, jsonEncode(lsContract));
       await _preferences!.setString(DbKey.addedContract, jsonEncode(adContract));
