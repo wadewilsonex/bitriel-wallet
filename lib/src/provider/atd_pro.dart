@@ -58,25 +58,23 @@ class Attendance extends ChangeNotifier {
       attDeployContract = await initAttContract(context: context);
       await getChainDecimal(context: context, deployedContract: attDeployContract);
 
-      final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
-      if (myAddr != ''){
-        final balance = await ContractProvider().query(
-          _atdContract,
-          'balanceOf',
-          [EthereumAddress.fromHex(myAddr!)],
-        ); //.balance = balance.toString();
+      final balance = await ContractProvider().query(
+        _atdContract,
+        'balanceOf',
+        [EthereumAddress.fromHex(Provider.of<ContractProvider>(context!, listen: false).ethAdd)],
+      ); //.balance = balance.toString();
 
-        _contractProvider!.listContract[_apiProvider!.attIndex].balance = balance[0].toString();
-        _contractProvider!.listContract[_apiProvider!.attIndex].lineChartModel = LineChartModel().prepareGraphChart(_contractProvider!.listContract[_apiProvider!.attIndex]);
-        
-        notifyListeners();
-        return Fmt.bigIntToDouble(balance[0] as BigInt, _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal!);
-      }
+      _contractProvider!.listContract[_apiProvider!.attIndex].balance = balance[0].toString();
+      _contractProvider!.listContract[_apiProvider!.attIndex].lineChartModel = LineChartModel().prepareGraphChart(_contractProvider!.listContract[_apiProvider!.attIndex]);
+      
+      notifyListeners();
+      return Fmt.bigIntToDouble(balance[0] as BigInt, _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal!);
+
     } catch (e) {
       
-        if (kDebugMode) {
-          debugPrint("Err checkBalanceAdd $e");
-        }
+      if (kDebugMode) {
+        debugPrint("Err checkBalanceAdd $e");
+      }
       
     }
     return null;

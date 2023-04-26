@@ -99,7 +99,6 @@ class MarketProvider with ChangeNotifier {
 
   static Future<void> fetchTokenMarketPrice({bool? isQueryApi = false}) async {
 
-    print("fetchTokenMarketPrice");
     _contractPro = Provider.of<ContractProvider>(context!, listen: false);
 
     _apiPro = Provider.of<ApiProvider>(context!, listen: false);
@@ -134,7 +133,6 @@ class MarketProvider with ChangeNotifier {
   }
   
   static Future<void> decodingMarketData(BuildContext context) async {
-    print("decodingMarketData");
     _contractPro = Provider.of<ContractProvider>(context, listen: false);
     _apiPro = Provider.of<ApiProvider>(context, listen: false);
 
@@ -152,18 +150,7 @@ class MarketProvider with ChangeNotifier {
 
           final res = Market();// parseMarketData(jsonResponse);
 
-          print(element);
-          if (element['symbol'] == "usdt") {
-            print("ls.id ${element['id']}"); 
-          }
-
           _contractPro!.listContract.every((ls) {
-            
-            print(ls.id);
-            if(ls.id == element['id']){
-
-              print(element['current_price'].toString());
-            }
             if (ls.id == element['id']){
 
               _contractPro!.setMarketToAsset(
@@ -194,7 +181,6 @@ class MarketProvider with ChangeNotifier {
   }
 
   Future<List<Map<String, dynamic>>> searchCoinFromMarket(String id) async {
-    debugPrint("searchCoinFromMarket $id");
     lsCoin!.clear();
     try {
 

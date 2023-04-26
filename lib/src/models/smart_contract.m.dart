@@ -109,7 +109,7 @@ class SmartContractModel {
   };
 
   static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {
-
+    
     return assets.map<Map<String, dynamic>>((asset) => SmartContractModel.toMap(asset)).toList();
   }
 
