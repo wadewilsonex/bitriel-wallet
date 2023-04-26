@@ -152,7 +152,7 @@ export 'src/provider/wallet_p.dart';
 export 'src/provider/market_p.dart';
 export 'src/provider/theme_p.dart';
 export 'package:wallet_apps/src/provider/app_p.dart';
-export 'package:wallet_apps/src/provider/mdw_p.dart';
+export 'package:wallet_apps/src/provider/dsc_p.dart';
 
 // Asset Info
 export 'src/screen/home/asset_info/asset_checkin.dart';

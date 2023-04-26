@@ -41,7 +41,7 @@ class WalletPageBody extends StatelessWidget {
             }
             return notification.depth == 0;
           },
-          onRefresh: () async => await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context, isQueryApi: true),
+          onRefresh: () async => await MarketProvider.fetchTokenMarketPrice(isQueryApi: true),
           child: NestedScrollView(
             floatHeaderSlivers: true,
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -378,7 +378,7 @@ class WalletPageBody extends StatelessWidget {
                           Consumer<ContractProvider>(
                             builder: (context, provider, widget){
                               return api.netWorkConnected == true ? MyText(
-                                text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC",
+                                text: provider.listContract.isNotEmpty ? "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC" : "0 BTC",
                                 // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                                 hexaColor: AppColors.whiteColorHexa,
                                 fontSize: 18,

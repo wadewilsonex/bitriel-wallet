@@ -375,8 +375,6 @@ class ContractProvider with ChangeNotifier {
       listContract[apiProvider.ethIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.ethIndex]);
       listContract[apiProvider.ethIndex].address = ethAdd;
 
-      debugPrint("listContract[apiProvider.ethIndex].address ${listContract[apiProvider.ethIndex].address}");
-
       notifyListeners();
     } catch (e) {
       
