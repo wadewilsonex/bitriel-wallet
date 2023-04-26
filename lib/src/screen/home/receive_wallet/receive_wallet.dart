@@ -23,6 +23,8 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   ReceiveWalletProvider? provider;
 
+  ContractProvider? conPro;
+
   /// For SEL Navtive
   String? symbol;
 
@@ -30,13 +32,14 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   @override
   void initState() {
-
+    
+    conPro = Provider.of<ContractProvider>(context, listen: false);
     provider = Provider.of<ReceiveWalletProvider>(context, listen: false);
     provider!.globalKey = GlobalKey<ScaffoldState>();
 
-    provider!.lsContractSymbol = ContractService.getConSymbol(context, Provider.of<ContractProvider>(context, listen: false).sortListContract);
+    provider!.lsContractSymbol = ContractService.getConSymbol(context, conPro!.sortListContract);
 
-    ethAddr = Provider.of<ContractProvider>(context, listen: false).getEtherAddress;
+    ethAddr = conPro!.getEtherAddress;
     symbol = ApiProvider().isMainnet ? 'SEL (Selendra Chain)': 'SEL (Testnet)';
 
     // provider!.getAccount(Provider.of<ApiProvider>(context, listen: false).getAccount);

@@ -154,23 +154,6 @@
     },
     {
         "index": "9",
-        "id": "pingshare",
-        "symbol": "PNS",
-        "name": "PINGSHARE",
-        "contract": "0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0",
-        "contract_test": "",
-        "address": "",
-        "logo": "token_logo/pingshare.png",
-        "org": "ERC-1155",
-        "org_test": "BEP-1155",
-        "balance": "0.0",
-        "show": true,
-        "isContain": true,
-        "max_supply": "",
-        "description": "PINGSHARE token is a decentralized"
-    },
-    {
-        "index": "10",
         "id": "tether",
         "symbol": "USDT",
         "name": "Tether USDT",

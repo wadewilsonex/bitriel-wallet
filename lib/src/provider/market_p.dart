@@ -44,13 +44,11 @@ class MarketProvider with ChangeNotifier {
     'selendra', //1
     'selendra_v1', //2
     'selendra_v2', //3
-    'kiwigo', //3
     'ethereum', //4
     'binancecoin', //5
     'polkadot', //6
     'bitcoin', //7
     'reakreay', //8
-    'att', //9
     'tether' // 10
   ];
 

@@ -41,13 +41,15 @@ class ContractsBalance extends ChangeNotifier {
         /// Fetch and Fill Market Price Into Asset
         MarketProvider.fetchTokenMarketPrice();
 
+        contractProvider!.listContract[0].address = apiProvider!.getKeyring.current.address!;
+
         // await contractProvider.selTokenWallet(context);
         // await contractProvider.selv2TokenWallet(context);
         await apiProvider!.subSELNativeBalance(context: _context);
         await contractProvider!.ethWallet();
         await contractProvider!.bnbWallet();
-        await contractProvider!.getBep20Balance(contractIndex: apiProvider!.tether);
-        await contractProvider!.kgoTokenWallet();
+        await contractProvider!.getBep20Balance(contractIndex: apiProvider!.tetherIndex);
+        // await contractProvider!.kgoTokenWallet();
 
         debugPrint("finish 4 asset");
 

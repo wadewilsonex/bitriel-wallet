@@ -73,20 +73,23 @@ class StorageServices {
   }
 
   static Future<void> storeAssetData(BuildContext context) async {
-
+    print("storeAssetData");
     try {
 
       final contract = Provider.of<ContractProvider>(context, listen: false);
 
       contract.listContract = contract.listContract.where((element) {
-        if(contract.listContract.indexOf(element) != 0) {
+        if(contract.listContract.indexOf(element) != 0 && element.id != 'bitcoin') {
           element.address = contract.ethAdd;
         }
         return true;
       }).toList();
 
-      contract.listContract.forEach((element) {print(element.address);});
-
+      contract.addedContract = contract.addedContract.where((element) {
+        element.address = contract.ethAdd;
+        return true;
+      }).toList();
+      
       final lsContract = SmartContractModel.encode(contract.listContract);
       final adContract = SmartContractModel.encode(contract.addedContract);
 

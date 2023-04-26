@@ -117,9 +117,7 @@ class ContractProvider with ChangeNotifier {
       
       // True In Case First Time Initialize
       await setSavedList().then((value) async {
-
         if (value == false){
-
           final json = await rootBundle.loadString(AssetPath.contractJson);
         
           final decode = jsonDecode(json);
@@ -129,7 +127,7 @@ class ContractProvider with ChangeNotifier {
         
           for (int i = 0 ; i < decode.length; i++){
 
-            if (i != 0){
+            if (i == 5){
               ethAdd = decode[i]['address'];
 
               notifyListeners();
@@ -418,6 +416,7 @@ class ContractProvider with ChangeNotifier {
       listContract[apiProvider.bnbIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.bnbIndex]);
       listContract[apiProvider.bnbIndex].address = ethAdd;
       notifyListeners();
+      
     } catch (e) {
       
         if (kDebugMode) {
@@ -437,7 +436,7 @@ class ContractProvider with ChangeNotifier {
       
       // 1. Add Default Asset First
       for (var element in listContract) {
-        if (element.show! && element.id != "polkadot"){
+        if (element.show! && element.id != "polkadot" && element.id != "kiwigo"){
           
           if (element.marketPrice!.isNotEmpty) {
             element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);

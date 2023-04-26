@@ -218,8 +218,10 @@ void bottomSheetAddAccount(BuildContext context) async{
                         // Assign BTC Address And Store New
                         Provider.of<ContractProvider>(context, listen: false).listContract[provider.btcIndex].address = json.decode(value)[index]['btc_address'];
                         await StorageServices.writeSecure(DbKey.bech32, json.decode(value)[index]['btc_address']);
+                        // ignore: use_build_context_synchronously
                         provider.getBtcBalance(context: context);
                         
+                        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                         Provider.of<ContractProvider>(context, listen: false).notifyListeners();
                       });
 

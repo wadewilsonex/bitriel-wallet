@@ -100,9 +100,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     ).animate(_importAccountModel.animationController!);  
 
     _importAccountModel.animationController!.addListener(() {
-      if (kDebugMode) {
-        debugPrint("animationController!.value ${_importAccountModel.animationController!.value}");
-      }
 
       if (_importAccountModel.animationController!.value >= 0.15 && _importAccountModel.animationController!.value <= 0.19) {
         
@@ -204,8 +201,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       dialogLoading(context);
 
       await addAndImport();
-
-      await ContractsBalance.getAllAssetBalance();
       
       Provider.of<ApiProvider>(context, listen: false).notifyListeners();
           
@@ -255,6 +250,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     );
 
     _pk = await _apiProvider!.getPrivateKey(widget.createKeyModel!.lsSeeds!.join(" "));
+    // ignore: use_build_context_synchronously
     await Provider.of<ContractProvider>(context, listen: false).extractAddress(_pk!);
 
     // ignore: use_build_context_synchronously
@@ -294,8 +290,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
           
           await addAndImport();
           
-          await ContractsBalance.getAllAssetBalance();
-
           await ContractsBalance.getAllAssetBalance();
 
           Provider.of<ApiProvider>(context, listen: false).notifyListeners();
