@@ -325,10 +325,10 @@ class ImportAccState extends State<ImportAcc> {
     await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
     _importAccountModel.animationController!.forward(from: 8);
-    changeStatus("DONE", avg: "3/3");
+    changeStatus("READY", avg: "3/3");
 
     await ContractsBalance.getAllAssetBalance();
-
+    
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(
       context, 

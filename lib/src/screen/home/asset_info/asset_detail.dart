@@ -84,8 +84,8 @@ class AssetDetailState extends State<AssetDetail> {
                   widget.scModel.logo!,
                   fit: BoxFit.contain,
                 )
-                : Image.asset(
-                  widget.scModel.logo!,
+                : Image.file(
+                  File(widget.scModel.logo!),
                   fit: BoxFit.contain,
                 ),
                 widget.scModel.name!,
@@ -175,7 +175,7 @@ class AssetDetailState extends State<AssetDetail> {
                 ),
 
                 MyText(
-                  text: "null",
+                  text: "0",
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                 ),
@@ -192,7 +192,7 @@ class AssetDetailState extends State<AssetDetail> {
                   hexaColor: AppColors.greyCode,
                 ),
                 MyText(
-                  text: "null",
+                  text: "0",
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                 ),
@@ -214,7 +214,7 @@ class AssetDetailState extends State<AssetDetail> {
                   hexaColor: AppColors.greyCode,
                 ),
                 MyText(
-                  text: "null",
+                  text: "0",
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                 ),
@@ -231,7 +231,7 @@ class AssetDetailState extends State<AssetDetail> {
                   hexaColor: AppColors.greyCode,
                 ),
                 MyText(
-                  text: "null",
+                  text: "0",
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                 ),

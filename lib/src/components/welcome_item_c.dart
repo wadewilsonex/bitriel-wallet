@@ -7,6 +7,8 @@ class WelcomeItem extends StatelessWidget {
   final String? textColor;
   final Widget? image;
   final Function? action;
+  final double? height;
+  final double? width;
   
   const WelcomeItem({
     Key? key, 
@@ -16,6 +18,8 @@ class WelcomeItem extends StatelessWidget {
     this.icon,
     this.image,
     required this.action,
+    this.height = 150,
+    this.width = 150,
   }) : super(key: key);
 
   @override
@@ -51,8 +55,8 @@ class WelcomeItem extends StatelessWidget {
                 // const Spacer(),
 
                 SizedBox(
-                  height: 150,
-                  width: 150,
+                  height: height,
+                  width: width,
                   child: image!
                 ),
 

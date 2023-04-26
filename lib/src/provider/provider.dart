@@ -38,6 +38,9 @@ class ContractsBalance extends ChangeNotifier {
 
       // await contractProvider.setSavedList().then((value) async {
 
+        /// Fetch and Fill Market Price Into Asset
+        MarketProvider.fetchTokenMarketPrice();
+
         // await contractProvider.selTokenWallet(context);
         // await contractProvider.selv2TokenWallet(context);
         await apiProvider!.subSELNativeBalance(context: _context);
@@ -89,9 +92,11 @@ class ContractsBalance extends ChangeNotifier {
     final res = await StorageServices.fetchData(DbKey.bech32);
 
     if (res != null) {
+      // ignore: use_build_context_synchronously
       Provider.of<ApiProvider>(context!, listen: false).isBtcAvailable('contain', context: context);
 
       // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(res.toString());
+      // ignore: use_build_context_synchronously
       Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
       // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(res.toString(), context: context);
     }
@@ -156,8 +161,10 @@ class ContractsBalance extends ChangeNotifier {
       await conProvider.ethWallet();
       await conProvider.bnbWallet();
 
+      // ignore: use_build_context_synchronously
       await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
+      // ignore: use_build_context_synchronously
       await StorageServices.storeAssetData(context);
       
     } catch (e) {

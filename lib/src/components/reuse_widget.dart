@@ -1261,7 +1261,7 @@ Future<void> fetchWalletAnimationDailog({required BuildContext? context}){
   );
 }
 
-Widget textRowWidget(String leadingText, String trailingText) {
+Widget textRowWidget(BuildContext context, String leadingText, String trailingText, {bool isCopy = false}) {
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 10.0,),
     child: Row(
@@ -1271,8 +1271,6 @@ Widget textRowWidget(String leadingText, String trailingText) {
         Expanded(
           child: MyText(
             text: leadingText,
-            hexaColor: AppColors.blackColor,
-            fontWeight: FontWeight.bold,
             textAlign: TextAlign.start,
           ),
         ),
@@ -1283,9 +1281,31 @@ Widget textRowWidget(String leadingText, String trailingText) {
           child: MyText(
             text: trailingText,
             hexaColor: AppColors.blackColor,
-            textAlign: TextAlign.start,
+            fontWeight: FontWeight.bold,
+            textAlign: TextAlign.end,
           ),
         ),
+
+        isCopy == true ? Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: InkWell(
+            onTap: () {
+              Clipboard.setData(
+                ClipboardData(text: trailingText),
+              );
+              /* Copy Text */
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Copied to Clipboard"),
+                ),
+              );
+            },
+            child: Icon(
+              Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)
+            ),
+          ),
+        ) : Container(),
+        
       ],
     ),
   );

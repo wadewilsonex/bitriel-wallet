@@ -160,8 +160,8 @@ class AssetInfoBody extends StatelessWidget {
                                     width: logoSize,
                                     height: logoSize,
                                   )
-                                  : Image.asset(
-                                    assetInfoModel!.smartContractModel!.logo!,
+                                  : Image.file(
+                                    File(assetInfoModel!.smartContractModel!.logo!,),
                                     fit: BoxFit.contain,
                                     width: logoSize,
                                     height: logoSize,
