@@ -40,6 +40,12 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8
+        javaMaxHeapSize "4g"
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.selendra.secure_wallet"
@@ -59,11 +65,34 @@ android {
         }
     }
 
+    def proguard_list = [
+        "$project.rootDir/buildsettings/proguard/proguard-constraintlayout.pro",
+        "$project.rootDir/buildsettings/proguard/proguard-google-play-services.pro",
+        "$project.rootDir/buildsettings/proguard/proguard-project.pro"
+    ]
+
     buildTypes {
         release {
+            debuggable false                // make app non-debuggable
+            
+            crunchPngs true                 // shrink images
+
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
+            minifyEnabled true
+
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            shrinkResources false
+            
+            // Enables resource shrinking, which is performed by the
+            // Android Gradle plugin.
+            shrinkResources true
+            
+            useProguard true                // apply proguard
+            proguard_list.each {            
+                pro_guard -> proguardFile pro_guard
+            }
+
             // signingConfig signingConfigs.debug
             signingConfig signingConfigs.release
         }
