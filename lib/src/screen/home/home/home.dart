@@ -33,10 +33,16 @@ class _HomePageState extends State<HomePage> {
 
   final bool? pushReplacement = true;
 
+  List<Map<String, dynamic>> imgList = [];
+
   @override
   void initState() {
     
-    // AppProvider.appUpdateChecker();
+    imgList = [
+      {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/vg_alive_tg_artist.jpg", "url": ""},
+      {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/tga.png", "url": ""},
+      {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/vga.png", "url": ""}
+    ];
 
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
@@ -191,6 +197,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return HomePageBody(
       isTrx: widget.isTrx,
+      imgList: imgList,
       homePageModel: _model,
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
