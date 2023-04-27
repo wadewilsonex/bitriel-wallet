@@ -19,6 +19,7 @@ import 'package:wallet_apps/src/screen/home/setting/setting.dart';
 class HomePageBody extends StatelessWidget {
 
   final bool? isTrx;
+  final List<Map<String, dynamic>>? imgList;
   final HomePageModel? homePageModel;
   final bool? pushReplacement;
   final Function(int index)? onPageChanged;
@@ -29,6 +30,7 @@ class HomePageBody extends StatelessWidget {
   const HomePageBody({ 
     Key? key, 
     this.isTrx,
+    this.imgList,
     this.homePageModel,
     this.onPageChanged,
     this.pushReplacement,
@@ -147,7 +149,7 @@ class HomePageBody extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 onPageChanged: homePageModel!.onAdsCarouselChanged,
               ),
-              items: imgList
+              items: imgList!
                 .map((item) => GestureDetector(
                   onTap: () {
                     // Navigator.push(
@@ -190,7 +192,7 @@ class HomePageBody extends StatelessWidget {
     
           AnimatedSmoothIndicator(
             activeIndex: activeIndex,
-            count: imgList.length,
+            count: imgList!.length,
             effect: SlideEffect(
               radius: 5.0,
               dotWidth: 20.0.sp,
