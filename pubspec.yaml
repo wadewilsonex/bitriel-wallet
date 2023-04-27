@@ -176,10 +176,10 @@ dependency_overrides:
       ref: master  
 
   lottie: ^1.4.2
-  event_crew:
-    git: 
-      url: https://github.com/selendra/event_crew_package.git
-      ref: main
+  # event_crew:
+  #   git: 
+  #     url: https://github.com/selendra/event_crew_package.git
+  #     ref: main
       
   # polkawallet_sdk: 0.5.1
 
@@ -226,12 +226,7 @@ flutter:
     - assets/
     - assets/github/
     - assets/abi/
-    # - assets/icons/
-    # - assets/token_logo/
     - assets/json/
-    # - assets/logo/
-    - assets/ads/
-    - assets/ads/mdw/
     - assets/illustration/
     - .env
     
