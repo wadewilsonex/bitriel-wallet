@@ -35,6 +35,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    
+    // AppProvider.appUpdateChecker();
 
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
@@ -88,9 +90,9 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
 
-        _model.activeIndex = index;
-        _model.pageController!.jumpToPage(index);
-      });
+      _model.activeIndex = index;
+      _model.pageController!.jumpToPage(index);
+    });
   }
 
   // Future<void> _scanLogin(String url) async {

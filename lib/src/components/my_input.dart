@@ -147,8 +147,6 @@ OutlineInputBorder myTextInputBorder(Color borderColor) {
       borderRadius: BorderRadius.circular(8));
 }
 
-
-
 class MySeedField extends StatelessWidget {
   final String? hintText;
   final String? prefixText;

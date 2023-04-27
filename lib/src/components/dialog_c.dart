@@ -5,43 +5,6 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 
 class DialogComponents {
-
-  Future<void> customDialog(BuildContext context, String text1, String text2) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Align(
-            child: MyText(
-              fontSize: 20,
-              text: text1,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          content: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: MyText(
-              text: text2,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          actions: <Widget>[
-            Padding(
-            padding: const EdgeInsets.all(paddingSize),
-            child: MyGradientButton(
-              textButton: "Close",
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              action: () => Navigator.pop(context),
-            ),
-          ),
-          ],
-        );
-      },
-    );
-  }
   
   Future<void> seedDialog({BuildContext? context, String? contents, btn}) async {
     return await showDialog(
@@ -143,6 +106,50 @@ class DialogComponents {
           ],
         );
     });
+    
+  }
+
+  Future<void> customDialog(BuildContext context, String title, String contents, {required String txtButton,Widget? btn2}) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+          child: AlertDialog(
+            backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteHexaColor),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            title: Align(
+              child: MyText(
+                text: title,
+                fontWeight: FontWeight.w700,
+                fontSize: 20, 
+              ),
+            ),
+            content: Padding(
+              padding: const EdgeInsets.only(top: 15.0,),
+              child: MyText(
+                text: contents, 
+                textAlign: TextAlign.center,
+                fontWeight: FontWeight.w600,
+                fontSize: 17,
+              ),
+            ),
+            actions: <Widget>[
+              btn2 ?? Container(),
+              Padding(
+                padding: const EdgeInsets.all(paddingSize),
+                child: MyGradientButton(
+                  textButton: txtButton,
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  action: () => Navigator.pop(context),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future dialogCustom({ 
@@ -223,14 +230,95 @@ class DialogComponents {
   }
 }
 
-void messageToast(){
 
-        
-  // MotionToast.success(
-  //   title:  Text("Success"),
-  //   description:  Text("Scan had connected"),
-  //   layoutOrientation: ORIENTATION.ltr,
-  //   animationType: ANIMATION.fromLeft, width:  300,
-  //   position: MOTION_TOAST_POSITION.top,
-  // ).show(context);
+
+Future<void> seedVerifyLaterDialog(BuildContext context, Function? submit) async {
+
+  bool isCheck = false;
+  
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setStateWidget) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
+            content: SizedBox(
+              // height: MediaQuery.of(context).size.height / 2.6,
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+
+                    SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Lottie.asset(
+                        "assets/animation/warning-shield.json",
+                        repeat: true,
+                      ),
+                    ),
+                    const MyText(
+                      text: 'Verify you Seed Phrase later?',
+                      fontSize: 20,
+                      top: 10,
+                      bottom: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+  
+                    Theme(
+                      data: ThemeData(),
+                      child: CheckboxListTile(
+                        title: const MyText(
+                          text: "I understand that if I lose my Secret Seed Phrase I will not be able to access my wallet",
+                          textAlign: TextAlign.start,
+                        ),
+                        activeColor: hexaCodeToColor(AppColors.primaryColor),
+                        value: isCheck,
+                        onChanged: (newValue) {
+                          setStateWidget(() {
+                            isCheck = newValue!;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.1,
+                    ),
+
+                    MyFlatButton(
+                      isTransparent: true,
+                      buttonColor: AppColors.greenColor,
+                      textColor: isCheck == false ? AppColors.greyCode : AppColors.primaryColor,
+                      textButton: "Yes, Verify Later",
+                      action: () {
+                        isCheck == false ? null : submit!();
+                      },
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    MyGradientButton(
+                      textButton: "No, Verify Now",
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      action: (){
+                        Navigator.pop(context);
+                      }
+                    )
+
+                  ],
+                ),
+              ),
+            )
+          );
+        }
+      );
+    },
+  );
 }

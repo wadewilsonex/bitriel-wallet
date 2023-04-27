@@ -166,7 +166,7 @@ class TicketConfirmation extends StatelessWidget {
                 showDialog(
                   context: context, 
                   builder: (context){
-                    return loading();
+                    return centerLoading();
                   }
                 );
 

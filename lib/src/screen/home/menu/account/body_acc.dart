@@ -7,7 +7,7 @@ import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
 import 'package:wallet_apps/src/screen/home/menu/changePin/changepin.dart';
-import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
+import 'package:wallet_apps/src/screen/auth/seeds/create_seeds/create_seeds.dart';
 
 class AccountBody extends StatelessWidget{
 

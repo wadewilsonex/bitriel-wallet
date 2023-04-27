@@ -201,7 +201,7 @@ List<CardSection> backupSection({BuildContext? context, required KeyPairData acc
             if (res!.seed != null){
               await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
             } else {
-              await customDialog(context, "Oops", "Invalid PIN", txtButton: "Close");
+              await DialogComponents().customDialog(context, "Oops", "Invalid PIN", txtButton: "Close");
             }
           });
         });
@@ -225,7 +225,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 }
 
   Future<void> _deleteAccoutDialog({BuildContext? context}) async {
-    await customDialog(
+    await DialogComponents().customDialog(
       context!, 
       'Are you sure to delete all wallets?', 
       'Your current wallets, and assets will be removed from this app permanently\n\n You can Only recover all wallets with all your Secret Recovery Seed Phrases',

@@ -4,6 +4,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 
 class AppProvider with ChangeNotifier {
 
@@ -127,13 +128,14 @@ class AppProvider with ChangeNotifier {
   
   static Future<void> appUpdateChecker() async {
 
-    await InAppUpdate.checkForUpdate().then((value) {
+    // await InAppUpdate.checkForUpdate().then((value) {
 
-      if (value.updateAvailability == UpdateAvailability.updateAvailable){
-        UpgradeAlert(                  /// <------------------
+    //   if (value.updateAvailability == UpdateAvailability.updateAvailable){
+    //   }
+    // });
+    print("appUpdateChecker");
+        await DialogComponents().dialogCustom(context: buildContext, contents2: UpgradeAlert(                  /// <------------------
           child: UpgradeCard()
-        );
-      }
-    });
+        ));
   }
 }
