@@ -1,4 +1,4 @@
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -28,31 +28,30 @@ class AppState extends State<App> {
   String? dir;
 
   // Init firebase deep link
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  // FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
-  Future<void> initDynamicLinks() async {
+  // Future<void> initDynamicLinks() async {
 
-    // Query Deep Link Routes
-    await getDeepLinkRoutes().then((dpLink) async {
+  //   // Query Deep Link Routes
+  //   await getDeepLinkRoutes().then((dpLink) async {
 
-      dynamicLinks.onLink.listen((dynamicLinkData) async {
+  //     dynamicLinks.onLink.listen((dynamicLinkData) async {
 
-        WidgetsBinding.instance.addPostFrameCallback((_) async{
-          await Get.toNamed(AppString.eventView, arguments: 'event');
-        });
-        // WidgetsBinding.instance.addPostFrameCallback((_) {
-        //   Navigator.pushNamed(context, AppString.accountView);
-        // });
+  //       WidgetsBinding.instance.addPostFrameCallback((_) async{
+  //         await Get.toNamed(AppString.eventView, arguments: 'event');
+  //       });
+  //       // WidgetsBinding.instance.addPostFrameCallback((_) {
+  //       //   Navigator.pushNamed(context, AppString.accountView);
+  //       // });
 
 
-      }).onError((error) {
-        if (kDebugMode) {
-          debugPrint('onLink error');
-          debugPrint(error.message);
-        }
-      });
-    });
-  }
+  //     }).onError((error) {
+  //       if (kDebugMode) {
+          
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
@@ -145,9 +144,7 @@ class AppState extends State<App> {
         }
       });
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint("Error initApi $e");
-      }
+      
     }
   }
 
@@ -161,15 +158,9 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-        if (kDebugMode) {
-          debugPrint("Error readTheme $e");
-        }
+      
     }
   }
-
-
-
-  
   
   Future<void> downloadAsset({required String fileName}) async {
 

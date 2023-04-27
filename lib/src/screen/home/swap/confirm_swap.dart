@@ -200,7 +200,8 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
       await DialogComponents().customDialog(
         context,
         "Oops",
-        e.toString()
+        e.toString(),
+        txtButton: 'Close'
         // btn2: Container(),
         // btn: null
       ).then((value) {
@@ -237,7 +238,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
       debugPrint("resPin $resPin");
       if (resPin != _pin){
         // ignore: use_build_context_synchronously
-        await customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
+        await DialogComponents().customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
         
       } else if (resPin.isNotEmpty) {
         // Second: Start Loading For Sending

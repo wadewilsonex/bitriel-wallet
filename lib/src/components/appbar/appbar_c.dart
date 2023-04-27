@@ -89,7 +89,7 @@ PreferredSizeWidget defaultAppBar({
                     catch (e) {
                       debugPrint("catch $e");
                       Navigator.pop(context);
-                      customDialog(context, "Failed", "Please check your connection again", txtButton: "OK");
+                      DialogComponents().customDialog(context, "Failed", "Please check your connection again", txtButton: "OK");
                     }
                     
                   },
@@ -173,12 +173,11 @@ Future<void> filterListWcSession(BuildContext context) async {
   wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
   wConnectC.setBuildContext = context;
   await StorageServices.fetchData("session").then((value) {
-      if (value != null){
+    if (value != null){
 
-        wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
-      }
+      wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
     }
-  );
+  });
     
 }
 

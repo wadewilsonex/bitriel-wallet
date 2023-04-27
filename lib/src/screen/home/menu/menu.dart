@@ -98,7 +98,7 @@ class MenuState extends State<Menu> {
       }
     } catch (e) {
       if(!mounted) return;
-      await customDialog(context, 'Oops', e.toString(), txtButton: "Close",);
+      await DialogComponents().customDialog(context, 'Oops', e.toString(), txtButton: "Close",);
     }
   }
 

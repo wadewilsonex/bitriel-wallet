@@ -52,70 +52,6 @@ class Component {
       },
     );
   }
-  
-  static Future<String> pinDialogBox(BuildContext context) async {
-    /* Show Pin Code For Fill Out */
-    final String result = await showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return const Material(
-          color: Colors.transparent,
-          child: FillPin(),
-        );
-      }
-    );
-    return result;
-  }
-
-  static void dialog(BuildContext context, {String? contents}) async {
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Material(
-          color: Colors.transparent,
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Card(
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                  ),
-                  width: 60,
-                  height: 60,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      CircularProgressIndicator(
-                        backgroundColor: Colors.transparent,
-                        valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.secondary))
-                      ),
-                      contents != null
-                          ? MyText(
-                              top: 10,
-                              left: 10,
-                              right: 10,
-                              bottom: 10,
-                              text: contents,
-                              fontSize: 16,
-                              hexaColor: AppColors.blackColor,
-                            )
-                          : Container()
-                    ],
-                  )
-                )
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
 
 }
 
@@ -159,7 +95,6 @@ class MyFlatButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      
-
     return Container(
       padding: edgePadding,
       margin: edgeMargin,
@@ -450,8 +385,6 @@ class MyCircularImage extends StatelessWidget {
   }
 }
 
-
-
 class BodyScaffold extends StatelessWidget {
   
   final double? left, top, right, bottom;
@@ -549,77 +482,6 @@ class MyIconButton extends StatelessWidget {
   }
 }
 
-class MyCusIconButton extends StatelessWidget {
-  final String? icon;
-  final double? iconSize;
-  final Function? onPressed;
-  final EdgeInsetsGeometry? padding;
-
-  const MyCusIconButton({
-    Key? key, 
-    this.icon,
-    this.iconSize = 30,
-    this.padding = const EdgeInsets.all(0),
-    this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: padding,
-      child: GestureDetector(
-        onTap: (){
-          onPressed!();
-        },
-        child: Image.asset(icon!, width: 30, height: 30, color: Colors.white),
-      ),
-    );
-  }
-}
-
-// class MyCircularChart extends StatelessWidget {
-//   final String amount;
-//   final GlobalKey<AnimatedCircularChartState> chartKey;
-//   final EdgeInsetsGeometry margin;
-//   final List<CircularSegmentEntry> listChart;
-//   final Alignment alignment;
-//   final double width;
-//   final double height;
-
-//   MyCircularChart(
-//       {this.amount,
-//       this.chartKey,
-//       this.margin = const EdgeInsets.only(bottom: 24.0),
-//       this.alignment,
-//       this.width = 300.0,
-//       this.height = 250.0,
-//       this.listChart});
-
-//   Widget build(BuildContext context) {
-//     return Container(
-//         margin: margin,
-//         alignment: alignment,
-//         child: AnimatedCircularChart(
-//           holeRadius: 70.0,
-//           key: chartKey,
-//           duration: Duration(seconds: 1),
-//           // startAngle: 125.0,
-//           size: Size(width, height),
-//           percentageValues: true,
-//           // holeLabel: amount,
-//           // labelStyle:TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, ),
-//           edgeStyle: SegmentEdgeStyle.flat,
-//           initialChartData: <CircularStackEntry>[
-//             CircularStackEntry(
-//               listChart,
-//               rankKey: 'progress',
-//             ),
-//           ],
-//           chartType: CircularChartType.Radial,
-//         ));
-//   }
-// }
-
 class MyRowHeader extends StatelessWidget {
   const MyRowHeader({Key? key}) : super(key: key);
 
@@ -649,96 +511,6 @@ class MyRowHeader extends StatelessWidget {
   }
 }
 
-class MyTabBar extends StatelessWidget {
-  final List<Widget>? listWidget;
-  final Function? onTap;
-
-  const MyTabBar({Key? key, @required this.listWidget, @required this.onTap}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 16.0, right: 16.0),
-        decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.whiteHexaColor),
-            borderRadius: BorderRadius.circular(8)),
-        width: 125.0,
-        height: 48,
-        child: TabBar(
-          unselectedLabelColor: hexaCodeToColor(AppColors.textColor),
-          indicatorColor: hexaCodeToColor(AppColors.secondarytext),
-          labelColor: hexaCodeToColor(AppColors.secondarytext),
-          // labelStyle: TextStyle(fontSize: 30.0),
-          tabs: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
-              width: double.infinity,
-              child: const Icon(
-                LineAwesomeIcons.phone,
-                size: 23.0,
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-              alignment: Alignment.center,
-              child: const Icon(LineAwesomeIcons.envelope, size: 23.0),
-            )
-          ],
-          onTap: (int? value){
-            onTap!(value);
-          },
-        ),
-      ),
-    );
-  }
-}
-
-Future<void> customDialog(BuildContext context, String title, String contents, {required String txtButton,Widget? btn2}) async {
-  await showDialog(
-    context: context,
-    builder: (context) {
-      return BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-        child: AlertDialog(
-          backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteHexaColor),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Align(
-            child: MyText(
-              text: title,
-              fontWeight: FontWeight.w700,
-              fontSize: 20, 
-            ),
-          ),
-          content: Padding(
-            padding: const EdgeInsets.only(top: 15.0,),
-            child: MyText(
-              text: contents, 
-              textAlign: TextAlign.center,
-              fontWeight: FontWeight.w600,
-              fontSize: 17,
-            ),
-          ),
-          actions: <Widget>[
-            btn2 ?? Container(),
-            Padding(
-              padding: const EdgeInsets.all(paddingSize),
-              child: MyGradientButton(
-                textButton: txtButton,
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                action: () => Navigator.pop(context),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
 
 /* Trigger Snack Bar Function */
 void snackBar(BuildContext context, String contents) {
@@ -806,33 +578,6 @@ class MyPinput extends StatelessWidget {
       },
       onCompleted: onCompleted,
       // onSubmitted: onSubmit,
-    );
-  }
-}
-
-class ThreeDotLoading extends StatelessWidget{
-
-  final Indicator? indicator;
-  final EdgeInsetsGeometry? padding;
-  final double? width;
-  final double? height;
-
-  const ThreeDotLoading({Key? key, this.indicator = Indicator.ballPulse, this.padding, @required this.width, @required this.height}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context ){
-    final isDark = Provider.of<ThemeProvider>(context).isDark;
-    return Container(
-      padding: padding,
-      width: width,
-      height: height,
-      child: LoadingIndicator(
-        indicatorType: indicator!, /// Required, The loading type of the widget
-        colors: [ isDark ? Colors.white : Colors.black],       /// Optional, The color collections
-        strokeWidth: 1,                     /// Optional, The stroke of the line, only applicable to widget which contains line
-        backgroundColor: Colors.transparent,      /// Optional, Background of the widget
-        pathBackgroundColor: isDark ? Colors.black : Colors.white
-      ),
     );
   }
 }

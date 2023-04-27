@@ -73,7 +73,6 @@ class StorageServices {
   }
 
   static Future<void> storeAssetData(BuildContext context) async {
-    print("storeAssetData");
     try {
 
       final contract = Provider.of<ContractProvider>(context, listen: false);

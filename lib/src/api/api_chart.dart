@@ -9,6 +9,7 @@ Map<String, String> headers = {
 };
 
 class ApiCalls extends GetConnect {
+  
   Future<List<FlSpot>> getChart(
     String cryptoBase,
     String exchangeCurrency,
@@ -29,9 +30,6 @@ class ApiCalls extends GetConnect {
       );
       List ratesCount = response.body;
 
-      if (kDebugMode) {
-        debugPrint("ratesCount $ratesCount $cryptoBase");
-      }
       //add spots
       for (var i = 0; i < ratesCount.length; i++) {
         spots.add(

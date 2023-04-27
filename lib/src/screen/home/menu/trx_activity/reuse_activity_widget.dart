@@ -75,7 +75,7 @@ Widget buildListBody(
                 // : Container();
               },
             )
-          : loading() /* Show Loading If History Length = 0 */
+          : centerLoading() /* Show Loading If History Length = 0 */
       : Align(
           child: SvgPicture.asset('${AppConfig.iconsPath}no_data.svg'),
         ); /* Show Text (No activity) If Respoonse Length = 0 */

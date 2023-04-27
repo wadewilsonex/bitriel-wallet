@@ -276,7 +276,8 @@ class _SwapPageState extends State<SwapPage> {
           await DialogComponents().customDialog(
             context,
             "Oops",
-            errorMsg!
+            errorMsg!,
+            txtButton: 'Close'
             // btn2: Container(),
             // btn: null
           );
@@ -293,7 +294,8 @@ class _SwapPageState extends State<SwapPage> {
       await DialogComponents().customDialog(
         context,
         "Oops",
-        ex.toString()
+        ex.toString(),
+        txtButton: 'Close'
         // btn2: Container(),
         // btn: null
       );
