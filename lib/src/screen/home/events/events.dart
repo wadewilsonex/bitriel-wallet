@@ -116,7 +116,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
             allEvents!.isNotEmpty ? EventCardComponents(
               title: "Featured",
               listEvent: allEvents,
-            ) : loading(),
+            ) : centerLoading(),
             
             const MyText(
               top: 15,

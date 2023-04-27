@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lottie/lottie.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -55,66 +55,72 @@ class HomePageBody extends StatelessWidget {
         homePageModel: homePageModel,
         pushReplacement: pushReplacement
       ) : null,
-      body: PageView(
-        physics: const CustomPageViewScrollPhysics(),
-        controller: homePageModel!.pageController,
-        onPageChanged: onPageChanged,
-        children: [
-          
-          DiscoverPage(homePageModel: homePageModel!),
-
-          WalletPage(isTrx: isTrx, homePageModel: homePageModel,),
-
-          DefaultTabController(
-            length: 2,
-            child: NestedScrollView(
-              floatHeaderSlivers: true,
-              headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                
-                SliverOverlapAbsorber(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: SliverSafeArea(
-                    top: false,
-                    sliver: SliverAppBar(
-                      toolbarHeight: 300,
-                      pinned: true,
-                      floating: true,
-                      snap: true,
-                      title: _menu(context),
-                      centerTitle: true,
-                      automaticallyImplyLeading: false,
-                      bottom: TabBar(
-                        labelColor: hexaCodeToColor(AppColors.primaryColor),
-                        unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-                        indicatorColor: hexaCodeToColor(AppColors.primaryColor),
-                        labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
-                        unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
-                        tabs: const [
-
-                          Tab(
-                            text: "Markets",
-                          ),
-
-                          Tab(
-                            text: "News",
-                          ),
-
-                        ],
+      body: UpgradeAlert(
+        upgrader: Upgrader(
+          dialogStyle: UpgradeDialogStyle.material,
+          durationUntilAlertAgain: const Duration(minutes: 30)
+        ),
+        child: PageView(
+          physics: const CustomPageViewScrollPhysics(),
+          controller: homePageModel!.pageController,
+          onPageChanged: onPageChanged,
+          children: [
+            
+            DiscoverPage(homePageModel: homePageModel!),
+      
+            WalletPage(isTrx: isTrx, homePageModel: homePageModel,),
+      
+            DefaultTabController(
+              length: 2,
+              child: NestedScrollView(
+                floatHeaderSlivers: true,
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                    sliver: SliverSafeArea(
+                      top: false,
+                      sliver: SliverAppBar(
+                        toolbarHeight: 300,
+                        pinned: true,
+                        floating: true,
+                        snap: true,
+                        title: _menu(context),
+                        centerTitle: true,
+                        automaticallyImplyLeading: false,
+                        bottom: TabBar(
+                          labelColor: hexaCodeToColor(AppColors.primaryColor),
+                          unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
+                          indicatorColor: hexaCodeToColor(AppColors.primaryColor),
+                          labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+                          unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
+                          tabs: const [
+      
+                            Tab(
+                              text: "Markets",
+                            ),
+      
+                            Tab(
+                              text: "News",
+                            ),
+      
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-              
-              body: _coinMenuCategory(),
+                ],
+                
+                body: _coinMenuCategory(),
+              ),
             ),
-          ),
-          // SwapPage(),
-          const FindEvent(),
-
-          const SettingPage(),
-          // const NFT(),
-        ],
+            // SwapPage(),
+            const FindEvent(),
+      
+            const SettingPage(),
+            // const NFT(),
+          ],
+        ),
       ),
       bottomNavigationBar: MyBottomAppBar(
         index: homePageModel!.activeIndex,

@@ -7,7 +7,7 @@ import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
-import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
+import 'package:wallet_apps/src/screen/auth/seeds/create_seeds/create_seeds.dart';
 import 'package:lottie/lottie.dart';
 
 class WalletPageBody extends StatelessWidget {

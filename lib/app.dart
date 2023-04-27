@@ -47,8 +47,7 @@ class AppState extends State<App> {
 
       }).onError((error) {
         if (kDebugMode) {
-          debugPrint('onLink error');
-          debugPrint(error.message);
+          
         }
       });
     });
@@ -145,9 +144,7 @@ class AppState extends State<App> {
         }
       });
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint("Error initApi $e");
-      }
+      
     }
   }
 
@@ -161,15 +158,9 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-        if (kDebugMode) {
-          debugPrint("Error readTheme $e");
-        }
+      
     }
   }
-
-
-
-  
   
   Future<void> downloadAsset({required String fileName}) async {
 

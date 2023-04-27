@@ -1,6 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/nft_card_c.dart';
-import 'package:wallet_apps/src/components/nft_image_animation.dart';
 
 class NFTMarketPlace extends StatelessWidget {
   const NFTMarketPlace({Key? key}) : super(key: key);

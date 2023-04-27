@@ -9,7 +9,6 @@ class SwapStatusProgress extends StatelessWidget {
  
   const SwapStatusProgress({Key? key, this.res, required this.ticks}) : super(key: key);
  
- 
   @override
   Widget build(BuildContext context) {
     return Scaffold(

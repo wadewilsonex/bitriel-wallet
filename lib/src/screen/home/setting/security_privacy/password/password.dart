@@ -23,7 +23,7 @@ class _PasswordSecurityState extends State<PasswordSecurity> {
     
     if(_modelUserInfo!.confirmPasswordCon.text.isEmpty || _modelUserInfo!.confirmPasswordCon.text.isEmpty){
       
-      customDialog(context, "Opps", "You must input password", txtButton: "OK");
+      DialogComponents().customDialog(context, "Opps", "You must input password", txtButton: "OK");
     }
     else if(_modelUserInfo!.passwordCon.text == _modelUserInfo!.confirmPasswordCon.text) {
 
@@ -50,7 +50,7 @@ class _PasswordSecurityState extends State<PasswordSecurity> {
 
     }
     else{
-      customDialog(context, "Opps", "Your password input not matched", txtButton: "OK");
+      DialogComponents().customDialog(context, "Opps", "Your password input not matched", txtButton: "OK");
     }
   }
 

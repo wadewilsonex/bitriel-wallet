@@ -379,7 +379,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       String resPin = await Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
       if (resPin != _pin){
         // ignore: use_build_context_synchronously
-        await customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
+        await DialogComponents().customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
         
       } else if (resPin.isNotEmpty) {
         // Second: Start Loading For Sending

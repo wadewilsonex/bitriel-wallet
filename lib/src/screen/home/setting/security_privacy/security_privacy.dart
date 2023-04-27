@@ -150,7 +150,7 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
                   });
                 }
                 else{
-                  customDialog(context, "Opps", "Set up password to unlock with Biometric", txtButton: "OK");
+                  DialogComponents().customDialog(context, "Opps", "Set up password to unlock with Biometric", txtButton: "OK");
                 }
               });
               

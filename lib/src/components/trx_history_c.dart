@@ -1,35 +1,3 @@
-// import 'package:wallet_apps/index.dart';
-
-// class TrxHistoryList extends StatelessWidget {
-//   final Widget? icon;
-//   final String? title; 
-//   final String? address;
-//   final String? amount;
-//   final String? dateTime;
-  
-//   const TrxHistoryList({
-//     Key? key,
-//     this.icon,
-//     this.title,
-//     this.address,
-//     this.amount,
-//     this.dateTime,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListTile(
-//       leading: CircleAvatar(
-//         backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
-//         child: icon,
-//       ),
-//       title: MyText(text: title, color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.start,),
-//       trailing: MyText(text: amount, color: AppColors.redColor, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.end),
-//       subtitle: MyText(text: dateTime, color: AppColors.greyColor, textAlign: TextAlign.start),
-//     );
-//   }
-// }
-
 import 'package:wallet_apps/index.dart';
 
 class TrxHistoryList extends StatelessWidget {

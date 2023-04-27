@@ -27,8 +27,6 @@ export 'package:shimmer/shimmer.dart';
 export 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 export 'package:wallet_connect/wallet_connect.dart';
 
-//Component
-export 'package:wallet_apps/src/components/bottom_sheet/bottom_sheet.dart';
 /* Component File */
 export 'package:wallet_apps/src/components/component.dart';
 export 'package:wallet_apps/src/components/dimissible_background.dart';
@@ -40,15 +38,15 @@ export 'package:wallet_apps/src/components/platform_specific/ios_native.dart';
 export 'package:wallet_apps/src/components/receive_wallet_c.dart';
 export 'package:wallet_apps/src/components/reuse_widget.dart';
 export 'package:wallet_apps/src/components/route_animation.dart';
-export 'package:wallet_apps/src/components/sms_component.dart';
-export 'package:wallet_apps/src/components/trx_component.dart';
 export 'package:wallet_apps/src/components/trx_option_c.dart';
 export 'package:wallet_apps/src/config/.app_config.dart';
 export 'package:wallet_apps/src/config/size_config.dart';
-export 'package:wallet_apps/src/components/asset_item.dart';
 export 'package:wallet_apps/src/components/portfolio_cus.dart';
 export 'package:wallet_apps/src/components/pincode/passcode.dart';
 export 'package:wallet_apps/src/components/appbar/appbar_c.dart';
+export 'package:wallet_apps/src/components/dialog_c.dart';
+export 'package:wallet_apps/src/components/nft/nft_card_c.dart';
+export 'package:wallet_apps/src/components/nft/nft_image_animation.dart';
 
 // Add Asset
 export 'package:wallet_apps/src/models/asset_m.dart';
@@ -123,15 +121,15 @@ export 'package:wallet_apps/src/components/fill_pin_dialog.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/body_submit_trx.dart';
 export 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
-export 'package:wallet_apps/src/screen/main/seeds/import_seeds/import_acc.dart';
-export 'package:wallet_apps/src/screen/main/authentication.dart';
+export 'package:wallet_apps/src/screen/auth/seeds/import_seeds/import_acc.dart';
+export 'package:wallet_apps/src/screen/auth/authentication.dart';
 // Finger Print
-export 'package:wallet_apps/src/screen/main/splash_screen.dart';
+export 'package:wallet_apps/src/screen/auth/splash_screen.dart';
 
-export 'package:wallet_apps/src/screen/main/seeds/import_seeds/body_import_acc.dart';
+export 'package:wallet_apps/src/screen/auth/seeds/import_seeds/body_import_acc.dart';
 // Main Screeen
-export 'package:wallet_apps/src/screen/main/onboarding/onboarding.dart';
-export 'package:wallet_apps/src/screen/main/onboarding/body_onboarding.dart';
+export 'package:wallet_apps/src/screen/auth/onboarding/onboarding.dart';
+export 'package:wallet_apps/src/screen/auth/onboarding/body_onboarding.dart';
 
 export 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
 
