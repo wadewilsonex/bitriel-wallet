@@ -15,6 +15,8 @@ import '../../index.dart';
 // }
 
 class MarketProvider with ChangeNotifier {
+
+  static BuildContext? context;
   
   http.Response? _res;
   
@@ -28,27 +30,32 @@ class MarketProvider with ChangeNotifier {
 
   Map<String, dynamic>? queried;
 
-  ApiProvider? _apiPro;
-  ContractProvider? _contractPro;
-  http.Response? response;
+  static ApiProvider? _apiPro;
+  static ContractProvider? _contractPro;
+  static http.Response? response;
 
-  List<String> id = [
+  static get getBuildContext => context!;
+
+  set setBuildContext(ct) {
+    context = ct;
+  }
+
+  static List<String> id = [
     'selendra', //1
     'selendra_v1', //2
     'selendra_v2', //3
-    'kiwigo', //3
     'ethereum', //4
     'binancecoin', //5
     'polkadot', //6
     'bitcoin', //7
     'reakreay', //8
-    'att', //9
+    'tether' // 10
   ];
 
-  List<Coin> sortDataMarket = [];
-  List<Map<String, dynamic>>? tojson = [];
+  static List<Coin> sortDataMarket = [];
+  static List<Map<String, dynamic>>? tojson = [];
   
-  List<Map<String, dynamic>> sortDataToJson(){
+  static List<Map<String, dynamic>> sortDataToJson(){
 
     tojson = [];
     for(var e in sortDataMarket){
@@ -88,11 +95,11 @@ class MarketProvider with ChangeNotifier {
     return prices;
   }
 
-  Future<void> fetchTokenMarketPrice(BuildContext context, {bool? isQueryApi = false}) async {
+  static Future<void> fetchTokenMarketPrice({bool? isQueryApi = false}) async {
 
-    _contractPro = Provider.of<ContractProvider>(context, listen: false);
+    _contractPro = Provider.of<ContractProvider>(context!, listen: false);
 
-    _apiPro = Provider.of<ApiProvider>(context, listen: false);
+    _apiPro = Provider.of<ApiProvider>(context!, listen: false);
     
     sortDataMarket.clear();
 
@@ -111,24 +118,19 @@ class MarketProvider with ChangeNotifier {
           response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
         }
       });
+
     }
     // Refetch Data 
     else {
 
       response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
     }
-    
-    // ignore: use_build_context_synchronously
-    await decodingMarketData(context);
 
     // ignore: use_build_context_synchronously
-    await decodingMarketData(context);
-
-    notifyListeners();
+    await decodingMarketData(context!);
   }
   
-  Future<void> decodingMarketData(BuildContext context) async {
-
+  static Future<void> decodingMarketData(BuildContext context) async {
     _contractPro = Provider.of<ContractProvider>(context, listen: false);
     _apiPro = Provider.of<ApiProvider>(context, listen: false);
 
@@ -147,7 +149,6 @@ class MarketProvider with ChangeNotifier {
           final res = Market();// parseMarketData(jsonResponse);
 
           _contractPro!.listContract.every((ls) {
-
             if (ls.id == element['id']){
 
               _contractPro!.setMarketToAsset(
@@ -167,7 +168,6 @@ class MarketProvider with ChangeNotifier {
         await StorageServices.storeData(sortDataToJson(), DbKey.marketData);
       }
 
-      notifyListeners();
     } catch (e) {
       
       if (kDebugMode) {
@@ -179,7 +179,6 @@ class MarketProvider with ChangeNotifier {
   }
 
   Future<List<Map<String, dynamic>>> searchCoinFromMarket(String id) async {
-    debugPrint("searchCoinFromMarket $id");
     lsCoin!.clear();
     try {
 

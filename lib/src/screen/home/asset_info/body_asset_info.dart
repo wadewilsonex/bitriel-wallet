@@ -129,24 +129,6 @@ class AssetInfoBody extends StatelessWidget {
 
                           // Logo
                           GestureDetector(
-                            // onTap: assetInfoModel!.smartContractModel!.org != "BEP-20" && assetInfoModel!.smartContractModel!.org != "ERC-20" ? null : () async {
-                            //
-                            //   final image = ImagePicker();
-                            //   await image.pickImage(source: ImageSource.gallery).then((value) async {
-                            //     if (kDebugMode) {
-                            //       debugPrint(value!.path);
-                            //     }
-                            //     Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
-                            //       if (element.contract == assetInfoModel!.smartContractModel!.contract){
-                            //         // element.logo = value.path;
-                            //         // If found
-                            //         return true;
-                            //       }
-                            //       // Not found
-                            //       return false;
-                            //     });
-                            //   });
-                            // },
                             child: Stack(
                               alignment: Alignment.topCenter,
                               children: [
@@ -160,27 +142,14 @@ class AssetInfoBody extends StatelessWidget {
                                     width: logoSize,
                                     height: logoSize,
                                   )
-                                  : Image.asset(
-                                    assetInfoModel!.smartContractModel!.logo!,
+                                  : Image.file(
+                                    File(assetInfoModel!.smartContractModel!.logo!,),
                                     fit: BoxFit.contain,
                                     width: logoSize,
                                     height: logoSize,
                                   )
                                 ),
 
-                                // assetInfoModel!.smartContractModel!.org == "BEP-20" || assetInfoModel!.smartContractModel!.org == "ERC-20" ? Positioned(
-                                //   right: 0,
-                                //   child: Icon(
-                                //     Icons.edit,
-                                //     size: 18.sp,
-                                //     color: hexaCodeToColor(
-                                //       // isDarkMode
-                                //       // ? AppColors.greyCode
-                                //       // :
-                                //       AppColors.whiteColorHexa
-                                //     ),
-                                //   ),
-                                // ) : Container()
                               ],
                             ),
                           ),
@@ -218,74 +187,6 @@ class AssetInfoBody extends StatelessWidget {
                       ),
                     ),
 
-                    // // TabBar
-                    // Row(
-                    //   children: [
-                    //     Expanded(
-                    //       child: GestureDetector(
-                    //         onTap: () {
-                    //           onTabChange!(0);
-                    //         },
-                    //         child: Container(
-                    //           alignment: Alignment.center,
-                    //           height: 50,
-                    //           decoration: BoxDecoration(
-                    //             color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-                    //             border: Border(
-                    //               bottom: BorderSide(
-                    //                 color: assetInfoModel!.tabIndex == 0
-                    //                   ? hexaCodeToColor(isDarkMode ? "#D4D6E3" : AppColors.primaryColor)
-                    //                   : Colors.transparent,
-                    //                 width: 2,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           child: MyText(
-                    //             fontWeight: FontWeight.bold,
-                    //             text: "Activity",
-                    //             hexaColor: assetInfoModel!.tabIndex == 0
-                    //               ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor
-                    //                 : isDarkMode
-                    //                     ? AppColors.iconColor
-                    //                     : AppColors.greyCode,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                        
-                    //     Expanded(
-                    //       child: GestureDetector(
-                    //         onTap: () {
-                    //           onTabChange!(1);
-                    //         },
-                    //         child: Container(
-                    //           alignment: Alignment.center,
-                    //           height: 50,
-                    //           decoration: BoxDecoration(
-                    //             color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-                    //             border: Border(
-                    //               bottom: BorderSide(
-                    //                 color: assetInfoModel!.tabIndex == 1
-                    //                   ? hexaCodeToColor(isDarkMode ? "#D4D6E3" : AppColors.primaryColor)
-                    //                   : Colors.transparent,
-                    //                 width: 2,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           child: MyText(
-                    //             fontWeight: FontWeight.w600,
-                    //             text: "Details",
-                    //             hexaColor: assetInfoModel!.tabIndex == 1
-                    //               ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor
-                    //                 : isDarkMode
-                    //                     ? AppColors.iconColor
-                    //                     : AppColors.greyCode,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                   ],
                 ),
               ),
@@ -305,8 +206,8 @@ class AssetInfoBody extends StatelessWidget {
                   Container(
                     color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
                     child: Center(
-                      child: SvgPicture.asset(
-                        '${AppConfig.iconsPath}no_data.svg',
+                      child: SvgPicture.file(
+                        File('${AppConfig.iconsPath}no_data.svg'),
                         width: 15.w,
                         height: 15.h,
                       )

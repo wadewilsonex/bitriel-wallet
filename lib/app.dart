@@ -1,4 +1,4 @@
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -28,31 +28,30 @@ class AppState extends State<App> {
   String? dir;
 
   // Init firebase deep link
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  // FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
-  Future<void> initDynamicLinks() async {
+  // Future<void> initDynamicLinks() async {
 
-    // Query Deep Link Routes
-    await getDeepLinkRoutes().then((dpLink) async {
+  //   // Query Deep Link Routes
+  //   await getDeepLinkRoutes().then((dpLink) async {
 
-      dynamicLinks.onLink.listen((dynamicLinkData) async {
+  //     dynamicLinks.onLink.listen((dynamicLinkData) async {
 
-        WidgetsBinding.instance.addPostFrameCallback((_) async{
-          await Get.toNamed(AppString.eventView, arguments: 'event');
-        });
-        // WidgetsBinding.instance.addPostFrameCallback((_) {
-        //   Navigator.pushNamed(context, AppString.accountView);
-        // });
+  //       WidgetsBinding.instance.addPostFrameCallback((_) async{
+  //         await Get.toNamed(AppString.eventView, arguments: 'event');
+  //       });
+  //       // WidgetsBinding.instance.addPostFrameCallback((_) {
+  //       //   Navigator.pushNamed(context, AppString.accountView);
+  //       // });
 
 
-      }).onError((error) {
-        if (kDebugMode) {
-          debugPrint('onLink error');
-          debugPrint(error.message);
-        }
-      });
-    });
-  }
+  //     }).onError((error) {
+  //       if (kDebugMode) {
+          
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
@@ -61,25 +60,31 @@ class AppState extends State<App> {
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
+    Provider.of<MarketProvider>(context, listen: false).setBuildContext = context;
+
     Provider.of<ContractProvider>(context, listen: false).context = context;
 
     Provider.of<AppProvider>(context, listen: false).setContext = context;
 
-    // Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
-
-    Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
-
-    Provider.of<ArticleProvider>(context, listen: false).requestArticle();
-
-    // readTheme();
-
-    // getEventJSON().then((value) {
-    //   debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
-    // });
-
     // Query Selendra Endpoint
     getSelendraEndpoint().then((value) async {
+
+      await Provider.of<AppProvider>(context, listen: false).downloadFirstAsset().then((value) {
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+        Provider.of<AppProvider>(context, listen: false).notifyListeners();
+      });
+
+      // ignore: use_build_context_synchronously
+      await Provider.of<AppProvider>(context, listen: false).downloadSecondAsset();
+
+      // ignore: use_build_context_synchronously
+      Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
+
+      // ignore: use_build_context_synchronously
+      Provider.of<ArticleProvider>(context, listen: false).requestArticle();
+
       // Assign Data and Store Endpoint Into Local DB
+      // ignore: use_build_context_synchronously
       await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body));
 
       // await initDynamicLinks();
@@ -103,9 +108,8 @@ class AppState extends State<App> {
       final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
       contractProvider.setSavedList().then((value) async {
-
         /// Fetch and Fill Market Price Into Asset
-        await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+        MarketProvider.fetchTokenMarketPrice();
 
         // If Data Already Exist
         // Setup Cache
@@ -127,9 +131,6 @@ class AppState extends State<App> {
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
 
           if(!mounted) return;
-          Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-
-          if(!mounted) return;
           Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
 
           await apiProvider.getAddressIcon();
@@ -138,14 +139,12 @@ class AppState extends State<App> {
           // ignore: use_build_context_synchronously
           // await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
           // Get SEL Native Chain Will Fetch also Balance
-          await ContractsBalance.getAllAssetBalance();
+          ContractsBalance.getAllAssetBalance();
 
         }
       });
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint("Error initApi $e");
-      }
+      
     }
   }
 
@@ -159,19 +158,12 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-        if (kDebugMode) {
-          debugPrint("Error readTheme $e");
-        }
+      
     }
   }
-
-
-
-  
   
   Future<void> downloadAsset({required String fileName}) async {
 
-    print("downloadAsset $fileName");
     dir ??= (await getApplicationDocumentsDirectory()).path;
 
     // ignore: unrelated_type_equality_checks
@@ -196,9 +188,8 @@ class AppState extends State<App> {
       // ignore: use_build_context_synchronously
       Provider.of<AppProvider>(context, listen: false).dirPath = dir;
       
-      print("Finish downloadAsset");
     } else {
-      print("Just read");
+      
       // ignore: use_build_context_synchronously
       Provider.of<AppProvider>(context, listen: false).dirPath = dir;
       // await readFile(fileName);

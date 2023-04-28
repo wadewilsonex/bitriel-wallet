@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/components/select_swap_token_c.dart';
+import 'package:wallet_apps/src/components/swap_c.dart';
 import 'package:wallet_apps/src/models/select_swap_token_m.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 

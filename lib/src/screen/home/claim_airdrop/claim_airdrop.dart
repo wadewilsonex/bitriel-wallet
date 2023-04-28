@@ -302,24 +302,24 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                                           bottom: 10.0,
                                         ),
 
-                                        Consumer<ApiProvider>(
-                                          builder: (context, provider, widget){
-                                            return provider.getKeyring.current.address != null 
-                                            ? MyText(
-                                              width: double.infinity,
-                                              text: provider.getKeyring.current.address,
-                                              fontWeight: FontWeight.bold,
-                                              hexaColor: isDarkMode
-                                                ? AppColors.darkSecondaryText
-                                                : AppColors.textColor,
-                                              textAlign: TextAlign.left,
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 24,
-                                              bottom: 4.0,
-                                            ) 
-                                            : const ThreeDotLoading(width: 50, height: 30);
-                                          },
-                                        )
+                                        // Consumer<ApiProvider>(
+                                        //   builder: (context, provider, widget){
+                                        //     return provider.getKeyring.current.address != null 
+                                        //     ? MyText(
+                                        //       width: double.infinity,
+                                        //       text: provider.getKeyring.current.address,
+                                        //       fontWeight: FontWeight.bold,
+                                        //       hexaColor: isDarkMode
+                                        //         ? AppColors.darkSecondaryText
+                                        //         : AppColors.textColor,
+                                        //       textAlign: TextAlign.left,
+                                        //       overflow: TextOverflow.ellipsis,
+                                        //       fontSize: 24,
+                                        //       bottom: 4.0,
+                                        //     ) 
+                                        //     : const ThreeDotLoading(width: 50, height: 30);
+                                        //   },
+                                        // )
 
                                       ],
                                     ),

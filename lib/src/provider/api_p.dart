@@ -43,8 +43,7 @@ class ApiProvider with ChangeNotifier {
   int dotIndex = 6;
   int btcIndex = 7;
   int attIndex = 8;
-  int pingshare = 9;
-  int tether = 10;
+  int tetherIndex = 9;
 
   /// Selendra Endpoint
   String? selNetwork;
@@ -187,6 +186,8 @@ class ApiProvider with ChangeNotifier {
       // setBtcAddr(bech32Address!);
       // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
       // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(context: context);
+
+      contractPro.notifyListeners();
 
     } catch (e) {
       await customDialog(context, 'Oops', e.toString());
@@ -333,8 +334,6 @@ class ApiProvider with ChangeNotifier {
     double total = 0.0;
 
     var balanceList = [];
-
-    debugPrint("contract.sortListContract ${contract.sortListContract}");
     
     for (var element in contract.sortListContract) {
       debugPrint(element.marketPrice ?? 'null veryyyy');

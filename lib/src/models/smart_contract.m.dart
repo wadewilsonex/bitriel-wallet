@@ -3,6 +3,7 @@ import '../../index.dart';
 
 class SmartContractModel {
 
+  String? index;
   String? id;
   String? address;
   String? contract;
@@ -30,6 +31,7 @@ class SmartContractModel {
   double? money;
 
   SmartContractModel({
+    this.index,
     this.id,
     this.address,
     this.chainDecimal,
@@ -58,6 +60,7 @@ class SmartContractModel {
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {
     return SmartContractModel(
+      index: json['index'],
       id: json['id'],
       address: json['address'],
       symbol: json['symbol'],
@@ -109,7 +112,7 @@ class SmartContractModel {
   };
 
   static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {
-
+    
     return assets.map<Map<String, dynamic>>((asset) => SmartContractModel.toMap(asset)).toList();
   }
 

@@ -7,7 +7,7 @@ import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
-import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
+import 'package:wallet_apps/src/screen/auth/seeds/create_seeds/create_seeds.dart';
 import 'package:lottie/lottie.dart';
 
 class WalletPageBody extends StatelessWidget {
@@ -41,7 +41,7 @@ class WalletPageBody extends StatelessWidget {
             }
             return notification.depth == 0;
           },
-          onRefresh: () async => await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context, isQueryApi: true),
+          onRefresh: () async => await MarketProvider.fetchTokenMarketPrice(isQueryApi: true),
           child: NestedScrollView(
             floatHeaderSlivers: true,
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -378,7 +378,7 @@ class WalletPageBody extends StatelessWidget {
                           Consumer<ContractProvider>(
                             builder: (context, provider, widget){
                               return api.netWorkConnected == true ? MyText(
-                                text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC",
+                                text: provider.listContract.isNotEmpty ? "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC" : "0 BTC",
                                 // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                                 hexaColor: AppColors.whiteColorHexa,
                                 fontSize: 18,

@@ -18,7 +18,6 @@ Future<http.Response> getDeepLinkRoutes() async {
 }
 
 Future<http.Response> getEventJSON() async {
-  debugPrint("getEventJSON");
   return await http.get(Uri.parse(dotenv.get('EVENT')));
 }
 
@@ -59,10 +58,7 @@ Future<http.Response> queryTrxStatus(String id) async {
 /// Token Info
 /// 
 Future<http.Response> coins() async {
-  debugPrint('coins');
   _api ??= dotenv.get('LETS_EXCHANGE_API');
-
-  debugPrint(_api);
 
   return await http.get(
     Uri.parse("$_api/v2/coins"),

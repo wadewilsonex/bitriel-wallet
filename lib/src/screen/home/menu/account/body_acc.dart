@@ -7,7 +7,7 @@ import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
 import 'package:wallet_apps/src/screen/home/menu/changePin/changepin.dart';
-import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
+import 'package:wallet_apps/src/screen/auth/seeds/create_seeds/create_seeds.dart';
 
 class AccountBody extends StatelessWidget{
 
@@ -150,7 +150,7 @@ class AccountBody extends StatelessWidget{
                           GestureDetector(
                             onTap: () async {
 
-                              Map? value;
+                              Map? accToChange;
                   
                               accountModel!.accIndex = index;
 
@@ -161,7 +161,7 @@ class AccountBody extends StatelessWidget{
                               /// If Delete Current Account
                               if (provider.getKeyring.keyPairs[index].address == provider.getKeyring.current.address){
                                 // ignore: use_build_context_synchronously
-                                value = await DialogComponents().dialogCustom(
+                                accToChange = await DialogComponents().dialogCustom(
                                   context: context,
                                   titles: "You are on current wallet! Are you sure to want delete this wallet?",
                                   contents2: SizedBox(
@@ -213,7 +213,7 @@ class AccountBody extends StatelessWidget{
                               } else {
 
                                 // ignore: use_build_context_synchronously
-                                value = await DialogComponents().dialogCustom(
+                                accToChange = await DialogComponents().dialogCustom(
                                   context: context,
                                   titles: 'Are you sure to delete this wallet?',
                                   contents: 'Your current wallet, and assets will be removed from this app permanently\n\n You can Only recover your wallet with your Secret Recovery Seed Phrases',
@@ -236,6 +236,9 @@ class AccountBody extends StatelessWidget{
                                         return false;
                                       }).toList();
                                       Navigator.pop(context, current[0]);
+
+                                      // Close pop buttom sheet
+                                      Navigator.pop(context);
                                       
                                     },
                                   ),
@@ -252,17 +255,32 @@ class AccountBody extends StatelessWidget{
                                 );
                               }
                               
-                              if(value != null) {
+                              // Remove Selected Account From Cache
+                              if(accToChange != null) {
 
                                 await provider.getSdk.api.keyring.deleteAccount(
                                   provider.getKeyring,
                                   provider.getKeyring.allAccounts[index],
                                 );
 
+                                // Remove Acc In PrivateList
                                 decode!.removeAt(index);
+                                
+                                // Set New SEL Account
+                                provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[decode.indexOf(accToChange)]);
+                                
+                                // Assign EVM Address to ethAddr
+                                Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[decode.indexOf(accToChange)]['eth_address'];
 
-                                provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[decode.indexOf(value)]);
-                                Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[decode.indexOf(value)]['eth_address'];
+                                // Assign Selected Account SEL Address To Sorted Address List
+                                Provider.of<ContractProvider>(context, listen: false).sortListContract[0].address = provider.getKeyring.current.address;
+
+                                // Assign BTC Address And Store New
+                                Provider.of<ContractProvider>(context, listen: false).listContract[provider.btcIndex].address = decode[decode.indexOf(accToChange)]['btc_address'];
+                                await StorageServices.writeSecure(DbKey.bech32, decode[decode.indexOf(accToChange)]['btc_address']);
+                                
+                                // ignore: use_build_context_synchronously
+                                provider.getBtcBalance(context: context);
                               
                                 await StorageServices.writeSecure(DbKey.privateList, json.encode(decode));
                                 // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member

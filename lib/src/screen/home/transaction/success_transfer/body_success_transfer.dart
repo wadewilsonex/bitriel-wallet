@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/ticket_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:lottie/lottie.dart';
 
 class SuccessTransferBody extends StatelessWidget {
 
@@ -57,14 +58,14 @@ class SuccessTransferBody extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              Navigator.pushAndRemoveUntil(context, Transition(child: const HomePage(activePage: 3,) ), ModalRoute.withName('/'));
+              Navigator.pushAndRemoveUntil(context, Transition(child: const HomePage(activePage: 1, isTrx: true,)), ModalRoute.withName('/'));
             },
-            child: const SizedBox(
+            child: SizedBox(
               height: kToolbarHeight,
               width: double.infinity,
               child: Center(
                 child: MyText(
-                  text: 'View Tickets',
+                  text: isDebitCard == true ? 'View Tickets' : "Go To Wallet",
                   fontWeight: FontWeight.w600,
                   fontSize: 17,
                   hexaColor: AppColors.whiteColorHexa,
@@ -77,89 +78,153 @@ class SuccessTransferBody extends StatelessWidget {
     );
   }
 
-  Widget _detailTrxWidget(BuildContext context) {
-    return Column(
-      children: [
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: paddingSize + 50),
-              child: Icon(Iconsax.tick_circle, color: Colors.lightGreen, size: 40,),
+  // Widget _detailTrxWidget(BuildContext context) {
+  //   return Column(
+  //     children: [
+  //       Column(
+  //         children: const [
+  //           Padding(
+  //             padding: EdgeInsets.only(top: paddingSize + 50),
+  //             child: Icon(Iconsax.tick_circle, color: Colors.lightGreen, size: 40,),
+  //           ),
+  //           MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
+  //         ],
+  //       ),
+  //       Container(
+  //         height: 490,
+  //         margin: const EdgeInsets.all(16),
+  //         width: MediaQuery.of(context).size.width,
+  //         child: CustomPaint(
+  //           painter: TicketPainter(
+  //             borderColor: Colors.transparent,
+  //             bgColor: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
+  //             dsahHeight: 0.7
+  //           ),
+  //           child: Container(
+  //             padding: const EdgeInsets.all(16),
+  //             child: Column(
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     CircleAvatar(
+  //                       child: Image.asset(assetLogo!),
+  //                     ),
+  //                     Expanded(
+  //                       child: Padding(
+  //                         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+  //                         child: Column(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             MyText(
+  //                               text: "- $amount ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol}",
+  //                               hexaColor: AppColors.redColor,
+  //                               fontWeight: FontWeight.w500,
+  //                             ),
+  //                             MyText(
+  //                               text: toAddress!,
+  //                               fontWeight: FontWeight.w600,
+  //                               textAlign: TextAlign.start,
+  //                             )
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     )
+  //                   ],
+  //                 ),
+  //                 const SizedBox(height: 20),
+  //                 const Spacer(),
+
+  //                 textRowWidget("Hash:", hash!),
+  //                 textRowWidget("Transaction Date:", trxDate!),
+  //                 textRowWidget("From:", Provider.of<ApiProvider>(context).getKeyring.current.address!),
+  //                 textRowWidget("To Address:", toAddress!),
+  //                 textRowWidget("Fee:", fee!),
+
+  //                 const Spacer(),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
+    Widget _detailTrxWidget(BuildContext context) {
+      return SafeArea(
+        child: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.all(paddingSize),
+            margin: const EdgeInsets.only(top: 80, left: paddingSize, right: paddingSize, bottom: paddingSize),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(18))
             ),
-            const MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
-          ],
-        ),
-        Container(
-          height: 490,
-          margin: const EdgeInsets.all(16),
-          width: MediaQuery.of(context).size.width,
-          child: CustomPaint(
-            painter: TicketPainter(
-              borderColor: Colors.transparent,
-              bgColor: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
-              dsahHeight: 0.7
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 150,
+                  width: 150,
+                  child: Lottie.asset(
+                    "assets/animation/success.json",
+                    repeat: true,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                ),
+
+                const MyText(
+                  text: "Payment Success!",
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+
+                MyText(
+                  pTop: 10,
+                  text: "- $amount $assetSymbol",
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color2: Colors.red,
+                ),
+
+                const Padding(
+                  padding: EdgeInsets.all(paddingSize),
+                  child: Divider(),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
                     children: [
-                      CircleAvatar(
-                        child: Image.asset(assetLogo!),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              MyText(
-                                text: "- $amount ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol}",
-                                hexaColor: AppColors.redColor,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              MyText(
-                                text: toAddress!,
-                                fontWeight: FontWeight.w600,
-                                textAlign: TextAlign.start,
-                              )
-                            ],
-                          ),
-                        ),
-                      )
+                      // textRowWidget(context, "Hash", hash!, isCopy: true),
+                      // textRowWidget(context, "Hash", hash!.replaceRange(6, hash!.length - 6, "......."), isCopy: true),
+                      textRowWidget(context, "From", Provider.of<ApiProvider>(context).getKeyring.current.address!.replaceRange(6, Provider.of<ApiProvider>(context).getKeyring.current.address!.length - 6, "......."), isCopy: true),
+                      textRowWidget(context, "To Address", toAddress!.replaceRange(6, toAddress!.length - 6, "......."), isCopy: true),
+                      // textRowWidget(context, "Fee", "768768"),
+                      textRowWidget(context, "Payment Date", AppUtils().formattedDate),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  const Spacer(),
+                ),
 
-                  textRowWidget("Hash:", hash!),
-                  textRowWidget("Transaction Date:", trxDate!),
-                  textRowWidget("From:", Provider.of<ApiProvider>(context).getKeyring.current.address!),
-                  textRowWidget("To Address:", toAddress!),
-                  textRowWidget("Fee:", fee!),
-
-                  const Spacer(),
-                ],
-              ),
+              ],
             ),
           ),
         ),
-      ],
-    );
+      );
   }
 
   Widget _detailDebitTrxWidget(BuildContext context) {
     return Column(
       children: [
         Column(
-          children: [
+          children: const [
             Padding(
-              padding: const EdgeInsets.only(top: paddingSize + 50),
+              padding: EdgeInsets.only(top: paddingSize + 50),
               child: Icon(Iconsax.tick_circle, color: Colors.lightGreen, size: 40,),
             ),
-            const MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
+            MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
           ],
         ),
 
@@ -220,17 +285,17 @@ class SuccessTransferBody extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(height: 1,),
+                    const SizedBox(height: 1,),
 
                     Padding(
                       padding: const EdgeInsets.all(paddingSize + 5),
                       child: Column(
                         children: [
-                          textRowWidget("Trx. ID:", "12435351353"),
-                          textRowWidget("Card Holder:", "4242 XXXX XXXX 4242"),
-                          textRowWidget("Transaction Date:", "Oct 01, 2022 5:50PM"),
-                          textRowWidget("From:", fromAddress!),
-                          textRowWidget("Original Amount:", "${price! * qty!} USD"),
+                          textRowWidget(context, "Trx. ID:", "12435351353", isCopy: true),
+                          textRowWidget(context, "Card Holder:", "4242 XXXX XXXX 4242"),
+                          textRowWidget(context, "Transaction Date:", "Oct 01, 2022 5:50PM"),
+                          textRowWidget(context, "From:", fromAddress!, isCopy: true),
+                          textRowWidget(context, "Original Amount:", "${price! * qty!} USD"),
                         ],
                       ),
                     ),

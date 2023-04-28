@@ -89,7 +89,7 @@ PreferredSizeWidget defaultAppBar({
                     catch (e) {
                       debugPrint("catch $e");
                       Navigator.pop(context);
-                      customDialog(context, "Failed", "Please check your connection again", txtButton: "OK");
+                      DialogComponents().customDialog(context, "Failed", "Please check your connection again", txtButton: "OK");
                     }
                     
                   },
@@ -173,10 +173,11 @@ Future<void> filterListWcSession(BuildContext context) async {
   wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
   wConnectC.setBuildContext = context;
   await StorageServices.fetchData("session").then((value) {
-      
+    if (value != null){
+
       wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
     }
-  );
+  });
     
 }
 
@@ -204,22 +205,28 @@ void bottomSheetAddAccount(BuildContext context) async{
 
                       dialogLoading(context);
 
+                      // Set Selendra Current Account With Selected Account
                       provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
 
                       await StorageServices.readSecure(DbKey.privateList)!.then((value) async {
-                        debugPrint("value $value");
 
-                        debugPrint("json.decode(value)[index]['eth_address' ${json.decode(value)[index]['eth_address']}");
-
+                        // Assign Selected Account SEL Address To Sorted Address List
+                        Provider.of<ContractProvider>(context, listen: false).sortListContract[0].address = json.decode(value)[index]['address'];
+                        
+                        // Assign EVM Address to ethAddr
                         Provider.of<ContractProvider>(context, listen: false).ethAdd = json.decode(value)[index]['eth_address'];
 
-                        debugPrint("json.decode(value)[index]['btc_address'] ${json.decode(value)[index]['btc_address']}");
+                        // Assign BTC Address And Store New
                         Provider.of<ContractProvider>(context, listen: false).listContract[provider.btcIndex].address = json.decode(value)[index]['btc_address'];
-                        await StorageServices.writeSecure(DbKey.bech32, json.decode(value)[index]['btc_address']);
-                        provider.getBtcBalance(context: context);
-                        debugPrint("Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
 
+                        await StorageServices.writeSecure(DbKey.bech32, json.decode(value)[index]['btc_address']);
+                        // ignore: use_build_context_synchronously
+                        provider.getBtcBalance(context: context);
+                        
+                        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                        Provider.of<ContractProvider>(context, listen: false).notifyListeners();
                       });
+
                       provider.notifyListeners();
                       await ContractsBalance.getAllAssetBalance();
 

@@ -33,8 +33,16 @@ class _HomePageState extends State<HomePage> {
 
   final bool? pushReplacement = true;
 
+  List<Map<String, dynamic>> imgList = [];
+
   @override
   void initState() {
+    
+    imgList = [
+      {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/vg_alive_tg_artist.jpg", "url": ""},
+      {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/tga.png", "url": ""},
+      {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/vga.png", "url": ""}
+    ];
 
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
@@ -88,88 +96,88 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
 
-        _model.activeIndex = index;
-        _model.pageController!.jumpToPage(index);
-      });
-  }
-
-  Future<void> _scanLogin(String url) async {
-
-    dialogLoading(
-      context,
-      content: "Requesting SEL"
-    );
-
-    while (true){
-
-      randomNum = _random.nextInt(7);
-      if (randomNum != 0) break;
-    }
-
-    await Future.delayed(Duration(seconds: randomNum!), () async {
-
-      AppProvider _appPro = Provider.of<AppProvider>(context, listen: false);
-
-      try {
-        await PostRequest().requestReward(url, Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address!).then((value) async {
-        
-          // Close Dialog
-          Navigator.pop(context);
-        
-          if (json.decode(value.body)['success'] == true){
-
-            await DialogComponents().dialogCustom(
-              context: context,
-              contentsFontSize: 17,
-              titlesFontSize: 17,
-              contents: "500 SEL\nOn the way!",
-              textButton: "Complete",
-              image: Image.file(File("${_appPro.dirPath}/icons/success.png"), width: 18, height: 8),
-              btn2: Container(),
-              btn: null
-            );
-            
-            // Navigator.pop(context);
-            // List<int> convert = decode['id'].toString().codeUnits;
-            // Uint8List uint8list = Uint8List.fromList(convert);
-            // String _credentials = await _signId(decode['id']);
-            // debugPrint("_credentials $_credentials");
-            // String signedDataHex = EthSigUtil.signMessage(
-            //   privateKey: _credentials,
-            //   message: uint8list
-            // );
-            // debugPrint("signedDataHex $signedDataHex");
-            // Navigator.pop(context);
-
-          } else {
-            await DialogComponents().dialogCustom(
-              contentsFontSize: 17,
-              titlesFontSize: 17,
-              context: context,
-              contents: "${json.decode(value.body)['data']}",
-              titles: "Oops",
-              btn2: Container(),
-              btn: null
-            );
-          }
-        });
-      } catch (e) {
-        
-        // Close Dialog
-        Navigator.pop(context);
-        
-        await DialogComponents().dialogCustom(
-          context: context,
-          contents: e.toString(),
-          titles: "Oops",
-          btn2: Container(),
-          btn: null
-        );
-
-      }
+      _model.activeIndex = index;
+      _model.pageController!.jumpToPage(index);
     });
-
   }
+
+  // Future<void> _scanLogin(String url) async {
+  //
+  //   dialogLoading(
+  //     context,
+  //     content: "Requesting SEL"
+  //   );
+  //
+  //   while (true){
+  //
+  //     randomNum = _random.nextInt(7);
+  //     if (randomNum != 0) break;
+  //   }
+  //
+  //   await Future.delayed(Duration(seconds: randomNum!), () async {
+  //
+  //     AppProvider _appPro = Provider.of<AppProvider>(context, listen: false);
+  //
+  //     try {
+  //       await PostRequest().requestReward(url, Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address!).then((value) async {
+  //
+  //         // Close Dialog
+  //         Navigator.pop(context);
+  //
+  //         if (json.decode(value.body)['success'] == true){
+  //
+  //           await DialogComponents().dialogCustom(
+  //             context: context,
+  //             contentsFontSize: 17,
+  //             titlesFontSize: 17,
+  //             contents: "500 SEL\nOn the way!",
+  //             textButton: "Complete",
+  //             image: Image.file(File("${_appPro.dirPath}/icons/success.png"), width: 18, height: 8),
+  //             btn2: Container(),
+  //             btn: null
+  //           );
+  //
+  //           // Navigator.pop(context);
+  //           // List<int> convert = decode['id'].toString().codeUnits;
+  //           // Uint8List uint8list = Uint8List.fromList(convert);
+  //           // String _credentials = await _signId(decode['id']);
+  //           // debugPrint("_credentials $_credentials");
+  //           // String signedDataHex = EthSigUtil.signMessage(
+  //           //   privateKey: _credentials,
+  //           //   message: uint8list
+  //           // );
+  //           // debugPrint("signedDataHex $signedDataHex");
+  //           // Navigator.pop(context);
+  //
+  //         } else {
+  //           await DialogComponents().dialogCustom(
+  //             contentsFontSize: 17,
+  //             titlesFontSize: 17,
+  //             context: context,
+  //             contents: "${json.decode(value.body)['data']}",
+  //             titles: "Oops",
+  //             btn2: Container(),
+  //             btn: null
+  //           );
+  //         }
+  //       });
+  //     } catch (e) {
+  //
+  //       // Close Dialog
+  //       Navigator.pop(context);
+  //
+  //       await DialogComponents().dialogCustom(
+  //         context: context,
+  //         contents: e.toString(),
+  //         titles: "Oops",
+  //         btn2: Container(),
+  //         btn: null
+  //       );
+  //
+  //     }
+  //   });
+  //
+  // }
 
   // Future<void> readFile(String fileName) async{
 
@@ -189,10 +197,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return HomePageBody(
       isTrx: widget.isTrx,
+      imgList: imgList,
       homePageModel: _model,
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
-      getReward: _scanLogin
+      // getReward: _scanLogin
     );
   }
 }

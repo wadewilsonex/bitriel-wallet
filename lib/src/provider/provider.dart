@@ -38,13 +38,18 @@ class ContractsBalance extends ChangeNotifier {
 
       // await contractProvider.setSavedList().then((value) async {
 
+        /// Fetch and Fill Market Price Into Asset
+        MarketProvider.fetchTokenMarketPrice();
+
+        contractProvider!.listContract[0].address = apiProvider!.getKeyring.current.address!;
+
         // await contractProvider.selTokenWallet(context);
         // await contractProvider.selv2TokenWallet(context);
         await apiProvider!.subSELNativeBalance(context: _context);
         await contractProvider!.ethWallet();
         await contractProvider!.bnbWallet();
-        await contractProvider!.getBep20Balance(contractIndex: apiProvider!.tether);
-        await contractProvider!.kgoTokenWallet();
+        await contractProvider!.getBep20Balance(contractIndex: apiProvider!.tetherIndex);
+        // await contractProvider!.kgoTokenWallet();
 
         debugPrint("finish 4 asset");
 
@@ -89,9 +94,11 @@ class ContractsBalance extends ChangeNotifier {
     final res = await StorageServices.fetchData(DbKey.bech32);
 
     if (res != null) {
+      // ignore: use_build_context_synchronously
       Provider.of<ApiProvider>(context!, listen: false).isBtcAvailable('contain', context: context);
 
       // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(res.toString());
+      // ignore: use_build_context_synchronously
       Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
       // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(res.toString(), context: context);
     }
@@ -156,8 +163,10 @@ class ContractsBalance extends ChangeNotifier {
       await conProvider.ethWallet();
       await conProvider.bnbWallet();
 
+      // ignore: use_build_context_synchronously
       await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
+      // ignore: use_build_context_synchronously
       await StorageServices.storeAssetData(context);
       
     } catch (e) {
@@ -167,55 +176,6 @@ class ContractsBalance extends ChangeNotifier {
       
     }
 
-  }
-
-  static Future<void> multipleAsset() async {
-
-    await downloadAsset(fileName: 'token_logo.zip');
-
-    await downloadAsset(fileName: 'nfts.zip');
-
-    await downloadAsset(fileName: 'payment.zip');
-
-    await downloadAsset(fileName: 'default.zip');
-
-    print("finish download ");
-  }
-
-  static Future<void> downloadAsset({required String fileName}) async {
-
-    print("downloadAsset $fileName");
-    String dir = (await getApplicationDocumentsDirectory()).path;
-
-    print(await Directory("$dir/${fileName.replaceAll(".zip", "")}").exists());
-
-    // ignore: unrelated_type_equality_checks
-    if ( await Directory("$dir/${fileName.replaceAll(".zip", "")}").exists() == false ){
-
-      await downloadAssets(fileName).then((value) async {
-
-        await getApplicationDocumentsDirectory().then((dir) async {
-
-          await AppUtils.archiveFile(await File("${dir.path}/$fileName").writeAsBytes(value.bodyBytes)).then((files) async {
-            
-            // await readFile(fileName);
-          });
-        });
-        
-      });
-
-      // ignore: use_build_context_synchronously
-      Provider.of<AppProvider>(_context!, listen: false).dirPath = dir;
-
-      Provider.of<AppProvider>(_context!, listen: false).notifyListeners();
-      
-      print("Finish downloadAsset");
-    } else {
-      print("Just read");
-      // ignore: use_build_context_synchronously
-      Provider.of<AppProvider>(_context!, listen: false).dirPath = dir;
-      // await readFile(fileName);
-    }
   }
   
 }

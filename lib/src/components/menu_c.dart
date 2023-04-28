@@ -188,42 +188,72 @@ class MyListTile extends StatelessWidget {
     );
   }
 }
+
+class MyMenuItem extends StatelessWidget {
+  final String? title;
+  final String? asset;
+  final Widget? icon;
+  final Function? action;
+  final String colorHex;
   
-// Widget customListTile(
-//     BuildContext context, IconData icon, String title, dynamic method,
-//     {bool maintenance = false}) {
-//   return Container(
-//     padding: EdgeInsets.only(left: 19.0, right: 19.0),
-//     decoration: BoxDecoration(
-//         border: Border(
-//             top: BorderSide(width: 1, color: Colors.white.withOpacity(0.2)))),
-//     child: ListTile(
-//         contentPadding: EdgeInsets.all(0),
-//         leading: Container(
-//           padding: EdgeInsets.all(0),
-//           // child: FaIcon(
-//           //   icon,
-//           //   color: Colors.white
-//           // ),
-//         ),
-//         title: Text(
-//           title,
-//           style: TextStyle(
-//               fontWeight: FontWeight.w400, color: hexaCodeToColor("#EFF0F2")),
-//         ),
-//         trailing: Icon(
-//           Icons.arrow_forward_ios,
-//           size: 10.0,
-//           color: Colors.white,
-//         ),
-//         onTap: !maintenance
-//             ? method
-//             : () async {
-//                 await dialog(
-//                     context,
-//                     Text("Feature under maintenance",
-//                         textAlign: TextAlign.center),
-//                     Text("Message"));
-//               }),
-//   );
-// }
+  const MyMenuItem({
+    Key? key, 
+    this.title,
+    this.asset,
+    this.icon,
+    required this.colorHex,
+    required this.action,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        action!();
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          height: 125,
+          decoration: BoxDecoration(
+            color: hexaCodeToColor(colorHex),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              
+              Container(
+                margin: const EdgeInsets.only(left: 10, top: 5),
+                child: MyText(
+                  text: title,
+                  fontSize: 18,
+                  hexaColor: AppColors.whiteColorHexa,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Spacer(),
+                    Flexible(
+                      child: Align(
+                        heightFactor: 1,
+                        widthFactor: 1,
+                        alignment: Alignment.topLeft,
+                        child: Image.file(File(asset!)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

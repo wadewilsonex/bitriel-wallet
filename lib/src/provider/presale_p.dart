@@ -164,12 +164,10 @@ class PresaleProvider with ChangeNotifier {
 
       final credentials = EthPrivateKey.fromHex(privateKey);
 
-      final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
-
       final gasPrice = await _contractP!.bscClient.getGasPrice();
 
       final maxGas = await _contractP!.bscClient.estimateGas(
-        sender: EthereumAddress.fromHex(ethAddr!),
+        sender: EthereumAddress.fromHex(_contractP!.ethAdd),
         to: contract.address,
         data: ethFunction.encodeCall(
           [
@@ -239,11 +237,10 @@ class PresaleProvider with ChangeNotifier {
   Future<double> checkTokenBalance(String tokenAddress, {@required BuildContext? context}) async {
     try {
 
-      final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
       final balance = await ContractProvider().query(
         tokenAddress,
         'balanceOf',
-        [EthereumAddress.fromHex(myAddr!)],
+        [EthereumAddress.fromHex(_contractP!.ethAdd)],
       );
 
       return Fmt.bigIntToDouble(balance[0] as BigInt, 18);
@@ -262,12 +259,12 @@ class PresaleProvider with ChangeNotifier {
     List<dynamic> idRes = [];
 
     try {
-      final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
+      
       final preFunction = _deployedContract!.function('investorOrderIds');
       final List res = await _contractP!.bscClient.call(
         contract: _deployedContract!,
         function: preFunction,
-        params: [EthereumAddress.fromHex("$myAddr")]
+        params: [EthereumAddress.fromHex(_contractP!.ethAdd)]
       );
 
       if (res.isNotEmpty) idRes = List.from(res.first);
@@ -394,10 +391,8 @@ class PresaleProvider with ChangeNotifier {
 
     final allowanceFunc = contract!.function('allowance');
 
-    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
-
     final res = await _contractP!.bscClient.call(contract: contract, function: allowanceFunc, params: [
-      EthereumAddress.fromHex(ethAddr!),
+      EthereumAddress.fromHex(_contractP!.ethAdd),
       EthereumAddress.fromHex(_presaleContract),
     ]);
 
@@ -425,7 +420,7 @@ class PresaleProvider with ChangeNotifier {
           int.parse('18'),
         ).toStringAsFixed(6);
 
-        dynamic timeStamp = AppUtils().timeStampToDate(int.parse(orderInfo[2].toString()));
+        dynamic timeStamp = AppUtils.timeStampToDate(int.parse(orderInfo[2].toString()));
 
         final isClaimed = orderInfo[3];
 

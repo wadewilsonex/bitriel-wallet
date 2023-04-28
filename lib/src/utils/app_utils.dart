@@ -20,6 +20,10 @@ class AppUtils {
 
   static Color? txtColor;
 
+  static final DateTime now = DateTime.now();
+
+  String formattedDate = DateFormat('EEEE, MMM d, yyyy').format(now);
+
   static Future<DeployedContract> contractfromAssets(String path, String contractAddr, {String? contractName}) async {
     final String contractJson = await rootBundle.loadString(path);
     return DeployedContract(
@@ -62,7 +66,7 @@ class AppUtils {
     ]); /* Return Real Date Time */
   }
 
-  String timeStampToDate(int timeStamp) {
+  static String timeStampToDate(int timeStamp) {
     try {
 
       // final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
@@ -336,15 +340,10 @@ class AppUtils {
 
         file = File("$_dirPath/${f.name}");
 
-  
-
         file = await file!.create(recursive: true);
 
         await file!.writeAsBytes(f.content);
-
-  
       }
-
 
     }
 

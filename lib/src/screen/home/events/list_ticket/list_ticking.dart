@@ -76,7 +76,7 @@ class _ListTicketTypeState extends State<ListTicketType> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
 
-          if (_tkModel.ticketTypesFromApi == null) loading()
+          if (_tkModel.ticketTypesFromApi == null) centerLoading()
 
           else if (_tkModel.ticketTypesFromApi!.isNotEmpty)
             Expanded(

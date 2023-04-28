@@ -52,12 +52,12 @@ class AppServices {
       connectivity.onConnectivityChanged
           .listen((ConnectivityResult result) async {
         if (result == ConnectivityResult.none) {
-          await dialogSuccess(context, const Text(''), const Text(''));
+          // await dialogSuccess(context, const Text(''), const Text(''));
         }
       });
 
       if (myResult == ConnectivityResult.none) {
-        await dialogSuccess(context, const Text(''), const Text(''));
+        // await dialogSuccess(context, const Text(''), const Text(''));
       }
     } catch (e) {
       if (kDebugMode) {
@@ -142,38 +142,13 @@ class AppServices {
       if (support) {
         canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
       } else {
-          await customDialog(
-            context, 
-            'Opps', 
-            "Your device doesn't support finger debugPrint",
-            txtButton: "Close",
-          );
-        // await showDialog(
-        //   context: context,
-        //   builder: (context) {
-        //     return AlertDialog(
-        //       shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(10.0)),
-        //       title: Align(
-        //         child: MyText(
-        //           text: "Oops",
-        //           fontWeight: FontWeight.w600,
-        //         ),
-        //       ),
-        //       content: Padding(
-        //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-        //         child: Text("Your device doesn't support finger debugPrint",
-        //             textAlign: TextAlign.center),
-        //       ),
-        //       actions: <Widget>[
-        //         TextButton(
-        //           onPressed: () => Navigator.pop(context),
-        //           child: const Text('Close'),
-        //         ),
-        //       ],
-        //     );
-        //   },
-        // );
+        // ignore: use_build_context_synchronously
+        await DialogComponents().customDialog(
+          context, 
+          'Opps', 
+          "Your device doesn't support finger debugPrint",
+          txtButton: "Close",
+        );
       }
 
       // ignore: unused_catch_clause
@@ -194,7 +169,7 @@ class AppServices {
       // ignore: use_build_context_synchronously
       privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
     } catch (e) {
-      await customDialog(context, 'Opps', 'PIN verification failed', txtButton: "Close",);
+      await DialogComponents().customDialog(context, 'Opps', 'PIN verification failed', txtButton: "Close",);
     }
     return privateKey;
   }

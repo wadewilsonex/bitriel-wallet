@@ -194,7 +194,7 @@ class ContractService implements IContractService {
           });
         } else {
           tmp.add({
-            "symbol": "${ls[i].symbol}",
+            "symbol": "${ls[i].symbol}"
           });
         }
       }

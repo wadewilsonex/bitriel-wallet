@@ -45,55 +45,135 @@ class _ArticleNewsListState extends State<ArticleNewsList> {
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,
         ),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              width: 100,
-              height: 100,
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20),
-                ),
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(widget.articleQueried!["Data"][widget.index]["imageurl"],),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    MyText(
-                      pTop: 5,
-                      text: widget.articleQueried!["Data"][widget.index]["title"],
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                
+                Expanded(
+                  child: Column(
+                    children: [
+                      
+                      Row(
+                        children: [
+                          Container(
+                            width: 30,
+                            height: 30,
+                            margin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(100),
+                              ),
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: NetworkImage(widget.articleQueried!["Data"][widget.index]["source_info"]["img"],),
+                              ),
+                            ),
+                          ),
 
-                    MyText(
-                      pTop: 10,
-                      text: widget.articleQueried!["Data"][widget.index]["body"],
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
-                      maxLine: 3,
-                      
-                    ),
-                      
-                  ],
+                          MyText(
+                            pTop: 10,
+                            pBottom: 10,
+                            pRight: paddingSize,
+                            text: widget.articleQueried!["Data"][widget.index]["source_info"]["name"],
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 20,
+                          ),
+                        ],
+                      ),
+
+                      MyText(
+                        pTop: 10,
+                        pBottom: 10,
+                        pLeft: paddingSize,
+                        pRight: paddingSize,
+                        text: widget.articleQueried!["Data"][widget.index]["title"],
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                        maxLine: 4,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            )
+
+                const SizedBox(
+                  width: 15,
+                ),
+
+                Container(
+                  width: 125,
+                  height: 125,
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(20),
+                    ),
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(widget.articleQueried!["Data"][widget.index]["imageurl"],),
+                    ),
+                  ),
+                ),
+                // Expanded(
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(right: 10),
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       children: [
+                //         MyText(
+                //           pTop: 5,
+                //           text: widget.articleQueried!["Data"][widget.index]["title"],
+                //           textAlign: TextAlign.start,
+                //           overflow: TextOverflow.ellipsis,
+                //           fontSize: 20,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+
+                //         MyText(
+                //           pTop: 10,
+                //           text: widget.articleQueried!["Data"][widget.index]["body"],
+                //           overflow: TextOverflow.ellipsis,
+                //           textAlign: TextAlign.start,
+                //           maxLine: 3,
+                          
+                //         ),
+                          
+                //       ],
+                //     ),
+                //   ),
+                // )
+                
+              ],
+            ),
+
+            MyText(
+              pTop: 10,
+              pBottom: 10,
+              pLeft: paddingSize,
+              pRight: paddingSize,
+              text: widget.articleQueried!["Data"][widget.index]["body"],
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.start,
+              maxLine: 3,
+              
+            ),
+
+            MyText(
+              pTop: 10,
+              pBottom: 10,
+              pLeft: paddingSize,
+              pRight: paddingSize,
+              text: AppUtils.timeStampToDate(widget.articleQueried!["Data"][widget.index]["published_on"]),
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.ellipsis,
+              fontWeight: FontWeight.w500,
+            ),
           ],
         ),
       ),
