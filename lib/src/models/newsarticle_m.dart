@@ -112,10 +112,10 @@ class Datum {
     };
 }
 
-enum Lang { EN }
+enum Lang { en }
 
 final langValues = EnumValues({
-    "EN": Lang.EN
+    "EN": Lang.en
 });
 
 class SourceInfo {

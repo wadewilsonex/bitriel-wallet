@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:archive/archive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io' as io;
 
 // ignore: avoid_classes_with_only_static_members
 class AppUtils {

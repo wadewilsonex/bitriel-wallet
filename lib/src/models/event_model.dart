@@ -1,5 +1,3 @@
-import 'package:wallet_apps/index.dart';
-
 class Event {
 
   String name;

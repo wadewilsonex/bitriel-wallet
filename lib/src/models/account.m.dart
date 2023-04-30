@@ -1,4 +1,3 @@
-import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:wallet_apps/index.dart';
 
 class AccountM {

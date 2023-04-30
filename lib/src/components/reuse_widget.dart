@@ -1,14 +1,6 @@
-import 'dart:ui' as ui;
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
-import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/pie_chart.dart';
-import 'package:wallet_apps/src/constants/ui_helper.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
-import 'dialog_c.dart';
 
 /* -----------------------------------Variable--------------------------------------------------- */
 /* Size */

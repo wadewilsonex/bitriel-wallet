@@ -1,12 +1,9 @@
 import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/provider/app_p.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/confirm_trx.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:http/http.dart' as http;
-import 'package:web3dart/web3dart.dart';
 
 const maticRpcUri = 'https://rpc-mainnet.maticvigil.com/v1/140d92ff81094f0f3d7babde06603390d7e581be';
 

@@ -44,7 +44,7 @@ class _SwapStatusState extends State<SwapStatus> {
       
     }
     on Exception catch (ex){
-      debugPrint("Exception");
+      debugPrint("Exception $ex");
       DialogComponents().customDialog(context, "Error", "Transaction not found", txtButton: "Close").then((value) {
        Navigator.pop(context);
       });

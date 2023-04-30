@@ -109,11 +109,11 @@ class ContractService implements IContractService {
 
       final credentials = await getCredentials(trxInfo.privateKey!);
       final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount, chainDecimal: trxInfo.chainDecimal);
-      final sender = await credentials.extractAddress();
+      final sender = credentials.address;
       final maxGas = await getMaxGas(sender, txInfo);
 
       debugPrint("credentials ${credentials.address}");
-      debugPrint("txInfo ${txInfo}");
+      debugPrint("txInfo $txInfo");
       debugPrint("sender ${sender.hex}");
       debugPrint("maxGas ${maxGas.toString()}");
 

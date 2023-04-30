@@ -45,7 +45,7 @@ class WalletProvider with ChangeNotifier {
       // Find Total Of All Asset
       for (var element in MarketProvider.sortDataMarket) {
 
-        total += element.current_price!;
+        total += element.currentPrice!;
         // if (element.current_price.runtimeType.toString() == 'int') {
         //   // To Convert Integer To Double By Plus With .0
         //   total = total + ((element['current_price']) + .0);
@@ -57,13 +57,13 @@ class WalletProvider with ChangeNotifier {
       for (int i = 0; i < MarketProvider.sortDataMarket.length; i++) {
 
         // Divide Value With Total Of Asset
-        temp = MarketProvider.sortDataMarket[i].current_price! / total;
+        temp = MarketProvider.sortDataMarket[i].currentPrice! / total;
         percen = temp * 100;
 
         // Use Round To Round Number
         _portfolioM.add(PortfolioM(
           color: pieColorList[i],
-          symbol: MarketProvider.sortDataMarket[i].current_price.toString().toUpperCase(),
+          symbol: MarketProvider.sortDataMarket[i].currentPrice.toString().toUpperCase(),
           percentage: percen.toStringAsFixed(2),
         ));
 

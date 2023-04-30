@@ -8,7 +8,6 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
-import 'package:wallet_apps/src/service/exception_handler.dart';
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext? context,

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:wallet_apps/index.dart';
 
 class SwapTokenList extends StatelessWidget {

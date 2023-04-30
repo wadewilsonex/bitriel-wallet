@@ -1,11 +1,7 @@
-
-
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
@@ -37,7 +33,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
   List<GetConByIndex>? lsCon;
 
   ContractProvider? _contractProvider;
-  ApiProvider? _apiProvider;
+  ApiProvider? apiProvider;
 
   @override
   initState(){
@@ -46,12 +42,12 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
 
     trxFunc = TrxFunctional.init(context: context);
 
-    queryTrxStatus(widget.res!.transaction_id!).then((value) {
+    queryTrxStatus(widget.res!.transactionId!).then((value) {
 
       _swapTrxInfo = SwapTrxInfo.fromJson(json.decode(value.body));
       // setState(() {
-        _scanPayM.asset = _swapTrxInfo!.coin_from;
-        _scanPayM.controlAmount.text = _swapTrxInfo!.deposit_amount!;
+        _scanPayM.asset = _swapTrxInfo!.coinFrom;
+        _scanPayM.controlAmount.text = _swapTrxInfo!.depositAmount!;
         _scanPayM.controlReceiverAddress.text = _swapTrxInfo!.deposit!;
         
         trxFunc!.txInfo = TransactionInfo(
@@ -416,7 +412,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
           
                 Row(
                   children: [
-                    SvgPicture.network(widget.res!.coin_from_icon!.replaceAll("\/", "\\")),
+                    SvgPicture.network(widget.res!.coinFromIcon!.replaceAll("\/", "\\")),
 
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -428,7 +424,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                         ),
                         MyText(
                           pLeft: 8,
-                          text: "${widget.res!.deposit_amount} ${widget.res!.coin_from} (${widget.res!.coin_from_network})",
+                          text: "${widget.res!.depositAmount} ${widget.res!.coinFrom} (${widget.res!.coinFromNetwork})",
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         )
@@ -456,7 +452,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
 
                 Row(
                   children: [
-                    SvgPicture.network(widget.res!.coin_to_icon!.replaceAll("\/", "\\")),
+                    SvgPicture.network(widget.res!.coinToIcon!.replaceAll("\/", "\\")),
 
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -468,7 +464,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                         ),
                         MyText(
                           pLeft: 8,
-                          text: "${widget.res!.withdrawal_amount} ${widget.res!.coin_to} (${widget.res!.coin_to_network})",
+                          text: "${widget.res!.withdrawalAmount} ${widget.res!.coinTo} (${widget.res!.coinToNetwork})",
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         )
@@ -545,7 +541,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                 Row(
                   children: [
                     MyText(
-                      text: "Deposit ${res.coin_from} To",
+                      text: "Deposit ${res.coinFrom} To",
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       hexaColor: AppColors.greyCode,
@@ -683,7 +679,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                     const Spacer(),
           
                     MyText(
-                      text: res.transaction_id,
+                      text: res.transactionId,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       hexaColor: AppColors.blackColor,
@@ -693,7 +689,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: res.transaction_id),
+                          ClipboardData(text: res.transactionId),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(

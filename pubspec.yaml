@@ -120,6 +120,7 @@ dependencies:
   fluttercontactpicker: ^4.7.0
   
   #animation
+  lottie: ^1.4.2
   responsive_framework: ^0.2.0
   flutter_launcher_icons: ^0.10.0
   url_launcher: ^6.1.5
@@ -175,7 +176,6 @@ dependency_overrides:
       url: https://github.com/DaveatCor/sdk.git
       ref: master  
 
-  lottie: ^1.4.2
   # event_crew:
   #   git: 
   #     url: https://github.com/selendra/event_crew_package.git

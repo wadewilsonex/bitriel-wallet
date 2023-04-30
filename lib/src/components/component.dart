@@ -1,9 +1,8 @@
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'dart:ui';
 import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
-import 'package:loading_indicator/loading_indicator.dart';
+
 class Component {
 
   // For Pinput

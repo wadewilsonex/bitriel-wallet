@@ -1,5 +1,3 @@
-
-import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -144,7 +142,9 @@ class AppState extends State<App> {
         }
       });
     } catch (e) {
-      
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -158,7 +158,9 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
   

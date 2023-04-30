@@ -1,5 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:wallet_apps/src/screen/home/swap/select_token/body_select_token.dart';
 
@@ -55,7 +54,9 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
 
       setState(() { });
     } catch (e) {
-
+      if (kDebugMode) {
+        print(e);
+      }
     }
     // mySetState(() { });
   }

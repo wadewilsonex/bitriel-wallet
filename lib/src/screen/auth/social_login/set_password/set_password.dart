@@ -70,6 +70,9 @@ class _SetPasswordState extends State<SetPassword> {
       // }
 
     } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

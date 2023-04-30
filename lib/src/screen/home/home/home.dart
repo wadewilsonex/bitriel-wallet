@@ -1,15 +1,9 @@
 import 'dart:math';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/provider/app_p.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class HomePage extends StatefulWidget {
 

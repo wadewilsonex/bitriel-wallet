@@ -35,6 +35,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   @override
   void dispose() {
+    controller!.dispose();
     super.dispose();
   }
 
