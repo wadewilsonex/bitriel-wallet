@@ -42,7 +42,8 @@ class MenuHeader extends StatelessWidget {
                     )
                   );
                 },
-                child: AvatarShimmer(
+                child: avatarShimmer(
+                  context,
                   txt: value.getKeyring.current.icon,
                   child: randomAvatar(value.getKeyring.current.icon ?? '', width: 5.0, height: 5.0)
                   // SvgPicture.string(
@@ -61,7 +62,8 @@ class MenuHeader extends StatelessWidget {
                   
                   TextShimmer(txt: value.getKeyring.current.name),
                   
-                  WidgetShimmer(
+                  widgetShimmer(
+                    context,
                     txt: value.getKeyring.current.address, 
                     child: Row(
                       children: [
@@ -256,4 +258,92 @@ class MyMenuItem extends StatelessWidget {
       ),
     );
   }
+}
+
+// class MyMenuItem extends StatelessWidget {
+
+//   final String? title;
+//   final String? asset;
+//   final Widget? icon;
+//   final Function? action;
+//   final String colorHex;
+  
+//   const MyMenuItem({
+//     Key? key, 
+//     this.title,
+//     this.asset,
+//     this.icon,
+//     required this.colorHex,
+//     required this.action,
+//   }) : super(key: key);
+
+//   @override
+  
+// }
+
+Widget myMenuItem(BuildContext context, {String? title, String? asset, Widget? icon, Function? action, String? colorHex}) {
+  return Card(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    color: hexaCodeToColor(colorHex!),
+    child: InkWell(
+      onTap: () {
+        action!();
+      },
+      child: Column(
+        children: [
+          
+          Container(
+            alignment: Alignment.topLeft,
+            margin: const EdgeInsets.only(left: 10, top: 5),
+            child: myText2(
+              context,
+              text: title,
+              fontSize: 18,
+              hexaColor: AppColors.whiteColorHexa,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+    
+          Align(
+            alignment: Alignment.centerRight, 
+            child: Consumer<AppProvider>(
+              builder: (context, pro, wg) {
+                return Image.file(File("${pro.dirPath}$asset"),width: 100,);
+              }
+            )
+          ),
+    
+        ],
+      ),
+    ),
+  );
+
+    // ClipRRect(
+    //   borderRadius: BorderRadius.circular(10),
+    //   child: Container(
+    //     height: 130,
+    //     decoration: BoxDecoration(
+    //       color: hexaCodeToColor(colorHex!),
+    //     ),
+    //     // width: MediaQuery.of(context).size.width/2,
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //       children: [
+            
+    //         Container(
+    //           margin: const EdgeInsets.only(left: 10, top: 5),
+    //           child: MyText2(
+    //             text: title,
+    //             fontSize: 18,
+    //             hexaColor: AppColors.whiteColorHexa,
+    //             fontWeight: FontWeight.w600,
+    //           ),
+    //         ),
+    //         Align(alignment: Alignment.centerRight, child: Image.file(File(asset!),width: 100,)),
+
+    //       ],
+    //     ),
+    //   ),
+    // ),
 }

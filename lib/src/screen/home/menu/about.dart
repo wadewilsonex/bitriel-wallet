@@ -32,7 +32,9 @@ class About extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            MyAppBar(
+            
+            myAppBar(
+              context,
               title: "About",
               color: isDarkMode
                   ? hexaCodeToColor(AppColors.darkCard)

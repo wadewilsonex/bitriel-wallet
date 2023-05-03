@@ -12,7 +12,9 @@ class TrxHistoryDetailsBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        MyAppBar(
+        
+        myAppBar(
+          context,
           title: "$title Details",
           onPressed: popScreen,
         ),

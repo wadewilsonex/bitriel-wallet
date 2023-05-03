@@ -25,14 +25,8 @@ abstract class AccountInterface {
 
   /// First Action
   Future<KeyPairData?> importAcc() async {
-    debugPrint("importAcc ");
-
-    debugPrint("accModel!.key!.text,    ${accModel!.key!.text  }");
-    debugPrint("accModel!.usrName!.text,  ${accModel!.usrName!.text}");
-    debugPrint("accModel!.pwCon!.text ${accModel!.pwCon!.text}");
 
     accModel!.apiProvider = Provider.of<ApiProvider>(accModel!.getBuildCt!, listen: false);
-    debugPrint("re-init accModel!.apiProvider");
     final jsn = await accModel!.apiProvider!.getSdk.api.keyring.importAccount(
       accModel!.apiProvider!.getKeyring, 
       keyType: accModel!.keyType!, 
@@ -41,7 +35,6 @@ abstract class AccountInterface {
       password: accModel!.pwCon!.text
     );
 
-    debugPrint("importAcc json $jsn");
 
     await accModel!.apiProvider!.getSdk.api.keyring.addAccount(
       accModel!.apiProvider!.getKeyring, 
@@ -49,7 +42,7 @@ abstract class AccountInterface {
       acc: jsn!,
       password: accModel!.pwCon!.text
     ).then((value) {
-      debugPrint("addAccount ${value.name}");
+
       keyPairData = value;
       accModel!.apiProvider!.getKeyring.setCurrent(value);
     
@@ -62,14 +55,13 @@ abstract class AccountInterface {
   
   /// Second Action
   Future<void> importProcess() async {
-    debugPrint("importProcess");
     try {
 
       changeStatus("IMPORTING ACCOUNT", avg: "1/3");
 
       await importAcc();
       // .then( (KeyPairData? value){
-      //   debugPrint("Finish import ${value!.name}");
+      //
       // });
 
       changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
@@ -78,21 +70,19 @@ abstract class AccountInterface {
       await connectNetwork();
 
     } catch (e) {
-      debugPrint("error importProcess $e");
+
       await DialogComponents().dialogCustom(context: accModel!.getBuildCt);
     }
   }
 
   /// Last Action
   Future<void> connectNetwork() async {
-    debugPrint("connectNetwork");
 
     accModel!.apiProvider = Provider.of<ApiProvider>(accModel!.getBuildCt!, listen: false);
     
     accModel!.apiProvider!.getKeyring.setCurrent(keyPairData!);
 
     String mnemonic = (await accModel!.apiProvider!.getSdk.api.keyring.getDecryptedSeed(accModel!.apiProvider!.getKeyring, accModel!.apiProvider!.getKeyring.current, accModel!.pwCon!.text))!.seed!;
-    debugPrint("mnemonic $mnemonic");
     // final resPk = await accModel!.apiProvider!.getPrivateKey(mnemonic);
     
     /// Cannot connect Both Network On the Same time
@@ -143,7 +133,6 @@ abstract class AccountInterface {
   
   void onSubmit() async {
 
-    debugPrint('animationModel!.enable ${animationModel!.enable}');
     
     // if (value!.isNotEmpty){
     //   await importProcess(importAcc);
@@ -209,7 +198,7 @@ abstract class AccountInterface {
 
     animationModel!.animationController!.addListener(() {
       if (kDebugMode) {
-        debugPrint("animationModel!.animationController!.value ${animationModel!.animationController!.value}");
+  
       }
       if (animationModel!.animationController!.value >= 0.15 && animationModel!.animationController!.value <= 0.19) {
         

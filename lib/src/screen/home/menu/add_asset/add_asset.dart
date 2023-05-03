@@ -140,7 +140,7 @@ class AddAssetState extends State<AddAsset> {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error validateEtherAddress $e");
+          
         }
       
     }
@@ -155,7 +155,7 @@ class AddAssetState extends State<AddAsset> {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error validateAddress $e");
+          
         }
       
     }
@@ -260,7 +260,7 @@ class AddAssetState extends State<AddAsset> {
       Navigator.pop(context);
       
         if (kDebugMode) {
-          debugPrint("Error addAsset $e");
+          
         }
       
 
@@ -313,7 +313,7 @@ class AddAssetState extends State<AddAsset> {
           
           _tokenSymbol = res[0].toString();
 
-          debugPrint("_tokenSymbol $_tokenSymbol");
+          
 
           if (!mounted) return;
           await mkPro!.searchCoinFromMarket(_tokenSymbol);
@@ -388,7 +388,7 @@ class AddAssetState extends State<AddAsset> {
 
       
         if (kDebugMode) {
-          debugPrint("Error submitAsset $e");
+          
         }
       
     }
@@ -396,10 +396,10 @@ class AddAssetState extends State<AddAsset> {
 
   Future<void> searchEtherContract() async {
 
-    debugPrint("searchEtherContract ${_modelAsset.controllerAssetCode.text}");
+    
     try {
       final res = await Provider.of<ContractProvider>(context, listen: false).queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
-      debugPrint("Res $res");
+      
       if (res != null) {
         setState(() {
           _tokenSymbol = res[0].toString();
@@ -409,7 +409,7 @@ class AddAssetState extends State<AddAsset> {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error searchEtherContract $e");
+          
         }
       
       throw Exception(e);

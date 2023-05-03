@@ -149,10 +149,7 @@ class PostRequest {
   /// Swapping
   /// 
   static Future<http.Response> swap(Map<String, dynamic> obj) async {
-    debugPrint('swap ${json.encode(obj)}');
     _api ??= dotenv.get('LETS_EXCHANGE_API');
-
-    debugPrint(_api);
 
     return await http.post(
       Uri.parse("$_api/v1/transaction"),
@@ -165,8 +162,6 @@ class PostRequest {
   /// Information Between 2 coins
   /// 
   Future<http.Response> infoTwoCoin(InfoTwoCoinModel model) async {
-    debugPrint("infoTwoCoin");
-    debugPrint("model.toJson() ${model.toJson()}");
     _api ??= dotenv.get('LETS_EXCHANGE_API');
 
     return await http.post(

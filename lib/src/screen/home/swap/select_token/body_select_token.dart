@@ -49,18 +49,15 @@ class SelectSwapTokenBody extends StatelessWidget {
                 
                 _searchToken(provider.label, context, searchController!, query),
           
-                Expanded(
-                  child: Stack(
-                    children: [
-                      
-                      provider.searched.isEmpty ? _tokenList(context, provider.ls, provider) : Container(),
-                      // List Asset
-          
-                      // Items Searched
-                      provider.searched.isNotEmpty ? _tokenList(context, provider.searched, provider) : Container()
-                    ],
-                  )
-              
+                Stack(
+                  children: [
+                    
+                    provider.searched.isEmpty ? _tokenList(context, provider.ls, provider) : Container(),
+                    // List Asset
+        
+                    // Items Searched
+                    provider.searched.isNotEmpty ? _tokenList(context, provider.searched, provider) : Container()
+                  ],
                 )
               ],
             ),
@@ -153,20 +150,15 @@ class SelectSwapTokenBody extends StatelessWidget {
                     int indexFound = index;
 
                     if (provider.searched.isNotEmpty){
-                      debugPrint("index = Provider.of<SwapProvider>(context, listen: false).ls ${Provider.of<SwapProvider>(context, listen: false).ls[index].network}");
 
                       // List<dynamic> found = Provider.of<SwapProvider>(context, listen: false).lstCoins!.where((element) {
 
                       // })
                       indexFound = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
-                      debugPrint("indexFound $indexFound");
                     }
 
                     provider.setNewAsset(indexFound);
                     provider.searched.clear();
-
-                    debugPrint("index $index");
-                    debugPrint("Found search ${provider.ls[index]}");
 
                     convertCoin(provider.name1, provider.name2, provider.model!.myController!.text).then((value) {
   
@@ -182,8 +174,6 @@ class SelectSwapTokenBody extends StatelessWidget {
                     provider.twoCoinModel!.networkTo = provider.networkTo;
                     provider.twoCoinModel!.amt = provider.balance1;
                     provider.twoCoinModel!.affiliateId = "DCNVjpI0Txr1Sw2w";
-
-                    debugPrint("provider.twoCoinModel!.toJson() ${provider.twoCoinModel!.toJson()}");
 
                     Navigator.pop(context);
                     

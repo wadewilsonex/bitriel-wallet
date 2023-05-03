@@ -305,7 +305,7 @@ class ChangePinState extends State<ChangePin> {
     } catch (e){
       
       if (kDebugMode) {
-        debugPrint("Error _updatePkWithNewPass $e");
+        
       }
     } 
   }

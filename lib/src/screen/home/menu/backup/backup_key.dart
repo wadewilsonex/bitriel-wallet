@@ -47,9 +47,6 @@ class _BackUpKeyState extends State<BackUpKey> {
 
   @override
   void initState(){
-
-    debugPrint("widget.acc!.address ${widget.acc!.address}");
-
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     super.initState();
   }

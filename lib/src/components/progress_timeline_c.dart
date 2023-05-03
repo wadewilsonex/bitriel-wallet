@@ -448,7 +448,7 @@ class SwapStatusProgress extends StatelessWidget {
                     MyText(
                       pTop: 5,
                       pBottom: 5,
-                      text: "Let's Exchange",
+                      text: "LetsExchange.io",
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       hexaColor: AppColors.blackColor,

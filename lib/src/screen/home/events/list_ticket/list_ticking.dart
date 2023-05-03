@@ -43,7 +43,7 @@ class _ListTicketTypeState extends State<ListTicketType> {
       
       _tkModel.ticketTypesFromApi = List<Map<String, dynamic>>.from(await json.decode(value.body));
       if (kDebugMode) {
-        debugPrint('_tkModel.ticketTypesFromApi ${_tkModel.ticketTypesFromApi}');
+        
       }
       if (_tkModel.ticketTypesFromApi!.isNotEmpty){
 
@@ -61,7 +61,7 @@ class _ListTicketTypeState extends State<ListTicketType> {
     });
 
     if (kDebugMode) {
-      debugPrint(("_tkModel.ticketTypesFromApi ${_tkModel.ticketTypesFromApi}"));
+      
     }
 
 

@@ -11,7 +11,8 @@ class PortfolioBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        MyAppBar(
+        myAppBar(
+          context,
           title: "Portfolio",
           onPressed: () {
             Navigator.pop(context);

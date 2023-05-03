@@ -65,7 +65,11 @@ class OnboardignBody extends StatelessWidget {
                           icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
                           itemColor: "#263238",
                           action: () {
-                            Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(builder: (context) => const Pincode(label: PinCodeLabel.fromCreateSeeds,) )
+                              // Transition(child: const Pincode(label: PinCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                            );
                           },
                         ),
                       ),

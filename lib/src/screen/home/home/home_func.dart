@@ -6,7 +6,8 @@ class HomeFunctional {
     
   late int selectedIndex;
   /// Change SELENDRA Network
-  Future changeNetwork({required BuildContext? context, required StateSetter setState}) async {    
+  Future changeNetwork({required BuildContext? context}) async {   
+
     return showBarModalBottomSheet(
       context: context!,
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
@@ -79,6 +80,7 @@ class HomeFunctional {
                         ],
                       ),
                       children: [
+                        
                         Container(
                           color: Colors.white,
                           child: Column(
@@ -104,7 +106,8 @@ class HomeFunctional {
                                     
                                       AppConfig.networkList[0].wsUrlMN = sldNetworkList[index];
                                     
-                                      setState(() => provider.selNetwork = sldNetworkList[index]);
+                                      provider.selNetwork = sldNetworkList[index];
+                                      
                                       await provider.connectSELNode(context: context, endpoint: sldNetworkList[index]).then((value) => {
                                         Navigator.pop(context),
                                       });

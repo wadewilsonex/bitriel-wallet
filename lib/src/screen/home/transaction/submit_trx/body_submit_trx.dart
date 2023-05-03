@@ -284,7 +284,8 @@ class SubmitTrxBody extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              AvatarShimmer(
+                              avatarShimmer(
+                                context,
                                 height: 50,
                                 width: 50,
                                 txt: provider.getKeyring.current.icon,
@@ -373,7 +374,8 @@ class SubmitTrxBody extends StatelessWidget {
                             child: Row(
                               children: [
                     
-                                AvatarShimmer(
+                                avatarShimmer(
+                                  context,
                                   txt: provider.getKeyring.current.icon,
                                   child: randomAvatar(provider.getKeyring.allAccounts[index].icon ?? '',),
                                 ),

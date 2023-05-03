@@ -17,7 +17,8 @@ class ActivityDetail extends StatelessWidget {
             : hexaCodeToColor(AppColors.whiteColorHexa),
         child: Column(
           children: [
-            MyAppBar(
+            myAppBar(
+              context,
               title: 'Transfer',
               onPressed: () {
                 Navigator.pop(context);

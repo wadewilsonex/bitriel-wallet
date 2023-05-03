@@ -35,6 +35,8 @@ class AppProvider with ChangeNotifier {
 
     await Permission.storage.request().then((pm) async {
       Provider.of<AppProvider>(buildContext!, listen: false).dirPath ??= (await getApplicationDocumentsDirectory()).path;
+      
+      print("Provider.of<AppProvider>(buildContext!, listen: false).dirPath ${Provider.of<AppProvider>(buildContext!, listen: false).dirPath}");
       // ignore: use_build_context_synchronously
       AppConfig.initIconPath(buildContext!);
 
@@ -49,34 +51,19 @@ class AppProvider with ChangeNotifier {
         File("$dirPath/icons/setup-4.png"),
         File("$dirPath/icons/json-file.svg"),
       ];
-      
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-      Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
 
       await downloadAsset(fileName: 'logo.zip');
-
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-      Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
 
     });
   }
 
   Future<void> downloadSecondAsset() async {
 
-    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-    Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
-
     await downloadAsset(fileName: 'token_logo.zip');
-    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-    Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
 
     await downloadAsset(fileName: 'nfts.zip');
-    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-    Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
 
     await downloadAsset(fileName: 'default.zip');
-    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-    Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
 
     await downloadAsset(fileName: 'payment.zip');
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
@@ -96,9 +83,6 @@ class AppProvider with ChangeNotifier {
 
           await AppUtils.archiveFile(await File("${dir.path}/$fileName").writeAsBytes(value.bodyBytes)).then((files) async {
             
-            // await readFile(fileName);
-
-            Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
           });
         });
         
@@ -126,16 +110,4 @@ class AppProvider with ChangeNotifier {
     Directory("$dirPath/payment").deleteSync(recursive: true);
   }
   
-  static Future<void> appUpdateChecker() async {
-
-    // await InAppUpdate.checkForUpdate().then((value) {
-
-    //   if (value.updateAvailability == UpdateAvailability.updateAvailable){
-    //   }
-    // });
-    print("appUpdateChecker");
-        await DialogComponents().dialogCustom(context: buildContext, contents2: UpgradeAlert(                  /// <------------------
-          child: UpgradeCard()
-        ));
-  }
 }

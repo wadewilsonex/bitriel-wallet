@@ -71,7 +71,7 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
                   // initialValue: number,
                   onInputChanged: (PhoneNumber number) {
                     if (kDebugMode) {
-                      debugPrint(number.phoneNumber);
+                      
                     }
                     getPhoneNumber = number.phoneNumber;
                   },
@@ -104,7 +104,7 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
                   ),
                   onSaved: (PhoneNumber number) {
                     if (kDebugMode) {
-                      debugPrint('On Saved: $number');
+                      
                     }
                     getPhoneNumber = number.toString();
                   },

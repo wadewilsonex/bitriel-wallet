@@ -81,7 +81,7 @@ class LetsExchangeState extends State<LetsExchange> {
     //   },
     //   shouldOverrideUrlLoading: (controller, navAction) async {
     //     final url = navAction.request.url.toString();
-    //     debugPrint('URL $url');
+    //     
     //     if (url.contains('wc?uri=')) {
     //       final wcUri = Uri.parse(Uri.decodeFull(Uri.parse(url).queryParameters['uri']!));
     //       _wConnectC!.qrScanHandler(wcUri.toString());
@@ -160,10 +160,10 @@ class LetsExchangeState extends State<LetsExchange> {
             },
             shouldOverrideUrlLoading: (controller, navAction) async {
               final url = navAction.request.url.toString();
-              debugPrint('URL $url');
+              
               if (url.contains('wc?uri=')) {
                 final wcUri = Uri.parse(Uri.decodeFull(Uri.parse(url).queryParameters['uri']!));
-                debugPrint('wcUri $wcUri');
+                
                 _wConnectC!.qrScanHandler(wcUri.toString());
                 return NavigationActionPolicy.CANCEL;
               } else if (url.startsWith('wc:')) {
@@ -174,7 +174,7 @@ class LetsExchangeState extends State<LetsExchange> {
               }
             },
             onConsoleMessage: (controller, consoleMessage) {
-              debugPrint("consoleMessage $consoleMessage");
+              
             },
             onReceivedServerTrustAuthRequest: (controller, challenge) async {
               return ServerTrustAuthResponse(action: ServerTrustAuthResponseAction.PROCEED);

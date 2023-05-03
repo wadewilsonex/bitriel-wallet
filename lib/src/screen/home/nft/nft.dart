@@ -22,17 +22,10 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
 
   void queryTickets() async {
 
-    if (kDebugMode) {
-      debugPrint("queryTickets");
-    }
     await StorageServices.fetchData(DbKey.token).then((value) async {
     //   debugPrint("token value != null $value");
       if (value != null){
         await getTickets('value').then((res) async {
-          if (kDebugMode) {
-            debugPrint("Res data ${res.body}");
-          }
-
           (await json.decode(res.body))['tickets'].forEach((data){
             lstTicket!.add(
               TicketNFTModel.fromApi(data)

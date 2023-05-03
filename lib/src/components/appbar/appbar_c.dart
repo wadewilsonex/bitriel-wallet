@@ -16,78 +16,62 @@ PreferredSizeWidget defaultAppBar({
   required bool? pushReplacement
 }) {
 
-  const appBarHeight = 80.0;
+  const appBarHeight = 90.0;
 
   return AppBar(
     backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
     elevation: 0,
     toolbarHeight: appBarHeight,
-    // leadingWidth: 30,
     centerTitle: true,
+    automaticallyImplyLeading: false,
     flexibleSpace: SafeArea(
       child: Container(
-        width: MediaQuery.of(context!).size.width,
-        margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         decoration: BoxDecoration(
           border: Border.all(color: hexaCodeToColor("#E6E6E6")),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
           color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
         ),
-      ),
-    ),
+        child: Consumer<ApiProvider>(
 
-    automaticallyImplyLeading: false,
-    
-    title: Consumer<ApiProvider>(
+          builder: (context, provider, child) {
 
-      builder: (context, provider, child) {
-
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                
+                GestureDetector(
+                  onTap: () async {
             
-            Container(
-              margin: const EdgeInsets.only(left: 10),
-              child: GestureDetector(
-                onTap: () async {
-
-                  bottomSheetAddAccount(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: AvatarShimmer(
+                    bottomSheetAddAccount(context);
+                  },
+                  child: avatarShimmer(
+                    context,
                     height: 45,
                     width: 45,
                     txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.icon,
                     child: randomAvatar(provider.netWorkConnected == false ? '' : provider.getKeyring.current.icon!),
                   ),
-                )
-              ),
-            ),
-
-            const Spacer(),
-            
-            StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-
-                return GestureDetector(
+                ),
+                
+                GestureDetector(
                   onTap: () async {
                     
                     try {
+                      
                       dialogLoading(context);
                       await getSelendraEndpoint().then((value) async {
                         Navigator.pop(context);
                         // Assign Data and Store Endpoint Into Local DB
-                        await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body)).then((value) async{
-                          await HomeFunctional().changeNetwork(context: context, setState: setState);
+                        await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body)).then((value) async {
+                          await HomeFunctional().changeNetwork(context: context);
                         });
-
+            
                       });
                     }
                     catch (e) {
-                      debugPrint("catch $e");
                       Navigator.pop(context);
                       DialogComponents().customDialog(context, "Failed", "Please check your connection again", txtButton: "OK");
                     }
@@ -97,57 +81,47 @@ PreferredSizeWidget defaultAppBar({
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
-                      Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        child: WidgetShimmer(
-                          txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.address,
-                          child: MyText(
-                            text: provider.netWorkConnected == false ? null : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
-                            fontWeight: FontWeight.bold,
-                            textAlign: TextAlign.center,
-                            fontSize: 18,
-                          ),
+            
+                      widgetShimmer(
+                        context,
+                        txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.address,
+                        child: myText2(
+                          context,
+                          text: provider.netWorkConnected == false ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
+                          fontWeight: FontWeight.bold,
+                          textAlign: TextAlign.center,
+                          fontSize: 18,
                         ),
                       ),
-
+            
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-
-                          MyText(text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.greyCode, fontSize: 16,),
-
-                            Padding(
+            
+                          myText2(context, text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.greyCode, fontSize: 16,),
+            
+                          Padding(
                             padding: const EdgeInsets.only(left: 4),
                             child: Icon(Iconsax.arrow_down_1, size: 25, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
                           )
                         ],
                       ),
-
+            
                     ],
                   )
-                );
-
-              },
-            ),
-
-            const Spacer(),
-
-            Expanded(
-              flex: 0,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: IconButton(
+                ),
+            
+                IconButton(
                   iconSize: 22.sp,
                   icon: Icon(
                     Iconsax.scan,
                     color: isDarkMode
-                        ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
-                        : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+                      ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
+                      : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
                   ),
                   onPressed: () async {
-
+            
                     await filterListWcSession(context);
                     
                     // ignore: use_build_context_synchronously
@@ -157,12 +131,13 @@ PreferredSizeWidget defaultAppBar({
                     );
                   },
                 ),
-              ),
-            ),
-          ],
-        );
-      }
+              ],
+            );
+          }
+        ),
+      ),
     ),
+    
   );
 }
 
@@ -245,7 +220,8 @@ void bottomSheetAddAccount(BuildContext context) async{
                           child: Row(
                             children: [
                   
-                              AvatarShimmer(
+                              avatarShimmer(
+                                context,
                                 txt: provider.getKeyring.current.icon,
                                 child: randomAvatar(provider.getKeyring.allAccounts[index].icon ?? '',),
                               ),
@@ -296,71 +272,84 @@ void bottomSheetAddAccount(BuildContext context) async{
   );
 }
 
-class MyAppBar extends StatelessWidget {
-  final double? pLeft;
-  final double? pTop;
-  final double? pRight;
-  final double? pBottom;
-  final EdgeInsetsGeometry? margin;
-  final String? title;
-  final Function? onPressed;
-  final Color? color;
-  final Widget? tile;
-  final double? fontSize;
+// class MyAppBar extends StatelessWidget {
+//   final double? pLeft;
+//   final double? pTop;
+//   final double? pRight;
+//   final double? pBottom;
+//   final EdgeInsetsGeometry? margin;
+//   final String? title;
+//   final Function? onPressed;
+//   final Color? color;
+//   final Widget? tile;
+//   final double? fontSize;
 
-  const MyAppBar({
-    Key? key, 
-    this.pLeft = 0,
-    this.pTop = 0,
-    this.pRight = 0,
-    this.pBottom = 0,
-    this.margin = const EdgeInsets.fromLTRB(0, 0, 0, 0),
-    @required this.title,
-    this.color,
-    this.onPressed,
-    this.tile,
-    this.fontSize = 17,
-  }) : super(key: key);
+//   const MyAppBar({
+//     Key? key, 
+//     this.pLeft = 0,
+//     this.pTop = 0,
+//     this.pRight = 0,
+//     this.pBottom = 0,
+//     this.margin = const EdgeInsets.fromLTRB(0, 0, 0, 0),
+//     @required this.title,
+//     this.color,
+//     this.onPressed,
+//     this.tile,
+//     this.fontSize = 17,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    
-    return SafeArea(
-      child: Container(
-        color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-        width: MediaQuery.of(context).size.width,
-        margin: margin,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                IconButton(
-                  /* Menu Icon */
-                  iconSize: 40.0,
-                  icon: Icon(
-                    Iconsax.arrow_left_2,
-                    color: isDarkMode ? Colors.white : Colors.black,
-                    size: 22.5,
-                  ),
-                  onPressed: (){
-                    onPressed!();
-                  },
+Widget myAppBar(
+  BuildContext context,
+{
+  double? pLeft,
+  double? pTop,
+  double? pRight,
+  double? pBottom,
+  EdgeInsetsGeometry? margin,
+  String? title,
+  Function? onPressed,
+  Color? color,
+  Widget? tile,
+  double? fontSize,
+}
+) {
+  
+  return SafeArea(
+    child: Container(
+      color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      width: MediaQuery.of(context).size.width,
+      margin: margin,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+
+          Row(
+            children: [
+              IconButton(
+                /* Menu Icon */
+                iconSize: 40.0,
+                icon: Icon(
+                  Iconsax.arrow_left_2,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                  size: 22.5,
                 ),
-                MyText(
-                  hexaColor: isDarkMode
-                    ? AppColors.whiteColorHexa
-                    : AppColors.textColor,
-                  text: title,
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.w600
-                ),
-              ],
-            ),
-            tile ?? Container()
-          ],
-        )
+                onPressed: (){
+                  onPressed!();
+                },
+              ),
+              MyText(
+                hexaColor: isDarkMode
+                  ? AppColors.whiteColorHexa
+                  : AppColors.textColor,
+                text: title,
+                fontSize: fontSize,
+                fontWeight: FontWeight.w600
+              ),
+            ],
+          ),
+          tile ?? Container()
+        ],
       )
-    );
-  }
+    )
+  );
 }

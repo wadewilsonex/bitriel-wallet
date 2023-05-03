@@ -21,7 +21,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   @override
   void initState() {
     
-    readTheme();
+    // readTheme();
     // checkBio();
     getCurrentAccount();
 
@@ -42,52 +42,49 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   Future<void> getCurrentAccount() async {
     
     try {
-      await Future.delayed(const Duration(seconds: 1), () async {
+      await StorageServices.readSecure(DbKey.private)!.then((String value) async {
+        if (value.isEmpty) {
+          Navigator.pushReplacement(context, RouteAnimation(enterPage: const Onboarding()));
+        } else {
+          
+          // final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
-        await StorageServices.readSecure(DbKey.private)!.then((String value) async {
-          if (value.isEmpty) {
-            Navigator.pushReplacement(context, RouteAnimation(enterPage: const Onboarding()));
-          } else {
-            
-            // final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
-
-            // if (ethAddr == '') {
-            //   if(!mounted) return;
-            //   await dialogSuccess(
-            //     context,
-            //     const Padding(
-            //       padding: EdgeInsets.only(left: 20, right: 20),
-            //       child: Text(
-            //         'Please reimport your seed phrases to add support to new update.',
-            //         textAlign: TextAlign.center,
-            //       )
-            //     ),
-            //     const Text('New Update!'),
-            //     action: TextButton(
-            //       onPressed: () {
-            //         Navigator.pushReplacement(
-            //           context,
-            //           RouteAnimation(
-            //             enterPage: const ImportAcc(
-            //               reimport: 'reimport',
-            //             ),
-            //           ),
-            //         );
-            //       },
-            //       child: const MyText(text: 'Continue', hexaColor: AppColors.secondarytext),
-            //     ),
-            //   );
-            // } else {
-            //   // checkBio();
-            // }
-            await checkBio();
-          }
-        });
+          // if (ethAddr == '') {
+          //   if(!mounted) return;
+          //   await dialogSuccess(
+          //     context,
+          //     const Padding(
+          //       padding: EdgeInsets.only(left: 20, right: 20),
+          //       child: Text(
+          //         'Please reimport your seed phrases to add support to new update.',
+          //         textAlign: TextAlign.center,
+          //       )
+          //     ),
+          //     const Text('New Update!'),
+          //     action: TextButton(
+          //       onPressed: () {
+          //         Navigator.pushReplacement(
+          //           context,
+          //           RouteAnimation(
+          //             enterPage: const ImportAcc(
+          //               reimport: 'reimport',
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //       child: const MyText(text: 'Continue', hexaColor: AppColors.secondarytext),
+          //     ),
+          //   );
+          // } else {
+          //   // checkBio();
+          // }
+          await checkBio();
+        }
       });
     } catch (e) {
       
       if (kDebugMode) {
-        debugPrint("Error Splash screen $e");
+
       }
       
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Onboarding() ), (route) => false);
@@ -98,11 +95,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
     final bio = await StorageServices.readSaveBio();
 
-    debugPrint("bio $bio");
-
     final password = await StorageServices.readSecure(DbKey.password);
-
-    debugPrint("passCode $password");
 
     if (bio || password!.isNotEmpty) {
       if(!mounted) return;
@@ -146,39 +139,39 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     });
   }
 
-  void readTheme() async {
-    try {
-      final res = await StorageServices.fetchData(DbKey.themeMode);
+  // void readTheme() async {
+  //   try {
+  //     final res = await StorageServices.fetchData(DbKey.themeMode);
 
-      if (res != null) {
-        if(!mounted) return;
-        await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      } else {
-        if(!mounted) return;
-        Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
-      }
+  //     if (res != null) {
+  //       if(!mounted) return;
+  //       await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+  //     } else {
+  //       if(!mounted) return;
+  //       Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
+  //     }
 
-    } catch (e) {
-        if (kDebugMode) {
-          debugPrint("Error readTheme $e");
-        }
-    }
-  }
+  //   } catch (e) {
+  //       if (kDebugMode) {
+  
+  //       }
+  //   }
+  // }
 
-  void systemThemeChange() async {
-    final res = await StorageServices.fetchData(DbKey.themeMode);
-    final sysTheme = _checkIfDarkModeEnabled();
+  // void systemThemeChange() async {
+  //   final res = await StorageServices.fetchData(DbKey.themeMode);
+  //   final sysTheme = _checkIfDarkModeEnabled();
 
-    if (res == null) {
-      if (sysTheme) {
-        if(!mounted) return;
-        Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      } else {
-        if(!mounted) return;
-        Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      }
-    }
-  }
+  //   if (res == null) {
+  //     if (sysTheme) {
+  //       if(!mounted) return;
+  //       Provider.of<ThemeProvider>(context, listen: false).changeMode();
+  //     } else {
+  //       if(!mounted) return;
+  //       Provider.of<ThemeProvider>(context, listen: false).changeMode();
+  //     }
+  //   }
+  // }
 
   bool _checkIfDarkModeEnabled() {
     var brightness = SchedulerBinding.instance.window.platformBrightness;
@@ -188,15 +181,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
-      builder: (context, provider, widget) {
-        return Scaffold(
-          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-          body: const Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      }
+    return Scaffold(
+      backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+      body: const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

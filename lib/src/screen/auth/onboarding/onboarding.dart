@@ -51,7 +51,10 @@ class OnboardingState extends State<Onboarding> {
 
   // Seed Import Failed Checker And Clear
   void checkRemainFailImport() async {
-    await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.deleteAccount(Provider.of<ApiProvider>(context, listen: false).getKeyring, Provider.of<ApiProvider>(context, listen: false).getKeyring.current);
+    if (Provider.of<ApiProvider>(context, listen: false).netWorkConnected!){
+
+      await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.deleteAccount(Provider.of<ApiProvider>(context, listen: false).getKeyring, Provider.of<ApiProvider>(context, listen: false).getKeyring.current);
+    }
   }
 
   void tabGoogle(){
@@ -123,14 +126,15 @@ class OnboardingState extends State<Onboarding> {
             dialogStyle: UpgradeDialogStyle.material,
             durationUntilAlertAgain: const Duration(minutes: 30)
           ),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: OnboardignBody(tabGoogle: tabGoogle, selected: selected,)
-            ),
-          ),
+          child: OnboardignBody(tabGoogle: tabGoogle, selected: selected,)
+          // SizedBox(
+          //   height: MediaQuery.of(context).size.height,
+          //   width: MediaQuery.of(context).size.width,
+          //   child: SingleChildScrollView(
+          //     physics: const BouncingScrollPhysics(),
+          //     child: 
+          //   ),
+          // ),
         ),
       ),
     );

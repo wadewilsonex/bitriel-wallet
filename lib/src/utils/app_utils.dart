@@ -12,8 +12,6 @@ import 'dart:io' as io;
 // ignore: avoid_classes_with_only_static_members
 class AppUtils {
 
-  static final globalKey = GlobalKey<NavigatorState>();
-
   static Archive? _archive;
   static String? _dirPath;
   static File? file;

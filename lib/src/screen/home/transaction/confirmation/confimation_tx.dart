@@ -55,7 +55,8 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
             Column(
               children: [
           
-                MyAppBar(
+                myAppBar(
+                  context,
                   title: AppString.confirmTxTitle,
                   onPressed: () {
                     Navigator.pop(context);

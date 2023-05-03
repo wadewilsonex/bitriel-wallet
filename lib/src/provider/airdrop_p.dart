@@ -63,7 +63,6 @@ class AirDropProvider with ChangeNotifier {
     } catch (e){
       
         if (kDebugMode) {
-          debugPrint("Error initContract $e");
         }
       
     }
@@ -86,7 +85,6 @@ class AirDropProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error getTrxFee $e");
         }
       
     }

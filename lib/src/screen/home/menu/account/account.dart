@@ -63,7 +63,7 @@ class AccountState extends State<Account> {
     } catch (e) {
       
       if (kDebugMode) {
-        debugPrint("Error getBackupKey $e");
+        
       }
     }
     _accountModel.pinController.text = '';

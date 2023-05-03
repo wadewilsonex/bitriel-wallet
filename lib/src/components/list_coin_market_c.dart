@@ -128,6 +128,7 @@ class _CoinMarketListState extends State<CoinMarketList> {
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: <Widget>[
+            
             // Asset Logo
             widget.listCoinMarket![widget.index!].image != null ? SizedBox(
               height: 45,

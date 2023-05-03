@@ -181,7 +181,7 @@ class TicketConfirmation extends StatelessWidget {
                   
                   await PostRequest().bookTicket(json.encode(DataSubmittion().toJson(dataSubmittion!))).then((value) async {
                     if (kDebugMode) {
-                      debugPrint(value.body);
+                      
                     }
 
                     Map<String, dynamic> jsn = Map<String, dynamic>.from((await json.decode(value.body)));
@@ -199,7 +199,7 @@ class TicketConfirmation extends StatelessWidget {
                   });
                 } catch (e){
                   if (kDebugMode){
-                    debugPrint("Error e");
+                    
                   }
                 }
               },

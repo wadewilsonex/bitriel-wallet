@@ -103,7 +103,7 @@ class AuthenticationState extends State<Authentication> {
     } catch (e) {
 
       if (kDebugMode) {
-        debugPrint("_deleteAccount ${e.toString()}");
+        
       }
       // await dialog(context, e.toString(), 'Opps');
     }

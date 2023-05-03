@@ -71,7 +71,7 @@ class AppState extends State<App> {
 
       await Provider.of<AppProvider>(context, listen: false).downloadFirstAsset().then((value) {
         // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-        Provider.of<AppProvider>(context, listen: false).notifyListeners();
+        // Provider.of<AppProvider>(context, listen: false).notifyListeners();
       });
 
       // ignore: use_build_context_synchronously
@@ -148,19 +148,19 @@ class AppState extends State<App> {
     }
   }
 
-  Future<void> readTheme() async {
-    try {
+  // Future<void> readTheme() async {
+  //   try {
 
-      final res = await StorageServices.fetchData(DbKey.themeMode);
+  //     final res = await StorageServices.fetchData(DbKey.themeMode);
 
-      if (res != null) {
-        if(!mounted) return;
-        await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      }
-    } catch (e){
+  //     if (res != null) {
+  //       if(!mounted) return;
+  //       await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+  //     }
+  //   } catch (e){
       
-    }
-  }
+  //   }
+  // }
   
   Future<void> downloadAsset({required String fileName}) async {
 
@@ -208,45 +208,31 @@ class AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    final darkTheme = Provider.of<ThemeProvider>(context).isDark;
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
-        return AnnotatedRegion(
-          value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-          child: LayoutBuilder(
-            builder: (builder, constraints) {
-              return OrientationBuilder(
-                builder: (context, orientation) {
-                  SizeConfig().init(constraints, orientation);
-                  return MaterialApp(
-                    navigatorKey: AppUtils.globalKey,
-                    title: AppString.appName,
-                    theme: AppStyle.myTheme(context),
-                    onGenerateRoute: router.generateRoute,
-                    routes: {
-                      // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
-                      AppString.accountView: (_) => Account(
-                        argument: ModalRoute.of(context)?.settings.arguments,
-                      ),
-                      AppString.homeView: (_) => const HomePage()
-                    },
-                    initialRoute: AppString.splashScreenView,
-                    builder: (context, child) => ResponsiveWrapper.builder(
-                      child,
-                      maxWidth: 1200,
-                      minWidth: 480,
-                      defaultScale: true,
-                      breakpoints: const [
-                        ResponsiveBreakpoint.autoScale(600),
-                        ResponsiveBreakpoint.resize(480, name: MOBILE),
-                        ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                        ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
+        return MaterialApp(
+          title: AppString.appName,
+          theme: AppStyle.myTheme(context),
+          onGenerateRoute: router.generateRoute,
+          routes: {
+            // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
+            AppString.accountView: (_) => Account(
+              argument: ModalRoute.of(context)?.settings.arguments,
+            ),
+            AppString.homeView: (_) => const HomePage()
+          },
+          initialRoute: AppString.splashScreenView,
+          builder: (context, child) => ResponsiveWrapper.builder(
+            child,
+            maxWidth: 1200,
+            minWidth: 480,
+            defaultScale: true,
+            breakpoints: const [
+              ResponsiveBreakpoint.autoScale(600),
+              ResponsiveBreakpoint.resize(480, name: MOBILE),
+              ResponsiveBreakpoint.autoScale(800, name: TABLET),
+              ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+            ],
           ),
         );
       }

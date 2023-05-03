@@ -39,8 +39,6 @@ class HomeModel {
 
 class HomePageModel {
 
-  GlobalKey<ScaffoldState>? globalKey;
-
   PageController? pageController = PageController(initialPage: 2);
   late int activeIndex;
   late int adsCarouselActiveIndex;

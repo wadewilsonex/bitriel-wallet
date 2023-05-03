@@ -38,11 +38,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     
-    imgList = [
-      {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/vg_alive_tg_artist.jpg", "url": ""},
-      {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/tga.png", "url": ""},
-      {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/vga.png", "url": ""}
-    ];
+    // imgList = [
+    //   {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/vg_alive_tg_artist.jpg", "url": ""},
+    //   {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/tga.png", "url": ""},
+    //   {"title": "Doers Event", 'asset': "${Provider.of<AppProvider>(context, listen: false).dirPath}/vga.png", "url": ""}
+    // ];
 
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
@@ -58,7 +58,6 @@ class _HomePageState extends State<HomePage> {
 
     // For CarouselPage
     _model.adsCarouselActiveIndex = 0;
-    _model.globalKey = GlobalKey<ScaffoldState>();
     _model.onAdsCarouselChanged = (int index, CarouselPageChangedReason reason) {
       setState(() {
         _model.adsCarouselActiveIndex = index;
@@ -88,7 +87,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose(){
     // _videoController!.dispose();
-    debugPrint("Why");
     super.dispose();
   }
 

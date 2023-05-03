@@ -47,8 +47,6 @@ class ImportAccState extends State<ImportAcc> {
   @override
   void initState() {
 
-    debugPrint("widget.passCode ${widget.passCode}");
-
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     _contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
@@ -78,7 +76,6 @@ class ImportAccState extends State<ImportAcc> {
   void onSubmit() async {
 
     await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.addressFromMnemonic(204, mnemonic: _importAccModel.key!.text).then((value) async {
-
 
       List account = _apiProvider!.getKeyring.keyPairs.where((element) {
         if (value.address == element.address) return true;
@@ -177,7 +174,7 @@ class ImportAccState extends State<ImportAcc> {
       setState(() { });
     } catch (e) {
         if (kDebugMode) {
-          debugPrint("Error validateMnemonic $e");
+  
         }
     }
   }
@@ -194,7 +191,7 @@ class ImportAccState extends State<ImportAcc> {
 
     _importAccountModel.animationController!.addListener(() {
       if (kDebugMode) {
-        debugPrint("_importAccountModel!.animationController!.value ${_importAccountModel.animationController!.value}");
+
       }
       if (_importAccountModel.animationController!.value >= 0.15 && _importAccountModel.animationController!.value <= 0.19) {
         
@@ -293,7 +290,6 @@ class ImportAccState extends State<ImportAcc> {
       return true;
 
     } catch (e){
-      debugPrint("Error addNewAcc $e");
       return false;
     }
   }

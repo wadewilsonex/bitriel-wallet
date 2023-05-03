@@ -95,7 +95,6 @@ class WalletConnectProvider with ChangeNotifier {
     }
     catch(error){
       if (kDebugMode) {
-        debugPrint("Err initSession $error");
       }
     }
   }
@@ -115,7 +114,6 @@ class WalletConnectProvider with ChangeNotifier {
   qrScanHandler(String value) {
     if (value.contains('bridge') && value.contains('key')) {
       final session = WCSession.from(value);
-      debugPrint('session $session');
       final peerMeta = WCPeerMeta(
         name: "Bitriel",
         url: "https://bitriel.com/",
@@ -384,7 +382,6 @@ class WalletConnectProvider with ChangeNotifier {
     } catch (e) {
       
       if (kDebugMode) {
-        debugPrint('Error getPrivateKey $e');
       }
       
     }
@@ -396,8 +393,6 @@ class WalletConnectProvider with ChangeNotifier {
     int id,
     WCEthereumTransaction ethereumTransaction,
   ) async {
-    debugPrint("onSignTransaction");
-    debugPrint("ethereumTransaction ${ethereumTransaction.toJson()}");
 
     await onTransaction(
       id: id,
@@ -463,8 +458,6 @@ class WalletConnectProvider with ChangeNotifier {
     required VoidCallback onReject,
   }) async {
 
-    debugPrint("onTransaction");
-
     // try {
     //   final maxGas = await contractPro!.bscClient.estimateGas(
     //     sender: EthereumAddress.fromHex(ethereumTransaction.from),
@@ -510,8 +503,6 @@ class WalletConnectProvider with ChangeNotifier {
     //   debugPrint(trace);
     // }
 
-    debugPrint("lsWcClients $lsWcClients");
-
     Navigator.push(
       context!,
       Transition(
@@ -541,7 +532,6 @@ class WalletConnectProvider with ChangeNotifier {
     int id,
     WCEthereumSignMessage ethereumSignMessage,
   ) {
-    debugPrint("on sign");
     showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context!,

@@ -22,7 +22,7 @@ class PaymentController extends getx.GetxController {
 
         await Stripe.instance.presentPaymentSheet();
 
-        // debugPrint("finish initPaymentSheet ");
+        // 
         // await Stripe.instance.confirmPayment(
         //   paymentIntentData['clientSecret'].toString(), 
         //   const PaymentMethodParams.card(
@@ -31,7 +31,7 @@ class PaymentController extends getx.GetxController {
         //     ),
         //   ),
         // ).then((value) {
-        //   debugPrint("confirmPayment $value");
+        //   
         // });
 
         // Stripe.instance.confirmPayment(
@@ -51,7 +51,7 @@ class PaymentController extends getx.GetxController {
       }
     } catch (e, s) {
       if (kDebugMode) {
-        debugPrint('exception:$e$s');
+        
       }
       // Navigator.of(context).pop();
     }
@@ -86,7 +86,7 @@ class PaymentController extends getx.GetxController {
 
   //  Future<Map<String, dynamic>>
   // _createPaymentIntent(BuildContext context, num qty, String wallet) async {
-  //   debugPrint("dotenv.get(URL_PAYMENT) ${dotenv.get('URL_PAYMENT')}");
+  //   
   //   try {
   //     Map<String, dynamic> body = {
   //       'quantity': qty,
@@ -100,7 +100,7 @@ class PaymentController extends getx.GetxController {
 
   //     return jsonDecode(response.body);
   //   } catch (err) {
-  //     debugPrint('err charging user: ${err.toString()}');
+  //     
   //     Navigator.of(context).pop();
   //   }
   // }

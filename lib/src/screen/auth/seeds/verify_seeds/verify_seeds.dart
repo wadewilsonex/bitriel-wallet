@@ -386,9 +386,8 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       }
     } catch (e) {
       
-        if (kDebugMode) {
-          debugPrint("Error validateMnemonic $e");
-        }
+      if (kDebugMode) {
+      }
       
     }
     return res;

@@ -304,6 +304,37 @@ class MyText extends StatelessWidget {
   }
 }
 
+Widget myText2(
+  BuildContext context,
+  {
+    String? text,
+    String? hexaColor,
+    Color? color2,
+    double? fontSize,
+    FontWeight? fontWeight,
+    TextAlign? textAlign,
+    TextOverflow? overflow,
+    int? maxLine
+  }
+){
+  return Text(
+    text!,
+    style: TextStyle(
+      fontWeight: fontWeight,
+      color: AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
+      fontSize: fontSize!
+    ),
+    textAlign: textAlign,
+    overflow: overflow,
+    maxLines: maxLine,
+  );
+  // Consumer<ThemeProvider>(
+  //   builder: (context, themePro, widget) {
+  //     return 
+  //   }
+  // );
+}
+
 class MyLogo extends StatelessWidget {
   final String? logoPath;
   final String? color;

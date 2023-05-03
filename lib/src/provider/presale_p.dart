@@ -62,7 +62,7 @@ class PresaleProvider with ChangeNotifier {
       hash = redeemHash;
     } catch (e) {
       if (kDebugMode) {
-        debugPrint("error redeem $e");
+        
       }
     }
 
@@ -104,7 +104,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error orderUsingBnb $e");
+          
         }
       
     }
@@ -148,7 +148,7 @@ class PresaleProvider with ChangeNotifier {
 
     } catch (e) {
       if (kDebugMode) {
-        debugPrint("Error orderUsingToken $e");
+        
       }
     }
 
@@ -197,7 +197,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error approvePresale $e");
+          
         }
       
     }
@@ -212,7 +212,7 @@ class PresaleProvider with ChangeNotifier {
   Future<DeployedContract?> initPresaleContract() async {
     
       if (kDebugMode) {
-        debugPrint("initPresaleContract");
+        
       }
     
     try {
@@ -227,7 +227,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error initPresaleContract $e");
+          
         }
       
     }
@@ -247,7 +247,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error checkTokenBalance $e");
+          
         }
       
     }
@@ -271,7 +271,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error getInvestorOrderIds $e");
+          
         }
       
     }
@@ -294,7 +294,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error getOrder $e");
+          
         }
       
     }
@@ -315,7 +315,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error getPriceToken $e");
+          
         }
       
     }
@@ -332,7 +332,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Err getBNBToken $e");
+          
         }
       
     }
@@ -349,7 +349,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error minInvestment $e");
+          
         }
       
     }
@@ -376,7 +376,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error fetchAndFillPrice $e");
+          
         }
       
     }
@@ -404,7 +404,7 @@ class PresaleProvider with ChangeNotifier {
   Future<void> setListOrder() async {
     
       if (kDebugMode) {
-        debugPrint("setListOrder");
+        
       }
     
     try {
@@ -436,7 +436,7 @@ class PresaleProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error setListOrder $e");
+          
         }
       
     }

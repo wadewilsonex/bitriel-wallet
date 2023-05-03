@@ -230,7 +230,8 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
               Column(
                 children: [
 
-                  MyAppBar(
+                  myAppBar(
+                    context,
                     title: 'Claim Airdrop',
                     color: isDarkMode
                       ? hexaCodeToColor(AppColors.darkCard)

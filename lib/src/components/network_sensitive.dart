@@ -35,7 +35,6 @@ class NetworkSensitiveState extends State<NetworkSensitive> {
       _updateConnectionStatus(_result!);
     } on PlatformException catch (e) {
         if (kDebugMode) {
-          debugPrint("Error initConnectivity ${e.toString()}");
         }
     }
 

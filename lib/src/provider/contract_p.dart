@@ -99,7 +99,7 @@ class ContractProvider with ChangeNotifier {
 
   // void getEthByCurrentAcc() async {
   //   await StorageServices.readSecure(DbKey.privateList)!.then((value) async {
-  //     debugPrint("value $value");
+  //     
   //     json.decode(value).where( (e) {
   //       if (e['address'] == )
   //     });
@@ -170,7 +170,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
 
       if (kDebugMode) {
-        debugPrint("Error initJson $e");
+        
       }
     }
   }
@@ -203,13 +203,12 @@ class ContractProvider with ChangeNotifier {
           addedContract = List<SmartContractModel>.from(value);
         }
       });
-      notifyListeners();
           
       return listContract.isNotEmpty ? true : false;
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error setSavedList $e");
+          
         }
       
     }
@@ -227,7 +226,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e){
       
         if (kDebugMode) {
-          debugPrint("Error initBscClient $e");
+          
         }
       
     }
@@ -265,7 +264,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Err addListActivity $e");
+          
         }
       
     }
@@ -283,7 +282,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Err updateNativeTxStt $e");
+          
         }
       
     }
@@ -301,7 +300,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Err updateTxStt $e");
+          
         }
       
     }
@@ -309,7 +308,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> kgoTokenWallet() async {
 
-    debugPrint("ethAdd $ethAdd");
+    
     
     if (apiProvider.isMainnet){
       
@@ -340,7 +339,7 @@ class ContractProvider with ChangeNotifier {
       } catch (e) {
         
           if (kDebugMode) {
-            debugPrint("Err kgoTokenWallet $e");
+            
           }
         
       }
@@ -371,7 +370,7 @@ class ContractProvider with ChangeNotifier {
       } catch (e) {
         
           if (kDebugMode) {
-            debugPrint("Err getBep20Balance $e");
+            
           }
         
       }
@@ -383,7 +382,7 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await initEtherClient();
-      debugPrint("finish initEtherClient");
+      
       _eth = NativeService(_etherClient!);
 
       final balance = await _eth!.getBalance(getEthAddr(ethAdd));
@@ -397,7 +396,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Err ethWallet $e");
+          
         }
       
     }
@@ -420,7 +419,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error bnbWallet $e");
+          
         }
       
     }
@@ -482,7 +481,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error sortAsset $e");
+          
         }
       
     }
@@ -511,15 +510,15 @@ class ContractProvider with ChangeNotifier {
 
     //     await apiPro.getDotChainDecimal();
     //     // await Future.delayed(const Duration(milliseconds: 5000)).then(
-    //     //   (value) => {debugPrint('cancel'), streamSubscriptionBsc.cancel()},
+    //     //   (value) => {
     //     // );
 
     //     // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
     //     // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-    //     debugPrint("Done");
+    //     
     //   });
     // } catch (e) {
-    //   debugPrint(e.message);
+    //   
     // }
   }
 
@@ -537,14 +536,14 @@ class ContractProvider with ChangeNotifier {
   }
 
   // Future<void> addBtcWallet() async {
-  //   debugPrint("addBtcWallet");
+  //   
   //   try {
   //     final seed = bip39.mnemonicToSeed(widget.passPhrase);
   //     final hdWallet = HDWallet.fromSeed(seed);
   //     final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
   //     final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
-  //     debugPrint("bech32Address $bech32Address");
+  //     
   //     await StorageServices.storeData(bech32Address, 'bech32');
 
   //     final res = await ApiProvider().encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
@@ -558,7 +557,7 @@ class ContractProvider with ChangeNotifier {
   //     await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
 
   //   } catch (e) {
-  //     debugPrint("Error addBtcWallet $e");
+  //     
   //   }
   // }
 
@@ -571,7 +570,7 @@ class ContractProvider with ChangeNotifier {
     //     getEtherBalance();
     //   });
     // } catch (e) {
-    //   debugPrint(e.message);
+    //   
     // }
     // notifyListeners();
   }
@@ -605,14 +604,14 @@ class ContractProvider with ChangeNotifier {
       return contract;
     } catch (e) {
       if (kDebugMode) {
-        debugPrint("Err initBsc $e");
+        
       }
     }
     return null;
   }
 
   Future<bool> validateEvmAddr(String address) async {
-    debugPrint("validateEvmAddr $address");
+    
     bool isValid = false;
     try {
       EthereumAddress.fromHex(address);
@@ -622,7 +621,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Err validateEvmAddr $e");
+          
         }
       
     }
@@ -641,7 +640,7 @@ class ContractProvider with ChangeNotifier {
 
       
         if (kDebugMode) {
-          debugPrint("Error getEthGasPrice $e");
+          
         }
       
     }
@@ -662,8 +661,8 @@ class ContractProvider with ChangeNotifier {
 
   Future<String> getEthMaxGas(String reciever, String amount, {int chainID = 18}) async {
 
-    debugPrint("receiver $reciever");
-    debugPrint("amount $amount");
+    
+    
     await initEtherClient();
 
     // final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
@@ -704,7 +703,7 @@ class ContractProvider with ChangeNotifier {
     final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
     final txFunction = bep20Contract.function('transfer');
 
-    debugPrint("bep20Contract.address ${bep20Contract.address}");
+    
 
     final maxGas = await _bscClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAdd),
@@ -732,7 +731,7 @@ class ContractProvider with ChangeNotifier {
 
       
         if (kDebugMode) {
-          debugPrint("Error getErc20GasPrice $e");
+          
         }
       
     }
@@ -750,7 +749,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error getBscGasPrice $e");
+          
         }
       
     }
@@ -794,7 +793,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error swap $e");
+          
         }
       
       throw Exception(e);
@@ -838,7 +837,7 @@ class ContractProvider with ChangeNotifier {
     await initBscClient();
     final EthPrivateKey credentials = EthPrivateKey.fromHex(privateKey);
 
-    debugPrint("credentials.address.toString() ${credentials.address.toString()}");
+    
     // final addr = await credentials.extractAddress();
     ethAdd = credentials.address.toString();
 
@@ -849,19 +848,19 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getEtherAddr() async {
-    debugPrint("getEtherAddr");
+    
     try {
 
       // final ethAddr = "0xe11175d356d20b70abcec858c6b82b226e988941";
       // // await StorageServices.readSecure(DbKey.ethAddr);
-      // debugPrint("ethAddr $ethAddr");
+      // 
       // ethAdd = ethAddr;
 
       notifyListeners();
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Error getEtherAddr $e");
+          
         }
       
     }
@@ -871,11 +870,10 @@ class ContractProvider with ChangeNotifier {
 
       listContract[apiProvider.btcIndex].address = await StorageServices.readSecure(DbKey.bech32);
       
-      notifyListeners();
     } catch (e) {
       
       if (kDebugMode) {
-        debugPrint("Error getEtherAddr $e");
+        
       }
       
     }
@@ -1094,7 +1092,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          debugPrint("Err addAsset $e");
+          
         }
       
       rethrow;  
@@ -1102,14 +1100,14 @@ class ContractProvider with ChangeNotifier {
   }
 
   // Future<void> saveAddedToken() async {
-  //   debugPrint("saveAddedToken");
+  //   
   //   await StorageServices.fetchData(DbKey.addedContract).then((value) async {
   //     if (value != null){
   //       List<Map<String, dynamic>> tmp = value;
   //       addedContract.forEach((element) {
   //         tmp.addAll({SmartContractModel.toMap(element)});
   //       });
-  //       debugPrint("addedContract ${addedContract.toList()}");
+  //       
   //       await StorageServices.storeData(tmp, DbKey.addedContract);
   //     }
   //   });

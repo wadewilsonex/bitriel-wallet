@@ -26,9 +26,7 @@ class MenuState extends State<Menu> {
   @override
   void initState() {
 
-    _menuModel.globalKey = GlobalKey<ScaffoldState>();
     if (kDebugMode) {
-      debugPrint(Provider.of<ApiProvider>(context, listen: false).selNetwork);
     }
     Provider.of<WalletConnectProvider>(context, listen: false).setBuildContext = context;
 
@@ -117,16 +115,15 @@ class MenuState extends State<Menu> {
 
   void switchTheme(bool value) async {
     
-    Provider.of<ThemeProvider>(context, listen: false).setTheme = value;
-    await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    setState(() {
-    });
+    // Provider.of<ThemeProvider>(context, listen: false).setTheme = value;
+    // await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+    // setState(() {
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      key: _menuModel.globalKey,
       child: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

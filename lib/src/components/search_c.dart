@@ -10,13 +10,12 @@ class SearchComponent extends StatelessWidget{
   
   @override
   Widget build(BuildContext context){
-    final isDark = Provider.of<ThemeProvider>(context).isDark;
     return CupertinoSearchTextField(
       itemColor: Colors.white,
-      style: TextStyle(color: isDark ? Colors.black : Colors.white),
-      placeholderStyle: TextStyle(color: isDark ? Colors.black : Colors.white),
+      style: TextStyle(color: Colors.white),
+      placeholderStyle: TextStyle(color: Colors.white),
       decoration: BoxDecoration(
-        color: isDark ? hexaCodeToColor("#48484C") : Colors.grey[400],
+        color: Colors.grey[400],
         borderRadius: BorderRadius.circular(5)
       ),
       onChanged: (el){

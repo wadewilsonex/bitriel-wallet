@@ -15,7 +15,8 @@ class TrxActivityBody extends StatelessWidget{
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        MyAppBar(
+        myAppBar(
+          context,
           title: "My activity",
           onPressed: popScreen,
         ),

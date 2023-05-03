@@ -1,13 +1,18 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/src/models/market/news_m.dart';
 
 class ArticleProvider with ChangeNotifier {
 
   Map<String, dynamic>? articleQueried;
 
+  List<NewsModel>? tenArticleQueried;
+
   Future<Map<String, dynamic>?> requestArticle(){
     
     articleQueried = {};
+
+    tenArticleQueried = [];
 
     return getNewsArticle().then((value) async {
 
@@ -17,7 +22,11 @@ class ArticleProvider with ChangeNotifier {
 
         notifyListeners();
 
-      } else {
+        for (var element in List.from(articleQueried!['Data'])) {
+          tenArticleQueried!.add(NewsModel.fromJson(element));
+        }}
+
+      else {
         articleQueried = {};
       }
 

@@ -24,6 +24,8 @@ class MarketProvider with ChangeNotifier {
 
   List<ListMetketCoinModel> lsMarketLimit = List<ListMetketCoinModel>.empty(growable: true);
 
+  List<ListMetketCoinModel> ls7Market = List<ListMetketCoinModel>.empty(growable: true);
+
   List<Map<String, dynamic>>? lsCoin = [];
 
   Map<String, dynamic>? coinMarketDescription;
@@ -163,15 +165,13 @@ class MarketProvider with ChangeNotifier {
           });
         }
 
-        _contractPro!.notifyListeners();
-
         await StorageServices.storeData(sortDataToJson(), DbKey.marketData);
       }
 
     } catch (e) {
       
       if (kDebugMode) {
-        debugPrint("Error fetchTokenMarketPrice $e");
+        
       }
       
       return;
@@ -197,7 +197,7 @@ class MarketProvider with ChangeNotifier {
     } catch (e) {
       
       if (kDebugMode) {
-        debugPrint("Error searchCoinFromMarket $e");
+        
       }
       
     }
@@ -213,8 +213,6 @@ class MarketProvider with ChangeNotifier {
       // http.Response value = await http.Response(json.encode(mkData), 200);
       await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en')).then((value) async {
 
-        debugPrint(value.body);
-
         if (value.statusCode == 200 && json.decode(value.body).isNotEmpty){
 
           queried = await json.decode(value.body)[0];
@@ -224,12 +222,12 @@ class MarketProvider with ChangeNotifier {
 
       });
 
-      debugPrint("queried queryCoinFromMarket $queried");
+      
       
     } catch (e){
       
       if (kDebugMode) {
-        debugPrint("error queryCoinFromMarket $e");
+        
       }
       return queried;
     }
@@ -239,7 +237,7 @@ class MarketProvider with ChangeNotifier {
   
   Future<void> fetchTrendingCoin() async {
 
-    if(kDebugMode) debugPrint("fetchTrendingCoin");
+    if(kDebugMode) 
     
     try {
       
@@ -267,7 +265,7 @@ class MarketProvider with ChangeNotifier {
     } catch (e){
       
       if (kDebugMode) {
-        debugPrint("error fetch trending coin $e");
+        
       }
     }
   }
@@ -294,9 +292,8 @@ class MarketProvider with ChangeNotifier {
 
   Future<List<ListMetketCoinModel>> listMarketCoin() async{
 
-    if(kDebugMode) debugPrint("listMarketCoin");
-
-    try {
+    if(kDebugMode) {
+      try {
 
       final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'));
 
@@ -309,6 +306,8 @@ class MarketProvider with ChangeNotifier {
           
           lsMarketLimit.add(ListMetketCoinModel().fromJson(data[i]));
 
+          if (i < 7) ls7Market.add(ListMetketCoinModel().fromJson(data[i]));
+
         }
         notifyListeners();
 
@@ -318,8 +317,9 @@ class MarketProvider with ChangeNotifier {
     } catch (e){
       
       if (kDebugMode) {
-        debugPrint("error fetch listMarketCoin $e");
+        
       }
+    }
     }
 
     return [];

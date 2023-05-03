@@ -195,7 +195,6 @@ class MySeedField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     
 
     return Container(
         padding: EdgeInsets.fromLTRB(pLeft!, pTop!, pRight!, pBottom!),

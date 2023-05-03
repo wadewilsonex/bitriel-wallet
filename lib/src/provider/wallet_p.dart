@@ -73,10 +73,8 @@ class WalletProvider with ChangeNotifier {
         });
       }
 
-      notifyListeners();
     } catch (e) {
         if (kDebugMode) {
-          debugPrint("Error fillWithMarketData $e");
         }
     }
     return null;
