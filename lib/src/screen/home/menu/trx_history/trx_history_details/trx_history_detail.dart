@@ -43,7 +43,8 @@ class TrxHistoryDetailsState extends State<TrxHistoryDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _globalKey,
-      body: BodyScaffold(
+      body: bodyScaffold(
+        context,
         child: TrxHistoryDetailsBody(
           title: widget._title, 
           trxInfo: widget._trxInfo, 

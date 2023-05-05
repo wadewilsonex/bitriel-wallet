@@ -57,12 +57,12 @@ class _HomePageState extends State<HomePage> {
     _model.pageController = PageController(initialPage: widget.activePage);
 
     // For CarouselPage
-    _model.adsCarouselActiveIndex = 0;
-    _model.onAdsCarouselChanged = (int index, CarouselPageChangedReason reason) {
-      setState(() {
-        _model.adsCarouselActiveIndex = index;
-      });
-    };
+    // _model.adsCarouselActiveIndex = 0;
+    // _model.onAdsCarouselChanged = (int index, CarouselPageChangedReason reason) {
+    //   setState(() {
+    //     _model.adsCarouselActiveIndex = index;
+    //   });
+    // };
 
     StorageServices.readSecure(DbKey.privateList)!.then((value) => {
       setState(() {
@@ -193,7 +193,8 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
-    return HomePageBody(
+    return homePageBody(
+      context,
       isTrx: widget.isTrx,
       imgList: imgList,
       homePageModel: _model,

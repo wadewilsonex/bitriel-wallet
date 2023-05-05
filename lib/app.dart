@@ -13,6 +13,8 @@ import 'src/route/router.dart' as router;
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
+String? filePath;
+
 class App extends StatefulWidget {
 
   const App({Key? key}) : super(key: key);
@@ -57,6 +59,10 @@ class AppState extends State<App> {
   void initState() {
     
     super.initState();
+
+    getApplicationDocumentsDirectory().then((value) {
+      filePath = value.path;
+    });
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 

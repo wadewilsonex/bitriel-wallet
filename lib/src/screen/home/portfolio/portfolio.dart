@@ -34,7 +34,8 @@ class PortfolioState extends State<Portfolio>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BodyScaffold(
+      body: bodyScaffold(
+        context,
         height: MediaQuery.of(context).size.height,
         child: PortfolioBody(
           listData: widget.listData,

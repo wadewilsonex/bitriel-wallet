@@ -219,7 +219,8 @@ class AuthenticationState extends State<Authentication> {
   Widget _bodyPasscodeWidget(BuildContext context) {
     return Consumer<AppProvider>(
       builder: (context, pro, wg) {
-        return BodyScaffold(
+        return bodyScaffold(
+          context,
           isSafeArea: true,
           height: MediaQuery.of(context).size.height,
           child: Column(
@@ -292,7 +293,8 @@ class AuthenticationState extends State<Authentication> {
   Widget _bodyFingerPrintWidget(BuildContext context) {
     return Consumer<AppProvider>(
       builder: (context, pro, wg) {
-        return BodyScaffold(
+        return bodyScaffold(
+          context,
           isSafeArea: true,
           height: MediaQuery.of(context).size.height,
           child: Column(

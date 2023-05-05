@@ -28,7 +28,8 @@ class About extends StatelessWidget {
      
     return Scaffold(
       key: _scaffoldKey,
-      body: BodyScaffold(
+      body: bodyScaffold(
+        context,
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [

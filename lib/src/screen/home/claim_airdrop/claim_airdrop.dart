@@ -223,7 +223,8 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
      
     return Scaffold(
       body: NetworkSensitive(
-        child: BodyScaffold(
+        child: bodyScaffold(
+          context,
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [

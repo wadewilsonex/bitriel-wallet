@@ -50,7 +50,8 @@ class ListTicketTypeBody extends StatelessWidget {
                   color: hexaCodeToColor(AppColors.primaryColor),
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: MyText(
+                child: myText2(
+                  context,
                   text: "USD \$${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price.toString()}",
                   color2: Colors.white,
                   fontSize: 14,

@@ -18,7 +18,8 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BodyScaffold(
+      body: bodyScaffold(
+        context,
         child: Container(
           padding: const EdgeInsets.all(paddingSize),
           child: Column(

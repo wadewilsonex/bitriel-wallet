@@ -26,7 +26,8 @@ class AssetInfoBody extends StatelessWidget {
      
     return Scaffold(
       key: assetInfoModel!.globalKey,
-      body: BodyScaffold(
+      body: bodyScaffold(
+        context,
         isSafeArea: true,
         bottom: 0,
         height: MediaQuery.of(context).size.height,

@@ -66,7 +66,7 @@ class ImageListViewState extends State<ImageListView> {
           itemBuilder: (BuildContext context, int index) {
             return Consumer<AppProvider>(
               builder: (context, pro, wg) {
-                return _ImageTile(image: '${pro.dirPath}/nfts/rieltiger/${widget.startIndex + index}.png');
+                return _imageTile(context, '${pro.dirPath}/nfts/rieltiger/${widget.startIndex + index}.png');
               }
             );
           },
@@ -75,17 +75,12 @@ class ImageListViewState extends State<ImageListView> {
     );
   }
 }
-
-class _ImageTile extends StatelessWidget {
-  const _ImageTile({Key? key, required this.image}) : super(key: key);
-
-  final String image;
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.file(
-      File(image),
-      width: 130,
-    );
-  }
+Widget _imageTile(
+  BuildContext context,
+  String? image
+) {
+  return Image.file(
+    File(image!),
+    width: 130,
+  );
 }

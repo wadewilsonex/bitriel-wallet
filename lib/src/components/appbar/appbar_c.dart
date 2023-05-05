@@ -19,7 +19,6 @@ PreferredSizeWidget defaultAppBar({
   const appBarHeight = 90.0;
 
   return AppBar(
-    backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
     elevation: 0,
     toolbarHeight: appBarHeight,
     centerTitle: true,
@@ -42,95 +41,97 @@ PreferredSizeWidget defaultAppBar({
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 
-                GestureDetector(
-                  onTap: () async {
+                // GestureDetector(
+                //   onTap: () async {
             
-                    bottomSheetAddAccount(context);
-                  },
-                  child: avatarShimmer(
-                    context,
-                    height: 45,
-                    width: 45,
-                    txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.icon,
-                    child: randomAvatar(provider.netWorkConnected == false ? '' : provider.getKeyring.current.icon!),
-                  ),
-                ),
+                //     bottomSheetAddAccount(context);
+                //   },
+                //   child: avatarShimmer(
+                //     context,
+                //     height: 45,
+                //     width: 45,
+                //     txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.icon,
+                //     child: randomAvatar(provider.netWorkConnected == false ? '' : provider.getKeyring.current.icon!),
+                //   ),
+                // ),
+                randomAvatar(provider.netWorkConnected == false ? '' : provider.getKeyring.current.icon!)
                 
-                GestureDetector(
-                  onTap: () async {
+                // GestureDetector(
+                //   onTap: () async {
                     
-                    try {
+                //     try {
                       
-                      dialogLoading(context);
-                      await getSelendraEndpoint().then((value) async {
-                        Navigator.pop(context);
-                        // Assign Data and Store Endpoint Into Local DB
-                        await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body)).then((value) async {
-                          await HomeFunctional().changeNetwork(context: context);
-                        });
+                //       dialogLoading(context);
+                //       await getSelendraEndpoint().then((value) async {
+                //         Navigator.pop(context);
+                //         // Assign Data and Store Endpoint Into Local DB
+                //         await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body)).then((value) async {
+                //           await HomeFunctional().changeNetwork(context: context);
+                //         });
             
-                      });
-                    }
-                    catch (e) {
-                      Navigator.pop(context);
-                      DialogComponents().customDialog(context, "Failed", "Please check your connection again", txtButton: "OK");
-                    }
+                //       });
+                //     }
+                //     catch (e) {
+                //       Navigator.pop(context);
+                //       DialogComponents().customDialog(context, "Failed", "Please check your connection again", txtButton: "OK");
+                //     }
                     
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                //   },
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
             
-                      widgetShimmer(
-                        context,
-                        txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.address,
-                        child: myText2(
-                          context,
-                          text: provider.netWorkConnected == false ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
-                          fontWeight: FontWeight.bold,
-                          textAlign: TextAlign.center,
-                          fontSize: 18,
-                        ),
-                      ),
+                //       widgetShimmer(
+                //         context,
+                //         txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.address,
+                //         child: myText2(
+                //           context,
+                //           text: provider.netWorkConnected == false ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
+                //           fontWeight: FontWeight.bold,
+                //           textAlign: TextAlign.center,
+                //           fontSize: 18,
+                //         ),
+                //       ),
             
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                //       Row(
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
             
-                          myText2(context, text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.greyCode, fontSize: 16,),
+                //           myText2(context, text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.greyCode, fontSize: 16,),
             
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Icon(Iconsax.arrow_down_1, size: 25, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
-                          )
-                        ],
-                      ),
+                //           Padding(
+                //             padding: const EdgeInsets.only(left: 4),
+                //             child: Icon(Iconsax.arrow_down_1, size: 25, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
+                //           )
+                //         ],
+                //       ),
             
-                    ],
-                  )
-                ),
+                //     ],
+                //   )
+                // ),
             
-                IconButton(
-                  iconSize: 22.sp,
-                  icon: Icon(
-                    Iconsax.scan,
-                    color: isDarkMode
-                      ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
-                      : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-                  ),
-                  onPressed: () async {
+                // IconButton(
+                //   iconSize: 22.sp,
+                //   icon: Icon(
+                //     Iconsax.scan,
+                //     color: isDarkMode
+                //       ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
+                //       : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+                //   ),
+                //   onPressed: () async {
             
-                    await filterListWcSession(context);
+                //     await filterListWcSession(context);
                     
-                    // ignore: use_build_context_synchronously
-                    await TrxOptionMethod.scanQR(
-                      context,
-                      [],
-                    );
-                  },
-                ),
+                //     // ignore: use_build_context_synchronously
+                //     await TrxOptionMethod.scanQR(
+                //       context,
+                //       [],
+                //     );
+                //   },
+                // ),
+
               ],
             );
           }

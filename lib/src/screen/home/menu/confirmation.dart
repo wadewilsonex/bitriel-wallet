@@ -7,7 +7,8 @@ class Confirmation extends StatelessWidget {
   Widget build(BuildContext context) {
      
     return Scaffold(
-      body: BodyScaffold(
+      body: bodyScaffold(
+        context,
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [

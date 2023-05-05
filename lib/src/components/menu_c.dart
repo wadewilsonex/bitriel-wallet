@@ -46,11 +46,6 @@ class MenuHeader extends StatelessWidget {
                   context,
                   txt: value.getKeyring.current.icon,
                   child: randomAvatar(value.getKeyring.current.icon ?? '', width: 5.0, height: 5.0)
-                  // SvgPicture.string(
-                  //   value.getKeyring.current.addressIcon ?? '',
-                  //   width: 5.0,
-                  //   // height: 8.0,
-                  // )
                 )
               ),
                 
@@ -259,27 +254,6 @@ class MyMenuItem extends StatelessWidget {
     );
   }
 }
-
-// class MyMenuItem extends StatelessWidget {
-
-//   final String? title;
-//   final String? asset;
-//   final Widget? icon;
-//   final Function? action;
-//   final String colorHex;
-  
-//   const MyMenuItem({
-//     Key? key, 
-//     this.title,
-//     this.asset,
-//     this.icon,
-//     required this.colorHex,
-//     required this.action,
-//   }) : super(key: key);
-
-//   @override
-  
-// }
 
 Widget myMenuItem(BuildContext context, {String? title, String? asset, Widget? icon, Function? action, String? colorHex}) {
   return Card(

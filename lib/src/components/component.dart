@@ -416,48 +416,33 @@ class MyCircularImage extends StatelessWidget {
   }
 }
 
-class BodyScaffold extends StatelessWidget {
-  
-  final double? left, top, right, bottom;
-  final Widget? child;
-  final double? width;
-  final double? height;
-  final ScrollPhysics? physic;
-  final bool? isSafeArea;
-  final ScrollController? scrollController;
-
-  const BodyScaffold({
-    Key? key, 
-    this.left = 0,
-    this.top = 0,
-    this.right = 0,
-    this.bottom = 16,
-    this.child,
-    this.height,
-    this.width,
-    this.physic,
-    this.isSafeArea = true,
-    this.scrollController
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-     
-    return SingleChildScrollView(
-      physics: physic,
-      controller: scrollController,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: height,
-        // color: AppUtils.backgroundTheme(),
-        // isDarkMode
-        //   ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-        //   : Color(AppUtils.convertHexaColor("#F5F5F5")),
-        padding: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
-        child: isSafeArea! ? SafeArea(child: child!) : child,
-      )
-    );
+Widget bodyScaffold(
+  BuildContext context,
+  {
+    final double? left, top, right, bottom,
+    final Widget? child,
+    final double? width,
+    final double? height,
+    final ScrollPhysics? physic,
+    final bool? isSafeArea,
+    final ScrollController? scrollController,
   }
+) {
+    
+  return SingleChildScrollView(
+    physics: physic,
+    controller: scrollController,
+    child: Container(
+      width: MediaQuery.of(context).size.width,
+      height: height,
+      // color: AppUtils.backgroundTheme(),
+      // isDarkMode
+      //   ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
+      //   : Color(AppUtils.convertHexaColor("#F5F5F5")),
+      padding: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
+      child: isSafeArea! ? SafeArea(child: child!) : child,
+    )
+  );
 }
 
 class MyIconButton extends StatelessWidget {

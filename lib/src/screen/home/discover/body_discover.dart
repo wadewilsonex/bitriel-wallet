@@ -29,9 +29,10 @@ class DiscoverPageBody extends StatelessWidget {
             _searchInputWeb(context),
 
             const SizedBox(height: 10), 
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: paddingSize),
-              child: MyText(
+              child: myText2(
+                context,
                 text: "DeFi",
                 fontSize: 20,
                 textAlign: TextAlign.start,
@@ -39,19 +40,18 @@ class DiscoverPageBody extends StatelessWidget {
               ),
             ),
       
-            Padding(
+            Container(
+              height: 20.h,
+              width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: 5),
-              child: SizedBox(
-                height: 20.h,
-                width: MediaQuery.of(context).size.width,
-                child: _defiMenu(context)
-              ),
+              child: _defiMenu(context),
             ),
         
             const SizedBox(height: 10), 
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: paddingSize),
-              child: MyText(
+              child: myText2(
+                context,
                 text: "NFTs",
                 fontSize: 20,
                 textAlign: TextAlign.start,
@@ -59,19 +59,18 @@ class DiscoverPageBody extends StatelessWidget {
               ),
             ),
       
-            Padding(
+            Container(
+              height: 20.h,
+              width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: 5),
-              child: SizedBox(
-                height: 20.h,
-                width: MediaQuery.of(context).size.width,
-                child: _marketPlaceMenu(context)
-              ),
+              child: _marketPlaceMenu(context),
             ),
         
             const SizedBox(height: 10), 
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: paddingSize),
-              child: MyText(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+              child: myText2(
+                context,
                 text: "DApps",
                 fontSize: 20,
                 textAlign: TextAlign.start,
@@ -110,7 +109,8 @@ class DiscoverPageBody extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const MyText(
+                    myText2(
+                      context,
                       text: 'DApp Browser',
                       fontWeight: FontWeight.w700,
                       color2: Colors.white,
@@ -264,46 +264,40 @@ class DiscoverPageBody extends StatelessWidget {
   Widget _selEcoSysMenu(BuildContext context) {
     return Consumer<AppProvider>(
       builder: (context, pro, wg) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
+        return Row(
           children: [
-            Row(
-              children: [
-                
-                Expanded(
-                  child: SelEcoSysMenuItem(
-                    image: Image.file(
-                      File("${pro.dirPath}/logo/weteka.png"),
-                    ),
-                    title: "Weteka",
-                    action: () async {
-                      await LaunchApp.openApp(
-                      androidPackageName: 'com.koompi.sala',
-                      // openStore: false
-                    );
-                    },
-                  ),
+            
+            Expanded(
+              child: selEcoSysMenuItem(
+                context,
+                image: Image.file(
+                  File("${pro.dirPath}/logo/weteka.png"),
                 ),
-
-                const SizedBox(width: 10,),
-
-                Expanded(
-                  child: SelEcoSysMenuItem(
-                    image: SvgPicture.file(
-                      File("${pro.dirPath}/logo/Koompi_wifi.svg"),
-                      color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : "#0CACDA"),
-                    ),
-                    title: "KOOMPI Fi-Fi",
-                    action: () {
-                      underContstuctionAnimationDailog(context: context);
-                    },
-                  ),
-                )
-              ],
+                title: "Weteka",
+                action: () async {
+                  await LaunchApp.openApp(
+                    androidPackageName: 'com.koompi.sala',
+                    // openStore: false
+                  );
+                },
+              ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(width: 10,),
 
+            Expanded(
+              child: selEcoSysMenuItem(
+                context,
+                image: SvgPicture.file(
+                  File("${pro.dirPath}/logo/Koompi_wifi.svg"),
+                  color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : "#0CACDA"),
+                ),
+                title: "KOOMPI Fi-Fi",
+                action: () {
+                  underContstuctionAnimationDailog(context: context);
+                },
+              ),
+            )
           ],
         );
       }
