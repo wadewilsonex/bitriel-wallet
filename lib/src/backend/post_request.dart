@@ -157,7 +157,10 @@ class PostRequest {
     return await http.post(
       Uri.parse("$_api/v1/transaction"),
       body: json.encode(obj),
-      headers: conceteHeader()
+      headers: conceteHeader(
+        key: "Authentication",
+        value: "Bearer ${dotenv.get('LETS_EXCHANGE_TOKEN')}"
+      ),
     );
 
   }
@@ -171,7 +174,10 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("$_api/v1/info"),
-      headers: conceteHeader(),
+      headers: conceteHeader(
+        key: "Authentication",
+        value: "Bearer ${dotenv.get('LETS_EXCHANGE_TOKEN')}"
+      ),
       body: model.toJson()
     );
 

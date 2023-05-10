@@ -12,8 +12,6 @@ class AppConfig {
 
   /*Coingecko api url fetch asset price */
   static String coingeckoBaseUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
-   //'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=
-    // ''';
 
   static const erc20Abi = 'assets/abi/erc20.json';
 

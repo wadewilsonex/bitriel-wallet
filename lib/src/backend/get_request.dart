@@ -50,7 +50,10 @@ Future<http.Response> queryTrxStatus(String id) async {
   return await http.get(
     // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
     Uri.parse("$_api/v1/transaction/$id"),
-    headers: conceteHeader()
+    headers: conceteHeader(
+      key: "Authentication",
+      value: "Bearer ${dotenv.get('LETS_EXCHANGE_TOKEN')}"
+    ),
   );
 }
 
@@ -62,7 +65,10 @@ Future<http.Response> coins() async {
 
   return await http.get(
     Uri.parse("$_api/v2/coins"),
-    headers: conceteHeader()
+    headers: conceteHeader(
+      key: "Authentication",
+      value: "Bearer ${dotenv.get('LETS_EXCHANGE_TOKEN')}"
+    ),
   );
 
 }

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:ua_client_hints/ua_client_hints.dart';
+import 'package:wallet_apps/src/backend/backend.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/list_market_coin_m.dart';
 import 'package:wallet_apps/src/models/market/coin.dart';
@@ -80,8 +82,17 @@ class MarketProvider with ChangeNotifier {
   }
 
   Future<List<List<double>>?> fetchLineChartData(String id) async {
+    final String ua = await userAgent();
+
     List<List<double>>? prices;
-    final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/coins/$id/market_chart?vs_currency=usd&days=1'));
+    
+    final res = await http.get(
+      Uri.parse('https://api.coingecko.com/api/v3/coins/$id/market_chart?vs_currency=usd&days=1'),
+      headers: conceteHeader(
+        key: "User-Agent",
+        value: ua
+      )
+    );
 
     if (res.statusCode == 200) {
       final data = await jsonDecode(res.body);
@@ -180,9 +191,18 @@ class MarketProvider with ChangeNotifier {
 
   Future<List<Map<String, dynamic>>> searchCoinFromMarket(String id) async {
     lsCoin!.clear();
+
+    final String ua = await userAgent();
+
     try {
 
-      _res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search?query=${id.toLowerCase()}'));
+      _res = await http.get(
+        Uri.parse('https://api.coingecko.com/api/v3/search?query=${id.toLowerCase()}'),
+        headers: conceteHeader(
+          key: "User-Agent",
+          value: ua
+        )
+      );
       
       if (json.decode(_res!.body).isNotEmpty){
         lsCoin = List<Map<String, dynamic>>.from( (await json.decode(_res!.body))['coins'] );
@@ -240,11 +260,18 @@ class MarketProvider with ChangeNotifier {
   Future<void> fetchTrendingCoin() async {
 
     if(kDebugMode) debugPrint("fetchTrendingCoin");
+
+    final String ua = await userAgent();
     
     try {
       
-      // final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
-      final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
+      final res = await http.get(
+        Uri.parse('https://api.coingecko.com/api/v3/search/trending'),
+        headers: conceteHeader(
+          key: "User-Agent",
+          value: ua
+        )
+      );
       
       cnts = List<CoinsModel>.empty(growable: true);
 
@@ -296,9 +323,17 @@ class MarketProvider with ChangeNotifier {
 
     if(kDebugMode) debugPrint("listMarketCoin");
 
+    final String ua = await userAgent();
+
     try {
 
-      final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'));
+      final res = await http.get(
+        Uri.parse('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'),
+        headers: conceteHeader(
+          key: "User-Agent",
+          value: ua
+        )
+      );
 
       lsMarketLimit = List<ListMetketCoinModel>.empty(growable: true);
 
