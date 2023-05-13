@@ -1,17 +1,34 @@
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/domain/backend/get_request.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/provider/newarticle_p.dart';
-import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
-import 'src/route/router.dart' as router;
+import 'package:wallet_apps/constants/db_key_con.dart';
+import 'package:wallet_apps/data/provider/newarticle_p.dart';
+import 'package:wallet_apps/data/provider/provider.dart';
+import 'package:wallet_apps/presentation/screen/home/home/home.dart';
+import 'presentation/route/router.dart' as router;
+
+import 'package:wallet_apps/presentation/components/walletconnect_c.dart';
+import 'package:wallet_apps/data/provider/atd_pro.dart';
+import 'package:wallet_apps/data/provider/auth/google_auth_service.dart';
+import 'package:wallet_apps/data/provider/event_p.dart';
+import 'package:wallet_apps/data/provider/headless_webview_p.dart';
+import 'package:wallet_apps/data/provider/newarticle_p.dart';
+import 'package:wallet_apps/data/provider/presale_p.dart';
+import 'package:wallet_apps/data/provider/airdrop_p.dart';
+import 'package:wallet_apps/data/provider/provider.dart';
+import 'package:wallet_apps/data/provider/receive_wallet_p.dart';
+import 'package:wallet_apps/data/provider/swap_p.dart';
+import 'package:wallet_apps/data/provider/test_p.dart';
+import 'package:wallet_apps/data/provider/ticket_p.dart';
+import 'package:wallet_apps/data/provider/verify_seed_p.dart';
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
+ValueNotifier<String>? filePath = ValueNotifier<String>('');
 
 class App extends StatefulWidget {
 
@@ -28,36 +45,45 @@ class AppState extends State<App> {
   String? dir;
 
   // Init firebase deep link
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  // FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
-  Future<void> initDynamicLinks() async {
+  // Future<void> initDynamicLinks() async {
 
-    // Query Deep Link Routes
-    await getDeepLinkRoutes().then((dpLink) async {
+  //   // Query Deep Link Routes
+  //   await getDeepLinkRoutes().then((dpLink) async {
 
-      dynamicLinks.onLink.listen((dynamicLinkData) async {
+  //     dynamicLinks.onLink.listen((dynamicLinkData) async {
 
-        WidgetsBinding.instance.addPostFrameCallback((_) async{
-          await Get.toNamed(AppString.eventView, arguments: 'event');
-        });
-        // WidgetsBinding.instance.addPostFrameCallback((_) {
-        //   Navigator.pushNamed(context, AppString.accountView);
-        // });
+  //       WidgetsBinding.instance.addPostFrameCallback((_) async{
+  //         await Get.toNamed(AppString.eventView, arguments: 'event');
+  //       });
+  //       // WidgetsBinding.instance.addPostFrameCallback((_) {
+  //       //   Navigator.pushNamed(context, AppString.accountView);
+  //       // });
 
 
-      }).onError((error) {
-        if (kDebugMode) {
-          debugPrint('onLink error');
-          debugPrint(error.message);
-        }
-      });
-    });
-  }
+  //     }).onError((error) {
+  //       if (kDebugMode) {
+          
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
     
     super.initState();
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    // });
+
+  }
+
+  @override
+  void didChangeDependencies() async {
+
+    super.didChangeDependencies();
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
@@ -67,13 +93,21 @@ class AppState extends State<App> {
 
     Provider.of<AppProvider>(context, listen: false).setContext = context;
 
+    // Future.delayed(const Duration(seconds: 5), () async {
+    //   await getApplicationDocumentsDirectory().then((value) {
+    //     filePath!.value = value.path;
+    //   });
+    // });
+
+    // await Future.delayed(const Duration(seconds: 4), () async {
+    //   await initApp();
+    // });
+  }
+
+  Future<void> initApp() async {
+
     // Query Selendra Endpoint
     getSelendraEndpoint().then((value) async {
-
-      await Provider.of<AppProvider>(context, listen: false).downloadFirstAsset().then((value) {
-        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-        Provider.of<AppProvider>(context, listen: false).notifyListeners();
-      });
 
       // ignore: use_build_context_synchronously
       await Provider.of<AppProvider>(context, listen: false).downloadSecondAsset();
@@ -94,10 +128,6 @@ class AppState extends State<App> {
 
       // clearOldBtcAddr();
     });
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    // });
-
   }
 
   Future<void> initApi() async {
@@ -127,7 +157,9 @@ class AppState extends State<App> {
 
         // await apiProvider.connectPolNon(context: context).then((value) async {
         // });
-        await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
+        await Future.delayed(const Duration(seconds: 3), () async {
+          await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
+        });
 
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
 
@@ -144,32 +176,30 @@ class AppState extends State<App> {
 
         }
       });
+
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      // Timer(Duration(seconds: 2), () {
+      //   apiProvider.notifyListeners();
+      // });
+
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint("Error initApi $e");
-      }
+      
     }
   }
 
-  Future<void> readTheme() async {
-    try {
+  // Future<void> readTheme() async {
+  //   try {
 
-      final res = await StorageServices.fetchData(DbKey.themeMode);
+  //     final res = await StorageServices.fetchData(DbKey.themeMode);
 
-      if (res != null) {
-        if(!mounted) return;
-        await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      }
-    } catch (e){
-        if (kDebugMode) {
-          debugPrint("Error readTheme $e");
-        }
-    }
-  }
-
-
-
-  
+  //     if (res != null) {
+  //       if(!mounted) return;
+  //       await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+  //     }
+  //   } catch (e){
+      
+  //   }
+  // }
   
   Future<void> downloadAsset({required String fileName}) async {
 
@@ -195,12 +225,12 @@ class AppState extends State<App> {
       });
 
       // ignore: use_build_context_synchronously
-      Provider.of<AppProvider>(context, listen: false).dirPath = dir;
+      Provider.of<AppProvider>(context, listen: false).dirPath!.value = dir!;
       
     } else {
       
       // ignore: use_build_context_synchronously
-      Provider.of<AppProvider>(context, listen: false).dirPath = dir;
+      Provider.of<AppProvider>(context, listen: false).dirPath!.value = dir!;
       // await readFile(fileName);
     }
 
@@ -217,49 +247,76 @@ class AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    final darkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return ResponsiveSizer(
-      builder: (context, orientation, screenType) {
-        return AnnotatedRegion(
-          value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-          child: LayoutBuilder(
-            builder: (builder, constraints) {
-              return OrientationBuilder(
-                builder: (context, orientation) {
-                  SizeConfig().init(constraints, orientation);
-                  return MaterialApp(
-                    navigatorKey: AppUtils.globalKey,
-                    title: AppString.appName,
-                    theme: AppStyle.myTheme(context),
-                    onGenerateRoute: router.generateRoute,
-                    routes: {
-                      // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
-                      AppString.accountView: (_) => Account(
-                        argument: ModalRoute.of(context)?.settings.arguments,
-                      ),
-                      AppString.homeView: (_) => const HomePage()
-                    },
-                    initialRoute: AppString.splashScreenView,
-                    builder: (context, child) => ResponsiveWrapper.builder(
-                      child,
-                      maxWidth: 1200,
-                      minWidth: 480,
-                      defaultScale: true,
-                      breakpoints: const [
-                        ResponsiveBreakpoint.autoScale(600),
-                        ResponsiveBreakpoint.resize(480, name: MOBILE),
-                        ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                        ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        );
-      }
+    return MaterialApp(
+      title: 'BITRIEL',
+      // theme: AppStyle.myTheme(context),
+      // // ThemeData(
+      // //   primarySwatch: Colors.blue,
+      // //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      // //   // appBarTheme: const AppBarTheme(backgroundColor: Colors.white)
+      // // ),
+      // initialRoute: AppString.onboardingView,
+      // routes: {
+      //   // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
+      //   AppString.accountView: (_) => Account(
+      //     argument: ModalRoute.of(context)?.settings.arguments,
+      //   ),
+      //   AppString.homeView: (_) => const HomePage(),
+      //   AppString.onboardingView: (_) => const Onboarding()
+      // },
+      home: const Onboarding(),
     );
+    // );
+    // return MaterialApp(
+    //       title: AppString.appName,
+    //       theme: AppStyle.myTheme(context),
+    //       onGenerateRoute: router.generateRoute,
+    //       // routes: {
+    //       //   // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
+    //       //   AppString.accountView: (_) => Account(
+    //       //     argument: ModalRoute.of(context)?.settings.arguments,
+    //       //   ),
+    //       //   AppString.homeView: (_) => const HomePage()
+    //       // },
+    //       initialRoute: AppString.splashScreenView,
+    //       // builder: (context, child) => ResponsiveWrapper.builder(
+    //       //   child,
+    //       //   // maxWidth: 1200,
+    //       //   // breakpoints: const [
+    //       //   //   // ResponsiveBreakpoint.autoScale(600),
+    //       //   //   ResponsiveBreakpoint.resize(480, name: MOBILE),
+    //       //   //   // ResponsiveBreakpoint.autoScale(800, name: TABLET),
+    //       //   //   // ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+    //       //   // ],
+    //       // ),
+    //     );
+    // return ResponsiveSizer(
+    //   builder: (context, orientation, screenType) {
+    //     return MaterialApp(
+    //       title: AppString.appName,
+    //       theme: AppStyle.myTheme(context),
+    //       onGenerateRoute: router.generateRoute,
+    //       // routes: {
+    //       //   // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
+    //       //   AppString.accountView: (_) => Account(
+    //       //     argument: ModalRoute.of(context)?.settings.arguments,
+    //       //   ),
+    //       //   AppString.homeView: (_) => const HomePage()
+    //       // },
+    //       initialRoute: AppString.splashScreenView,
+    //       builder: (context, child) => ResponsiveWrapper.builder(
+    //         child,
+    //         // maxWidth: 1200,
+    //         // breakpoints: const [
+    //         //   // ResponsiveBreakpoint.autoScale(600),
+    //         //   ResponsiveBreakpoint.resize(480, name: MOBILE),
+    //         //   // ResponsiveBreakpoint.autoScale(800, name: TABLET),
+    //         //   // ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+    //         // ],
+    //       ),
+    //     );
+    //   }
+    // );
     // ResponsiveSizer( 
     //   builder: (context, orientation, screenType) {
     //     return AnnotatedRegion(

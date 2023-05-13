@@ -1,4 +1,5 @@
-/* -------------This file is hold all Packages, Path of file -------------*/
+/* -------------This file is hold all Packages, Path of file-------------*/
+/* -------------For Entry Point-------------*/
 export 'dart:async';
 export 'dart:convert';
 export 'dart:io' show Platform;
@@ -27,136 +28,143 @@ export 'package:shimmer/shimmer.dart';
 export 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 export 'package:wallet_connect/wallet_connect.dart';
 
-//Component
-export 'package:wallet_apps/src/components/bottom_sheet/bottom_sheet.dart';
+// Domain Layer
+export 'package:wallet_apps/domain/backend/get_request.dart';
+export 'package:wallet_apps/domain/backend/post_request.dart';
+
 /* Component File */
-export 'package:wallet_apps/src/components/component.dart';
-export 'package:wallet_apps/src/components/dimissible_background.dart';
-export 'package:wallet_apps/src/components/home_c.dart';
-export 'package:wallet_apps/src/components/menu_c.dart';
-export 'package:wallet_apps/src/components/my_input.dart';
-export 'package:wallet_apps/src/components/platform_specific/android_native.dart';
-export 'package:wallet_apps/src/components/platform_specific/ios_native.dart';
-export 'package:wallet_apps/src/components/receive_wallet_c.dart';
-export 'package:wallet_apps/src/components/reuse_widget.dart';
-export 'package:wallet_apps/src/components/route_animation.dart';
-export 'package:wallet_apps/src/components/sms_component.dart';
-export 'package:wallet_apps/src/components/trx_component.dart';
-export 'package:wallet_apps/src/components/trx_option_c.dart';
-export 'package:wallet_apps/src/config/.app_config.dart';
-export 'package:wallet_apps/src/config/size_config.dart';
-export 'package:wallet_apps/src/components/asset_item.dart';
-export 'package:wallet_apps/src/components/portfolio_cus.dart';
-export 'package:wallet_apps/src/components/pincode/passcode.dart';
-export 'package:wallet_apps/src/components/appbar/appbar_c.dart';
+export 'package:wallet_apps/domain/api/api_chart.dart';
+export 'package:wallet_apps/presentation/components/component.dart';
+export 'package:wallet_apps/presentation/components/dimissible_background.dart';
+export 'package:wallet_apps/presentation/components/home_c.dart';
+export 'package:wallet_apps/presentation/components/menu_c.dart';
+export 'package:wallet_apps/presentation/components/my_input.dart';
+export 'package:wallet_apps/presentation/components/platform_specific/android_native.dart';
+export 'package:wallet_apps/presentation/components/platform_specific/ios_native.dart';
+export 'package:wallet_apps/presentation/components/receive_wallet_c.dart';
+export 'package:wallet_apps/presentation/components/reuse_widget.dart';
+export 'package:wallet_apps/presentation/components/route_animation.dart';
+export 'package:wallet_apps/presentation/components/trx_option_c.dart';
+export 'package:wallet_apps/infrastructure/config/.app_config.dart';
+export 'package:wallet_apps/infrastructure/config/size_config.dart';
+export 'package:wallet_apps/presentation/components/portfolio_cus.dart';
+export 'package:wallet_apps/presentation/components/pincode/passcode.dart';
+export 'package:wallet_apps/presentation/components/appbar/appbar_c.dart';
+export 'package:wallet_apps/presentation/components/dialog_c.dart';
+export 'package:wallet_apps/presentation/components/nft/nft_card_c.dart';
+export 'package:wallet_apps/presentation/components/nft/nft_image_animation.dart';
 
 // Add Asset
-export 'package:wallet_apps/src/models/asset_m.dart';
-
-export 'package:wallet_apps/src/models/linechart_m.dart';
-
-export 'package:wallet_apps/src/models/crypto_data.dart';
-
-export 'package:wallet_apps/src/utils/fmt.dart';
-export 'package:wallet_apps/src/models/home_m.dart';
+export 'package:wallet_apps/data/models/asset_m.dart';
+export 'package:wallet_apps/data/models/get_wallet.m.dart';
+export 'package:wallet_apps/data/models/linechart_m.dart';
+export 'package:wallet_apps/data/models/list_market_coin_m.dart';
+export 'package:wallet_apps/data/models/swap_m.dart';
+export 'package:wallet_apps/data/models/crypto_data.dart';
+export 'package:wallet_apps/data/models/trendingcoin_m.dart';
+export 'package:wallet_apps/data/utils/fmt.dart';
+export 'package:wallet_apps/data/models/home_m.dart';
 /* Menu */
-export 'package:wallet_apps/src/models/menu_m.dart';
+export 'package:wallet_apps/data/models/menu_m.dart';
 
-export 'package:wallet_apps/src/models/token.m.dart';
+export 'package:wallet_apps/data/models/token.m.dart';
 // Dashboard
 
-export 'package:wallet_apps/src/models/smart_contract.m.dart';
+export 'package:wallet_apps/data/models/smart_contract.m.dart';
 
-export 'package:wallet_apps/src/models/checkin.m.dart';
+export 'package:wallet_apps/data/models/checkin.m.dart';
 
-export 'package:wallet_apps/src/models/model_scan_pay.dart';
+export 'package:wallet_apps/data/models/model_scan_pay.dart';
 /* Main Screen */
 
-export 'package:wallet_apps/src/models/model_user_info.dart';
+export 'package:wallet_apps/data/models/model_user_info.dart';
 
-export 'package:wallet_apps/src/models/tx_history.dart';
+export 'package:wallet_apps/data/models/tx_history.dart';
 
 /* Home Screen */
-export 'package:wallet_apps/src/models/portfolio_m.dart';
-export 'package:wallet_apps/src/models/portfolio_rate_m.dart';
+export 'package:wallet_apps/data/models/portfolio_m.dart';
+export 'package:wallet_apps/data/models/portfolio_rate_m.dart';
 // Add Phone
 
-export 'package:wallet_apps/src/route/router.dart';
+export 'package:wallet_apps/presentation/route/router.dart';
 /* Home Screen */
-export 'package:wallet_apps/src/screen/home/menu/account/account.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/account/account.dart';
 
-export 'package:wallet_apps/src/screen/home/claim_airdrop/claim_airdrop.dart';
-export 'package:wallet_apps/src/screen/home/claim_airdrop/invite_friend.dart';
+export 'package:wallet_apps/presentation/screen/home/claim_airdrop/claim_airdrop.dart';
+export 'package:wallet_apps/presentation/screen/home/claim_airdrop/invite_friend.dart';
 // Add Assets
-export 'package:wallet_apps/src/screen/home/menu/add_asset/add_asset.dart';
-export 'package:wallet_apps/src/screen/home/menu/add_asset/body_add_asset.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/add_asset/add_asset.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/add_asset/body_add_asset.dart';
 
 /* Menu Screen */
-export 'package:wallet_apps/src/screen/home/menu/menu.dart';
-export 'package:wallet_apps/src/screen/home/menu/menu_body.dart';
-export 'package:wallet_apps/src/screen/home/menu/swap/des_swap.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/menu.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/menu_body.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/swap/des_swap.dart';
 
-export 'package:wallet_apps/src/screen/home/menu/about.dart';
-export 'package:wallet_apps/src/screen/home/menu/swap/swap.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/about.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/swap/swap.dart';
 
 //Transaction confirmation
-export 'package:wallet_apps/src/models/trx_info.dart';
+export 'package:wallet_apps/data/models/trx_info.dart';
 
 // Transaction Activiity
-export 'package:wallet_apps/src/screen/home/menu/trx_activity/reuse_activity_widget.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_activity/trx_activity.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_activity/body_trx_activity.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_activity/trx_activity_details/transaction_activity_details.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_activity/trx_activity_details/body_transaction_activity_details.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_activity/reuse_activity_widget.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_activity/trx_activity.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_activity/body_trx_activity.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_activity/trx_activity_details/transaction_activity_details.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_activity/trx_activity_details/body_transaction_activity_details.dart';
 // Transaction History
-export 'package:wallet_apps/src/screen/home/menu/trx_history/tab_bars_list/all_trx.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_history/tab_bars_list/received_trx.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_history/tab_bars_list/send_transaction.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_history/body_trx_history.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_details/trx_history_detail.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_details/body_trx_history_detail.dart';
-export 'package:wallet_apps/src/screen/home/receive_wallet/receive_wallet.dart';
-export 'package:wallet_apps/src/screen/home/receive_wallet/body_receive_wallet.dart';
-export 'package:wallet_apps/src/screen/home/transaction/qr_scanner/qr_scanner.dart';
-export 'package:wallet_apps/src/components/fill_pin_dialog.dart';
-export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.dart';
-export 'package:wallet_apps/src/screen/home/transaction/submit_trx/body_submit_trx.dart';
-export 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
-export 'package:wallet_apps/src/screen/main/seeds/import_seeds/import_acc.dart';
-export 'package:wallet_apps/src/screen/main/authentication.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_history/tab_bars_list/all_trx.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_history/tab_bars_list/received_trx.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_history/tab_bars_list/send_transaction.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_history/trx_history.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_history/body_trx_history.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_history/trx_history_details/trx_history_detail.dart';
+export 'package:wallet_apps/presentation/screen/home/menu/trx_history/trx_history_details/body_trx_history_detail.dart';
+export 'package:wallet_apps/presentation/screen/home/receive_wallet/receive_wallet.dart';
+export 'package:wallet_apps/presentation/screen/home/receive_wallet/body_receive_wallet.dart';
+export 'package:wallet_apps/presentation/screen/home/transaction/qr_scanner/qr_scanner.dart';
+export 'package:wallet_apps/presentation/components/fill_pin_dialog.dart';
+export 'package:wallet_apps/presentation/screen/home/transaction/submit_trx/submit_trx.dart';
+export 'package:wallet_apps/presentation/screen/home/transaction/submit_trx/body_submit_trx.dart';
+export 'package:wallet_apps/presentation/screen/home/transaction/confirmation/confimation_tx.dart';
+export 'package:wallet_apps/presentation/screen/auth/seeds/import_seeds/import_acc.dart';
+export 'package:wallet_apps/presentation/screen/auth/authentication.dart';
+export 'package:wallet_apps/presentation/components/chart/chart_m.dart';
 // Finger Print
-export 'package:wallet_apps/src/screen/main/splash_screen.dart';
+export 'package:wallet_apps/presentation/screen/auth/splash_screen.dart';
 
-export 'package:wallet_apps/src/screen/main/seeds/import_seeds/body_import_acc.dart';
+export 'package:wallet_apps/presentation/screen/auth/seeds/import_seeds/body_import_acc.dart';
 // Main Screeen
-export 'package:wallet_apps/src/screen/main/onboarding/onboarding.dart';
-export 'package:wallet_apps/src/screen/main/onboarding/body_onboarding.dart';
+export 'package:wallet_apps/presentation/screen/auth/onboarding/onboarding.dart';
+export 'package:wallet_apps/presentation/screen/auth/onboarding/body_onboarding.dart';
 
-export 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
+export 'package:wallet_apps/presentation/screen/home/contact_book/contact_book.dart';
 
 /* Local File */
-export 'package:wallet_apps/src/service/services.dart';
+export 'package:wallet_apps/data/service/services.dart';
 //Service
-export 'package:wallet_apps/src/service/storage.dart';
-export 'package:wallet_apps/src/utils/app_utils.dart';
+export 'package:wallet_apps/data/service/storage.dart';
+export 'package:wallet_apps/data/utils/app_utils.dart';
+export 'package:wallet_apps/domain/backend/get_request.dart';
+
 /* ---------------------Util------------------------ */
-export 'package:wallet_apps/theme/color.dart';
-export 'package:wallet_apps/theme/string.dart';
-export 'package:wallet_apps/theme/style.dart';
+export 'package:wallet_apps/presentation/theme/color.dart';
+export 'package:wallet_apps/presentation/theme/string.dart';
+export 'package:wallet_apps/presentation/theme/style.dart';
 
 //Provider
-export 'src/provider/api_p.dart';
-export 'src/provider/contract_p.dart';
-export 'src/provider/wallet_p.dart';
-export 'src/provider/market_p.dart';
-export 'src/provider/theme_p.dart';
-export 'package:wallet_apps/src/provider/app_p.dart';
-export 'package:wallet_apps/src/provider/dsc_p.dart';
+export 'data/provider/api_p.dart';
+export 'data/provider/contract_p.dart';
+export 'data/provider/wallet_p.dart';
+export 'data/provider/market_p.dart';
+export 'data/provider/theme_p.dart';
+export 'package:wallet_apps/data/provider/app_p.dart';
+export 'package:wallet_apps/data/provider/dsc_p.dart';
 
 // Asset Info
-export 'src/screen/home/asset_info/asset_checkin.dart';
-export 'src/screen/home/asset_info/asset_history.dart';
-export 'src/screen/home/asset_info/asset_info.dart';
-export 'package:wallet_apps/theme/global.dart';
+export 'presentation/screen/home/asset_info/asset_checkin.dart';
+export 'presentation/screen/home/asset_info/asset_history.dart';
+export 'presentation/screen/home/asset_info/asset_info.dart';
+export 'package:wallet_apps/presentation/theme/global.dart';
 
