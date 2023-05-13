@@ -1,13 +1,13 @@
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/screen/home/about/about_bitriel.dart';
-import 'package:wallet_apps/src/screen/home/menu/backup/keystore_json.dart';
-import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
-import 'package:wallet_apps/src/screen/home/setting/security_privacy/security_privacy.dart';
-import 'package:wallet_apps/src/screen/home/webview/ads_webview.dart';
-import 'package:wallet_apps/src/screen/home/webview/marketplace_webview.dart';
+import 'package:wallet_apps/presentation/components/dialog_c.dart';
+import 'package:wallet_apps/constants/db_key_con.dart';
+import 'package:wallet_apps/presentation/screen/home/about/about_bitriel.dart';
+import 'package:wallet_apps/presentation/screen/home/menu/backup/keystore_json.dart';
+import 'package:wallet_apps/presentation/screen/home/menu/wallet_connect/wallet_connect.dart';
+import 'package:wallet_apps/presentation/screen/home/setting/security_privacy/security_privacy.dart';
+import 'package:wallet_apps/presentation/screen/home/webview/ads_webview.dart';
+import 'package:wallet_apps/presentation/screen/home/webview/marketplace_webview.dart';
 
 class CardSection {
   final String? title;

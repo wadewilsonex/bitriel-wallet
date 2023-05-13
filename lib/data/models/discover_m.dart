@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/swap_c.dart';
+import 'package:wallet_apps/presentation/components/swap_c.dart';
 
 class DiscoverContent {
 

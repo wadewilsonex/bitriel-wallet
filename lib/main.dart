@@ -2,21 +2,21 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/walletconnect_c.dart';
-import 'package:wallet_apps/src/provider/atd_pro.dart';
-import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
-import 'package:wallet_apps/src/provider/event_p.dart';
-import 'package:wallet_apps/src/provider/headless_webview_p.dart';
-import 'package:wallet_apps/src/provider/newarticle_p.dart';
-import 'package:wallet_apps/src/provider/presale_p.dart';
-import 'package:wallet_apps/src/provider/airdrop_p.dart';
-import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/provider/swap_p.dart';
+import 'package:wallet_apps/presentation/components/walletconnect_c.dart';
+import 'package:wallet_apps/data/provider/atd_pro.dart';
+import 'package:wallet_apps/data/provider/auth/google_auth_service.dart';
+import 'package:wallet_apps/data/provider/event_p.dart';
+import 'package:wallet_apps/data/provider/headless_webview_p.dart';
+import 'package:wallet_apps/data/provider/newarticle_p.dart';
+import 'package:wallet_apps/data/provider/presale_p.dart';
+import 'package:wallet_apps/data/provider/airdrop_p.dart';
+import 'package:wallet_apps/data/provider/provider.dart';
+import 'package:wallet_apps/data/provider/receive_wallet_p.dart';
+import 'package:wallet_apps/data/provider/swap_p.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:wallet_apps/src/provider/test_p.dart';
-import 'package:wallet_apps/src/provider/ticket_p.dart';
-import 'package:wallet_apps/src/provider/verify_seed_p.dart';
+import 'package:wallet_apps/data/provider/test_p.dart';
+import 'package:wallet_apps/data/provider/ticket_p.dart';
+import 'package:wallet_apps/data/provider/verify_seed_p.dart';
 
 Future<void> main() async {
   

@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/constants/db_key_con.dart';
 
 class PortfolioRateModel {
 

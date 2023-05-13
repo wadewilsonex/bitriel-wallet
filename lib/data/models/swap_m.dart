@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/provider/swap_p.dart';
+import 'package:wallet_apps/data/provider/swap_p.dart';
 
 class SwapPageModel {
 
