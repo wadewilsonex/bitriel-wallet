@@ -28,6 +28,7 @@ export 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 export 'package:wallet_connect/wallet_connect.dart';
 
 /* Component File */
+export 'package:wallet_apps/data/api/api_chart.dart';
 export 'package:wallet_apps/src/components/component.dart';
 export 'package:wallet_apps/src/components/dimissible_background.dart';
 export 'package:wallet_apps/src/components/home_c.dart';
@@ -49,34 +50,35 @@ export 'package:wallet_apps/src/components/nft/nft_card_c.dart';
 export 'package:wallet_apps/src/components/nft/nft_image_animation.dart';
 
 // Add Asset
-export 'package:wallet_apps/src/models/asset_m.dart';
-
-export 'package:wallet_apps/src/models/linechart_m.dart';
-
-export 'package:wallet_apps/src/models/crypto_data.dart';
-
-export 'package:wallet_apps/src/utils/fmt.dart';
-export 'package:wallet_apps/src/models/home_m.dart';
+export 'package:wallet_apps/data/models/asset_m.dart';
+export 'package:wallet_apps/data/models/get_wallet.m.dart';
+export 'package:wallet_apps/data/models/linechart_m.dart';
+export 'package:wallet_apps/data/models/list_market_coin_m.dart';
+export 'package:wallet_apps/data/models/swap_m.dart';
+export 'package:wallet_apps/data/models/crypto_data.dart';
+export 'package:wallet_apps/data/models/trendingcoin_m.dart';
+export 'package:wallet_apps/data/utils/fmt.dart';
+export 'package:wallet_apps/data/models/home_m.dart';
 /* Menu */
-export 'package:wallet_apps/src/models/menu_m.dart';
+export 'package:wallet_apps/data/models/menu_m.dart';
 
-export 'package:wallet_apps/src/models/token.m.dart';
+export 'package:wallet_apps/data/models/token.m.dart';
 // Dashboard
 
-export 'package:wallet_apps/src/models/smart_contract.m.dart';
+export 'package:wallet_apps/data/models/smart_contract.m.dart';
 
-export 'package:wallet_apps/src/models/checkin.m.dart';
+export 'package:wallet_apps/data/models/checkin.m.dart';
 
-export 'package:wallet_apps/src/models/model_scan_pay.dart';
+export 'package:wallet_apps/data/models/model_scan_pay.dart';
 /* Main Screen */
 
-export 'package:wallet_apps/src/models/model_user_info.dart';
+export 'package:wallet_apps/data/models/model_user_info.dart';
 
-export 'package:wallet_apps/src/models/tx_history.dart';
+export 'package:wallet_apps/data/models/tx_history.dart';
 
 /* Home Screen */
-export 'package:wallet_apps/src/models/portfolio_m.dart';
-export 'package:wallet_apps/src/models/portfolio_rate_m.dart';
+export 'package:wallet_apps/data/models/portfolio_m.dart';
+export 'package:wallet_apps/data/models/portfolio_rate_m.dart';
 // Add Phone
 
 export 'package:wallet_apps/src/route/router.dart';
@@ -98,7 +100,7 @@ export 'package:wallet_apps/src/screen/home/menu/about.dart';
 export 'package:wallet_apps/src/screen/home/menu/swap/swap.dart';
 
 //Transaction confirmation
-export 'package:wallet_apps/src/models/trx_info.dart';
+export 'package:wallet_apps/data/models/trx_info.dart';
 
 // Transaction Activiity
 export 'package:wallet_apps/src/screen/home/menu/trx_activity/reuse_activity_widget.dart';
@@ -123,6 +125,7 @@ export 'package:wallet_apps/src/screen/home/transaction/submit_trx/body_submit_t
 export 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 export 'package:wallet_apps/src/screen/auth/seeds/import_seeds/import_acc.dart';
 export 'package:wallet_apps/src/screen/auth/authentication.dart';
+export 'package:wallet_apps/src/components/chart/chart_m.dart';
 // Finger Print
 export 'package:wallet_apps/src/screen/auth/splash_screen.dart';
 
@@ -137,7 +140,9 @@ export 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
 export 'package:wallet_apps/src/service/services.dart';
 //Service
 export 'package:wallet_apps/src/service/storage.dart';
-export 'package:wallet_apps/src/utils/app_utils.dart';
+export 'package:wallet_apps/data/utils/app_utils.dart';
+export 'package:wallet_apps/data/backend/get_request.dart';
+
 /* ---------------------Util------------------------ */
 export 'package:wallet_apps/theme/color.dart';
 export 'package:wallet_apps/theme/string.dart';

@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
+import 'package:wallet_apps/data/backend/post_request.dart';
+import 'package:wallet_apps/data/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/dates_n_sessions/body_reservation.dart';
 

@@ -1,6 +1,6 @@
 
+import 'package:wallet_apps/data/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
 
 Future dateTimeTicket({BuildContext? context, List<ListMonthYear>? data}){
   

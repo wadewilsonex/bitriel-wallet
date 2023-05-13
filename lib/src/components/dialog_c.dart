@@ -63,7 +63,7 @@ class DialogComponents {
                       onTap: (){
                   
                         Clipboard.setData(
-                          ClipboardData(text: contents),
+                          ClipboardData(text: contents!),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(

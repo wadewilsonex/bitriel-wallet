@@ -1,4 +1,4 @@
-import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
+import 'package:wallet_apps/data/models/mdw_ticketing/ticket_m.dart';
 
 class TicketNFTModel{
 

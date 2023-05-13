@@ -1,5 +1,4 @@
-import 'package:wallet_apps/src/models/asset_m.dart';
-import 'package:wallet_apps/src/models/linechart_m.dart';
+import 'package:wallet_apps/index.dart';
 
 class CoinModel {
   String? id;

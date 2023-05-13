@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/account.m.dart';
+import 'package:wallet_apps/data/models/account.m.dart';
 
 class ReceiveWalletProvider with ChangeNotifier {
   

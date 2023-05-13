@@ -6,7 +6,8 @@ import 'package:wallet_apps/src/screen/home/home/home.dart';
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AppString.splashScreenView:
-      return RouteAnimation(enterPage: const MySplashScreen());
+      return MaterialPageRoute(builder: (context) => const MySplashScreen());
+      // return RouteAnimation(enterPage: const MySplashScreen());
     case AppString.localAuth:
       return RouteAnimation(enterPage: const Authentication());
     case AppString.accountView:
@@ -35,8 +36,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     // case AppString.inviteFriendView:
     //   return RouteAnimation(enterPage: InviteFriend());
     //   break;
-    case AppString.homeView:
-      return RouteAnimation(enterPage: const HomePage());
+    case AppString.homeView: 
+      return MaterialPageRoute(builder: (context) => const HomePage());
+      // return RouteAnimation(enterPage: );
     default:
       return RouteAnimation(enterPage: const MySplashScreen());
   }

@@ -1,6 +1,5 @@
 import 'package:wallet_apps/index.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wallet_apps/src/models/swap_m.dart';
 
 class SwapStatusProgress extends StatelessWidget {
  
@@ -210,7 +209,7 @@ class SwapStatusProgress extends StatelessWidget {
     );
   }
 
-  Widget _swapStatusInfo(BuildContext context ,SwapStatusResponseObj res) {
+  Widget _swapStatusInfo(BuildContext context, SwapStatusResponseObj res) {
     return Column(
       children: [
         Container(
@@ -336,7 +335,7 @@ class SwapStatusProgress extends StatelessWidget {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: res.status == "success" ? res.hashIn : res.deposit),
+                          ClipboardData(text: res.status == "success" ? res.hashIn! : res.deposit!),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -414,7 +413,7 @@ class SwapStatusProgress extends StatelessWidget {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: res.status == "success" ? res.hashOut : res.withdrawal),
+                          ClipboardData(text: res.status == "success" ? res.hashOut! : res.withdrawal!),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -497,7 +496,7 @@ class SwapStatusProgress extends StatelessWidget {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: res.transactionId),
+                          ClipboardData(text: res.transactionId!),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(

@@ -34,11 +34,10 @@ class PincodeBody extends StatelessWidget{
           color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         ),
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-        title: MyText(
+        title: const MyTextConstant(
           text: "Passcode",
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -46,11 +45,12 @@ class PincodeBody extends StatelessWidget{
         ),
 
         actions: [
+          
           TextButton(
             onPressed: () {
               onPressedDigit!();
             }, 
-            child: MyText(
+            child: MyTextConstant(
               text: is4digits == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
               color2: isFirst! == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
               fontWeight: FontWeight.w700,
@@ -68,7 +68,7 @@ class PincodeBody extends StatelessWidget{
           children: [
 
             if (titleStatus == null ) MyText(
-              top: 10.h,
+              top: 80,
               text: isFirst! ? 'Enter PIN' : 'Verify PIN',
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -81,8 +81,8 @@ class PincodeBody extends StatelessWidget{
               fontWeight: FontWeight.bold,
             ),
 
-            SizedBox(
-              height: 5.h,
+            const SizedBox(
+              height: 50,
             ),
             
             if (subStatus == null) Column(
@@ -100,14 +100,14 @@ class PincodeBody extends StatelessWidget{
               ],
             ) 
             // For Change PIN
-            else MyText(
+            else MyTextConstant(
               text: subStatus,
-              hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
+              // hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
               fontWeight: FontWeight.bold,
               fontSize: 19,
             ), 
 
-            SizedBox(height: 5.h),
+            const SizedBox(height: 50),
 
             is4digits == false ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -152,14 +152,14 @@ class PincodeBody extends StatelessWidget{
           TextSpan(
             text: 'Assign a security ', 
             style: TextStyle(
-              fontSize: 19.sp,
+              fontSize: 19,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'PIN ',
             style: TextStyle(
-              fontSize: 19.sp,
+              fontSize: 19,
               fontWeight: FontWeight.bold,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
@@ -167,7 +167,7 @@ class PincodeBody extends StatelessWidget{
           TextSpan(
             text: 'that will be required when opening in the future', 
             style: TextStyle(
-              fontSize: 19.sp,
+              fontSize: 19,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
@@ -182,7 +182,7 @@ class PincodeBody extends StatelessWidget{
           TextSpan(
             text: 'Verify PIN code to continue', 
             style: TextStyle(
-              fontSize: 19.sp,
+              fontSize: 19,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),

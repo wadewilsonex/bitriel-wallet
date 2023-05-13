@@ -13,7 +13,8 @@ class AppStyle {
       ),
 
       /* Color All Text */
-      textTheme: TextTheme(bodyMedium: TextStyle(color: hexaCodeToColor(AppColors.textColor))),
+      // textTheme: TextTheme(bodyMedium: TextStyle(color: hexaCodeToColor(AppColors.textColor))),
+      textTheme: TextTheme(bodyMedium: TextStyle(color: hexaCodeToColor(AppColors.darkGrey))),
       canvasColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightBg),
       drawerTheme: DrawerThemeData(backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightBg)),
       //cardColor: hexaCodeToColor(AppConfig.darkBlue50.toString()),

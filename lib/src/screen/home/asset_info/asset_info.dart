@@ -1,4 +1,4 @@
-import 'package:wallet_apps/src/models/asset_info.dart';
+import 'package:wallet_apps/data/models/asset_info.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/body_asset_info.dart';
 import '../../../../index.dart';
 

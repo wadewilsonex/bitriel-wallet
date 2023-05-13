@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/import_acc_m.dart';
+import 'package:wallet_apps/data/models/import_acc_m.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/auth/data_loading.dart';
 

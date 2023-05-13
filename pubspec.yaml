@@ -20,7 +20,7 @@ version: 8.1.7+115
 publish_to: none
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.19.6 <3.0.0"
 
 # parts:
 #   uet-lms:
@@ -73,7 +73,6 @@ dependencies:
   connectivity_plus: ^2.3.6+1
   get: ^4.6.5
   async:
-  firebase_auth:
   firebase_core: ^1.10.6
   google_sign_in: ^5.4.2
 
@@ -98,7 +97,7 @@ dependencies:
  
   # Apps Configuration
   rename: ^2.0.1
-  package_info_plus: ^1.4.3+1
+  package_info_plus:
   shimmer: ^2.0.0
 
   # Authentication & Verification
@@ -153,12 +152,14 @@ dependencies:
   dropdown_button2: ^1.7.2
   form_validation: ^2.1.0+22
   flutter_multi_formatter: ^2.9.11
-  liquid_progress_indicator: ^0.4.0
+  liquid_progress_indicator:
   animated_text_kit: ^4.2.2
   flutter_inappwebview: ^5.7.2+3
   webview_flutter: ^4.2.0
   json_annotation: ^4.8.0
   archive: ^3.3.7
+  flutter_initicon: ^3.0.0+1
+  cached_network_image: ^3.2.3
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
@@ -228,6 +229,8 @@ flutter:
     - assets/abi/
     - assets/json/
     - assets/illustration/
+    - assets/icons/
+    - assets/images/
     - .env
     
     # Animation Flare

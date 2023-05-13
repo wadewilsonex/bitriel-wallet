@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/import_acc_m.dart';
+import 'package:wallet_apps/data/models/import_acc_m.dart';
 import 'package:wallet_apps/src/screen/auth/i_acc.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:wallet_apps/src/screen/auth/json/body_json.dart';

@@ -1,8 +1,8 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/data/backend/get_request.dart';
+import 'package:wallet_apps/data/backend/post_request.dart';
+import 'package:wallet_apps/data/models/swap_m.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/body_swap.dart';
 import 'package:wallet_apps/src/screen/home/swap/confirm_swap.dart';

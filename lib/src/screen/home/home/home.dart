@@ -1,10 +1,11 @@
 import 'dart:math';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/data/backend/get_request.dart';
+import 'package:wallet_apps/data/backend/post_request.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/app_p.dart';
+import 'package:wallet_apps/src/provider/test_p.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
@@ -57,31 +58,41 @@ class _HomePageState extends State<HomePage> {
     _model.pageController = PageController(initialPage: widget.activePage);
 
     // For CarouselPage
-    // _model.adsCarouselActiveIndex = 0;
-    // _model.onAdsCarouselChanged = (int index, CarouselPageChangedReason reason) {
-    //   setState(() {
-    //     _model.adsCarouselActiveIndex = index;
-    //   });
-    // };
-
-    StorageServices.readSecure(DbKey.privateList)!.then((value) => {
+    _model.adsCarouselActiveIndex = 0;
+    _model.onAdsCarouselChanged = (int index, CarouselPageChangedReason reason) {
       setState(() {
-        Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
-
-        // if (Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
-        //   if (e['address'] == Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address) return true;
-        //   return false;
-        // }).toList().isNotEmpty){
-        //   Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = true; 
-        // }
-
-      })
-    });
-    
-    AppServices.noInternetConnection(context: context);
+        _model.adsCarouselActiveIndex = index;
+      });
+    };
     
     super.initState();
     
+  }
+  
+  @override
+  didChangeDependencies() async {
+
+    super.didChangeDependencies();
+
+    await StorageServices.readSecure(DbKey.privateList)!.then((value) {
+
+      if (value.isNotEmpty){
+
+        Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
+      }
+      // setState(() {
+
+      //   // if (Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
+      //   //   if (e['address'] == Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address) return true;
+      //   //   return false;
+      //   // }).toList().isNotEmpty){
+      //   //   Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = true; 
+      //   // }
+
+      // })
+    });
+    
+    AppServices.noInternetConnection(context: context);
   }
 
   @override

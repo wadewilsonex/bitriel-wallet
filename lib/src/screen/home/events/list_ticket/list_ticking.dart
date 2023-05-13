@@ -1,9 +1,9 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/data/backend/post_request.dart';
 import 'package:wallet_apps/src/components/appbar/event_c.dart';
-import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
+import 'package:wallet_apps/data/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/body_list_ticket.dart';
 import '../ticket_detail.dart';

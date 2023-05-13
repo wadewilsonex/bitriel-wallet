@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/mdw_ticketing/user_info_m.dart';
+import 'package:wallet_apps/data/models/mdw_ticketing/user_info_m.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 

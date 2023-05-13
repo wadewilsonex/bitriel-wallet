@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/data/backend/get_request.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 

@@ -1,8 +1,8 @@
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/account.m.dart';
-import 'package:wallet_apps/src/models/createkey_m.dart';
+import 'package:wallet_apps/data/models/account.m.dart';
+import 'package:wallet_apps/data/models/createkey_m.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/auth/seeds/create_seeds/body_create_key.dart';
 

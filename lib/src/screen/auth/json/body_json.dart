@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
-import 'package:wallet_apps/src/models/import_acc_m.dart';
+import 'package:wallet_apps/data/models/import_acc_m.dart';
 
 class JsonBody extends StatelessWidget {
 

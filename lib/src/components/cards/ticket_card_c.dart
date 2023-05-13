@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:coupon_uikit/coupon_uikit.dart';
+import 'package:wallet_apps/data/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/cards/ticket_item_c.dart';
-import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
 
 class TicketCardComponent extends StatefulWidget{
 

@@ -4,10 +4,10 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/data/backend/get_request.dart';
+import 'package:wallet_apps/data/models/swap_m.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 import 'package:lottie/lottie.dart';
@@ -556,7 +556,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: widget.res!.deposit),
+                          ClipboardData(text: widget.res!.deposit!),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -593,7 +593,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: widget.res!.withdrawal),
+                          ClipboardData(text: widget.res!.withdrawal!),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -685,7 +685,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: res.transaction_id),
+                          ClipboardData(text: res.transaction_id!),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(

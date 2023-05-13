@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/data/backend/get_request.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class ContractsBalance extends ChangeNotifier {

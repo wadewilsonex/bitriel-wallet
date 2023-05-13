@@ -1,8 +1,8 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/createkey_m.dart';
-import 'package:wallet_apps/src/models/import_acc_m.dart';
+import 'package:wallet_apps/data/models/createkey_m.dart';
+import 'package:wallet_apps/data/models/import_acc_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';

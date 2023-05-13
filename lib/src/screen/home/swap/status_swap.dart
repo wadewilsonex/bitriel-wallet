@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/data/backend/get_request.dart';
+import 'package:wallet_apps/data/models/swap_m.dart';
 import 'package:wallet_apps/src/components/progress_timeline_c.dart';
-import 'package:wallet_apps/src/models/swap_m.dart';
 
 class SwapStatus extends StatefulWidget {
   const SwapStatus({Key? key}) : super(key: key);

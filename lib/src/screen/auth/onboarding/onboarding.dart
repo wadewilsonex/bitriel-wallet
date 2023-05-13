@@ -1,11 +1,15 @@
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/headless_webview_p.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 
 class Onboarding extends StatefulWidget {
+  
   const Onboarding({Key? key}) : super(key: key);
 
   @override
@@ -19,42 +23,148 @@ class OnboardingState extends State<Onboarding> {
   bool? status;
   int? currentVersion;
   bool? selected = false;
+  bool? bio = false;
+  String? _secure;
+  String? password;
 
-  AppProvider? _appPro;
-
-  //var snackBar;
+  ValueNotifier<bool> isReady = ValueNotifier<bool>(false);
 
   @override
   void initState() {
-    
-    _appPro = Provider.of<AppProvider>(context, listen: false);
-
-    // downloadAndSaveAsset();
-
-    checkRemainFailImport();
-
-    Provider.of<HeadlessWebView>(context, listen: false).initHeadlessWebview();
-    
-    // inAppUpdate();
-    AppServices.noInternetConnection(context: context);
     super.initState();
+    
+    // ignore: use_build_context_synchronously
+    // Provider.of<AppProvider>(context, listen: false).downloadFirstAsset();
+
+    // bio ??= await StorageServices.readSaveBio();
+    // password ??= await StorageServices.readSecure(DbKey.password);
+    StorageServices.readSecure(DbKey.private)!.then((value) {
+      _secure ??= value;
+    
+      getCurrentAccount();
+    });
   }
-  
-  // Future<void> inAppUpdate() async {
-  //   AppUpdate appUpdate = AppUpdate();
-  //   final result = await appUpdate.checkUpdate();
-  //   if (result.availableVersionCode == 1){
-  //     await appUpdate.performImmediateUpdate();
-  //     await InAppUpdate.completeFlexibleUpdate();
-  //   }
-  // }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  didChangeDependencies() async {
+
+    super.didChangeDependencies();
+
+    // await Future.delayed(const Duration(seconds: 2), () async {
+      
+    // });
+    // ignore: use_build_context_synchronously
+  //   // await checkRemainFailImport();
+
+  //   // // ignore: use_build_context_synchronously
+  //   // await Provider.of<HeadlessWebView>(context, listen: false).initHeadlessWebview();
+    
+  //   // // ignore: use_build_context_synchronously
+  //   // AppServices.noInternetConnection(context: context);
+  }
 
   // Seed Import Failed Checker And Clear
-  void checkRemainFailImport() async {
+  Future<void> checkRemainFailImport() async {
     if (Provider.of<ApiProvider>(context, listen: false).netWorkConnected!){
 
       await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.deleteAccount(Provider.of<ApiProvider>(context, listen: false).getKeyring, Provider.of<ApiProvider>(context, listen: false).getKeyring.current);
     }
+  }
+
+  Future<void> check() async {
+    print("check");
+    return await Future<void>(() async {
+      if (Provider.of<ApiProvider>(context, listen: false).netWorkConnected!) {
+        await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.deleteAccount(
+            Provider.of<ApiProvider>(context, listen: false).getKeyring,
+            Provider.of<ApiProvider>(context, listen: false).getKeyring.current);
+      }
+    });
+  }
+  
+  Future<void> getCurrentAccount() async {
+
+    try {
+      
+      // await StorageServices.readSecure(DbKey.private)!.then((String value) async {
+      //   print("value.isNotEmpty ${value.isNotEmpty}");
+        if (_secure!.isNotEmpty){
+          
+          // final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
+
+          // if (ethAddr == '') {
+          //   if(!mounted) return;
+          //   await dialogSuccess(
+          //     context,
+          //     const Padding(
+          //       padding: EdgeInsets.only(left: 20, right: 20),
+          //       child: Text(
+          //         'Please reimport your seed phrases to add support to new update.',
+          //         textAlign: TextAlign.center,
+          //       )
+          //     ),
+          //     const Text('New Update!'),
+          //     action: TextButton(
+          //       onPressed: () {
+          //         Navigator.pushReplacement(
+          //           context,
+          //           RouteAnimation(
+          //             enterPage: const ImportAcc(
+          //               reimport: 'reimport',
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //       child: const MyText(text: 'Continue', hexaColor: AppColors.secondarytext),
+          //     ),
+          //   );
+          // } else {
+          //   // checkBio();
+          // }
+          await checkBio();
+        } else {
+          // isReady.value = true;
+        }
+      // });
+    } catch (e) {
+      
+      if (kDebugMode) {
+
+      }
+      
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Onboarding() ), (route) => false);
+    }
+  }
+
+  Future<void> checkBio() async {
+
+    if (bio! || password!.isNotEmpty) {
+      if(!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (builder) => Authentication(
+            isEnable: bio,
+          ))
+        // Transition(
+        //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
+        //   child: ,
+        // ),
+      );
+    } 
+    else {
+      if(!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(
+        context, 
+        AppString.homeView, 
+        ModalRoute.withName('/')
+      );
+    }
+
   }
 
   void tabGoogle(){
@@ -118,25 +228,10 @@ class OnboardingState extends State<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
+    print("Build onboarding");
     return Scaffold(
-      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      body: SafeArea(
-        child: UpgradeAlert(
-          upgrader: Upgrader(
-            dialogStyle: UpgradeDialogStyle.material,
-            durationUntilAlertAgain: const Duration(minutes: 30)
-          ),
-          child: OnboardignBody(tabGoogle: tabGoogle, selected: selected,)
-          // SizedBox(
-          //   height: MediaQuery.of(context).size.height,
-          //   width: MediaQuery.of(context).size.width,
-          //   child: SingleChildScrollView(
-          //     physics: const BouncingScrollPhysics(),
-          //     child: 
-          //   ),
-          // ),
-        ),
-      ),
+      backgroundColor: Colors.white, //Color(AppUtils.convertHexaColor(AppColors.lightColorBg)),
+      body: SafeArea(child: onboardingBody(context, isReady: isReady, inputController: InputController() , tabGoogle: tabGoogle, selected: selected,)),
     );
   }
 }

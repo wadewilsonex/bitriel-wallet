@@ -1,8 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/import_acc_m.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:wallet_apps/data/models/import_acc_m.dart';
 
 class DataLoading extends StatefulWidget {
 

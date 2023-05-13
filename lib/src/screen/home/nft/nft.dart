@@ -1,8 +1,8 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/data/backend/get_request.dart';
 import 'package:wallet_apps/src/components/circle_tab_indicator_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/nfts/ticket_nft_m.dart';
+import 'package:wallet_apps/data/models/nfts/ticket_nft_m.dart';
 import 'package:wallet_apps/src/screen/home/nft/tab/all_tab.dart';
 import 'package:wallet_apps/src/screen/home/nft/tab/ticket_tab.dart';
 import 'package:wallet_apps/src/screen/home/nft/tab/nft_tab.dart';

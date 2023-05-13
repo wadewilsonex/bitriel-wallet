@@ -2,7 +2,6 @@
 import 'dart:ui';
 import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/get_wallet.m.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 class Component {
 
@@ -258,7 +257,7 @@ class MyText extends StatelessWidget {
     this.text,
     this.hexaColor,
     this.color2,
-    this.fontSize = 16,
+    this.fontSize = 15,
     this.fontWeight = FontWeight.normal,
     this.top = 0,
     this.right = 0,
@@ -307,26 +306,89 @@ class MyText extends StatelessWidget {
 Widget myText2(
   BuildContext context,
   {
-    String? text,
-    String? hexaColor,
-    Color? color2,
-    double? fontSize,
-    FontWeight? fontWeight,
-    TextAlign? textAlign,
-    TextOverflow? overflow,
-    int? maxLine
+    String? text = '',
+    // String? hexaColor,
+    Color? color2 = Colors.black,
+    double? fontSize = 14,
+    FontWeight? fontWeight = FontWeight.normal,
+    TextAlign? textAlign = TextAlign.center,
+    TextOverflow? overflow = TextOverflow.visible
   }
 ){
   return Text(
     text!,
     style: TextStyle(
       fontWeight: fontWeight,
-      color: AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
+      color: color2,//AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
       fontSize: fontSize!
     ),
     textAlign: textAlign,
-    overflow: overflow,
-    maxLines: maxLine,
+    overflow: overflow
+  );
+  // Consumer<ThemeProvider>(
+  //   builder: (context, themePro, widget) {
+  //     return 
+  //   }
+  // );
+}
+
+class MyTextConstant extends StatelessWidget{
+
+  final String?  text;
+  final Color?  color2;
+  final double?  fontSize;
+  final FontWeight?  fontWeight;
+  final TextAlign?  textAlign;
+  final TextOverflow?  overflow;
+
+  const MyTextConstant({
+    super.key, 
+    this.text = '',
+    this.color2 = Colors.black,
+    this.fontSize = 14,
+    this.fontWeight = FontWeight.normal,
+    this.textAlign = TextAlign.center,
+    this.overflow = TextOverflow.visible
+  });
+  
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text!,
+      style: TextStyle(
+        fontWeight: fontWeight,
+        color: color2,//AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
+        fontSize: fontSize!
+      ),
+      textAlign: textAlign,
+      overflow: overflow
+    );
+  }
+
+
+}
+
+Widget myText3(
+  BuildContext context,
+  {
+    String? text = '',
+    // String? hexaColor,
+    Color? color2 = Colors.black,
+    double? fontSize = 14,
+    FontWeight? fontWeight = FontWeight.normal,
+    TextAlign? textAlign = TextAlign.center,
+    TextOverflow? overflow = TextOverflow.visible
+  }
+){
+  return Text(
+    text!,
+    style: TextStyle(
+      fontWeight: fontWeight,
+      color: color2,//AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
+      fontSize: fontSize!
+    ),
+    textAlign: textAlign,
+    overflow: overflow
   );
   // Consumer<ThemeProvider>(
   //   builder: (context, themePro, widget) {
@@ -445,57 +507,45 @@ Widget bodyScaffold(
   );
 }
 
-class MyIconButton extends StatelessWidget {
-
-  final String? title;
-  final bool? isActive;
-  final Widget? child;
-  final String? icon;
-  final double? iconSize;
-  final Function? onPressed;
-  final String? txtColor;
-  // final EdgeInsetsGeometry padding;
-
-  const MyIconButton({
-    Key? key, 
-    this.title,
-    this.isActive = false,
-    this.child,
-    this.icon,
-    this.iconSize,
-    this.txtColor,
-    // this.padding = const EdgeInsets.all(0),
-    this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-     
-    return InkWell(
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
-      onTap: (){
-        onPressed!();
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          child ?? SvgPicture.asset(
-            '${AppConfig.iconsPath}$icon',
-            width: iconSize ?? 24,
-            height: iconSize ?? 24,
-            color: isDarkMode ? Colors.white : Colors.black,
-          ),
-          const SizedBox(height: 5),
-          MyText(
-            text: title,
-            hexaColor: txtColor,
-            fontWeight: isActive! ? FontWeight.w600 : FontWeight.normal,
-          )
-        ],
-      )
-    );
+Widget myIconButton(
+  BuildContext context,
+  {
+    final String? title,
+    final bool? isActive = false,
+    final Widget? child,
+    final String? icon,
+    final double? iconSize,
+    final Function? onPressed,
+    final String? txtColor,
   }
+) {
+    
+  return InkWell(
+    highlightColor: Colors.transparent,
+    splashColor: Colors.transparent,
+    onTap: (){
+      onPressed!();
+    },
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        child ?? SvgPicture.asset(
+          '${AppConfig.iconsPath}$icon',
+          width: iconSize ?? 24,
+          height: iconSize ?? 24,
+          color: isDarkMode ? Colors.white : Colors.black,
+        ),
+        const SizedBox(height: 5),
+        myText2(
+          context,
+          text: title ?? '',
+          fontSize: 10,
+          // hexaColor: txtColor,
+          fontWeight: isActive! ? FontWeight.w600 : FontWeight.normal,
+        )
+      ],
+    )
+  );
 }
 
 class MyRowHeader extends StatelessWidget {

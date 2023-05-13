@@ -1,14 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lottie/lottie.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/list_coin_market_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
-import 'package:wallet_apps/src/models/image_ads.dart';
+import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:wallet_apps/src/models/list_market_coin_m.dart';
+import 'package:wallet_apps/data/models/image_ads.dart';
+import 'package:wallet_apps/data/models/list_market_coin_m.dart';
 import 'package:wallet_apps/src/provider/app_p.dart';
 import 'package:wallet_apps/src/provider/newarticle_p.dart';
+import 'package:wallet_apps/src/provider/test_p.dart';
 import 'package:wallet_apps/src/screen/home/home/article/article_news.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
@@ -29,20 +32,22 @@ Widget homePageBody(
     final Function? downloadAsset,
   }
 ) {
-  
   return Scaffold(
-    appBar: homePageModel!.activeIndex != 4 ? defaultAppBar(
+    appBar: 
+    homePageModel!.activeIndex != 4 ? defaultAppBar(
       context: context,
       homePageModel: homePageModel,
       pushReplacement: pushReplacement
     ) : null,
-    body: UpgradeAlert(
-      upgrader: Upgrader(
-        dialogStyle: UpgradeDialogStyle.material,
-        durationUntilAlertAgain: const Duration(minutes: 30)
-      ),
-      child: PageView(
-        physics: const CustomPageViewScrollPhysics(),
+    body: 
+    // UpgradeAlert(
+    //   upgrader: Upgrader(
+    //     dialogStyle: UpgradeDialogStyle.material,
+    //     durationUntilAlertAgain: const Duration(minutes: 30)
+    //   ),
+    //   child: 
+      PageView(
+        // physics: const CustomPageViewScrollPhysics(),
         controller: homePageModel.pageController,
         onPageChanged: onPageChanged,
         children: [
@@ -51,59 +56,59 @@ Widget homePageBody(
     
           homePageModel.activeIndex == 1 ? WalletPage(isTrx: isTrx, homePageModel: homePageModel,) : Container(),
           
-          Text("hello"),
+          // Text("hello"),
     
-          // DefaultTabController(
-          //   length: 2,
-          //   child: NestedScrollView(
-          //     floatHeaderSlivers: true,
-          //     headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          DefaultTabController(
+            length: 2,
+            child: NestedScrollView(
+              floatHeaderSlivers: true,
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
                 
-          //       SliverOverlapAbsorber(
-          //         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-          //         sliver: SliverSafeArea(
-          //           top: false,
-          //           sliver: SliverAppBar(
-          //             toolbarHeight: 300,
-          //             pinned: true,
-          //             floating: true,
-          //             snap: true,
-          //             title: _menu(context),
-          //             centerTitle: true,
-          //             automaticallyImplyLeading: false,
-          //             bottom: TabBar(
-          //               labelColor: hexaCodeToColor(AppColors.primaryColor),
-          //               unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-          //               indicatorColor: hexaCodeToColor(AppColors.primaryColor),
-          //               labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
-          //               unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
-          //               tabs: const [
+                SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverSafeArea(
+                    top: false,
+                    sliver: SliverAppBar(
+                      toolbarHeight: 230,
+                      pinned: true,
+                      floating: true,
+                      snap: true,
+                      title: _menu(context),
+                      centerTitle: true,
+                      automaticallyImplyLeading: false,
+                      bottom: TabBar(
+                        labelColor: hexaCodeToColor(AppColors.primaryColor),
+                        unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
+                        indicatorColor: hexaCodeToColor(AppColors.primaryColor),
+                        labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+                        unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
+                        tabs: const [
     
-          //                 Tab(
-          //                   text: "Markets",
-          //                 ),
+                          Tab(
+                            text: "Markets",
+                          ),
     
-          //                 Tab(
-          //                   text: "News",
-          //                 ),
+                          Tab(
+                            text: "News",
+                          ),
     
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
               
-          //     body: Text("hello")//_coinMenuCategory(),
-          //   ),
-          // ),
+              body: Text("hello")//_coinMenuCategory(),
+            ),
+          ),
           // SwapPage(),
           homePageModel.activeIndex == 3 ? const FindEvent() : Container(),
     
           homePageModel.activeIndex == 4 ? const SettingPage() : Container(),
           // const NFT(),
         ],
-      ),
+      // ),
     ),
     bottomNavigationBar: myBottomAppBar(
       context,
@@ -191,131 +196,132 @@ Widget homePageBody(
 // }
 
 Widget _menu(BuildContext context) {
-    return Column(
-      children: [
-        
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Flex(
-            mainAxisSize: MainAxisSize.max,
-            direction: Axis.horizontal,
-            children: [
-              
-              Expanded(
-                child: myMenuItem(
-                  context, 
-                  title: "Swap",
-                  asset: "/icons/swap-coin.png",
-                  colorHex: "#0D6BA6",
-                  action: () async {
-                    Navigator.push(
-                      context,
-                      Transition(child: const SwapPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                    );
-                    // await showBarModalBottomSheet(
-                    //   context: context,
-                    //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                    //   shape: const RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.vertical(
-                    //       top: Radius.circular(25.0),
-                    //     ),
-                    //   ),
-                    //   builder: (context) => Column(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: const [
-                    //       SwapMethod(),
-                    //     ],
-                    //   ),
-                    // );
-                  },
-                ),
+  return Column(
+    children: [
+      
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: Flex(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          direction: Axis.horizontal,
+          children: [
+            
+            Expanded(
+              child: myMenuItem(
+                context, 
+                title: "Swap",
+                asset: "/icons/swap-coin.png",
+                colorHex: "#0D6BA6",
+                action: () async {
+                  Navigator.push(
+                    context,
+                    Transition(child: const SwapPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  );
+                  // await showBarModalBottomSheet(
+                  //   context: context,
+                  //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                  //   shape: const RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.vertical(
+                  //       top: Radius.circular(25.0),
+                  //     ),
+                  //   ),
+                  //   builder: (context) => Column(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: const [
+                  //       SwapMethod(),
+                  //     ],
+                  //   ),
+                  // );
+                },
               ),
+            ),
 
-              const SizedBox(width: 10,),
-              
-              Expanded(
-                child: myMenuItem(
-                  context, 
-                  title: "Staking",
-                  asset: "/icons/stake-coin.png",
-                  colorHex: "#151644",
-                  action: () {
-                    underContstuctionAnimationDailog(context: context);
-                  },
-                ),
-              ),
-            ],
-          ),
+            const SizedBox(width: 10,),
+            
+            // Expanded(
+            //   child: myMenuItem(
+            //     context, 
+            //     title: "Staking",
+            //     asset: "/icons/stake-coin.png",
+            //     colorHex: "#151644",
+            //     action: () {
+            //       underContstuctionAnimationDailog(context: context);
+            //     },
+            //   ),
+            // ),
+          ],
         ),
-    
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Flex(
-            mainAxisSize: MainAxisSize.max,
-            direction: Axis.horizontal,
-            children: [
-              
-              Expanded(
-                child: myMenuItem(
-                  context, 
-                  title: "Buy",
-                  asset: "/icons/buy-coin.png",
-                  colorHex: "#F29F05",
-                  action: () async {
-                    underContstuctionAnimationDailog(context: context);
-                  },
-                ),
-              ),
+      ),
+  
+      // Padding(
+      //   padding: const EdgeInsets.symmetric(vertical: 5),
+      //   child: Flex(
+      //     mainAxisSize: MainAxisSize.max,
+      //     direction: Axis.horizontal,
+      //     children: [
+            
+      //       Expanded(
+      //         child: myMenuItem(
+      //           context, 
+      //           title: "Buy",
+      //           asset: "/icons/buy-coin.png",
+      //           colorHex: "#F29F05",
+      //           action: () async {
+      //             underContstuctionAnimationDailog(context: context);
+      //           },
+      //         ),
+      //       ),
 
-              const SizedBox(width: 10,),
+      //       const SizedBox(width: 10,),
 
-              Expanded(
-                child: myMenuItem(
-                  context, 
-                  title: "Bitriel NFTs",
-                  asset: "/icons/nft_polygon.png",
-                  colorHex: "#192E3C",
-                  action: () {
+      //       Expanded(
+      //         child: myMenuItem(
+      //           context, 
+      //           title: "Bitriel NFTs",
+      //           asset: "/icons/nft_polygon.png",
+      //           colorHex: "#192E3C",
+      //           action: () {
 
-                    underContstuctionAnimationDailog(context: context);
-                    
-                    // customDialog(
-                    //   context, 
-                    //   'Access to Bitriel NFTs?', 
-                    //   'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
-                    //   txtButton: "Cancel",
-                    //   btn2: MyFlatButton(
-                    //     height: 60,
-                    //     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                    //     isTransparent: false,
-                    //     buttonColor: AppColors.whiteHexaColor,
-                    //     textColor: AppColors.redColor,
-                    //     textButton: "Confirm",
-                    //     isBorder: true,
-                    //     action: () {
-                    //       // Close pop up dialog
-                    //       Navigator.pop(context);
+      //             underContstuctionAnimationDailog(context: context);
+                  
+      //             // customDialog(
+      //             //   context, 
+      //             //   'Access to Bitriel NFTs?', 
+      //             //   'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
+      //             //   txtButton: "Cancel",
+      //             //   btn2: MyFlatButton(
+      //             //     height: 60,
+      //             //     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+      //             //     isTransparent: false,
+      //             //     buttonColor: AppColors.whiteHexaColor,
+      //             //     textColor: AppColors.redColor,
+      //             //     textButton: "Confirm",
+      //             //     isBorder: true,
+      //             //     action: () {
+      //             //       // Close pop up dialog
+      //             //       Navigator.pop(context);
 
-                    //       Navigator.push(
-                    //         context, 
-                    //         Transition(
-                    //           child: const NFTMarketPlace(),
-                    //           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                    //         )
-                    //       );
-                    //     }
-                    //   )
-                    // );
-                    
-                  },
-                ),
-              ),
+      //             //       Navigator.push(
+      //             //         context, 
+      //             //         Transition(
+      //             //           child: const NFTMarketPlace(),
+      //             //           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+      //             //         )
+      //             //       );
+      //             //     }
+      //             //   )
+      //             // );
+                  
+      //           },
+      //         ),
+      //       ),
 
-            ],
-          ),
-        )
-      ],
-    );
+      //     ],
+      //   ),
+      // )
+    ],
+  );
 }
 
 Widget _coinMenuCategory() {

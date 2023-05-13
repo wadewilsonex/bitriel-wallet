@@ -1,4 +1,4 @@
-import 'package:wallet_apps/src/models/card_section_setting.m.dart';
+import 'package:wallet_apps/data/models/card_section_setting.m.dart';
 
 import '../../../../../index.dart';
 

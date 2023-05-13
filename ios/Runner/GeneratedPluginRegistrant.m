@@ -24,12 +24,6 @@
 @import external_app_launcher;
 #endif
 
-#if __has_include(<firebase_auth/FLTFirebaseAuthPlugin.h>)
-#import <firebase_auth/FLTFirebaseAuthPlugin.h>
-#else
-@import firebase_auth;
-#endif
-
 #if __has_include(<firebase_core/FLTFirebaseCorePlugin.h>)
 #import <firebase_core/FLTFirebaseCorePlugin.h>
 #else
@@ -132,6 +126,12 @@
 @import smart_auth;
 #endif
 
+#if __has_include(<sqflite/SqflitePlugin.h>)
+#import <sqflite/SqflitePlugin.h>
+#else
+@import sqflite;
+#endif
+
 #if __has_include(<stripe_ios/StripeIosPlugin.h>)
 #import <stripe_ios/StripeIosPlugin.h>
 #else
@@ -162,7 +162,6 @@
   [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
   [FLTDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTDeviceInfoPlusPlugin"]];
   [LaunchexternalappPlugin registerWithRegistrar:[registry registrarForPlugin:@"LaunchexternalappPlugin"]];
-  [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FlutterAesEcbPkcs5Plugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterAesEcbPkcs5Plugin"]];
   [InAppWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppWebViewFlutterPlugin"]];
@@ -180,6 +179,7 @@
   [FLTSharePlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharePlusPlugin"]];
   [SharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"SharedPreferencesPlugin"]];
   [SmartAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"SmartAuthPlugin"]];
+  [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [StripeIosPlugin registerWithRegistrar:[registry registrarForPlugin:@"StripeIosPlugin"]];
   [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];
   [VibrationPlugin registerWithRegistrar:[registry registrarForPlugin:@"VibrationPlugin"]];

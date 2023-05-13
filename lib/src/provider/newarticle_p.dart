@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
-import 'package:wallet_apps/src/models/market/news_m.dart';
+import 'package:wallet_apps/data/backend/get_request.dart';
+import 'package:wallet_apps/data/models/market/news_m.dart';
 
 class ArticleProvider with ChangeNotifier {
 

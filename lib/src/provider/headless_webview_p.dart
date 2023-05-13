@@ -18,10 +18,7 @@ class HeadlessWebView with ChangeNotifier {
     )
   );
 
-  initHeadlessWebview() async {
-    if (kDebugMode) {
-      
-    }
+  Future<void> initHeadlessWebview() async {
     headlessWebView = HeadlessInAppWebView(
       initialData: InAppWebViewInitialData(
         data: """

@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wallet_apps/src/api/api_chart.dart';
+import 'package:wallet_apps/data/api/api_chart.dart';
 
 import '../../../../index.dart';
 import '../../../components/chart/chart_m.dart';

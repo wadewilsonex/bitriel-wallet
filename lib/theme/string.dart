@@ -13,6 +13,7 @@ class AppString {
   static const String contactBookView = '/contactbook';
   static const String passcodeView = '/passcode';
   static const String importAccView = '/import';
+  static const String onboardingView = '/onboarding';
   static const String contentBackup = '/contentsbackup';
   static const String recieveWalletView = '/recieveWallet';
   static const String claimAirdropView = '/claimairdrop';

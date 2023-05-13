@@ -20,27 +20,30 @@ Widget avatarShimmer(
 }){
     
   return txt == null 
-  ? Shimmer.fromColors(
-    baseColor: isDarkMode
-      ? Colors.white.withOpacity(0.06)
-      : Colors.grey[300]!,
-    highlightColor: isDarkMode
-      ? Colors.white.withOpacity(0.5)
-      : Colors.grey[100]!,
-    child: Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: isDarkMode
-          ? hexaCodeToColor(AppColors.whiteHexaColor)
-          : Colors.grey.shade400,
-        shape: BoxShape.circle,
-      ),
+  ? Container(
+    width: width ?? 50,
+    height: height ?? 50,
+    decoration: BoxDecoration(
+      color: isDarkMode
+        ? hexaCodeToColor(AppColors.whiteHexaColor)
+        : Colors.grey.shade400,
+      shape: BoxShape.circle,
     ),
-  ) 
-  : SizedBox(
-    width: width,
-    height: height,
+  )
+  // Shimmer.fromColors(
+  //   period: const Duration(seconds: 2),
+  //   baseColor: isDarkMode
+  //     ? Colors.white.withOpacity(0.06)
+  //     : Colors.grey[300]!,
+  //   highlightColor: isDarkMode
+  //     ? Colors.white.withOpacity(0.5)
+  //     : Colors.grey[100]!,
+  //   child: ,
+  // ) 
+  : 
+  SizedBox(
+    width: width ?? 50,
+    height: height ?? 50,
     child: child,
   );
 }

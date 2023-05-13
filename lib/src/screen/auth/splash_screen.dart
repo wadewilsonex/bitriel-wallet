@@ -13,17 +13,13 @@ class MySplashScreen extends StatefulWidget {
   }
 }
 
-class MySplashScreenState extends State<MySplashScreen> with SingleTickerProviderStateMixin {
-
-  AnimationController? controller;
-  Animation<double>? animation;
+class MySplashScreenState extends State<MySplashScreen> {
 
   @override
   void initState() {
     
     // readTheme();
     // checkBio();
-    getCurrentAccount();
 
     // final window = WidgetsBinding.instance.window;
     // window.onPlatformBrightnessChanged = () {
@@ -34,14 +30,21 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  didChangeDependencies() async {
+
+    super.didChangeDependencies();
+
+    // await Future.delayed(const Duration(seconds: 5), () async {
+    //   await getCurrentAccount();
+    // });
   }
+
 
   // First Check
   Future<void> getCurrentAccount() async {
-    
+
     try {
+
       await StorageServices.readSecure(DbKey.private)!.then((String value) async {
         if (value.isEmpty) {
           Navigator.pushReplacement(context, RouteAnimation(enterPage: const Onboarding()));
@@ -183,9 +186,9 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-      body: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      // body: const Center(
+      //   child: CircularProgressIndicator(),
+      // ),
     );
   }
 }

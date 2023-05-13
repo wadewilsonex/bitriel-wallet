@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/discover_m.dart';
-import 'package:wallet_apps/src/models/market/marketplace_list_m.dart';
+import 'package:wallet_apps/data/models/discover_m.dart';
+import 'package:wallet_apps/data/models/market/marketplace_list_m.dart';
 import 'package:wallet_apps/src/screen/home/discover/body_discover.dart';
 
 class DiscoverPage extends StatefulWidget {

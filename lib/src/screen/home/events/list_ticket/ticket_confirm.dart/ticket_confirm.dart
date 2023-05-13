@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/data/backend/post_request.dart';
 import 'package:wallet_apps/src/components/appbar/event_c.dart';
 import 'package:wallet_apps/src/components/cards/ticket_item_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
+import 'package:wallet_apps/data/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/src/provider/payment_controller.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';

@@ -1,7 +1,6 @@
+import 'package:wallet_apps/data/models/asset_info.dart';
 import 'package:wallet_apps/src/screen/home/transaction/transaction_detail.dart/body_trx_detail.dart';
 import 'package:wallet_apps/index.dart';
-
-import '../../../../models/asset_info.dart';
 
 class TransactionDetail extends StatefulWidget {
   final AssetInfoModel? assetInfoModel;

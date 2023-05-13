@@ -1,8 +1,8 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/backend.dart';
-import 'package:wallet_apps/src/models/swap_m.dart';
+import 'package:wallet_apps/data/backend/backend.dart';
+import 'package:wallet_apps/data/models/swap_m.dart';
 
 /// Scan QR Get SEL 
 class PostRequest {

@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/trending_market_list_c.dart';
-import 'package:wallet_apps/src/models/trendingcoin_m.dart';
+import 'package:wallet_apps/data/models/trendingcoin_m.dart';
 
 class CoinTrending extends StatelessWidget {
 

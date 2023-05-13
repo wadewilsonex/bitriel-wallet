@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
-import 'package:wallet_apps/src/models/createkey_m.dart';
+import 'package:wallet_apps/data/models/createkey_m.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 
 class VerifyPassphraseBody extends StatelessWidget {

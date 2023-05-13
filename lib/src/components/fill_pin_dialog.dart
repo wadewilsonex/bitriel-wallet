@@ -1,5 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/get_wallet.m.dart';
 
 class FillPin extends StatefulWidget {
   const FillPin({Key? key}) : super(key: key);

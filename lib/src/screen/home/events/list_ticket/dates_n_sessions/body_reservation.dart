@@ -2,8 +2,8 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/bottom_sheet/datetime_ticket_c.dart';
 import 'package:wallet_apps/src/components/cards/ticket_item_c.dart';
 import 'package:wallet_apps/src/components/radio/radio_session_c.dart';
-import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
-import 'package:wallet_apps/src/models/mdw_ticketing/user_info_m.dart';
+import 'package:wallet_apps/data/models/mdw_ticketing/ticket_m.dart';
+import 'package:wallet_apps/data/models/mdw_ticketing/user_info_m.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/dates_n_sessions/user_info.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/ticket_confirm.dart/ticket_confirm.dart';
 

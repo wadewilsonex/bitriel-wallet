@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/select_swap_token_m.dart';
-import 'package:wallet_apps/src/models/swap_m.dart';
+import 'package:wallet_apps/data/models/select_swap_token_m.dart';
+import 'package:wallet_apps/data/models/swap_m.dart';
 
 class SwapProvider extends ChangeNotifier{
   

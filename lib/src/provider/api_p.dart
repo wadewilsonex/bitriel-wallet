@@ -7,10 +7,35 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/utils/index.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/account.m.dart';
+import 'package:wallet_apps/data/models/account.m.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:wallet_apps/src/provider/test_p.dart';
+
+class ApiModel {
+
+  MyMyKeyPair? myKeyPair = MyMyKeyPair();
+  // bool? isConnected = false;
+
+  ApiModel.initData(KeyPairData? key, bool connect){
+    myKeyPair = MyMyKeyPair.fromJson(key!.name ?? '...', key.address ?? '');
+    // isConnected = connect;
+  }
+}
+
+class MyMyKeyPair{
+
+  String? name = '';
+  String? addr = '';
+
+  MyMyKeyPair();
+
+  MyMyKeyPair.fromJson(String n, String adr){
+    name = n;
+    addr = adr;
+  }
+}
 
 class ApiProvider with ChangeNotifier {
   
@@ -19,7 +44,7 @@ class ApiProvider with ChangeNotifier {
 
   NetworkParams node = NetworkParams();
 
-  Keyring get  getKeyring => _keyring;
+  Keyring get getKeyring => _keyring;
   WalletSDK get getSdk => _sdk;
 
   static const int bitcoinDigit = 8;
@@ -49,6 +74,15 @@ class ApiProvider with ChangeNotifier {
   String? selNetwork;
 
   bool? netWorkConnected = false;
+
+  ValueNotifier<ApiModel> apiModel = ValueNotifier<ApiModel>(ApiModel.initData(KeyPairData(), false));
+
+  void checkConnect() async {
+
+    // await _sdk.webView!.evalJavascript("settings.getIsConnected()").then((value) {
+    //   isConnected!.value = value;
+    // });
+  }
 
   Future<void> initSelendraEndpoint(Map<String, dynamic> json) async {
     try {
@@ -92,7 +126,6 @@ class ApiProvider with ChangeNotifier {
 
       await StorageServices.storeData(selNetwork, DbKey.sldNetwork);
       
-      notifyListeners();
     });
 
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
@@ -107,12 +140,12 @@ class ApiProvider with ChangeNotifier {
       await _keyring.init([isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]);
       await _sdk.init(_keyring, jsCode: _jsCode);
 
-      notifyListeners();
 
     } catch (e) {
       if (kDebugMode) {
       }
     }
+    // notifyListeners();
   }
 
   // Future<NetworkParams> connectPolNon({@required BuildContext? context}) async {
@@ -472,13 +505,11 @@ class ApiProvider with ChangeNotifier {
       node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
 
       await _sdk.api.connectNode(_keyring, [node]).then((value) async {
-        
-        
-        netWorkConnected = await _sdk.webView!.evalJavascript("settings.getIsConnected()");
 
-        notifyListeners();
+        apiModel.value = ApiModel.initData(_keyring.current, true);
       });
 
+      // ignore: use_build_context_synchronously
       if (getKeyring.keyPairs.isNotEmpty) await getSelNativeChainDecimal(context: context, funcName: funcName);
       
       /// Save To Local After Connect Network 
@@ -489,6 +520,9 @@ class ApiProvider with ChangeNotifier {
           selNetwork,
           DbKey.sldNetwork
         );
+
+        // ignore: use_build_context_synchronously
+        // checkConnect();
       }
 
     } catch (e) {
@@ -515,7 +549,6 @@ class ApiProvider with ChangeNotifier {
           contract.listContract[selNativeIndex].chainDecimal = res[0];
           await subSELNativeBalance(context: context);
 
-          notifyListeners();
         });
       });
     } catch (e) {

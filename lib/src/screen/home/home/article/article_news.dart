@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/article_news_c.dart';
-import 'package:wallet_apps/src/models/market/news_m.dart';
+import 'package:wallet_apps/data/models/market/news_m.dart';
 import 'package:wallet_apps/src/screen/home/webview/marketplace_webview.dart';
 
 // class ArticleNews extends StatelessWidget {

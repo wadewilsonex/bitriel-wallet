@@ -1,5 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:wallet_apps/src/models/linechart_m.dart';
+import 'package:wallet_apps/index.dart';
 
 class CoinsModel {
   

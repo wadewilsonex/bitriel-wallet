@@ -159,7 +159,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                         end: Alignment.topRight,
                                         action: () {
                                           Clipboard.setData(
-                                            ClipboardData(text: provider.accountM!.address),
+                                            ClipboardData(text: provider.accountM!.address!),
                                           );
                                           /* Copy Text */
                                           provider.method.snackBar(context, 'Copied', provider.globalKey!);

@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/nfts/ticket_nft_m.dart';
+import 'package:wallet_apps/data/models/nfts/ticket_nft_m.dart';
 
 class NftTab extends StatelessWidget {
 

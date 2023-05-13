@@ -14,6 +14,7 @@ import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:wallet_apps/src/provider/test_p.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 
@@ -22,7 +23,6 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -34,7 +34,7 @@ Future<void> main() async {
   
   Stripe.publishableKey = dotenv.get("PUBLIC_KEY_STRIPE");
   Stripe.merchantIdentifier = 'any string works';
-  await Stripe.instance.applySettings();
+  // await Stripe.instance.applySettings();
 
   runApp(
     MultiProvider(
@@ -78,9 +78,6 @@ Future<void> main() async {
         ChangeNotifierProvider<MDWProvider>(
           create: (context) => MDWProvider(),
         ),
-        ChangeNotifierProvider<GoogleAuthService>(
-          create: (context) => GoogleAuthService(),
-        ),
         ChangeNotifierProvider<TicketProvider>(
           create: (context) => TicketProvider(),
         ),
@@ -99,6 +96,9 @@ Future<void> main() async {
         ChangeNotifierProvider<AppProvider>(
           create: (context) => AppProvider(),
         ),
+        // ChangeNotifierProvider<TestProvider>(
+        //   create: (context) => TestProvider(),
+        // ),
         // ChangeNotifierProvider<DOER>(
         //   create: (context) => GoogleAuthService(),
         // ),

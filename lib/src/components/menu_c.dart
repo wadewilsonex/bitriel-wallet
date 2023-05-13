@@ -1,6 +1,7 @@
 /* The components file has custom widgets which are used by multiple different screens */
 
 import 'package:random_avatar/random_avatar.dart';
+import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -263,31 +264,36 @@ Widget myMenuItem(BuildContext context, {String? title, String? asset, Widget? i
       onTap: () {
         action!();
       },
-      child: Column(
-        children: [
-          
-          Container(
-            alignment: Alignment.topLeft,
-            margin: const EdgeInsets.only(left: 10, top: 5),
-            child: myText2(
-              context,
-              text: title,
-              fontSize: 18,
-              hexaColor: AppColors.whiteColorHexa,
-              fontWeight: FontWeight.w600,
+      child: SizedBox(
+        height: 105,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            
+            Container(
+              alignment: Alignment.topLeft,
+              margin: const EdgeInsets.only(left: 10, top: 5),
+              child: myText2(
+                context,
+                text: title,
+                color2: Colors.white,
+                // hexaColor: AppColors.whiteColorHexa,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-    
-          Align(
-            alignment: Alignment.centerRight, 
-            child: Consumer<AppProvider>(
-              builder: (context, pro, wg) {
-                return Image.file(File("${pro.dirPath}$asset"),width: 100,);
-              }
-            )
-          ),
-    
-        ],
+          
+            Align(
+              alignment: Alignment.bottomRight, 
+              child: ValueListenableBuilder(
+                valueListenable: filePath!,
+                builder: (context, value, wg) {
+                  return myText2(context, text: value);
+                }
+              )
+            ),
+          
+          ],
+        ),
       ),
     ),
   );

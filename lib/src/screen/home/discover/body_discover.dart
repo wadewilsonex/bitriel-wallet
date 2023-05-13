@@ -4,7 +4,7 @@ import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
-import 'package:wallet_apps/src/models/market/marketplace_list_m.dart';
+import 'package:wallet_apps/data/models/market/marketplace_list_m.dart';
 import 'package:wallet_apps/src/screen/home/webview/marketplace_webview.dart';
 
 class DiscoverPageBody extends StatelessWidget {

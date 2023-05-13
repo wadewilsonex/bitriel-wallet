@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/list_market_coin_m.dart';
-import 'package:wallet_apps/src/models/market/coin.dart';
-import 'package:wallet_apps/src/models/trendingcoin_m.dart';
+import 'package:wallet_apps/data/models/list_market_coin_m.dart';
+import 'package:wallet_apps/data/models/market/coin.dart';
+import 'package:wallet_apps/data/models/trendingcoin_m.dart';
 
 import '../../index.dart';
 
