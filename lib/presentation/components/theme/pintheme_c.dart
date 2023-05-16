@@ -1,28 +1,39 @@
 import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
 
-PinTheme? pinTheme = PinTheme(
+PinTheme? pinTheme = const PinTheme(
   width: 56,
-  height: 56,
+  padding: EdgeInsets.only(bottom: 15),
   textStyle: TextStyle(
     fontSize: 50,
-    color: hexaCodeToColor(AppColors.primaryColor),
+    color: Color(0xFFF29F05),
+    // color: hexaCodeToColor(AppColors.primaryColor),
   ),
-  decoration: const BoxDecoration(),
+  decoration: null,
 );
 
-Widget prefillWidget(BuildContext context){
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      Container(
-        width: MediaQuery.of(context).size.width,
-        height: 3,
-        decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.primaryColor),
-          borderRadius: BorderRadius.circular(8),
-        ),
+class PrefillWidget extends StatelessWidget {
+
+  const PrefillWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 3,
+      decoration: BoxDecoration(
+        color: const Color(0xFFF29F05),
+        borderRadius: BorderRadius.circular(8),
       ),
-    ],
-  );
+    );
+  }
 }
+
+// Widget prefillWidget(){
+//   return Container(
+//     height: 3,
+//     decoration: BoxDecoration(
+//       color: const Color(0xFFF29F05),
+//       borderRadius: BorderRadius.circular(8),
+//     ),
+//   );
+// }

@@ -26,8 +26,6 @@ import 'package:wallet_apps/data/provider/test_p.dart';
 import 'package:wallet_apps/data/provider/ticket_p.dart';
 import 'package:wallet_apps/data/provider/verify_seed_p.dart';
 
-final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
-
 ValueNotifier<String>? filePath = ValueNotifier<String>('');
 
 class App extends StatefulWidget {
@@ -40,7 +38,7 @@ class App extends StatefulWidget {
   }
 }
 
-class AppState extends State<App> {
+class AppState extends State<App>{
 
   String? dir;
 
@@ -249,12 +247,12 @@ class AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BITRIEL',
-      // theme: AppStyle.myTheme(context),
-      // // ThemeData(
-      // //   primarySwatch: Colors.blue,
-      // //   visualDensity: VisualDensity.adaptivePlatformDensity,
-      // //   // appBarTheme: const AppBarTheme(backgroundColor: Colors.white)
-      // // ),
+      theme: AppStyle.myTheme(context),
+      // ThemeData(
+      //   primarySwatch: Colors.blue,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      //   // appBarTheme: const AppBarTheme(backgroundColor: Colors.white)
+      // ),
       // initialRoute: AppString.onboardingView,
       // routes: {
       //   // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
@@ -264,7 +262,7 @@ class AppState extends State<App> {
       //   AppString.homeView: (_) => const HomePage(),
       //   AppString.onboardingView: (_) => const Onboarding()
       // },
-      home: const Onboarding(),
+      home: Onboarding(),
     );
     // );
     // return MaterialApp(

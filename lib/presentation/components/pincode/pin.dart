@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
-import 'package:wallet_apps/presentation/components/pincode/body_passcode.dart';
 import 'package:wallet_apps/constants/db_key_con.dart';
+import 'package:wallet_apps/presentation/components/pincode/body_pin.dart';
 import 'package:wallet_apps/presentation/screen/home/home/home.dart';
 import 'package:wallet_apps/presentation/screen/auth/seeds/create_seeds/create_seeds.dart';
 
@@ -35,13 +35,13 @@ class Pincode extends StatefulWidget {
 class PincodeState extends State<Pincode> {
 
   dynamic res;
-  List<TextEditingController> lsControl = [
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController()
+  List<ValueNotifier<String>> lsControl = [
+    ValueNotifier(''),
+    ValueNotifier(''),
+    ValueNotifier(''),
+    ValueNotifier(''),
+    ValueNotifier(''),
+    ValueNotifier(''),
   ];
 
   final localAuth = LocalAuthentication();
@@ -52,31 +52,39 @@ class PincodeState extends State<Pincode> {
 
   String? firstPin;
 
-  bool? isFirst;
+  // ValueNotifier<bool>? valueChange.value[1]<bool>(true);
 
-  bool? is4digits = false;
+  // bool? valueChange.value[0] = false;
+
+  /// [0] = is4Digit;
+  /// 
+  /// [1] = isFirstPin
+  ValueNotifier<List<bool?>> valueChange = ValueNotifier([
+    false,
+    true
+  ]);
 
   List<String> currentPin = ["", "", "", "", "", ""];
   
-  List<TextEditingController>  init4Digits() {
+  List<ValueNotifier<String>>  init4Digits() {
     currentPin = ["", "", "", ""];
     return lsControl = [
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
+      ValueNotifier(''),
+      ValueNotifier(''),
+      ValueNotifier(''),
+      ValueNotifier('')
     ];
   }
 
-  List<TextEditingController>  init6Digits() {
+  List<ValueNotifier<String>> init6Digits() {
     currentPin = ["", "", "", "", "", ""];
     return lsControl = [
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
+      ValueNotifier(''),
+      ValueNotifier(''),
+      ValueNotifier(''),
+      ValueNotifier(''),
+      ValueNotifier(''),
+      ValueNotifier(''),
     ];
   }
 
@@ -84,58 +92,64 @@ class PincodeState extends State<Pincode> {
   void initState() {
     StorageServices.readSecure(DbKey.pin)!.then((value) => res = value);
     authToHome();
-    isFirst = true;
     super.initState();
-  }
-
-  void clearPin() {
-    if (pinIndex == 0) {
-      pinIndex = 0;
-    } else if (pinIndex == (is4digits! ? 4 : 6)) {
-      lsControl[pinIndex-1].text = "";
-      pinIndex--;
-    } else {
-      lsControl[pinIndex-1].text = "";
-      currentPin[pinIndex - 1] = "";
-      pinIndex--;
-    }
   }
 
   @override
   void dispose(){
 
     clearAll();
-    isFirst = false;
+    valueChange.value[1] = true;
 
     super.dispose();
   }
 
-  Future<void> pinIndexSetup(String text) async {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  void clearPin() {
     if (pinIndex == 0) {
+      pinIndex = 0;
+    } else if (pinIndex == (valueChange.value[0]! ? 4 : 6)) {
+      lsControl[pinIndex-1].value = "";
+      pinIndex--;
+    } else {
+      lsControl[pinIndex-1].value = "";
+      currentPin[pinIndex - 1] = "";
+      pinIndex--;
+    }
+  }
+
+  Future<void> pinIndexSetup(String text) async {
+    // if (pinIndex == 0) {
+    //   // Add Selected PIN into List PIN
+    //   lsControl[pinIndex].value = text;
+    //   pinIndex = 1;
+    // } 
+    // else 
+    // if (pinIndex < (valueChange.value[0]! ? 4 : 6)) {
       // Add Selected PIN into List PIN
-      lsControl[pinIndex].text = text;
-      pinIndex = 1;
-    } else if (pinIndex < (is4digits! ? 4 : 6)) {
-      // Add Selected PIN into List PIN
-      lsControl[pinIndex].text = text;
+      lsControl[pinIndex].value = text;
       ++pinIndex;
 
-      if (pinIndex == (is4digits! ? 4 : 6)){
+    //   if (pinIndex == (valueChange.value[0]! ? 4 : 6)){
         
-        String strPin = "";
+    //     String strPin = "";
 
-        for (int i = 0; i < lsControl.length; i++){
-          strPin += lsControl[i].text;
-        }
-        
-        if (widget.label == PinCodeLabel.fromSplash) {
-          dialogLoading(context);
-          await passcodeAuth(strPin);
-        } else {
-          await setVerifyPin(strPin);
-        }
-      }
-    }
+    //     strPin = lsControl.map((e) {
+    //       return e.value;
+    //     }).toList().join();
+
+    //     if (widget.label == PinCodeLabel.fromSplash) {
+    //       dialogLoading(context);
+    //       await passcodeAuth(strPin);
+    //     } else {
+    //       await setVerifyPin(strPin);
+    //     }
+    //   }
+    // }
   }
 
   Future<void> clearVerifyPin(String pin) async {
@@ -144,9 +158,7 @@ class PincodeState extends State<Pincode> {
 
       clearAll();
 
-      setState(() {
-        isFirst = false;
-      });
+      valueChange.value[1] = false;
     } else {
       if (firstPin == pin) {
         await StorageServices.clearKeySecure(DbKey.pin);
@@ -163,9 +175,6 @@ class PincodeState extends State<Pincode> {
       firstPin = pin;
 
       clearAll();
-      setState(() {
-        isFirst = false;
-      });
 
       if (
         widget.label == PinCodeLabel.fromSendTx || 
@@ -173,16 +182,12 @@ class PincodeState extends State<Pincode> {
         widget.label == PinCodeLabel.fromSignMessage
         ){
         Navigator.pop(context, pin);
-      }
+      } else
       if (widget.label == PinCodeLabel.fromMenu) {
         Navigator.pop(context, true);
       }
       
-      if (mounted) {
-        setState(() {
-          isFirst = false;
-        });
-      }
+      valueChange.value[1] = false;
       
     } else {
       
@@ -200,7 +205,7 @@ class PincodeState extends State<Pincode> {
           Navigator.push(
             context, 
             Transition(
-              child: CreateSeeds(passCode: pin,),
+              child: CreateSeeds(passCode: pin, newAcc: null,),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
@@ -210,13 +215,15 @@ class PincodeState extends State<Pincode> {
           Navigator.push(
             context, 
             Transition(
-              child: ImportAcc(passCode: pin,),
+              // ignore: missing_required_param
+              child: ImportAcc(passCode: pin),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
         }
         else if (widget.label == PinCodeLabel.fromAccount){
 
+          // ignore: use_build_context_synchronously
           Navigator.pop(context, pin);
         } 
         else {
@@ -226,6 +233,9 @@ class PincodeState extends State<Pincode> {
 
       } else {
         clearAll();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: MyTextConstant(text: "Pin does not match", textAlign: TextAlign.start, color2: Colors.white,))
+        );
         Vibration.vibrate(amplitude: 500);
       }
     }
@@ -326,8 +336,8 @@ class PincodeState extends State<Pincode> {
   void onPressedDigit() {
     setState(() {
       clearAll();
-      is4digits = !is4digits!;
-      is4digits == true ? init4Digits() : init6Digits();
+      valueChange.value[0] = !valueChange.value[0]!;
+      valueChange.value[0] == true ? init4Digits() : init6Digits();
     });
   }
 
@@ -335,11 +345,10 @@ class PincodeState extends State<Pincode> {
   Widget build(BuildContext context) {
     return PincodeBody(
       label: widget.label, 
-      isFirst: isFirst, 
+      valueChange: valueChange,
       lsControl: lsControl, 
       pinIndexSetup: pinIndexSetup, 
       clearPin: clearPin,
-      is4digits: is4digits,  
       onPressedDigit: onPressedDigit
     );
   }

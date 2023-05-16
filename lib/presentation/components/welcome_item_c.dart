@@ -92,11 +92,11 @@ class WelcomeItem extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.only(bottom: 10, left: 10.0),
-              child: MyText(
+              child: MyTextConstant(
                 text: title,
-                hexaColor: textColor,
+                color2: Color(AppUtils.convertHexaColor(textColor!)),
                 fontWeight: FontWeight.w600,
-                fontSize: 18,
+                // fontSize: 18,
               ),
             ),
           ],

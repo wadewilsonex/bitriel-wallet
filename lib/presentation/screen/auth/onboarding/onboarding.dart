@@ -18,7 +18,7 @@ class Onboarding extends StatefulWidget {
   }
 }
 
-class OnboardingState extends State<Onboarding> {
+class OnboardingState extends State<Onboarding>{
 
   bool? status;
   int? currentVersion;
@@ -44,6 +44,9 @@ class OnboardingState extends State<Onboarding> {
       getCurrentAccount();
     });
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void dispose() {
@@ -77,12 +80,12 @@ class OnboardingState extends State<Onboarding> {
   }
 
   Future<void> check() async {
-    print("check");
     return await Future<void>(() async {
       if (Provider.of<ApiProvider>(context, listen: false).netWorkConnected!) {
         await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.deleteAccount(
-            Provider.of<ApiProvider>(context, listen: false).getKeyring,
-            Provider.of<ApiProvider>(context, listen: false).getKeyring.current);
+          Provider.of<ApiProvider>(context, listen: false).getKeyring,
+          Provider.of<ApiProvider>(context, listen: false).getKeyring.current
+        );
       }
     });
   }
@@ -228,7 +231,6 @@ class OnboardingState extends State<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
-    print("Build onboarding");
     return Scaffold(
       backgroundColor: Colors.white, //Color(AppUtils.convertHexaColor(AppColors.lightColorBg)),
       body: SafeArea(child: onboardingBody(context, isReady: isReady, inputController: InputController() , tabGoogle: tabGoogle, selected: selected,)),

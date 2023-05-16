@@ -111,19 +111,19 @@ class SeedContents extends StatelessWidget{
       children: [
 
         const SizedBox(height: 25),
-        MyText(
+        MyTextConstant(
           text: title,
-          fontSize: 25,
+          fontSize: 21,
           fontWeight: FontWeight.bold,
         ),
 
-        const SizedBox(height: 2.2),
-        MyText(
+        const SizedBox(height: 5),
+        MyTextConstant(
           text: subTitle,
-          hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
+          // hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
           fontWeight: FontWeight.w400,
           textAlign: TextAlign.start,
-          fontSize: 18,
+          // fontSize: 16,
         ),
       ],
     );

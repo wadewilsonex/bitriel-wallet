@@ -29,14 +29,12 @@ class ImportAccBody extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(paddingSize),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: SeedContents(
-              title: 'Restore with seed', 
-              subTitle: 'Please add your 12 words seed below to restore your wallet.'
-            ),
+          const SeedContents(
+            title: 'Restore with seed', 
+            subTitle: 'Please add your 12 words seed below to restore your wallet.'
           ),
     
           MySeedField(
@@ -53,7 +51,6 @@ class ImportAccBody extends StatelessWidget {
             focusNode: importAccModel!.keyNode,
             maxLine: 7,
             onChanged: onChanged,
-            //inputAction: TextInputAction.done,
             onSubmit: onSubmit,
           ),
     

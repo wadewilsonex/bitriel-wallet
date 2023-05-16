@@ -1,6 +1,6 @@
 /* This file hold app configurations. */
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/network_params.dart';
+import 'package:wallet_apps/data/models/network_params.dart';
 
 class AppConfig {
   

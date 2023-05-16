@@ -31,9 +31,10 @@ import 'package:wallet_apps/presentation/screen/auth/json/json.dart';
         children: [
 
           const MyTextConstant(
-            text: "Set up\nyour Bitriel wallet",
+            text: "Set up your Bitriel wallet",
             textAlign: TextAlign.start,
             fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
 
           const SizedBox(
@@ -61,7 +62,10 @@ import 'package:wallet_apps/presentation/screen/auth/json/json.dart';
                   action: () {
                     Navigator.push(
                       context, 
-                      MaterialPageRoute(builder: (context) => const Pincode(label: PinCodeLabel.fromCreateSeeds,) )
+                      MaterialPageRoute(
+                        builder: (context) => const Pincode(label: PinCodeLabel.fromCreateSeeds),
+                        settings: ModalRoute.of(context)?.settings
+                      )
                       // Transition(child: const Pincode(label: PinCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
                   },

@@ -48,7 +48,7 @@ export 'package:wallet_apps/presentation/components/trx_option_c.dart';
 export 'package:wallet_apps/infrastructure/config/.app_config.dart';
 export 'package:wallet_apps/infrastructure/config/size_config.dart';
 export 'package:wallet_apps/presentation/components/portfolio_cus.dart';
-export 'package:wallet_apps/presentation/components/pincode/passcode.dart';
+export 'package:wallet_apps/presentation/components/pincode/pin.dart';
 export 'package:wallet_apps/presentation/components/appbar/appbar_c.dart';
 export 'package:wallet_apps/presentation/components/dialog_c.dart';
 export 'package:wallet_apps/presentation/components/nft/nft_card_c.dart';

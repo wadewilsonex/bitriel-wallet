@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wallet_apps/presentation/components/dialog_c.dart';
-import 'package:wallet_apps/presentation/components/pincode/body_passcode.dart';
+import 'package:wallet_apps/presentation/components/pincode/body_pin.dart';
 import 'package:wallet_apps/constants/db_key_con.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 
@@ -31,27 +31,32 @@ class ChangePinState extends State<ChangePin> {
   ];
 
   dynamic res;
-  List<TextEditingController> lsControl = [
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
+  List<ValueNotifier<String>> lsControl = [
+    ValueNotifier(""),
+    ValueNotifier(""),
+    ValueNotifier(""),
+    ValueNotifier(""),
+    ValueNotifier(""),
+    ValueNotifier("")
   ];
 
   final localAuth = LocalAuthentication();
-
-  GlobalKey<ScaffoldState>? globalkey;
 
   int pinIndex = 0;
 
   String? oldPass;
   String? newPass;
 
-  bool? isFirst;
+  // ValueNotifier<bool>? isFirst = ValueNotifier<bool>(true);
 
-  bool? is4digits = false;
+  /// [0] = is4Digit;
+  /// 
+  /// [1] = isFirstPin
+  ValueNotifier<List<bool?>> valueChange = ValueNotifier([
+    false,
+    true
+  ]);
+
   bool? isNewPass = false;
 
   List<String> currentPin = ["", "", "", "", "", ""];
@@ -65,7 +70,6 @@ class ChangePinState extends State<ChangePin> {
     subStatus = lsMessage[4];
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     StorageServices.readSecure(DbKey.pin)!.then((value) => res = value);
-    isFirst = true;
     super.initState();
   }
 
@@ -73,41 +77,41 @@ class ChangePinState extends State<ChangePin> {
   void dispose(){
 
     clearAll();
-    isFirst = false;
+    valueChange.value[1] = true;
 
     super.dispose();
   }
   
-  List<TextEditingController> init4Digits() {
+  List<ValueNotifier<String>> init4Digits() {
     currentPin = ["", "", "", ""];
     return [
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
+      ValueNotifier(""),
+      ValueNotifier(""),
+      ValueNotifier(""),
+      ValueNotifier(""),
     ];
   }
 
-  List<TextEditingController> init6Digits() {
+  List<ValueNotifier<String>> init6Digits() {
     currentPin = ["", "", "", "", "", ""];
     return [
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
+      ValueNotifier(""),
+      ValueNotifier(""),
+      ValueNotifier(""),
+      ValueNotifier(""),
+      ValueNotifier(""),
+      ValueNotifier(""),
     ];
   }
 
   void clearPin() {
     if (pinIndex == 0) {
       pinIndex = 0;
-    } else if (pinIndex == (is4digits! ? 4 : 6)) {
-      lsControl[pinIndex-1].text = "";
+    } else if (pinIndex == (valueChange.value[0]! ? 4 : 6)) {
+      lsControl[pinIndex-1].value = "";
       pinIndex--;
     } else {
-      lsControl[pinIndex-1].text = "";
+      lsControl[pinIndex-1].value = "";
       currentPin[pinIndex - 1] = "";
       pinIndex--;
     }
@@ -116,21 +120,21 @@ class ChangePinState extends State<ChangePin> {
   Future<void> pinIndexSetup(String text) async {
     if (pinIndex == 0) {
       // Add Selected PIN into List PIN
-      lsControl[pinIndex].text = text;
+      lsControl[pinIndex].value = text;
       pinIndex = 1;
-    } else if (pinIndex < (is4digits! ? 4 : 6)) {
+    } else if (pinIndex < (valueChange.value[0]! ? 4 : 6)) {
       // Add Selected PIN into List PIN
-      lsControl[pinIndex].text = text;
+      lsControl[pinIndex].value = text;
       ++pinIndex;
 
-      if (pinIndex == (is4digits! ? 4 : 6)){
+      if (pinIndex == (valueChange.value[0]! ? 4 : 6)){
 
         dialogLoading(context);
 
         String str = '';
 
         for (var element in lsControl) {
-          str+= element.text;
+          str+= element.value;
         }
         
         // if (widget.label == PassCodeLabel.fromSplash) {
@@ -151,9 +155,7 @@ class ChangePinState extends State<ChangePin> {
 
       clearAll();
 
-      setState(() {
-        isFirst = false;
-      });
+      valueChange.value[1] = false;
     } else {
       if (oldPass == pin) {
         await StorageServices.clearKeySecure(DbKey.pin);
@@ -175,10 +177,9 @@ class ChangePinState extends State<ChangePin> {
           titleStatus = lsMessage[1];
           subStatus = lsMessage[5];
 
-          setState(() {
-            isNewPass = true;
-            isFirst = false;
-          });
+          isNewPass = true;
+          valueChange.value[1] = false;
+          
         } else {
           Vibration.vibrate(amplitude: 500);
           titleStatus = lsMessage[2];
@@ -222,11 +223,11 @@ class ChangePinState extends State<ChangePin> {
   }
 
   void onPressedDigit() {
-    setState(() {
+    valueChange.value[0] = !valueChange.value[0]!;
+    valueChange.value[0] == true ? init4Digits() : init6Digits();
+    // setState(() {
       clearAll();
-      is4digits = !is4digits!;
-      is4digits == true ? init4Digits() : init6Digits();
-    });
+    // });
   }
   
   void onSubmitChangePin() async{
@@ -234,8 +235,8 @@ class ChangePinState extends State<ChangePin> {
   }
 
   Future<void> submitChangePin() async {
-    // if (_accountModel.oldPassController.text.isNotEmpty && _accountModel.newPassController.text.isNotEmpty) {
-    //   await _changePin(_accountModel.oldPassController.text, _accountModel.newPassController.text);
+    // if (_accountModel.oldPassController.value.isNotEmpty && _accountModel.newPassController.value.isNotEmpty) {
+    //   await _changePin(_accountModel.oldPassController.value, _accountModel.newPassController.value);
     // }
   }
 
@@ -269,7 +270,7 @@ class ChangePinState extends State<ChangePin> {
 
     oldPass = null;
     newPass = null;
-    isFirst = true;
+    valueChange.value[1] = true;
     clearAll();
 
     // Close Dialog
@@ -278,17 +279,14 @@ class ChangePinState extends State<ChangePin> {
 
     // Close PassCode Screen
     Navigator.pop(context);
-    // _accountModel.oldPassController.text = '';
-    // _accountModel.newPassController.text = '';
-    // _accountModel.oldNode.requestFocus();
+    
   }
 
   Future<void> _updatePkWithNewPass() async {
     try {
 
-      // await StorageServices.writeSecure(DbKey.passcode, newPass!);
       // Get Seeds From Decrypt
-      final seeds = await KeyringPrivateStore([_apiProvider!.isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]).getDecryptedSeed(widget.acc!.pubKey, oldPass);
+      final seeds = await _apiProvider!.getKeyring.store.getDecryptedSeed(widget.acc!.pubKey, oldPass);
 
       // Get Private Key _resPk
       final resPk = await _apiProvider!.getPrivateKey(seeds!['seed']);
@@ -316,12 +314,12 @@ class ChangePinState extends State<ChangePin> {
       titleStatus: titleStatus,
       subStatus: subStatus,
       label: PinCodeLabel.fromChangePin, 
-      isFirst: isFirst, 
-      lsControl: lsControl, 
+      // isFirst: isFirst, 
+      // is4digits: is4digits,  
+      // lsControl: lsControl, 
       pinIndexSetup: pinIndexSetup, 
       clearPin: clearPin,
       isNewPass: isNewPass,
-      is4digits: is4digits,  
       onPressedDigit: onPressedDigit
     );
   }

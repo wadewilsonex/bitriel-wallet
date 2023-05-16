@@ -196,35 +196,27 @@ class MyGradientButton extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 48.0,
-            offset: const Offset(0.0, 2)
-          )
-        ],
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
-          colors: [hexaCodeToColor(lsColor![0]).withOpacity(lsColorOpacity![0]), hexaCodeToColor(lsColor![1]).withOpacity(lsColorOpacity![1])],
+          colors: [
+            hexaCodeToColor(lsColor![0]).withOpacity(lsColorOpacity![0]), hexaCodeToColor(lsColor![1]).withOpacity(lsColorOpacity![1])
+          ],
           begin: begin,
           end: end, 
           stops: const [0.25, 0.75],
         ),
       ),
       child: MaterialButton(
-        hoverColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         onPressed: action == null ? null : (){
           action!();
         },
-        child: child ?? MyText(
+        child: child ?? MyTextConstant(
           text: textButton!,
-          hexaColor: textColor!,
+          color2: Color(int.parse("0xFF${textColor!.replaceAll("#", '')}")),
           fontWeight: fontWeight!,
           // width: 100,
-          fontSize: fontSize,
+          // fontSize: fontSize,
           overflow: TextOverflow.ellipsis,
         ),
       ),
@@ -345,7 +337,7 @@ class MyTextConstant extends StatelessWidget{
     super.key, 
     this.text = '',
     this.color2 = Colors.black,
-    this.fontSize = 14,
+    this.fontSize = 15,
     this.fontWeight = FontWeight.normal,
     this.textAlign = TextAlign.center,
     this.overflow = TextOverflow.visible
