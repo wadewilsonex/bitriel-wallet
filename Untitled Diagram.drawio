@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-22T05:06:08.272Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="np_0pA0qiiE2rduRME43" version="21.3.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-22T05:07:15.142Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="7qfi7G7SpbWgLrKrneuD" version="21.3.2" type="github">
   <diagram name="Page-1" id="VHqu843zAMIvLOxLYRrT">
     <mxGraphModel dx="3056" dy="2072" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
       <root>
@@ -88,10 +88,10 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="zbY5q0rbspvN2szjDiho-288" value="Browser Explorer Web View" style="html=1;overflow=block;blockSpacing=1;whiteSpace=wrap;fontSize=16.7;fontColor=#393C56;spacing=9;strokeColor=#E07A5F;strokeOpacity=100;rounded=1;absoluteArcSize=1;arcSize=9;strokeWidth=0.8;lucidId=77a02cb7iGfI;fillColor=#F2CC8F;labelBackgroundColor=none;" parent="1" vertex="1">
-          <mxGeometry x="615" y="415" width="120" height="90" as="geometry" />
+          <mxGeometry x="575" y="415" width="120" height="90" as="geometry" />
         </mxCell>
         <mxCell id="zbY5q0rbspvN2szjDiho-289" value="WalletConnect&#xa;De-Fi, DApp" style="html=1;overflow=block;blockSpacing=1;whiteSpace=wrap;fontSize=16.7;fontColor=#393C56;spacing=9;strokeColor=#E07A5F;strokeOpacity=100;rounded=1;absoluteArcSize=1;arcSize=9;strokeWidth=0.8;lucidId=-7a0e4nIgv2n;fillColor=#F2CC8F;labelBackgroundColor=none;" parent="1" vertex="1">
-          <mxGeometry x="615" y="550" width="120" height="90" as="geometry" />
+          <mxGeometry x="575" y="550" width="120" height="90" as="geometry" />
         </mxCell>
         <mxCell id="zbY5q0rbspvN2szjDiho-290" value="Duration: &#xa;- 1 weeks" style="html=1;overflow=block;blockSpacing=1;whiteSpace=wrap;fontSize=21.7;fontColor=#393C56;align=left;spacing=9;verticalAlign=middle;strokeColor=#E07A5F;strokeOpacity=100;fillOpacity=100;rounded=1;absoluteArcSize=1;arcSize=9;fillColor=#F2CC8F;strokeWidth=0.8;lucidId=v-a0DGhrGujj;labelBackgroundColor=none;" parent="1" vertex="1">
           <mxGeometry x="-45" y="430" width="270" height="90" as="geometry" />
