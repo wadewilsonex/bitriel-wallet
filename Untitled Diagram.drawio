@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-22T05:07:15.142Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="7qfi7G7SpbWgLrKrneuD" version="21.3.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-22T05:08:11.021Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="OebND1LRpj7aHQ7Q-hW4" version="21.3.2" type="github">
   <diagram name="Page-1" id="VHqu843zAMIvLOxLYRrT">
-    <mxGraphModel dx="3056" dy="2072" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+    <mxGraphModel dx="3653" dy="2158" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -121,8 +121,8 @@
         <mxCell id="zbY5q0rbspvN2szjDiho-297" value="Menu route:&#xa;- Swap&#xa;- Bitriel NFTs&#xa;- Buy&#xa;- Send" style="html=1;overflow=block;blockSpacing=1;whiteSpace=wrap;fontSize=16.7;fontColor=#393C56;align=left;spacing=9;verticalAlign=middle;strokeColor=#E07A5F;strokeOpacity=100;rounded=1;absoluteArcSize=1;arcSize=9;strokeWidth=0.8;lucidId=acb0z6DDbaGp;fillColor=#F2CC8F;labelBackgroundColor=none;" parent="1" vertex="1">
           <mxGeometry x="570" y="115" width="120" height="118" as="geometry" />
         </mxCell>
-        <mxCell id="zbY5q0rbspvN2szjDiho-298" value="Market Price:&#xa;- " style="html=1;overflow=block;blockSpacing=1;whiteSpace=wrap;fontSize=16.7;fontColor=#393C56;align=left;spacing=9;verticalAlign=middle;strokeColor=#E07A5F;strokeOpacity=100;rounded=1;absoluteArcSize=1;arcSize=9;strokeWidth=0.8;lucidId=acb0S5HzsYsd;fillColor=#F2CC8F;labelBackgroundColor=none;" parent="1" vertex="1">
-          <mxGeometry x="570" y="246" width="120" height="90" as="geometry" />
+        <mxCell id="zbY5q0rbspvN2szjDiho-298" value="&lt;span data-lucid-content=&quot;{&amp;quot;t&amp;quot;:&amp;quot;List data from api: - Top 100 coins price data - News &amp;quot;,&amp;quot;m&amp;quot;:[{&amp;quot;s&amp;quot;:0,&amp;quot;n&amp;quot;:&amp;quot;a&amp;quot;,&amp;quot;v&amp;quot;:&amp;quot;left&amp;quot;},{&amp;quot;s&amp;quot;:0,&amp;quot;n&amp;quot;:&amp;quot;s&amp;quot;,&amp;quot;v&amp;quot;:22.22222222222222,&amp;quot;e&amp;quot;:54},{&amp;quot;s&amp;quot;:0,&amp;quot;n&amp;quot;:&amp;quot;c&amp;quot;,&amp;quot;v&amp;quot;:&amp;quot;3a414aff&amp;quot;,&amp;quot;e&amp;quot;:54}]}&quot; data-lucid-type=&quot;application/vnd.lucid.text&quot;&gt;List data from api: &lt;br&gt;- Top 100 coins price data&lt;br&gt; - News &lt;/span&gt;&lt;span data-lucid-content=&quot;{&amp;quot;t&amp;quot;:&amp;quot;List data from api: - Top 100 coins price data - News &amp;quot;,&amp;quot;m&amp;quot;:[{&amp;quot;s&amp;quot;:0,&amp;quot;n&amp;quot;:&amp;quot;a&amp;quot;,&amp;quot;v&amp;quot;:&amp;quot;left&amp;quot;},{&amp;quot;s&amp;quot;:0,&amp;quot;n&amp;quot;:&amp;quot;s&amp;quot;,&amp;quot;v&amp;quot;:22.22222222222222,&amp;quot;e&amp;quot;:54},{&amp;quot;s&amp;quot;:0,&amp;quot;n&amp;quot;:&amp;quot;c&amp;quot;,&amp;quot;v&amp;quot;:&amp;quot;3a414aff&amp;quot;,&amp;quot;e&amp;quot;:54}]}&quot; data-lucid-type=&quot;application/vnd.lucid.text&quot;&gt;&lt;/span&gt;" style="html=1;overflow=block;blockSpacing=1;whiteSpace=wrap;fontSize=16.7;fontColor=#393C56;align=left;spacing=9;verticalAlign=middle;strokeColor=#E07A5F;strokeOpacity=100;rounded=1;absoluteArcSize=1;arcSize=9;strokeWidth=0.8;lucidId=acb0S5HzsYsd;fillColor=#F2CC8F;labelBackgroundColor=none;" parent="1" vertex="1">
+          <mxGeometry x="570" y="246" width="243" height="90" as="geometry" />
         </mxCell>
         <mxCell id="zbY5q0rbspvN2szjDiho-299" value="" style="html=1;jettySize=18;whiteSpace=wrap;fontSize=13;strokeColor=#E07A5F;strokeOpacity=100;strokeWidth=0.8;rounded=1;arcSize=12;edgeStyle=orthogonalEdgeStyle;startArrow=none;endArrow=block;endFill=1;exitX=1.003;exitY=0.5;exitPerimeter=0;entryX=-0.003;entryY=0.5;entryPerimeter=0;lucidId=qcb0-TfhVIlK;fillColor=#F2CC8F;labelBackgroundColor=none;fontColor=default;" parent="1" source="zbY5q0rbspvN2szjDiho-265" target="zbY5q0rbspvN2szjDiho-297" edge="1">
           <mxGeometry width="100" height="100" relative="1" as="geometry">
@@ -155,13 +155,13 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="zbY5q0rbspvN2szjDiho-305" value="" style="strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=26.7;fontColor=#393C56;fontStyle=1;spacing=3.8;strokeOpacity=100;rounded=1;absoluteArcSize=1;arcSize=9;strokeWidth=0.8;html=1;labelBackgroundColor=none;" parent="1" vertex="1">
-          <mxGeometry x="900" y="-45" width="132" height="915" as="geometry" />
+          <mxGeometry x="940" y="55" width="132" height="915" as="geometry" />
         </mxCell>
         <mxCell id="zbY5q0rbspvN2szjDiho-306" value="" style="shape=curlyBracket;rounded=1;whiteSpace=wrap;fontSize=26.7;fontColor=#393C56;fontStyle=1;spacing=3.8;strokeColor=#E07A5F;strokeOpacity=100;strokeWidth=0.8;labelBackgroundColor=none;fillColor=#F2CC8F;" parent="zbY5q0rbspvN2szjDiho-305" vertex="1">
           <mxGeometry x="17.625" width="114.375" height="915" as="geometry" />
         </mxCell>
         <mxCell id="zbY5q0rbspvN2szjDiho-307" value="Step 3" style="strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=26.7;fontColor=#393C56;fontStyle=1;spacing=3.8;strokeOpacity=100;rounded=1;absoluteArcSize=1;arcSize=9;strokeWidth=0.8;labelBackgroundColor=none;" parent="zbY5q0rbspvN2szjDiho-305" vertex="1">
-          <mxGeometry width="17.625" height="915" as="geometry" />
+          <mxGeometry x="-24" width="24" height="915" as="geometry" />
         </mxCell>
         <mxCell id="kWYeJPqyyix-fhEWJ2AD-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#E07A5F;fontColor=#393C56;fillColor=#F2CC8F;" edge="1" parent="1" source="zbY5q0rbspvN2szjDiho-308" target="zbY5q0rbspvN2szjDiho-316">
           <mxGeometry relative="1" as="geometry" />
@@ -248,6 +248,12 @@
         <mxCell id="zbY5q0rbspvN2szjDiho-330" value="" style="html=1;jettySize=18;whiteSpace=wrap;fontSize=13;strokeColor=#E07A5F;strokeOpacity=100;strokeWidth=0.8;rounded=1;arcSize=12;edgeStyle=orthogonalEdgeStyle;startArrow=none;endArrow=block;endFill=1;exitX=1.002;exitY=0.5;exitPerimeter=0;entryX=-0.003;entryY=0.5;entryPerimeter=0;lucidId=oib0C0HbeZmy;fillColor=#F2CC8F;labelBackgroundColor=none;fontColor=default;" parent="1" source="zbY5q0rbspvN2szjDiho-327" target="zbY5q0rbspvN2szjDiho-329" edge="1">
           <mxGeometry width="100" height="100" relative="1" as="geometry">
             <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j5ffZ0JqEpq4P94D_xpK-3" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#6a00ff;strokeColor=#E07A5F;" edge="1" parent="1" source="zbY5q0rbspvN2szjDiho-308" target="zbY5q0rbspvN2szjDiho-316">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1474" y="476" as="sourcePoint" />
+            <mxPoint x="1524" y="426" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
