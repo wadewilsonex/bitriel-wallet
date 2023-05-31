@@ -1,0 +1,1 @@
+The Data Layers is responsible for storing and retrieving data from storage, such as filesystem or database.
