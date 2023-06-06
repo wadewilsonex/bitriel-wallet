@@ -1,0 +1,3 @@
+The repository layer is a part of domain and work specific.
+
+The repository layer is responsible for abstracting away the data access layer from the presentation layer. This makes it easier to change the data source or the data access mechanism without affecting the presentation layer. The repository layer typically uses a data access object (DAO) to access the data. The DAO is responsible for communicating with the data source and retrieving the data.

@@ -1,0 +1,8 @@
+The domain layer is responsible for defining the business logic of the application. 
+
+The domain layer contains the classes that represent the entities in the application, as well as the classes that define the operations that can be performed on those entities. The domain layer is also responsible for defining the rules that govern the behavior of the application.
+
+Business logic is the set of rules that govern how an application works. It is responsible for ensuring that the application behaves in a consistent and predictable manner. Business logic is typically implemented in the domain layer.
+
+
+/state folder: contain app state of selendra connection.
