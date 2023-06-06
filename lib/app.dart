@@ -1,11 +1,17 @@
+import 'package:bitriel_wallet/domain/state_n_provider/app_p.dart';
 import 'package:bitriel_wallet/utils/routes/router.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    Provider.of<AppProvider>(context, listen: false).downloadFirstAsset();
+    
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(

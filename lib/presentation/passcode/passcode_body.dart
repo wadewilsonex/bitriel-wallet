@@ -1,5 +1,5 @@
-import 'package:bitriel_wallet/features/passcode/presentation/pages/passcode.dart';
-import 'package:bitriel_wallet/widget/text_widget.dart';
+import 'package:bitriel_wallet/presentation/passcode/passcode.dart';
+import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';

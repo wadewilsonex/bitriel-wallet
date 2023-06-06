@@ -1,10 +1,11 @@
-import 'package:bitriel_wallet/widget/text_widget.dart';
+import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 
-class WelcomeBody extends StatelessWidget {
-  const WelcomeBody({super.key});
+class Welcome extends StatelessWidget {
+  
+  const Welcome({super.key});
 
   @override
   Widget build(BuildContext context) {

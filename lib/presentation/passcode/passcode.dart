@@ -1,5 +1,5 @@
-import 'package:bitriel_wallet/features/passcode/presentation/pages/passcode_body.dart';
-import 'package:bitriel_wallet/widget/text_widget.dart';
+import 'package:bitriel_wallet/presentation/passcode/passcode_body.dart';
+import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 
 enum PinCodeLabel {
@@ -15,6 +15,7 @@ enum PinCodeLabel {
 }
 
 class Pincode extends StatefulWidget {
+
   final PinCodeLabel? label;
   final bool? isAppBar;
   const Pincode({Key? key, this.isAppBar = false, this.label})

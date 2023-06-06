@@ -1,4 +1,4 @@
-import 'package:bitriel_wallet/widget/text_widget.dart';
+import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class ImportWalletBody extends StatelessWidget {

@@ -38,6 +38,16 @@ dependencies:
   intl: ^0.18.1
   path_provider: ^2.0.15
   rename: ^2.1.1
+  # Dependencies for the domain layer
+  provider: ^6.0.5
+  flutter_secure_storage: ^8.0.0
+  flutter_dotenv: ^5.1.0
+
+dependency_overrides:
+  polkawallet_sdk:
+    git:
+      url: https://github.com/DaveatCor/sdk.git
+      ref: master  
 
 dev_dependencies:
   flutter_lints: ^2.0.0

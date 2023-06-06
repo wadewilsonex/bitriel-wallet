@@ -1,4 +1,4 @@
-import 'package:bitriel_wallet/features/import_wallet/presentation/pages/import_wallet_body.dart';
+import 'package:bitriel_wallet/presentation/import_wallet/ui_import.dart';
 import 'package:flutter/material.dart';
 
 class ImportWallet extends StatefulWidget {

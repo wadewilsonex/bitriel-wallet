@@ -1,6 +1,6 @@
-import 'package:bitriel_wallet/app.dart';
-import 'package:flutter/material.dart';
+import 'index.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await dotenv.load(fileName: '.env');
+  runApp(const App());
 }

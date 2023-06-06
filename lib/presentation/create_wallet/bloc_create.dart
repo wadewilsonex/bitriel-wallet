@@ -1,5 +1,5 @@
-import 'package:bitriel_wallet/features/create_wallet/presentation/pages/create_wallet_body.dart';
-import 'package:bitriel_wallet/widget/text_widget.dart';
+import 'package:bitriel_wallet/presentation/create_wallet/ui_create.dart';
+import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class CreateWallet extends StatefulWidget {
