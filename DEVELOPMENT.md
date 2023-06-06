@@ -5,36 +5,28 @@
 
 # STRUCUTURE
 app
-├── lib
+├──lib
 │   ├── data
-│   │   ├── api
-│   │   │   ├── api.dart
-│   │   │   └── api_client.dart
-│   │   ├── database
-│   │   │   ├── database.dart
-│   │   │   └── database_connection.dart
-│   │   └── repository
-│   │       ├── repository.dart
-│   │       └── repository_impl.dart
+│   │   ├── providers
+│   │   │   └── bitriel_sdk_provider.dart
+│   │   ├── sdk
+│   │   │   └── bitriel_sdk.dart
+│   │   └── repositories
+│   │       └── bitriel_repository.dart
 │   ├── domain
 │   │   ├── entities
-│   │   │   ├── user.dart
-│   │   │   └── product.dart
+│   │   │   └── bitriel_data.dart
 │   │   ├── usecases
-│   │   │   ├── get_users.dart
-│   │   │   └── get_products.dart
+│   │   │   └── get_bitriel_data.dart
 │   │   └── state
-│   │       ├── user_state.dart
-│   │       └── product_state.dart
+│   │       └── bitriel_state.dart
 │   └── presentation
 │       ├── components
 │       │   ├── button.dart
 │       │   └── text_field.dart
 │       ├── screens
 │       │   ├── home_screen.dart
-│       │   └── login_screen
-│       │       ├── login_bloc.dart
-│       │       └── login_screen.dart
+│       │   └── bitriel_screen.dart
 │       └── widgets
 │           ├── app_bar.dart
 │           └── list_view.dart
