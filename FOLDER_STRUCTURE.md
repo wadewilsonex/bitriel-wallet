@@ -1,36 +1,39 @@
-# The three-tier architecture. 
-# The three-tier architecture is a common software architecture that is used to design and develop large, complex applications
-## In this project we follow Three-Layers, such as DATA, DOMAIN, PRESENTATION Layers for project structure.
-## Also inside presentation layers we follow Features-First structure.
-
 # STRUCUTURE
-app
-├──lib
-│   ├── data
-│   │   ├── providers
-│   │   │   └── bitriel_sdk_provider.dart
-│   │   ├── sdk
-│   │   │   └── bitriel_sdk.dart
-│   │   └── repositories
-│   │       └── bitriel_repository.dart
-│   ├── domain
-│   │   ├── entities
-│   │   │   └── bitriel_data.dart
-│   │   ├── usecases
-│   │   │   └── get_bitriel_data.dart
-│   │   └── state
-│   │       └── bitriel_state.dart
-│   └── presentation
-│       ├── components
-│       │   ├── button.dart
-│       │   └── text_field.dart
-│       ├── screens
-│       │   ├── home_screen.dart
-│       │   └── bitriel_screen.dart
-│       └── widgets
-│           ├── app_bar.dart
-│           └── list_view.dart
-└── pubspec.yaml
+├── lib/
+│   ├── data/
+│   │   ├── repositories/
+│   │   │   └── account_repository.dart
+│   │   └── sdk/
+│   │       └── bitriel_sdk.dart
+│   ├── domain/
+│   │   ├── entities/
+│   │   │   └── account.dart
+│   │   ├── models/
+│   │   │   ├── account_model.dart
+│   │   │   └── mnemonic_model.dart
+│   │   ├── repositories/
+│   │   │   └── account_repository.dart
+│   │   └── use_cases/
+│   │       ├── create_account_use_case.dart
+│   │       └── import_account_use_case.dart
+│   ├── presentation/
+│   │   ├── providers/
+│   │   │   └── account_provider.dart
+│   │   ├── screens/
+│   │   │   ├── create_account_screen.dart
+│   │   │   └── import_account_screen.dart
+│   │   └── widgets/
+│   │       ├── account_card.dart
+│   │       └── mnemonic_form.dart
+│   └── standalone/
+│       ├── utils/
+│       │   └── utility_file.dart
+│       ├── components/
+│       │   └── component_file.dart
+│       └── widgets/
+│           └── widget_file.dart
+├── pubspec.yaml
+└── README.md
 
 # State
 
@@ -102,3 +105,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
+
+Data <- Repository <- Usecases <- Provider <- Presentation

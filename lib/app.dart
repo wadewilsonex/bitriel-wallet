@@ -1,7 +1,4 @@
-import 'package:bitriel_wallet/domain/state_n_provider/app_p.dart';
-import 'package:bitriel_wallet/utils/routes/router.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'index.dart';
 
 class App extends StatelessWidget {
 
@@ -9,18 +6,19 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    Provider.of<AppProvider>(context, listen: false).downloadFirstAsset();
+    Provider.of<AssetProvider>(context, listen: false).downloadFirstAsset();
     
-    return MaterialApp.router(
-      title: 'Flutter Demo',
+    return MaterialApp(
+      title: 'Bitriel',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, background: Colors.white),
         useMaterial3: true,
       ),
-      routeInformationParser: AppRouter().router.routeInformationParser,
-      routeInformationProvider: AppRouter().router.routeInformationProvider,
-      routerDelegate: AppRouter().router.routerDelegate,
+      // routeInformationParser: AppRouter().router.routeInformationParser,
+      // routeInformationProvider: AppRouter().router.routeInformationProvider,
+      // routerDelegate: AppRouter().router.routerDelegate,
+      routes: AppRouter.router,
+      initialRoute: "/",
     );
   }
 }

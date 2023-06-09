@@ -1,6 +1,8 @@
+APPLICTION OR SOFTWARE ARCHITECTURE.
+
 # Defition
 
-The architecture you described with the Presentation Layer, Domain Layer, and Data Layer follows a three-tier architecture pattern. This pattern promotes separation of concerns, modularity, and maintainability in software development.
+The architecture you described with the Presentation Layer, Domain Layer, Application, and Data Layer follows a three-tier architecture pattern. This pattern promotes separation of concerns, modularity, and maintainability in software development.
 
 # Here are some benefits of using a three-tier architecture:
 
@@ -13,3 +15,11 @@ The architecture you described with the Presentation Layer, Domain Layer, and Da
 - Maintainability: The separation of concerns and modular design make it easier to understand, update, and maintain the codebase. Changes or updates in one layer can be isolated and tested without affecting the other layers.
 
 - Flexibility: The three-tier architecture allows for flexibility in technology choices. Each layer can be implemented using different frameworks, libraries, or programming languages, as long as they can communicate with each other through well-defined interfaces.
+
+# The three-tier architecture. 
+The three-tier architecture is a common software architecture that is used to design and develop large, complex applications
+
+## In this project we follow three-Layers, such as DATA, DOMAIN, APPLICATION and PRESENTATION Layers for project structure.
+
+## Also inside presentation layers we follow Features-First structure.
+
