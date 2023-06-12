@@ -54,7 +54,17 @@ class Welcome extends StatelessWidget {
     );
   }
 
-  Widget _menuButton(BuildContext context, {Color? bgColor, required String title, required IconData icon, required String route, String? imgName}) {
+  Widget _menuButton(
+    BuildContext context, 
+    {
+      Color? bgColor, 
+      required String title, 
+      required IconData icon, 
+      required String route, 
+      String? imgName,
+      required AssetProvider pro
+    }
+  ) {
     return GestureDetector(
       onTap: () {
         // context.push(route);
@@ -69,59 +79,32 @@ class Welcome extends StatelessWidget {
           decoration: BoxDecoration(
             color: bgColor
           ),
-          child: Stack(
-            alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
-              Consumer<AssetProvider>(
-                builder: (context, pro, wg){
-                  return pro.isDownloadedAsset == true ? Image.file(File("${pro.dirPath}/icons/$imgName"), cacheHeight: 200,) : Container();
-                }
-              ),
+
+              // Icon Placeholder
+              Padding(
+                padding: const EdgeInsets.only(top: 5, left: 10.0),
+                child: SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: Icon(icon, color: Colors.white),
+                )),
+
+              // Image Placeholder
+              pro.isDownloadedAsset == true ? Image.file(File("${pro.dirPath}/icons/$imgName"), width: 200, height: 200, cacheHeight: 200,) : Container(),
       
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-      
-                  // Icon Placeholder
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5, left: 10.0),
-                    child: SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: Icon(icon, color: Colors.white),
-                    )
-                  ),
-      
-                  // Image Placeholder
-                  Consumer<AssetProvider>(
-                    builder: (context, pro, wg){
-                      return pro.isDownloadedAsset ? const Expanded(child: SizedBox()) : const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Placeholder(
-                            fallbackHeight: 200,
-                            fallbackWidth: 200,
-                          ),
-                        ),
-                      );
-                    }
-                  ),
-          
-                  // Title
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5, left: 10.0),
-                    child: myText2(
-                      context,
-                      text: title,
-                      color2: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                    ),
-                  ),
-                ],
+              // Title Placeholder
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5, left: 10.0),
+                child: myText2(
+                  context,
+                  text: title,
+                  color2: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                ),
               ),
             ],
           ),
@@ -132,24 +115,44 @@ class Welcome extends StatelessWidget {
 
   Widget _listMenuButton(BuildContext context){
 
-    return Column(
-      children: [
-        Row(
+    return Consumer<AssetProvider>(
+      builder: (context, pro, wg) {
+        return Column(
           children: [
-            Flexible(
-              flex: 1,
-              child: _menuButton(context, title: "Create Wallet", icon: Iconsax.add_circle, route: "/create-wallet", imgName: "setup-1.png", bgColor: const Color(0xFFF29F05))
-            ),
+            Row(
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: _menuButton(
+                    context, 
+                    title: "Create Wallet", 
+                    icon: Iconsax.add_circle, 
+                    route: "/create-wallet", 
+                    imgName: "setup-1.png", 
+                    bgColor: const Color(0xFFF29F05),
+                    pro: pro
+                  )
+                ),
 
-            const SizedBox(width: 10,),
+                const SizedBox(width: 10,),
 
-            Flexible(
-              flex: 1,
-              child: _menuButton(context, title: "Import Wallet", icon: Iconsax.import , route: "/import-wallet", imgName: "setup-2.png", bgColor: const Color(0xFFF29F05).withOpacity(0.5))
+                Flexible(
+                  flex: 1,
+                  child: _menuButton(
+                    context, 
+                    title: "Import Wallet",
+                    icon: Iconsax.import, 
+                    route: "/import-wallet", 
+                    imgName: "setup-2.png", 
+                    bgColor: const Color(0xFFF29F05).withOpacity(0.5),
+                    pro: pro
+                  )
+                )
+              ],
             )
           ],
-        )
-      ],
+        );
+      }
     );
   }
 

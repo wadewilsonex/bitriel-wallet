@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
 
 class AssetUseCaseImpl implements AssetUseCases {
 
@@ -17,9 +18,9 @@ class AssetUseCaseImpl implements AssetUseCases {
   Future<void> downloadFirstAsset() async {
     try {
       await downloadNArchive(fileName: 'icons.zip');
-      print("downloadNArchive");
+      logger.d("downloadNArchive");
     } catch (e) {
-      print("Error downloadFirstAsset $e");
+      logger.d("Error downloadFirstAsset $e");
     }
   }
 
@@ -37,9 +38,9 @@ class AssetUseCaseImpl implements AssetUseCases {
 
   @override
   Future<void> downloadNArchive({String? fileName}) async {
-    print("downloadNArchive");
+    logger.d("downloadNArchive");
     await _appRepoImpl.downloadAsset(fileName: fileName).then((value) async {
-      print("value $value");
+      logger.d("value $value");
       // await downloadAsset();
       await AppUtils.archiveFile(await File("$dirPath/$fileName").writeAsBytes(value.bodyBytes));
     });

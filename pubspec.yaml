@@ -39,6 +39,8 @@ dependencies:
   intl: ^0.18.1
   path_provider: ^2.0.15
   rename: ^2.1.1
+  logger: ^1.4.0
+  http: ^0.13.4
   # Dependencies for the domain layer
   provider: ^6.0.5
   flutter_secure_storage: ^8.0.0
