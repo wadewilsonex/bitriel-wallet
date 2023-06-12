@@ -1,4 +1,4 @@
-import 'package:bitriel_wallet/application/utils/app_utils/app_utils.dart';
+import 'package:bitriel_wallet/standalone/utils/app_utils/app_utils.dart';
 import 'package:flutter/material.dart';
 
 Color hexaCodeToColor(String hexaCode) {

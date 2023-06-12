@@ -1,1 +1,0 @@
-Provider is a state management.

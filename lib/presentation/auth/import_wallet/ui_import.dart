@@ -1,7 +1,7 @@
-import 'package:bitriel_wallet/application/utils/app_utils/global.dart';
-import 'package:bitriel_wallet/application/utils/themes/colors.dart';
-import 'package:bitriel_wallet/components/button_widget.dart';
 import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
+import 'package:bitriel_wallet/standalone/components/button_widget.dart';
+import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
+import 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
