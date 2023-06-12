@@ -1,5 +1,5 @@
-import 'package:bitriel_wallet/utils/app_utils/global.dart';
-import 'package:bitriel_wallet/utils/themes/colors.dart';
+import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
+import 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
 import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 
