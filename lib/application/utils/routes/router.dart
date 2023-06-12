@@ -1,5 +1,5 @@
-import 'package:bitriel_wallet/presentation/create_wallet/bloc_create.dart';
-import 'package:bitriel_wallet/presentation/import_wallet/bloc_import.dart';
+import 'package:bitriel_wallet/presentation/auth/create_wallet/bloc_create.dart';
+import 'package:bitriel_wallet/presentation/auth/import_wallet/bloc_import.dart';
 import 'package:bitriel_wallet/presentation/welcome_ui.dart';
 import 'package:go_router/go_router.dart';
 

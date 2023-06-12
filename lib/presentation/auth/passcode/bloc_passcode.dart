@@ -1,4 +1,4 @@
-import 'package:bitriel_wallet/presentation/passcode/passcode_body.dart';
+import 'package:bitriel_wallet/presentation/auth/passcode/ui_passcode.dart';
 import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,5 @@
 import 'package:bitriel_wallet/domain/state_n_provider/app_p.dart';
-import 'package:bitriel_wallet/utils/routes/router.dart';
+import 'package:bitriel_wallet/application/utils/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +10,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<AppProvider>(context, listen: false).downloadFirstAsset();
+    // Provider.of<AppProvider>(context, listen: false).downloadFirstAsset();
     
     return MaterialApp.router(
       title: 'Flutter Demo',
