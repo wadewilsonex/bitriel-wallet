@@ -1,7 +1,10 @@
+import 'package:bitriel_wallet/presentation/auth/verify_wallet/bloc_verify.dart';
+import 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
 import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:bitriel_wallet/standalone/components/button_widget.dart';
 import 'package:bitriel_wallet/standalone/components/seed_widget.dart';
 import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
+import 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -11,6 +14,7 @@ class CreateSeedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: appBar(context, title: "Create Mnemonic"),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -29,10 +33,11 @@ class CreateSeedBody extends StatelessWidget {
               Expanded(child: Container()),
               MyGradientButton(
                 textButton: "Continue",
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
                 action: () async {
-                  
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const VerifySeed())
+                  );
                 },
               ),
             ],
@@ -48,78 +53,23 @@ class CreateSeedBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         MyText(
-          text: "Seed",
-          fontWeight: FontWeight.w600,
-          textAlign: TextAlign.start,
-          fontSize: 25,
-          color: Colors.black,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        MyText(
           text: 
             "Write down or copy these words in the order and save them somewhere safe.\n\nAfter writing and securing your 12 words, click continue to proceed.",
           textAlign: TextAlign.start,
           fontSize: 19,
-          color: Colors.grey
+          color: AppColors.darkGrey
         )
       ],
     );
   }
 
-  Widget _optionButton() {
-    return const Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Flexible(
-          flex: 0,
-          child: Row(
-            children: [
-              Icon(Iconsax.repeat),
-
-              SizedBox(width: 5),
-
-              MyText(
-                text: "Change Seed",
-                fontWeight: FontWeight.w600,
-                textAlign: TextAlign.start,
-                color: Colors.black,
-              ),
-            ],
-          ),
-        ),
-        
-        SizedBox(width: 20),
-
-        Flexible(
-          flex: 0,
-          child: Row(
-            children: [
-              Icon(Iconsax.copy),
-
-              SizedBox(width: 5),
-
-              MyText(
-                text: "Copy",
-                fontWeight: FontWeight.w600,
-                textAlign: TextAlign.start,
-                color: Colors.black,
-              ),
-            ],
-          ),
-        )
-      ],
-    );
-  }
 
   Widget _seedDisplay(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(left: 14, right: 14, top: 20, bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: hexaCodeToColor("#E8E8E8"),
+        color: hexaCodeToColor(AppColors.white),
       ),
       child: Column(
         children: [
@@ -151,4 +101,50 @@ class CreateSeedBody extends StatelessWidget {
     );
   }
 
+ Widget _optionButton() {
+    return const Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Flexible(
+          flex: 0,
+          child: Row(
+            children: [
+              Icon(Iconsax.repeat),
+
+              SizedBox(width: 5),
+
+              MyText(
+                text: "New Mnemonic",
+                fontWeight: FontWeight.w400,
+                textAlign: TextAlign.start,
+                color: AppColors.midNightBlue,
+              ),
+            ],
+          ),
+        ),
+        
+        SizedBox(width: 20),
+
+        Flexible(
+          flex: 0,
+          child: Row(
+            children: [
+              Icon(Iconsax.copy),
+
+              SizedBox(width: 5),
+
+              MyText(
+                text: "Copy",
+                fontWeight: FontWeight.w400,
+                textAlign: TextAlign.start,
+                color: AppColors.midNightBlue,
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+  
 }

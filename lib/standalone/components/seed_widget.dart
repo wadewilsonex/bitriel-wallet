@@ -33,7 +33,7 @@ class SeedsCompoent {
           alignment: Alignment.center,
           margin: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.whiteHexaColor),
+            color: hexaCodeToColor(AppColors.primary),
             borderRadius: const BorderRadius.all(Radius.circular(50)),
           ),
           // color: grey,
@@ -43,16 +43,18 @@ class SeedsCompoent {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               if ((i * 3 + pos + 1) < 10)
                 MyText(
-                    text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                    hexaColor: AppColors.textColor,
-                    fontSize: 17 * MediaQuery.of(context).textScaleFactor,
-                    fontWeight: FontWeight.bold)
+                  text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
+                  color: AppColors.white,
+                  fontSize: 15 * MediaQuery.of(context).textScaleFactor,
+                  fontWeight: FontWeight.bold
+                )
               else
                 MyText(
-                    text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                    hexaColor: AppColors.textColor,
-                    fontSize: 17 * MediaQuery.of(context).textScaleFactor,
-                    fontWeight: FontWeight.bold),
+                  text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
+                  color: AppColors.white,
+                  fontSize: 15 * MediaQuery.of(context).textScaleFactor,
+                  fontWeight: FontWeight.bold
+                ),
             ]),
           ),
         ));
@@ -72,14 +74,14 @@ class SeedsCompoent {
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.whiteHexaColor),
+          color: hexaCodeToColor(AppColors.white),
           borderRadius: const BorderRadius.all(Radius.circular(50)),
         ),
         // color: grey,
         child: MyText(
           text: txt,
-          hexaColor: AppColors.textColor,
-          fontSize: 17 * MediaQuery.of(context).textScaleFactor,
+          color: AppColors.white,
+          fontSize: 15 * MediaQuery.of(context).textScaleFactor,
           fontWeight: FontWeight.bold
         ),
       )

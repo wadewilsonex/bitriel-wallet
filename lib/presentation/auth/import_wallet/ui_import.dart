@@ -4,6 +4,7 @@ import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
 import 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:iconsax/iconsax.dart';
 
 class ImportWalletBody extends StatelessWidget {
   const ImportWalletBody({super.key});
@@ -12,6 +13,21 @@ class ImportWalletBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: hexaCodeToColor(AppColors.background),
+        centerTitle: true,
+        leading: Icon(
+          Iconsax.arrow_left_2,
+          color: hexaCodeToColor(AppColors.midNightBlue),
+          size: 25,
+        ),
+        title: MyTextConstant(
+          text: "Import Mnemonic",
+          fontSize: 26,
+          color2: hexaCodeToColor(AppColors.midNightBlue),
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -28,8 +44,6 @@ class ImportWalletBody extends StatelessWidget {
               Expanded(child: Container()),
               MyGradientButton(
                 textButton: "Continue",
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
                 action: () async {},
               ),
             ],
@@ -45,20 +59,9 @@ class ImportWalletBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         MyText(
-          text: "Restore with seed",
-          fontWeight: FontWeight.w600,
-          textAlign: TextAlign.start,
-          fontSize: 25,
-          color: Colors.black,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        MyText(
           text: "Please add your 12 words seed below to restore your wallet.",
-          textAlign: TextAlign.start,
-          fontSize: 19,
-          color: Colors.grey
+          textAlign: TextAlign.start, 
+          color: AppColors.darkGrey
         ),
       ],
     );
@@ -74,8 +77,8 @@ class ImportWalletBody extends StatelessWidget {
       },
       textInputAction: TextInputAction.next,
       style: TextStyle(
-        color: hexaCodeToColor(AppColors.textColor),
-        fontSize: 18.0
+        color: hexaCodeToColor(AppColors.midNightBlue),
+        fontSize: 16.0
       ),
       validator: (String? value) {
         return null;
@@ -84,16 +87,13 @@ class ImportWalletBody extends StatelessWidget {
       maxLines: 7,
       decoration: InputDecoration(
         hintText: "Add your 12 keywords",
-        hintStyle: TextStyle(
-          fontSize: 18,
-          color: hexaCodeToColor(AppColors.greyColor),
-          // fontSize: 16.0,
+        hintStyle: const TextStyle(
           fontWeight: FontWeight.w600
         ),
-        prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
+        prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.midNightBlue), fontSize: 16.0),
         /* Prefix Text */
         filled: true,
-        fillColor: hexaCodeToColor(AppColors.blackColor).withOpacity(0.06),
+        fillColor: hexaCodeToColor(AppColors.white),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0),
           borderSide: const BorderSide(
@@ -127,7 +127,7 @@ class ImportWalletBody extends StatelessWidget {
         //     ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3)
         //     : hexaCodeToColor(AppColors.secondary)),
         /* Default Focuse Border Color*/
-        focusColor: hexaCodeToColor(AppColors.textColor),
+        focusColor: hexaCodeToColor(AppColors.midNightBlue),
         /* Border Color When Focusing */
         contentPadding: const EdgeInsets.fromLTRB(15, 15, 15, 1),
         suffixIconConstraints: const BoxConstraints(

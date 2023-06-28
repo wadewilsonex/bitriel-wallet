@@ -1,9 +1,9 @@
+import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
 import 'package:flutter/material.dart';
 
 class MyText extends StatelessWidget {
-  final String? text;
-  final String? hexaColor;
-  final Color? color;
+  final String text;
+  final String color;
   final double? fontSize;
   final FontWeight? fontWeight;
   final double? top;
@@ -22,9 +22,8 @@ class MyText extends StatelessWidget {
 
   const MyText({
     Key? key,
-    this.text,
-    this.hexaColor,
-    this.color,
+    required this.text,
+    required this.color,
     this.fontSize = 16,
     this.fontWeight = FontWeight.normal,
     this.top = 0,
@@ -51,10 +50,10 @@ class MyText extends StatelessWidget {
         width: width,
         height: height,
         child: Text(
-          text!,
+          text,
           style: TextStyle(
             fontWeight: fontWeight,
-            color: color,
+            color: hexaCodeToColor(color),
             fontSize: fontSize
           ),
           textAlign: textAlign,

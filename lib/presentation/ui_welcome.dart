@@ -1,5 +1,7 @@
 import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/auth/create_wallet/bloc_create.dart';
+import 'package:bitriel_wallet/presentation/auth/passcode/bloc_passcode.dart';
+import 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
 
 class Welcome extends StatelessWidget {
   
@@ -37,7 +39,7 @@ class Welcome extends StatelessWidget {
           fontWeight: FontWeight.w600,
           textAlign: TextAlign.start,
           fontSize: 25,
-          color: Colors.black,
+          color: AppColors.midNightBlue,
         ),
 
         SizedBox(
@@ -48,7 +50,7 @@ class Welcome extends StatelessWidget {
           text: "Safe keeping digital assets, send, receive, trade, and more with Bitriel wallet.",
           textAlign: TextAlign.start,
           fontSize: 19,
-          color: Colors.grey
+          color: AppColors.darkGrey
         )
       ],
     );
@@ -70,7 +72,7 @@ class Welcome extends StatelessWidget {
         // context.push(route);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const CreateWallet())
+          MaterialPageRoute(builder: (context) => const CreateSeed())
         );
       },
       child: ClipRRect(

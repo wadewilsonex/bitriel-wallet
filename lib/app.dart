@@ -1,3 +1,6 @@
+import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
+import 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
+
 import 'index.dart';
 
 class App extends StatelessWidget {
@@ -11,7 +14,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Bitriel',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, background: Colors.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, background: hexaCodeToColor(AppColors.background)),
+        fontFamily: 'TitilliumWeb',
         useMaterial3: true,
       ),
       // routeInformationParser: AppRouter().router.routeInformationParser,
