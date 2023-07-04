@@ -55,7 +55,7 @@ class PinUsecaseImpl implements PinUsecase{
         // ignore: use_build_context_synchronously
         Navigator.pop(context, true);
       }
-    } on SocketException catch (e) {
+    } on SocketException {
       await Future.delayed(const Duration(milliseconds: 300), () {});
 
       // AppServices.openSnackBar(globalkey!, e.message);

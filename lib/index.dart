@@ -47,6 +47,7 @@ export 'package:bitriel_wallet/domain/usecases/sdk_uc/sdk_uc_impl.dart';
 // Screen
 export 'package:bitriel_wallet/presentation/welcome_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/create_wallet_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/import_wallet_screen.dart';
 // WIdget
 export 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/seed_wg.dart';

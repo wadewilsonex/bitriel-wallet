@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/provider/sdk_pro.dart';
 
 class ImportWalletProvider with ChangeNotifier {
 

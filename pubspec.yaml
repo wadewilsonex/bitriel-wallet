@@ -37,21 +37,20 @@ dependencies:
   date_format: ^2.0.7
   iconsax: ^0.0.8
   path_provider: ^2.0.15
-  rename: ^2.1.1
-  # Dependencies for the domain layer
   provider: ^6.0.5
   flutter_secure_storage: ^8.0.0
   flutter_dotenv: ^5.1.0
   pinput: ^2.2.31
   local_auth: ^2.1.6
+  rename: ^2.1.1
 
 dependency_overrides:
   polkawallet_sdk:
     git:
       url: https://github.com/DaveatCor/sdk.git
-      ref: master  
+      ref: master
 
-  permission_handler:
+  permission_handler: null
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -82,12 +81,20 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: TitilliumWeb
+      fonts:
+        - asset: assets/fonts/TitilliumWeb-Black.ttf
+        - asset: assets/fonts/TitilliumWeb-Bold.ttf
+        - asset: assets/fonts/TitilliumWeb-BoldItalic.ttf
+        - asset: assets/fonts/TitilliumWeb-ExtraLight.ttf
+        - asset: assets/fonts/TitilliumWeb-ExtraLightItalic.ttf
+        - asset: assets/fonts/TitilliumWeb-Italic.ttf
+        - asset: assets/fonts/TitilliumWeb-Light.ttf
+        - asset: assets/fonts/TitilliumWeb-LightItalic.ttf
+        - asset: assets/fonts/TitilliumWeb-Regular.ttf
+        - asset: assets/fonts/TitilliumWeb-SemiBold.ttf
+        - asset: assets/fonts/TitilliumWeb-SemiBoldItalic.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

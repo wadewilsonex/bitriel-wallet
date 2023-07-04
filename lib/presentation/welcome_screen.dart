@@ -1,5 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/screen/import_wallet_screen.dart';
 
 class Welcome extends StatelessWidget {
   
@@ -29,7 +28,7 @@ class Welcome extends StatelessWidget {
   }
 
   Widget _textHeader(){
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

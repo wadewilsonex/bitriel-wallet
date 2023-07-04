@@ -33,7 +33,7 @@ class SeedsCompoent {
           alignment: Alignment.center,
           margin: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.whiteHexaColor),
+            color: hexaCodeToColor(AppColors.primary),
             borderRadius: const BorderRadius.all(Radius.circular(50)),
           ),
           // color: grey,
@@ -42,16 +42,18 @@ class SeedsCompoent {
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               if ((i * 3 + pos + 1) < 10)
                 MyText(
-                    text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                    hexaColor: AppColors.textColor,
-                    fontSize: 17 * MediaQuery.of(context).textScaleFactor,
-                    fontWeight: FontWeight.bold)
+                  text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
+                  hexaColor: AppColors.textColor,
+                  fontSize: 17 * MediaQuery.of(context).textScaleFactor,
+                  fontWeight: FontWeight.bold
+                )
               else
                 MyText(
-                    text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                    hexaColor: AppColors.textColor,
-                    fontSize: 17 * MediaQuery.of(context).textScaleFactor,
-                    fontWeight: FontWeight.bold),
+                  text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
+                  hexaColor: AppColors.textColor,
+                  fontSize: 17 * MediaQuery.of(context).textScaleFactor,
+                  fontWeight: FontWeight.bold
+                ),
             ]),
           ),
         ));
