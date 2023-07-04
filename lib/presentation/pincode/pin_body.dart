@@ -1,4 +1,4 @@
-import 'package:bitriel_wallet/presentation/passcode/passcode.dart';
+import 'package:bitriel_wallet/presentation/pincode/pin.dart';
 import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,20 +21,20 @@ class PincodeBody extends StatelessWidget {
   final bool? isNewPass;
   final Function? onPressedDigit;
 
-  const PincodeBody(
-      {Key? key,
-      this.titleStatus,
-      this.subStatus,
-      this.isNewPass = false,
-      this.label,
-      // this.isFirst,
-      // this.is4digits,
-      this.valueChange,
-      this.lsControl,
-      this.pinIndexSetup,
-      this.clearPin,
-      this.onPressedDigit})
-      : super(key: key);
+  const PincodeBody({
+    Key? key,
+    this.titleStatus,
+    this.subStatus,
+    this.isNewPass = false,
+    this.label,
+    // this.isFirst,
+    // this.is4digits,
+    this.valueChange,
+    this.lsControl,
+    this.pinIndexSetup,
+    this.clearPin,
+    this.onPressedDigit
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +49,16 @@ class PincodeBody extends StatelessWidget {
             children: [
               if (titleStatus == null)
                 ValueListenableBuilder(
-                    valueListenable: valueChange!,
-                    builder: (builder, value, wg) {
-                      return MyText(
-                        top: 80,
-                        text: value[1]! ? 'Enter PIN' : 'Verify PIN',
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      );
-                    })
+                  valueListenable: valueChange!,
+                  builder: (builder, value, wg) {
+                    return MyText(
+                      top: 80,
+                      text: value[1]! ? 'Enter PIN' : 'Verify PIN',
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    );
+                  }
+                )
               // For Change PIN
               else
                 MyTextConstant(
@@ -77,14 +78,16 @@ class PincodeBody extends StatelessWidget {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (label == PinCodeLabel.fromSplash ||
-                        label == PinCodeLabel.fromSendTx ||
-                        label == PinCodeLabel.fromBackUp ||
-                        label == PinCodeLabel.fromSignMessage)
-                      const MyTextConstant(
-                        fontSize: 17,
-                        text: "Verify PIN code to continue",
-                      )
+                    if (
+                      label == PinCodeLabel.fromSplash ||
+                      label == PinCodeLabel.fromSendTx ||
+                      label == PinCodeLabel.fromBackUp ||
+                      label == PinCodeLabel.fromSignMessage
+                    )
+                    const MyTextConstant(
+                      fontSize: 17,
+                      text: "Verify PIN code to continue",
+                    )
                     else
                       const MyTextConstant(
                         fontSize: 17,

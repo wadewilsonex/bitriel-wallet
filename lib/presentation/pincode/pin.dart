@@ -1,4 +1,4 @@
-import 'package:bitriel_wallet/presentation/passcode/passcode_body.dart';
+import 'package:bitriel_wallet/presentation/pincode/pin_body.dart';
 import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -326,6 +326,7 @@ class PincodeState extends State<Pincode> {
       lsControl: lsControl,
       pinIndexSetup: pinIndexSetup,
       clearPin: clearPin,
-      onPressedDigit: onPressedDigit);
+      onPressedDigit: onPressedDigit
+    );
   }
 }

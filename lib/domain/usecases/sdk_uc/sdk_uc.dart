@@ -1,7 +1,6 @@
 import 'package:bitriel_wallet/index.dart';
 
 abstract class BitrielSDKUseCase {
-
   void initBitrielSDK({required String jsFilePath, int nodeIndex = 0});
 
   void dynamicNetwork() ;
