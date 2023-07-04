@@ -1,23 +1,23 @@
-<mxfile host="app.diagrams.net" modified="2023-07-04T04:02:10.101Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="-XvteyUa_sBQ2sYl7X1u" version="21.5.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-07-04T04:13:24.272Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="JCQj3wCpCU54lgLIlIgS" version="21.5.2" type="github">
   <diagram name="Page-1" id="S_5UcloJdrkqcEwTRNHH">
-    <mxGraphModel dx="798" dy="612" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1233" dy="945" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="jBn2qPrG-wRivbDhKniw-2" value="Start" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="jBn2qPrG-wRivbDhKniw-2" value="Start" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="80" y="310" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="jBn2qPrG-wRivbDhKniw-3" value="End" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="jBn2qPrG-wRivbDhKniw-3" value="End" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="690" y="480" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="jBn2qPrG-wRivbDhKniw-5" value="Input First PIN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="jBn2qPrG-wRivbDhKniw-5" value="Input First PIN" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="260" y="310" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="jBn2qPrG-wRivbDhKniw-6" value="Input Second PIN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="jBn2qPrG-wRivbDhKniw-6" value="Input Second PIN" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="425" y="310" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="jBn2qPrG-wRivbDhKniw-7" value="" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="590" y="300" width="120" height="80" as="geometry" />
+        <mxCell id="jBn2qPrG-wRivbDhKniw-7" value="First PIN Equal Second PIN" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="580" y="277.5" width="230" height="125" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
