@@ -4,20 +4,22 @@ class BitrielSDK {
 
   /// 1 Delcare SDK & Keyring
   /// SDK for launch hidden webview to run polkadot/js for interacting with substrate
-  final WalletSDK _walletSDK = WalletSDK();
+  final WalletSDK walletSDK = WalletSDK();
   /// Keyring for instance the local storage of key-pair for users.
   /// And Pass Keyring to SDK's Keyring for account management.
-  final Keyring _keyring = Keyring();
+  final Keyring keyring = Keyring();
 
-  Keyring get getKeyring => _keyring;
-  WalletSDK get getWalletSdk => _walletSDK;
+  // List<NetworkParams>  = [];
 
-  List<NetworkParams> nodes = [];
-
-  Future<void> initBitrielSDK({required String jsCode, int nodeIndex = 0}) async {
+  Future<void> initBitrielSDK({required String jsCode, int nodeIndex = 0, required List<NetworkParams>? nodes}) async {
     // 2.1. Init Keyring
-    await _keyring.init([nodes[nodeIndex].ss58!]);
-    await _walletSDK.init(_keyring, jsCode: jsCode);
+    await keyring.init([nodes![nodeIndex].ss58!]);
+    await walletSDK.init(keyring, jsCode: jsCode);
+  }
+
+  Future<NetworkParams?> connectNode({required String jsCode, required List<NetworkParams>? nodes}) async {
+    // 2.1. Init Keyring
+    return await walletSDK.api.connectNode(keyring, nodes!);
   }
   
 }

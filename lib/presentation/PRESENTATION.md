@@ -7,3 +7,5 @@
 In the BLoC pattern, the Presentation Layer contains the BLoC, which is responsible for handling the UI
 
 => filename_bloc.dart, The Bloc stand for Business Logic Component
+
+=> The presentation layer is responsible for handling user interfaces, user interactions, and UI validations

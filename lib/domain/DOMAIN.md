@@ -13,8 +13,6 @@ Business logic is the set of rules that govern how an application works. It is r
 
 /state folder: contain app state of selendra connection.
 
-
-
 # REPOSTIRY vs USE_CASES
 
 Using the AccountRepositoryImpl directly in the presentation layer, instead of going through the CreateAccountUseCaseImpl, would tightly couple the presentation layer with the data layer. This approach violates the principles of separation of concerns and dependency inversion.

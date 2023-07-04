@@ -6,7 +6,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     Provider.of<AssetProvider>(context, listen: false).downloadFirstAsset();
+
+    Provider.of<SDKProvier>(context, listen: false).connectNetwork();
     
     return MaterialApp(
       title: 'Bitriel',
