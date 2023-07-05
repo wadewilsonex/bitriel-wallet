@@ -36,13 +36,17 @@ dependencies:
   archive: ^3.3.7
   date_format: ^2.0.7
   iconsax: ^0.0.8
+  flutter_dotenv: ^5.1.0
+  rename: ^2.1.1
+  # Dependencies for the presentation layer
+  pinput: ^2.2.31
   path_provider: ^2.0.15
   provider: ^6.0.5
+  lottie: ^2.4.0
+  # Dependencies for the domain layer
   flutter_secure_storage: ^8.0.0
-  flutter_dotenv: ^5.1.0
-  pinput: ^2.2.31
   local_auth: ^2.1.6
-  rename: ^2.1.1
+  vibration: ^1.8.1
 
 dependency_overrides:
   polkawallet_sdk:

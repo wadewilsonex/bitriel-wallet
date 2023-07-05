@@ -1,10 +1,4 @@
-import 'package:bitriel_wallet/domain/usecases/pin_uc/pin_uc_impl.dart';
 import 'package:bitriel_wallet/index.dart';
-// import 'package:vibration/vibration.dart';
-// import 'package:wallet_apps/constants/db_key_con.dart';
-// import 'package:wallet_apps/presentation/components/pincode/body_pin.dart';
-// import 'package:wallet_apps/presentation/screen/home/home/home.dart';
-// import 'package:wallet_apps/presentation/screen/auth/seeds/create_seeds/create_seeds.dart';
 
 enum PinCodeLabel {
   fromSplash,
@@ -18,255 +12,206 @@ enum PinCodeLabel {
   fromSignMessage
 }
 
-class Pincode extends StatefulWidget {
+class PincodeScreen extends StatefulWidget {
 
+  final String? titleStatus;
   final PinCodeLabel? label;
   final bool? isAppBar;
-  const Pincode({
+  
+  const PincodeScreen({
     Key? key, 
+    this.titleStatus,
     this.isAppBar = false, 
     this.label
   }) : super(key: key);
   //static const route = '/passcode';
 
   @override
-  PincodeState createState() => PincodeState();
+  PincodeScreenState createState() => PincodeScreenState();
 }
 
-class PincodeState extends State<Pincode> {
+class PincodeScreenState extends State<PincodeScreen> {
 
-//   dynamic res;
-//   List<ValueNotifier<String>> lsControl = [
-//     ValueNotifier(''),
-//     ValueNotifier(''),
-//     ValueNotifier(''),
-//     ValueNotifier(''),
-//     ValueNotifier(''),
-//     ValueNotifier(''),
-//   ];
+  /// (Title) 0 = Old PIN
+  /// 
+  /// (Title) 1 = New PIN
+  /// 
+  /// (Title) 2 = Invalid PIN
+  /// 
+  /// (Sub Title) 3 = Please fill correct PIN
+  /// 
+  /// (Sub Title) 4 = Please fill your old PIN
+  /// 
+  /// (Sub Title) 5 = Please fill your new PIN
+  final List<String> lsMessage = [
+    'Old PIN',
+    'New PIN',
+    'Invalid PIN',
+    "Please fill correct PIN",
+    'Please fill your old PIN',
+    'Please fill your new PIN',
+  ];
 
   PinUsecaseImpl pinUsecaseImpl = PinUsecaseImpl();
 
   final localAuth = LocalAuthentication();
 
-//   int pinIndex = 0;
-
-//   String? firstPin;
-
-//   // ValueNotifier<bool>? valueChange[1].value<bool>(true);
-
-//   // bool? valueChange.value[0] = false;
-
-//   /// [0] = is4Digit;
-//   /// 
-//   /// [1] = isFirstPin
-//   List<ValueNotifier<bool?>> valueChange = [
-//     ValueNotifier(false),
-//     ValueNotifier(true)
-//   ];
-
-//   List<String> currentPin = ["", "", "", "", "", ""];
-  
-//   List<ValueNotifier<String>>  init4Digits() {
-//     currentPin = ["", "", "", ""];
-//     return lsControl = [
-//       ValueNotifier(''),
-//       ValueNotifier(''),
-//       ValueNotifier(''),
-//       ValueNotifier('')
-//     ];
-//   }
-
-//   List<ValueNotifier<String>> init6Digits() {
-//     currentPin = ["", "", "", "", "", ""];
-//     return lsControl = [
-//       ValueNotifier(''),
-//       ValueNotifier(''),
-//       ValueNotifier(''),
-//       ValueNotifier(''),
-//       ValueNotifier(''),
-//       ValueNotifier(''),
-//     ];
-//   }
-
-//   @override
-//   void initState() {
-//     // StorageServices.readSecure(DbKey.pin)!.then((value) => res = value);
-//     // authToHome();
-//     super.initState();
-//   }
-
-//   @override
-//   void dispose(){
-
-//     clearAll();
-//     valueChange[1].value = true;
-
-//     super.dispose();
-//   }
-
-//   void clearPin() {
-//     if (pinIndex == 0) {
-//       pinIndex = 0;
-//     } else if (pinIndex == (valueChange[0].value! ? 4 : 6)) {
-//       lsControl[pinIndex-1].value = "";
-//       pinIndex--;
-//     } else {
-//       lsControl[pinIndex-1].value = "";
-//       currentPin[pinIndex - 1] = "";
-//       pinIndex--;
-//     }
-//   }
-
-//   Future<void> pinIndexSetup(String text) async {
-//     if (pinIndex == 0) {
-//       // Add Selected PIN into List PIN
-//       lsControl[pinIndex].value = text;
-//       pinIndex = 1;
-//     } 
-//     else if (pinIndex < (valueChange[0].value! ? 4 : 6)) {
-//       // Add Selected PIN into List PIN
-//       lsControl[pinIndex].value = text;
-//       ++pinIndex;
-
-//       if (pinIndex == (valueChange[0].value! ? 4 : 6)){
-        
-//         String strPin = "";
-
-//         strPin = lsControl.map((e) {
-//           return e.value;
-//         }).toList().join();
-
-//         if (widget.label == PinCodeLabel.fromSplash) {
-//           dialogLoading(context);
-//           await passcodeAuth(strPin);
-//         } else {
-//           await setVerifyPin(strPin);
-//         }
-//       }
-//     }
-//   }
-
-//   Future<void> clearVerifyPin(String pin) async {
-//     if (firstPin == null) {
-//       firstPin = pin;
-
-//       clearAll();
-
-//       valueChange[1].value = false;
-//     } else {
-//       if (firstPin == pin) {
-//         await StorageServices.clearKeySecure(DbKey.pin);
-//         // Navigator.pop(context, false);
-//       } else {
-//         clearAll();
-//         Vibration.vibrate(amplitude: 500);
-//       }
-//     }
-//   }
-
-//   Future<void> setVerifyPin(String pin) async {
-//     print("setVerifyPin");
-//     if (firstPin == null) {
-
-//       firstPin = pin;
-
-//       clearAll();
-
-//       if (
-//         widget.label == PinCodeLabel.fromSendTx || 
-//         widget.label == PinCodeLabel.fromBackUp ||
-//         widget.label == PinCodeLabel.fromSignMessage
-//         ){
-//         Navigator.pop(context, pin);
-//       } else
-//       if (widget.label == PinCodeLabel.fromMenu) {
-//         Navigator.pop(context, true);
-//       }
-      
-//       print("valueChange[1].value ${valueChange[1].value}");
-//       valueChange[1].value = false;
-      
-//     } else {
-      
-//       if (firstPin == pin) {
-//         await StorageServices.readSecure(DbKey.pin)!.then((value) async {
-//           if (value == ""){
-//             await StorageServices.writeSecure(DbKey.pin, pin);
-//           }
-//         });
-
-//         clearAll();
-//         if (widget.label == PinCodeLabel.fromCreateSeeds){
-
-//           if(!mounted) return;
-//           Navigator.push(
-//             context, 
-//             Transition(
-//               child: CreateSeeds(passCode: pin, newAcc: null,),
-//               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-//             )
-//           );
-//         } else if (widget.label == PinCodeLabel.fromImportSeeds){
-          
-//           if(!mounted) return;
-//           Navigator.push(
-//             context, 
-//             Transition(
-//               // ignore: missing_required_param
-//               child: ImportAcc(passCode: pin),
-//               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-//             )
-//           );
-//         }
-//         else if (widget.label == PinCodeLabel.fromAccount){
-
-//           // ignore: use_build_context_synchronously
-//           Navigator.pop(context, pin);
-//         } 
-//         else {
-//           if(!mounted) return;
-//           Navigator.pop(context, true);
-//         }
-
-//       } else {
-//         clearAll();
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           const SnackBar(content: MyTextConstant(text: "Pin does not match", textAlign: TextAlign.start, color2: Colors.white,))
-//         );
-//         Vibration.vibrate(amplitude: 500);
-//       }
-//     }
-//   }
-
-//   void clearAll() {
-//     for (int i = 0; i < lsControl.length; i++) {
-//       clearPin();
-//     }
-//   }
-
-//   Future<void> authToHome() async {
-    
-//     if (widget.label.toString() == "fromSplash") {
-//       final bio = await StorageServices.readSaveBio();
-//       if (bio) {
-//         await authenticate();
-//       }
-//     }
-//   }
-
-
+  @override
+  void initState() {
+    // pinUsecaseImpl.secureStorageUCImpl.readSecure(DbKey.pin)!.then((value) => res = value);
+    authToHome();
+    pinUsecaseImpl.pinModel.pinLabel = widget.label;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-//     return PincodeBody(
-//       label: widget.label, 
-//       valueChange: valueChange,
-//       lsControl: lsControl, 
-//       pinIndexSetup: pinIndexSetup, 
-//       clearPin: clearPin,
-//       onPressedDigit: onPressedDigit
-//     );
+    return pinBody();
+  }
+
+  Widget pinBody(){
+    return Scaffold(
+      appBar: appBarPassCode(context),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+
+            Expanded(
+              child: Center(
+                child: 
+                (pinUsecaseImpl.pinModel.isFirstPIN.value == true ) ? ValueListenableBuilder(
+                  valueListenable: pinUsecaseImpl.pinModel.isFirstPIN, 
+                  builder: (builder, value, wg){
+                    return MyTextConstant(
+                      text: value == true ? 'Enter PIN' : 'Verify PIN',
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ) ;
+                  }
+                )
+                // For Change PIN
+                : MyTextConstant(
+                  text: pinUsecaseImpl.pinModel.subTitleStatus,
+                  color2: AppUtils.colorFor(pinUsecaseImpl.pinModel.titleStatus == "Invalid PIN" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ),
+
+            // if (subStatus == null)
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (
+                    widget.label == PinCodeLabel.fromSplash ||
+                    widget.label == PinCodeLabel.fromSendTx ||
+                    widget.label == PinCodeLabel.fromBackUp ||
+                    widget.label == PinCodeLabel.fromSignMessage
+                  )
+                  const MyTextConstant(
+                    fontSize: 17,
+                    text: "Verify PIN code to continue",
+                  )
+                  else
+                    const MyTextConstant(
+                      fontSize: 17,
+                      text: "Assign a security PIN that will be required when opening in the future Verify PIN code to continue",
+                    )
+                ],
+              ),
+            // // For Change PIN
+            // else
+            //   MyTextConstant(
+            //     text: subStatus,
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 19,
+            //   ),
+
+            const SizedBox(height: 50),
+            ValueListenableBuilder(
+              valueListenable: pinUsecaseImpl.pinModel.is6gidit,
+              builder: (builder, value, wg) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: value == true
+                  ? [
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[0]),
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[1]),
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[2]),
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[3]),
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[4]),
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[5]),
+                    ]
+                  : [
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[0]),
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[1]),
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[2]),
+                      DotPin(txt: pinUsecaseImpl.pinModel.lsPINController[3]),
+                    ],
+                );
+              }
+            ),
+            const Expanded(
+              child: SizedBox(),
+            ),
+            ReuseNumPad(startNumber: 1, pinIndexSetup: pinUsecaseImpl.setPin, clearPin: pinUsecaseImpl.clearPin),
+            const SizedBox(height: 20),
+            ReuseNumPad(startNumber: 4, pinIndexSetup: pinUsecaseImpl.setPin, clearPin: pinUsecaseImpl.clearPin),
+            const SizedBox(height: 20),
+            ReuseNumPad(startNumber: 7, pinIndexSetup: pinUsecaseImpl.setPin, clearPin: pinUsecaseImpl.clearPin),
+            const SizedBox(height: 20),
+            ReuseNumPad(startNumber: 0, pinIndexSetup: pinUsecaseImpl.setPin, clearPin: pinUsecaseImpl.clearPin),
+            const SizedBox(height: 19),
+          ],
+        ),
+      )
+    );
+  }
+  
+  PreferredSizeWidget appBarPassCode(final BuildContext context){
+    return AppBar(
+      elevation: 0,
+      title: const MyTextConstant(
+        text: "Passcode",
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+      leading: IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: const Icon(Iconsax.arrow_left_2, size: 30, color: Colors.black,),
+      ),
+
+      actions: [
+        
+        ValueListenableBuilder(
+          valueListenable: pinUsecaseImpl.pinModel.isFirstPIN,
+          builder: (context, vl, wg){
+            return vl == true ? TextButton(
+              onPressed: () {
+
+                /// Switch PIN Digit
+                pinUsecaseImpl.onPressedDigitOption(pinUsecaseImpl.pinModel.is6gidit.value);
+              }, 
+              child: ValueListenableBuilder(
+                valueListenable: pinUsecaseImpl.pinModel.is6gidit,
+                builder: (context, value, wg){
+                  return MyTextConstant(
+                    text: value == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
+                    color2: hexaCodeToColor(AppColors.primaryColor),
+                    fontWeight: FontWeight.w700,
+                  );
+                },
+              ),
+            ) : const SizedBox();
+          }
+        )
+      ],
+
+    );
   }
 }

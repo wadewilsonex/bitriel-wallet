@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/screen/pin_screen.dart';
 
 class Welcome extends StatelessWidget {
   
@@ -68,11 +69,26 @@ class Welcome extends StatelessWidget {
             route: "/create-wallet", 
             imgName: "setup-1.png", 
             bgColor: const Color(0xFFF29F05),
-            navigate: (){
-              Navigator.push(
+            navigate: () async {
+
+              await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const CreateWallet())
-              );
+                MaterialPageRoute(builder: (context) => const PincodeScreen())
+              ).then((value) {
+                print("Value $value");
+                if (value != null){
+
+                  Provider.of<ImportWalletProvider>(context, listen: false).isSeedValid = false;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CreateWallet())
+                  );
+                }
+              });;
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const CreateWallet())
+              // );
             }
           )
         ),
@@ -88,12 +104,22 @@ class Welcome extends StatelessWidget {
             route: "/import-wallet", 
             imgName: "setup-2.png", 
             bgColor: const Color(0xFFF29F05).withOpacity(0.5),
-            navigate: (){
-              Provider.of<ImportWalletProvider>(context, listen: false).isSeedValid = false;
-              Navigator.push(
+            navigate: () async {
+
+              await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ImportWallet())
-              );
+                MaterialPageRoute(builder: (context) => const PincodeScreen())
+              ).then((value) {
+                
+                if (value != null){
+
+                  Provider.of<ImportWalletProvider>(context, listen: false).isSeedValid = false;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ImportWallet())
+                  );
+                }
+              });
             }
           )
         )

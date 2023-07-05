@@ -2,7 +2,7 @@ import 'package:bitriel_wallet/index.dart';
 
 class PinModel {
   dynamic res;
-  List<ValueNotifier<String>> lsControl = [
+  List<ValueNotifier<String>> lsPINController = [
     ValueNotifier(''),
     ValueNotifier(''),
     ValueNotifier(''),
@@ -30,4 +30,13 @@ class PinModel {
   ];
 
   List<String> currentPin = ["", "", "", "", "", ""];
+
+  String titleStatus = "First PIN";
+  String subTitleStatus = "Please fill out PIN";
+
+  ValueNotifier<bool> is6gidit = ValueNotifier(true);
+  ValueNotifier<bool> isFirstPIN = ValueNotifier(true);
+  
+  PinCodeLabel? pinLabel;
+  
 }

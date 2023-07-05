@@ -1,14 +1,15 @@
-import 'package:bitriel_wallet/domain/usecases/pin_uc/pin_uc.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class PinUsecaseImpl implements PinUsecase{
 
   PinModel pinModel = PinModel();
+
+  final SecureStorageUCImpl secureStorageUCImpl = SecureStorageUCImpl();
   
   @override
   List<ValueNotifier<String>> init4Digits() {
     pinModel.currentPin = ["", "", "", ""];
-    return pinModel.lsControl = [
+    return pinModel.lsPINController = [
       ValueNotifier(''),
       ValueNotifier(''),
       ValueNotifier(''),
@@ -19,7 +20,7 @@ class PinUsecaseImpl implements PinUsecase{
   @override
   List<ValueNotifier<String>> init6Digits() {
     pinModel.currentPin = ["", "", "", "", "", ""];
-    return pinModel.lsControl = [
+    return pinModel.lsPINController = [
       ValueNotifier(''),
       ValueNotifier(''),
       ValueNotifier(''),
@@ -30,12 +31,34 @@ class PinUsecaseImpl implements PinUsecase{
   }
 
   @override
-  void onPressedDigit() {
+  void onPressedDigitOption(bool value) {
     // setState(() {
-    //   clearAll();
+      clearAll();
+      pinModel.is6gidit.value = !value;
     //   valueChange[0].value = !valueChange[0].value!;
     //   valueChange[0].value == true ? init4Digits() : init6Digits();
     // });
+  }
+
+  @override
+  void clearAll() {
+    for (int i = 0; i < pinModel.lsPINController.length; i++) {
+      clearPin();
+    }
+  }
+
+  @override
+  void clearPin() {
+    if (pinModel.pinIndex == 0) {
+      pinModel.pinIndex = 0;
+    } else if (pinModel.pinIndex == (pinModel.is6gidit.value == false ? 4 : 6)) {
+      pinModel.lsPINController[pinModel.pinIndex-1].value = "";
+      pinModel.pinIndex--;
+    } else {
+      pinModel.lsPINController[pinModel.pinIndex-1].value = "";
+      pinModel.currentPin[pinModel.pinIndex - 1] = "";
+      pinModel.pinIndex--;
+    }
   }
 
   /// Start Open Finger Print Widget Authentication
@@ -83,6 +106,7 @@ class PinUsecaseImpl implements PinUsecase{
       );
     }
   }
+  
 
   /// Check User Had Set PassCode
   Future<void> passcodeAuth(String pin) async {
@@ -107,7 +131,7 @@ class PinUsecaseImpl implements PinUsecase{
 
 //     final res = await StorageServices.readSecure(DbKey.pin);
 
-//     if(widget.label.toString() == "backup"){
+//     if(pinModel.pinLabel.toString() == "backup"){
 //       if (res == pin) {
 //         if(!mounted) return;
 //         Navigator.of(context).pop();
@@ -118,4 +142,149 @@ class PinUsecaseImpl implements PinUsecase{
 //     }
 //   }
 
+  @override
+  Future<void> setPin(BuildContext context, String text) async {
+
+    // This logic is to prevent PIN index less than zero
+    if (pinModel.pinIndex == 0) {
+      // Add Selected PIN into List PIN
+      pinModel.lsPINController[pinModel.pinIndex].value = text;
+      pinModel.pinIndex = 1;
+    } 
+    
+    // This Logic is setup PIN by index
+    // And aslo delte PIN by Index
+    else if (pinModel.pinIndex < (pinModel.is6gidit.value == false ? 4 : 6)) {
+      // Add Selected PIN into List PIN
+      pinModel.lsPINController[pinModel.pinIndex].value = text;
+      ++pinModel.pinIndex;
+
+      if (pinModel.pinIndex == (pinModel.is6gidit.value == false ? 4 : 6)){
+        
+        String strPin = "";
+
+        strPin = pinModel.lsPINController.map((e) {
+          return e.value;
+        }).toList().join();
+
+        if (pinModel.pinLabel == PinCodeLabel.fromSplash) {
+          dialogLoading(context);
+          await passcodeAuth(strPin);
+        } else {
+          await setVerifyPin(context, strPin);
+        }
+      }
+    }
+  }
+
+  Future<void> setVerifyPin(BuildContext context, String pin) async {
+    
+    if (pinModel.firstPin == null) {
+
+      pinModel.firstPin = pin;
+
+      clearAll();
+
+      if (
+        pinModel.pinLabel == PinCodeLabel.fromSendTx || 
+        pinModel.pinLabel == PinCodeLabel.fromBackUp ||
+        pinModel.pinLabel == PinCodeLabel.fromSignMessage
+        ){
+        Navigator.pop(context, pin);
+      } else
+      if (pinModel.pinLabel == PinCodeLabel.fromMenu) {
+        Navigator.pop(context, true);
+      }
+      
+      pinModel.isFirstPIN.value = false;
+      
+    } else {
+      
+      if (pinModel.firstPin == pin) {
+        
+        // await StorageServices.readSecure(DbKey.pin)!.then((value) async {
+        //   if (value == ""){
+        //     await StorageServices.writeSecure(DbKey.pin, pin);
+        //   }
+        // });
+
+        clearAll();
+        if (pinModel.pinLabel == PinCodeLabel.fromCreateSeeds){
+
+          // ignore: use_build_context_synchronously
+          Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => const CreateWallet())
+            // Transition(
+            //   child: CreateSeeds(passCode: pin, newAcc: null,),
+            //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+            // )
+          );
+        } else if (pinModel.pinLabel == PinCodeLabel.fromImportSeeds){
+          
+          // ignore: use_build_context_synchronously
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ImportWallet()) 
+            // Transition(
+            //   // ignore: missing_required_param
+            //   child: ImportAcc(passCode: pin),
+            //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+            // )
+          );
+        }
+        else if (pinModel.pinLabel == PinCodeLabel.fromAccount){
+
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context, pin);
+        } 
+        else {
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context, true);
+        }
+
+      } else {
+        clearAll();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: MyTextConstant(text: "Pin does not match", textAlign: TextAlign.start, color2: Colors.white,))
+        );
+        Vibration.vibrate(amplitude: 500);
+      }
+    }
+  }
+
+  @override
+  Future<void> clearVerifyPin(BuildContext context, String pin) async {
+
+    if (pinModel.firstPin == null) {
+
+      pinModel.firstPin = pin;
+
+      clearAll();
+
+      pinModel.isFirstPIN.value = false;
+
+    } else {
+
+      if (pinModel.firstPin == pin) {
+        await secureStorageUCImpl.clearByKeySecure(DbKey.pin);
+        // ignore: use_build_context_synchronously
+        // Navigator.pop(context, false);
+      } else {
+        clearAll();
+        Vibration.vibrate(amplitude: 500);
+      }
+    }
+  }
+
+  Future<void> authToHome(BuildContext context) async {
+    
+    if (pinModel.pinLabel == PinCodeLabel.fromSplash) {
+      final bio = await secureStorageUCImpl.readSaveBio();
+      if (bio) {
+        // ignore: use_build_context_synchronously
+        await authenticate(context);
+      }
+    }
+  }
 }
