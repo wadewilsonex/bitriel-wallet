@@ -1,6 +1,7 @@
 import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/auth/create_wallet/bloc_create.dart';
 import 'package:bitriel_wallet/presentation/auth/passcode/bloc_passcode.dart';
+import 'package:bitriel_wallet/presentation/home/dashboard/bloc_dashboard.dart';
 import 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
 
 class Welcome extends StatelessWidget {
@@ -72,7 +73,7 @@ class Welcome extends StatelessWidget {
         // context.push(route);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const CreateSeed())
+          MaterialPageRoute(builder: (context) => const Dashboard())
         );
       },
       child: ClipRRect(
