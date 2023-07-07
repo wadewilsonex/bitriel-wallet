@@ -50,4 +50,9 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     );
   }
   
+  @override
+  Future<String> generateSeed() async {
+    return ( await _bitrielSDKImpl.getWalletSdk.api.keyring.generateMnemonic(_bitrielSDKImpl.getKeyring.ss58!) ).mnemonic!;
+  }
+  
 }

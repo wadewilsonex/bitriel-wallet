@@ -8,4 +8,6 @@ abstract class BitrielSDKUseCase {
   Future<bool> validateMnemonic(String seed);
 
   Future<void> importSeed(String seed, {KeyType keyType = KeyType.mnemonic, String? name = "Username", required String? pwd});
+
+  Future<String> generateSeed();
 }

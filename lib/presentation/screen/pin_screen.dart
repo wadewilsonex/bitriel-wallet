@@ -59,7 +59,7 @@ class PincodeScreenState extends State<PincodeScreen> {
   @override
   void initState() {
     // pinUsecaseImpl.secureStorageUCImpl.readSecure(DbKey.pin)!.then((value) => res = value);
-    authToHome();
+    pinUsecaseImpl.authToHome(context);
     pinUsecaseImpl.pinModel.pinLabel = widget.label;
     super.initState();
   }

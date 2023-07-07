@@ -1,6 +1,6 @@
 import 'package:bitriel_wallet/index.dart';
 
-class SecureStorageUCImpl implements SecureStorageUC {
+class SecureStorageImpl implements SecureStorageUsecase {
 
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 

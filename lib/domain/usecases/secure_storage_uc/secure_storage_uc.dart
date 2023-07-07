@@ -1,4 +1,4 @@
-abstract class SecureStorageUC {
+abstract class SecureStorageUsecase {
 
   Future<String>? readSecure(String key);
 

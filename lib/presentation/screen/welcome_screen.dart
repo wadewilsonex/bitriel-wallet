@@ -29,7 +29,7 @@ class Welcome extends StatelessWidget {
   }
 
   Widget _textHeader(){
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -75,16 +75,15 @@ class Welcome extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => const PincodeScreen())
               ).then((value) {
-                print("Value $value");
+                
                 if (value != null){
 
-                  Provider.of<ImportWalletProvider>(context, listen: false).isSeedValid = false;
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CreateWallet())
+                    MaterialPageRoute(builder: (context) => CreateWallet(pin: value!,))
                   );
                 }
-              });;
+              });
               // Navigator.push(
               //   context,
               //   MaterialPageRoute(builder: (context) => const CreateWallet())
@@ -113,10 +112,9 @@ class Welcome extends StatelessWidget {
                 
                 if (value != null){
 
-                  Provider.of<ImportWalletProvider>(context, listen: false).isSeedValid = false;
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ImportWallet())
+                    MaterialPageRoute(builder: (context) => ImportWallet(pin: value,))
                   );
                 }
               });

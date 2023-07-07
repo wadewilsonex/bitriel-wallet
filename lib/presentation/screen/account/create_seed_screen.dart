@@ -1,3 +1,4 @@
+import 'package:bitriel_wallet/presentation/screen/account/verify_seed_screen.dart';
 import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
 import 'package:bitriel_wallet/presentation/components/button_widget.dart';
 import 'package:bitriel_wallet/presentation/components/seed_widget.dart';
@@ -7,10 +8,14 @@ import 'package:iconsax/iconsax.dart';
 
 class CreateWallet extends StatelessWidget {
 
-  const CreateWallet({super.key});
+  final String? pin;
+
+  const CreateWallet({super.key, this.pin});
 
   @override
   Widget build(BuildContext context) {
+    
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -34,7 +39,10 @@ class CreateWallet extends StatelessWidget {
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
                 action: () async {
-                  
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VerifySeedScreen(pin: pin,))
+                  );
                 },
               ),
             ],
@@ -130,9 +138,9 @@ class CreateWallet extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: SeedsCompoent.getColumn(
-                    context, "opera shed region term total sad open subway cricket absent smoke chapter", 0,
-                    moreSize: 10
-                  ),
+                  context, "opera shed region term total sad open subway cricket absent smoke chapter", 0,
+                  moreSize: 10
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

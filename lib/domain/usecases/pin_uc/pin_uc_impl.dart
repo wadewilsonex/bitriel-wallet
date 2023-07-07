@@ -4,7 +4,7 @@ class PinUsecaseImpl implements PinUsecase{
 
   PinModel pinModel = PinModel();
 
-  final SecureStorageUCImpl secureStorageUCImpl = SecureStorageUCImpl();
+  final SecureStorageImpl secureStorageUCImpl = SecureStorageImpl();
   
   @override
   List<ValueNotifier<String>> init4Digits() {
@@ -32,12 +32,10 @@ class PinUsecaseImpl implements PinUsecase{
 
   @override
   void onPressedDigitOption(bool value) {
-    // setState(() {
-      clearAll();
-      pinModel.is6gidit.value = !value;
-    //   valueChange[0].value = !valueChange[0].value!;
-    //   valueChange[0].value == true ? init4Digits() : init6Digits();
-    // });
+    clearAll();
+    pinModel.is6gidit.value = !value;
+  //   valueChange[0].value = !valueChange[0].value!;
+  //   valueChange[0].value == true ? init4Digits() : init6Digits();
   }
 
   @override
@@ -233,17 +231,15 @@ class PinUsecaseImpl implements PinUsecase{
             // )
           );
         }
-        else if (pinModel.pinLabel == PinCodeLabel.fromAccount){
+        // else if (pinModel.pinLabel == PinCodeLabel.fromAccount){
+        else {
 
           // ignore: use_build_context_synchronously
           Navigator.pop(context, pin);
-        } 
-        else {
-          // ignore: use_build_context_synchronously
-          Navigator.pop(context, true);
         }
 
       } else {
+
         clearAll();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: MyTextConstant(text: "Pin does not match", textAlign: TextAlign.start, color2: Colors.white,))
@@ -279,12 +275,12 @@ class PinUsecaseImpl implements PinUsecase{
 
   Future<void> authToHome(BuildContext context) async {
     
-    if (pinModel.pinLabel == PinCodeLabel.fromSplash) {
-      final bio = await secureStorageUCImpl.readSaveBio();
-      if (bio) {
-        // ignore: use_build_context_synchronously
-        await authenticate(context);
-      }
-    }
+    // if (pinModel.pinLabel == PinCodeLabel.fromSplash) {
+    //   final bio = await secureStorageUCImpl.readSaveBio();
+    //   if (bio) {
+    //     // ignore: use_build_context_synchronously
+    //     await authenticate(context);
+    //   }
+    // }
   }
 }

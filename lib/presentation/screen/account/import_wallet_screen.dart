@@ -1,12 +1,20 @@
-import 'package:bitriel_wallet/domain/validator/form_validate.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class ImportWallet extends StatelessWidget {
 
-  const ImportWallet({super.key});
+  final String? pin;
+
+  final bool? isSeed;
+
+  const ImportWallet({super.key, this.pin, this.isSeed = false});
 
   @override
   Widget build(BuildContext context) {
+    
+    final accManage = AccountManagementImpl();
+    accManage.setContext = context;
+    accManage.isSeedValid.value = isSeed!;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -22,7 +30,7 @@ class ImportWallet extends StatelessWidget {
             Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: MySeedField(
-                controller: Provider.of<ImportWalletProvider>(context, listen: false).seedController,
+                controller: accManage.seedController,
                 pLeft: 0, pRight: 0,
                 pTop: 20,
                 pBottom: 16.0,
@@ -37,26 +45,24 @@ class ImportWallet extends StatelessWidget {
                 maxLine: 7,
                 validateField: FormValidator.seedValidator,
                 onChanged: (String value){
-                  Provider.of<ImportWalletProvider>(context, listen: false).changeState(value);
+                  accManage.changeState(value);
                 },
                 onSubmit: (String value) async {
-                  await Provider.of<SDKProvier>(context, listen: false).importSeed(value, Provider.of<ImportWalletProvider>(context, listen: false).password!);
+                  accManage.importAccount(pin!);
                 },
               ),
             ),
       
             Expanded(child: Container()),
-            Consumer<ImportWalletProvider>(
-              builder: (context, pro, wg) {
+            ValueListenableBuilder(
+              valueListenable: accManage.isSeedValid,
+              builder: (context, value, wg) {
                 return MyGradientButton(
                   textButton: "Continue",
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
-                  action: pro.isSeedValid ? () async {
-                    await Provider.of<SDKProvier>(context, listen: false).importSeed(
-                      pro.seedController.text, 
-                      pro.password!
-                    );
+                  action: value ? () async {
+                    await accManage.importAccount(pin!);
                   } : null,
                 );
               }

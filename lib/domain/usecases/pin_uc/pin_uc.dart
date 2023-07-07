@@ -8,6 +8,7 @@ abstract class PinUsecase {
 
   void clearAll();
   void clearPin();
+  
   Future<void> clearVerifyPin(BuildContext context, String pin);
 
   Future<void> authenticate(BuildContext context);

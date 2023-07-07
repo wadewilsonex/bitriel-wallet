@@ -8,9 +8,6 @@ void main() async {
         ChangeNotifierProvider<AssetProvider>(
           create: (context) => AssetProvider(),
         ),
-        ChangeNotifierProvider<ImportWalletProvider>(
-          create: (context) => ImportWalletProvider(),
-        ),
         ChangeNotifierProvider<SDKProvier>(
           create: (context) => SDKProvier(),
         ),
