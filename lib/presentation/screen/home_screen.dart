@@ -220,11 +220,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _listScrollMenuItem() {
     List<String> menuName = ["Any Tickets", "Bitriel Go", "Bitriel Pay", "Bitriel X", "Bitriel ID"];
     List<String> menuImage = [
-      "assets/images/bitriel-logo.png",
-      "assets/images/bitriel-logo.png",
-      "assets/images/bitriel-logo.png",
-      "assets/images/bitriel-logo.png",
-      "assets/images/bitriel-logo.png",
+      "assets/logo/bitriel-logo.png",
+      "assets/logo/bitriel-logo.png",
+      "assets/logo/bitriel-logo.png",
+      "assets/logo/bitriel-logo.png",
+      "assets/logo/bitriel-logo.png",
     ];
 
     return ListView.builder(

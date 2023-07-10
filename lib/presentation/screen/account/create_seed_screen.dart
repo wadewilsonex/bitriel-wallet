@@ -13,7 +13,10 @@ class CreateWallet extends StatelessWidget {
 
     createWalletImpl.setBuildContext = context;
 
-    if (createWalletImpl.seed.value.isEmpty) createWalletImpl.generateSeed();
+    if (createWalletImpl.seed.value.isEmpty) {
+      createWalletImpl.pin = pin;
+      createWalletImpl.generateSeed();
+    }
 
     return Scaffold(
       body: SafeArea(

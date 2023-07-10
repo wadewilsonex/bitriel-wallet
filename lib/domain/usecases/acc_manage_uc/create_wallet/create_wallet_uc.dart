@@ -5,6 +5,10 @@ abstract class CreateWalletUsecase {
   set setBuildContext(BuildContext ctx);
 
   Future<void> verifyLater();
+
+  Future<void> verifyLaterData();
+
+  Future<void> addAndImport();
   
   Future<void> generateSeed();
   

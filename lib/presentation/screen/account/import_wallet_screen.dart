@@ -1,19 +1,20 @@
+import 'package:bitriel_wallet/domain/usecases/acc_manage_uc/import_wallet/import_wallet_impl.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class ImportWallet extends StatelessWidget {
 
   final String? pin;
 
-  final bool? isSeed;
+  final bool? isVerify;
 
-  const ImportWallet({super.key, this.pin, this.isSeed = false});
+  const ImportWallet({super.key, this.pin, this.isVerify = false});
 
   @override
   Widget build(BuildContext context) {
     
-    final accManage = AccountManagementImpl();
-    accManage.setContext = context;
-    accManage.isSeedValid.value = isSeed!;
+    final importWalletImpl = ImportWalletImpl();
+    importWalletImpl.setContext = context;
+    // importWalletImpl.isSeedValid.value = isSeed!;
 
     return Scaffold(
       body: Padding(
@@ -30,7 +31,7 @@ class ImportWallet extends StatelessWidget {
             Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: MySeedField(
-                controller: accManage.seedController,
+                controller: importWalletImpl.seedController,
                 pLeft: 0, pRight: 0,
                 pTop: 20,
                 pBottom: 16.0,
@@ -45,24 +46,24 @@ class ImportWallet extends StatelessWidget {
                 maxLine: 7,
                 validateField: FormValidator.seedValidator,
                 onChanged: (String value){
-                  accManage.changeState(value);
+                  importWalletImpl.changeState(value);
                 },
                 onSubmit: (String value) async {
-                  accManage.importAccount(pin!);
+                  importWalletImpl.addAndImport(pin!);
                 },
               ),
             ),
       
             Expanded(child: Container()),
             ValueListenableBuilder(
-              valueListenable: accManage.isSeedValid,
+              valueListenable: importWalletImpl.isSeedValid,
               builder: (context, value, wg) {
                 return MyGradientButton(
                   textButton: "Continue",
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   action: value ? () async {
-                    await accManage.importAccount(pin!);
+                    await importWalletImpl.addAndImport(pin!);
                   } : null,
                 );
               }

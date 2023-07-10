@@ -8,6 +8,8 @@ export 'package:bitriel_wallet/app.dart';
 export 'package:flutter_dotenv/flutter_dotenv.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:local_auth/local_auth.dart';
+export 'package:web3dart/web3dart.dart';
+export 'package:web_socket_channel/io.dart';
 // ignore: depend_on_referenced_packages
 export 'package:permission_handler/permission_handler.dart';
 // ignore: depend_on_referenced_packages
@@ -20,6 +22,13 @@ export 'package:vibration/vibration.dart';
 
 // ignore: depend_on_referenced_packages
 export 'package:polkawallet_sdk/api/apiKeyring.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/storage/types/keyPairData.dart';
+// ignore: depend_on_referenced_packages
+export 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/utils/index.dart';
+export 'package:bitriel_wallet/data/storage.dart';
 
 /*---------- Data Layer ----------*/
 
@@ -31,15 +40,22 @@ export 'package:polkawallet_sdk/storage/keyring.dart';
 // ignore: depend_on_referenced_packages
 export 'package:polkawallet_sdk/api/types/networkParams.dart';
 export 'package:bitriel_wallet/data/sdk/bitriel_sdk.dart';
+export 'package:bitriel_wallet/data/sdk/web3.dart';
 // Repository
 export 'package:bitriel_wallet/data/repository/asset_repo/asset_repo.dart';
 export 'package:bitriel_wallet/data/repository/asset_repo/asset_repo_impl.dart';
 export 'package:bitriel_wallet/data/repository/sdk_repo/sdk_repo_impl.dart';
+export 'package:bitriel_wallet/data/repository/sdk_repo/web3_rep.dart';
+export 'package:bitriel_wallet/data/repository/sdk_repo/web3_impl.dart';
+export 'package:bitriel_wallet/data/repository/http_request_impl.dart';
 
 /*---------- Domain Layer ----------*/
 export 'package:bitriel_wallet/domain/validator/form_validate.dart';
 // Model
 export 'package:bitriel_wallet/domain/model/pin_m.dart';
+export 'package:bitriel_wallet/domain/model/create_acc_m.dart';
+export 'package:bitriel_wallet/domain/model/new_acc_m.dart';
+
 // Usecases
 export 'package:bitriel_wallet/domain/usecases/asset_uc/asset_uc_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/pin_uc/pin_uc_impl.dart';
@@ -53,6 +69,7 @@ export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/acc_manage_uc.dart'
 export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/acc_manage_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/create_wallet/create_wallet_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/create_wallet/create_wallet_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/import_wallet/import_wallet_uc.dart';
 
 /*---------- Presentation Layer ----------*/
 

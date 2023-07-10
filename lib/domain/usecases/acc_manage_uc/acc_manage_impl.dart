@@ -1,72 +1,38 @@
-import 'dart:math';
 import 'package:bitriel_wallet/index.dart';
 
 class AccountManagementImpl extends AccountMangementUC {
 
-  BuildContext? context;
+  /// Index 0 = json data of seeds with pin and user name.
+  /// 
+  /// Index 1 = KeyPairData
+  List<dynamic>? importData;
 
-  set setContext(BuildContext ctx) {
-    context = ctx;
-    sdkProvier = Provider.of<SDKProvier>(ctx, listen: false);
-  }
-
-  TextEditingController seedController = TextEditingController();
-
-  /* -----------------------For Create Wallet----------------------- */
-  
-  List<String> randomThreeEachNumber(){
-    // First Number
-    String rd1 = Random().nextInt(12).toString();
-    while(rd1 == "0"){
-      rd1 = Random().nextInt(12).toString();
-    }
-
-    // Second Number
-    String rd2 = Random().nextInt(12).toString();
-    while(rd2 == rd1 || rd2 == "0"){
-      rd2 = Random().nextInt(12).toString();
-      if (rd2 != rd1) break;
-    }
-
-    // Third Number
-    String rd3 = Random().nextInt(12).toString();
-    while(rd3 == rd1 || rd3 == rd2 || rd3 == "0"){
-      rd3 = Random().nextInt(12).toString();
-      if (rd3 != rd1 && rd3 != rd2) break;
-    }
-
-    return [rd1, rd2, rd3];
-  }
-  
-  /// For Import Wallet
-  ValueNotifier<bool> isSeedValid = ValueNotifier(false);
-
-  SDKProvier? sdkProvier;
-
-  void changeState(String seed){
-    if (seed.split(" ").toList().length == 12 && seed.split(" ").toList().last != ""){
-      isSeedValid.value = true;
-    } else if (isSeedValid.value) {
-      isSeedValid.value = false;
-    }
-  }
-
-  void resetState(){
-    isSeedValid.value = false;
-  }
+  SeedBackupData? _pk;
 
   @override
-  Future<void> importAccount(String pin) async {
+  // ignore: avoid_renaming_method_parameters
+  Future<void> addAndImport(SDKProvier sdkProvider, BuildContext context, String seed, String pin) async {
 
-    dialogLoading(context!);
-    await sdkProvier!.importSeed(seedController.text, pin).then((value) {
-      Navigator.pop(context!);
+    dialogLoading(context);
 
-      print("Success");
-      // Navigator.push(
-      //   context, route
-      // );
-    });
-    
+    try {
+
+      // 1. Import And Add Account
+      importData = await sdkProvider.importSeed(seed, pin);
+      
+      // Extract private from seed
+      _pk = await sdkProvider.getSdkProvider.getPrivateKeyFromSeeds(importData![1], pin);
+
+      // Use Seed to query EVM address
+      // And Use PrivateKey to extract BTC native address.
+      await sdkProvider.getSdkProvider.queryAddress(seed, _pk!.seed!, pin);
+
+    }catch (e) {
+      
+      // Close Dialog Loading
+      Navigator.pop(context);
+      debugPrint("Error addAndImport $e");
+    }
   }
+  
 }
