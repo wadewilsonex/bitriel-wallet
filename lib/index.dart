@@ -51,6 +51,8 @@ export 'package:bitriel_wallet/domain/usecases/secure_storage_uc/secure_storage_
 export 'package:bitriel_wallet/domain/usecases/secure_storage_uc/secure_storage_uc_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/acc_manage_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/acc_manage_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/create_wallet/create_wallet_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/create_wallet/create_wallet_impl.dart';
 
 /*---------- Presentation Layer ----------*/
 
@@ -59,7 +61,9 @@ export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/acc_manage_impl.dar
 export 'package:bitriel_wallet/presentation/screen/welcome_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/account/create_seed_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/account/import_wallet_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/account/verify_seed_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/pin_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/home_screen.dart';
 // Widget
 export 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/seed_widget.dart';
@@ -69,6 +73,7 @@ export 'package:bitriel_wallet/presentation/widget/pin_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/dialog_widget.dart';
 export 'package:bitriel_wallet/presentation/components/seed_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/btn_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/dashboard_menu_items.dart';
 // Provider
 export 'package:bitriel_wallet/presentation/provider/asset_pro.dart';
 export 'package:bitriel_wallet/presentation/provider/sdk_pro.dart';

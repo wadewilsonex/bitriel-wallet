@@ -4,8 +4,9 @@ class VerifySeedScreen extends StatelessWidget {
   
   final String? seed;
   final String? pin;
+  final CreateWalletImpl? createWalletImpl;
   
-  const VerifySeedScreen({super.key, this.seed, this.pin});
+  const VerifySeedScreen({super.key, this.seed, this.pin, required this.createWalletImpl});
 
   // final CreateKeyModel? createKeyModel;
   // final Function? submit;
@@ -25,19 +26,21 @@ class VerifySeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    createWalletImpl!.remove3Seeds();
+
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
-          color: Colors.black,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   automaticallyImplyLeading: false,
+      //   leading: IconButton(
+      //     icon: const Icon(Iconsax.arrow_left_2, size: 30,),
+      //     color: Colors.black,
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //   ),
+      // ),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -62,23 +65,29 @@ class VerifySeedScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: [
-                      //     Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: SeedsCompoent.getColumn(context, createKeyModel!.tmpSeed!, 0, moreSize: 2.5),
-                      //     ),
-                      //     Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: SeedsCompoent.getColumn(context, createKeyModel!.tmpSeed!, 1, moreSize: 2.5),
-                      //     ),
-                      //     Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: SeedsCompoent.getColumn(context, createKeyModel!.tmpSeed!, 2, moreSize: 2.5),
-                      //     ),
-                      //   ],
-                      // ),
+
+                      ValueListenableBuilder(
+                        valueListenable: createWalletImpl!.verifySeeds,
+                        builder: (context, value, wg) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: SeedsCompoent.getColumn(context, value.join(" "), 0, moreSize: 2.5),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: SeedsCompoent.getColumn(context, value.join(" "), 1, moreSize: 2.5),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: SeedsCompoent.getColumn(context, value.join(" "), 2, moreSize: 2.5),
+                              ),
+                            ],
+                          );
+                        }
+                      ),
                     ],
                   )
                 ),
@@ -131,16 +140,17 @@ class VerifySeedScreen extends StatelessWidget {
                 
                 // Consumer<VerifySeedsProvider>(
                 //   builder: (context, pro, wg){
-                //     return pro.isVerifying == false ? MyFlatButton(
-                //       height: 60,
-                //       isTransparent: true,
-                //       buttonColor: AppColors.whiteHexaColor,
-                //       textColor: AppColors.primaryColor,
-                //       textButton: "Verify Later",
-                //       action: () {
-                //         // seedVerifyLaterDialog(context, submitUnverify);
-                //       },
-                //     ) 
+                //     return pro.isVerifying == false ? 
+                    MyFlatButton(
+                      height: 60,
+                      isTransparent: true,
+                      buttonColor: AppColors.whiteHexaColor,
+                      textColor: AppColors.primaryColor,
+                      textButton: "Verify Later",
+                      action: () async {
+                        await seedVerifyLaterDialog(context, createWalletImpl!.verifyLater);
+                      },
+                    ),
                 //     : Container();
                 //   }
                 // ),

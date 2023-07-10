@@ -1,19 +1,21 @@
-import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
-import 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
-import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:bitriel_wallet/index.dart';
 
 class SeedsCompoent {
+  
   static double _seedHeight = 22.8;
 
   static List<Widget> getColumn(BuildContext context, String seed, int pos, {double? moreSize = 0}) {
+
+    _seedHeight = 22.8;
     _seedHeight = (_seedHeight + moreSize!);
     var list = <Widget>[];
     var se = seed.split(' ');
     var colSize = se.length ~/ 3;
 
     for (var i = 0; i < colSize; i++) {
+
       if (se[i * 3 + pos] == "") {
+        
         list.add(
             // Display Empty Text
           Container(
@@ -26,6 +28,7 @@ class SeedsCompoent {
           )
         );
       } else {
+
         list.add(Container(
           // Minus 34 Size OF Padding Left & Right
           width: MediaQuery.of(context).size.width / 3 - _seedHeight,

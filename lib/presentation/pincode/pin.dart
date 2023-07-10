@@ -27,6 +27,7 @@ class Pincode extends StatefulWidget {
 }
 
 class PincodeState extends State<Pincode> {
+  
   dynamic res;
   List<ValueNotifier<String>> lsControl = [
     ValueNotifier(''),

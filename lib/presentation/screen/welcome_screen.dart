@@ -1,5 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/screen/pin_screen.dart';
 
 class Welcome extends StatelessWidget {
   

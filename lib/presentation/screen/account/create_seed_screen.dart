@@ -1,10 +1,4 @@
-import 'package:bitriel_wallet/presentation/screen/account/verify_seed_screen.dart';
-import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
-import 'package:bitriel_wallet/presentation/components/button_widget.dart';
-import 'package:bitriel_wallet/presentation/components/seed_widget.dart';
-import 'package:bitriel_wallet/presentation/widget/text_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:bitriel_wallet/index.dart';
 
 class CreateWallet extends StatelessWidget {
 
@@ -14,7 +8,12 @@ class CreateWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+
+    final CreateWalletImpl createWalletImpl = CreateWalletImpl();
+
+    createWalletImpl.setBuildContext = context;
+
+    if (createWalletImpl.seed.value.isEmpty) createWalletImpl.generateSeed();
 
     return Scaffold(
       body: SafeArea(
@@ -27,11 +26,11 @@ class CreateWallet extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              _seedDisplay(context),
+              _seedDisplay(context, createWalletImpl),
 
               const SizedBox(height: 20),
 
-              _optionButton(),
+              _optionButton(createWalletImpl),
 
               Expanded(child: Container()),
               MyGradientButton(
@@ -41,7 +40,7 @@ class CreateWallet extends StatelessWidget {
                 action: () async {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => VerifySeedScreen(pin: pin,))
+                    MaterialPageRoute(builder: (context) => VerifySeedScreen(pin: pin, createWalletImpl: createWalletImpl,))
                   );
                 },
               ),
@@ -77,8 +76,8 @@ class CreateWallet extends StatelessWidget {
     );
   }
 
-  Widget _optionButton() {
-    return const Row(
+  Widget _optionButton(CreateWalletImpl createWalletImpl) {
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -86,23 +85,28 @@ class CreateWallet extends StatelessWidget {
           flex: 0,
           child: Row(
             children: [
-              Icon(Iconsax.repeat),
+              const Icon(Iconsax.repeat),
 
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
 
-              MyText(
-                text: "Change Seed",
-                fontWeight: FontWeight.w600,
-                textAlign: TextAlign.start,
-                color: Colors.black,
+              InkWell(
+                onTap: (){
+                  createWalletImpl.generateSeed();
+                },
+                child: const MyText(
+                  text: "Change Seed",
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.start,
+                  color: Colors.black,
+                ),
               ),
             ],
           ),
         ),
         
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
 
-        Flexible(
+        const Flexible(
           flex: 0,
           child: Row(
             children: [
@@ -123,7 +127,7 @@ class CreateWallet extends StatelessWidget {
     );
   }
 
-  Widget _seedDisplay(BuildContext context) {
+  Widget _seedDisplay(BuildContext context, CreateWalletImpl createWalletImpl) {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -132,29 +136,42 @@ class CreateWallet extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: SeedsCompoent.getColumn(
-                  context, "opera shed region term total sad open subway cricket absent smoke chapter", 0,
-                  moreSize: 10
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: SeedsCompoent.getColumn(
-                    context, "opera shed region term total sad open subway cricket absent smoke chapter", 1,
-                    moreSize: 10),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: SeedsCompoent.getColumn(
-                    context, "opera shed region term total sad open subway cricket absent smoke chapter", 2,
-                    moreSize: 10),
-              ),
-            ],
+
+          ValueListenableBuilder(
+            valueListenable: createWalletImpl.seed,
+            builder: (context, value, wg) {
+
+              if (value.isEmpty){
+                return const CircularProgressIndicator();
+              }
+
+              // return Text(value);
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: SeedsCompoent.getColumn(
+                      context, value, 0,
+                      moreSize: 10
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: SeedsCompoent.getColumn(
+                        context, value, 1,
+                        moreSize: 10),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: SeedsCompoent.getColumn(
+                        context, value, 2,
+                        moreSize: 10),
+                  ),
+                ],
+              );
+            }
           ),
         ],
       ),

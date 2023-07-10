@@ -15,9 +15,12 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Bitriel',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, background: hexaCodeToColor(AppColors.background)),
-        fontFamily: 'TitilliumWeb',
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: hexaCodeToColor(AppColors.white), 
+          background: hexaCodeToColor(AppColors.white)
+        ),
         useMaterial3: true,
+        fontFamily: 'TitilliumWeb',
       ),
       // routeInformationParser: AppRouter().router.routeInformationParser,
       // routeInformationProvider: AppRouter().router.routeInformationProvider,
