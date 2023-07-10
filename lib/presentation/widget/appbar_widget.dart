@@ -13,10 +13,10 @@ PreferredSizeWidget appBar(final BuildContext context, {required final String ti
     ),
     leading: IconButton(
       onPressed: () => Navigator.pop(context),
-      icon: const Icon(
+      icon: Icon(
         Iconsax.arrow_left_2,
         size: 30,
-        color: Colors.black,
+        color: hexaCodeToColor(AppColors.midNightBlue),
       ),
     ),
   );

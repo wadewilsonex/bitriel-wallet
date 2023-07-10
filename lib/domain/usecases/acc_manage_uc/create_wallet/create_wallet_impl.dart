@@ -121,4 +121,95 @@ class CreateWalletImpl implements CreateWalletUsecase {
     seed.value = await Provider.of<SDKProvier>(context!, listen: false).getSdkProvider.generateSeed();
   }
 
+  @override
+  Future<void> showWarning() async{
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      ),
+      isDismissible: false,
+      enableDrag: false,
+      context: context!,
+      builder: (setBuildContext) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: MyTextConstant(
+                  text: "Please, read carefully!",
+                  fontSize: 18,
+                  color2: hexaCodeToColor(AppColors.midNightBlue),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: hexaCodeToColor(AppColors.red).withOpacity(0.25),
+                ),
+                height: 50,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min, 
+                  children: <Widget>[
+
+                    const SizedBox(width: 5),
+
+                    SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: Lottie.asset(
+                        "assets/animation/loading-block.json",
+                        repeat: true,
+                      ),
+                    ),
+
+                    const SizedBox(width: 5),
+
+                    Expanded(
+                      child: MyTextConstant(
+                        text: "The information below is important to guarantee your account security.",
+                        color2: hexaCodeToColor(AppColors.red),
+                        textAlign: TextAlign.start,
+                      ),
+                    )
+                  ]
+                ),
+              ),
+
+              const SizedBox(height: 5),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: MyTextConstant(
+                  text:
+                    "Please write down your wallet's mnemonic seed and keep it in a safe place. The mnemonic can be used to restore your wallet. If you lose it, all your assets that link to it will be lost.",
+                  textAlign: TextAlign.start,
+                  color2: hexaCodeToColor(AppColors.midNightBlue),
+                ),
+              ),
+
+              const SizedBox(height: 5),
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: MyGradientButton(
+                  textButton: "I Agree",
+                  action: () async{
+                    Navigator.of(context!).pop();
+                  },
+                ),
+              ),
+
+            ],
+          ),
+        );
+      }
+    );
+  }
+
 }

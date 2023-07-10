@@ -13,4 +13,6 @@ abstract class CreateWalletUsecase {
   /// 2
   void remove3Seeds();
 
+  void showWarning();
+
 }

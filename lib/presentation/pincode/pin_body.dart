@@ -51,8 +51,7 @@ class PincodeBody extends StatelessWidget {
                 ValueListenableBuilder(
                   valueListenable: valueChange!,
                   builder: (builder, value, wg) {
-                    return MyText(
-                      top: 80,
+                    return MyTextConstant(
                       text: value[1]! ? 'Enter PIN' : 'Verify PIN',
                       fontSize: 28,
                       fontWeight: FontWeight.bold,

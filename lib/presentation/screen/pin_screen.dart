@@ -71,6 +71,7 @@ class PincodeScreenState extends State<PincodeScreen> {
 
   Widget pinBody(){
     return Scaffold(
+      backgroundColor: hexaCodeToColor(AppColors.background),
       appBar: appBarPassCode(context),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -87,9 +88,8 @@ class PincodeScreenState extends State<PincodeScreen> {
                   valueListenable: pinUsecaseImpl.pinModel.isFirstPIN, 
                   builder: (builder, value, wg){
                     return MyTextConstant(
-                      text: value == true ? 'Enter PIN' : 'Verify PIN',
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
+                      text: value == true ? 'Enhance the security of your account by creating a PIN code' : 'Repeat a PIN code to continue',
+                      fontSize: 17,
                     ) ;
                   }
                 )
@@ -104,26 +104,26 @@ class PincodeScreenState extends State<PincodeScreen> {
             ),
 
             // if (subStatus == null)
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (
-                    widget.label == PinCodeLabel.fromSplash ||
-                    widget.label == PinCodeLabel.fromSendTx ||
-                    widget.label == PinCodeLabel.fromBackUp ||
-                    widget.label == PinCodeLabel.fromSignMessage
-                  )
-                  const MyTextConstant(
-                    fontSize: 17,
-                    text: "Verify PIN code to continue",
-                  )
-                  else
-                    const MyTextConstant(
-                      fontSize: 17,
-                      text: "Assign a security PIN that will be required when opening in the future Verify PIN code to continue",
-                    )
-                ],
-              ),
+              // Column(
+              //   mainAxisSize: MainAxisSize.min,
+              //   children: [
+              //     if (
+              //       widget.label == PinCodeLabel.fromSplash ||
+              //       widget.label == PinCodeLabel.fromSendTx ||
+              //       widget.label == PinCodeLabel.fromBackUp ||
+              //       widget.label == PinCodeLabel.fromSignMessage
+              //     )
+              //     const MyTextConstant(
+              //       fontSize: 17,
+              //       text: "Verify PIN code to continue",
+              //     )
+              //     else
+              //       const MyTextConstant(
+              //         fontSize: 17,
+              //         text: "Enhance the security of your account by creating a PIN code",
+              //       )
+              //   ],
+              // ),
             // // For Change PIN
             // else
             //   MyTextConstant(
@@ -176,14 +176,22 @@ class PincodeScreenState extends State<PincodeScreen> {
   PreferredSizeWidget appBarPassCode(final BuildContext context){
     return AppBar(
       elevation: 0,
-      title: const MyTextConstant(
-        text: "Passcode",
-        fontSize: 20,
+      centerTitle: false,
+      backgroundColor: hexaCodeToColor(AppColors.background),
+      title: MyTextConstant(
+        text: "Create a PIN",
+        fontSize: 26,
+        color2: hexaCodeToColor(AppColors.midNightBlue),
         fontWeight: FontWeight.w600,
+        textAlign: TextAlign.start,
       ),
       leading: IconButton(
         onPressed: () => Navigator.pop(context),
-        icon: const Icon(Iconsax.arrow_left_2, size: 30, color: Colors.black,),
+        icon: Icon(
+          Iconsax.arrow_left_2,
+          size: 30,
+          color: hexaCodeToColor(AppColors.midNightBlue),
+        ),
       ),
 
       actions: [

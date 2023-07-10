@@ -17,29 +17,23 @@ class MyGradientButton extends StatelessWidget {
   final double? width;
   final double? height;
   final bool? isTransparent;
-  final List<String>? lsColor;
-  final List<double>? lsColorOpacity;
-  final AlignmentGeometry begin;
-  final AlignmentGeometry end;
+  final double opacity;
 
   const MyGradientButton({
     Key? key,
     this.child,
     this.textButton = "",
-    this.lsColor = const ["#F27649", "#F28907"],
-    this.lsColorOpacity = const [1, 1],
-    this.buttonColor = AppColors.secondary,
-    this.textColor = AppColors.whiteColorHexa,
+    this.buttonColor = AppColors.primary,
+    this.textColor = AppColors.white,
     this.fontWeight = FontWeight.bold,
-    this.fontSize = 18,
+    this.fontSize = 20,
     this.edgeMargin = const EdgeInsets.fromLTRB(0, 0, 0, 0),
     this.edgePadding = const EdgeInsets.fromLTRB(0, 0, 0, 0),
     this.hasShadow = false,
     this.width = double.infinity,
-    this.height = 60,
+    this.height = 50,
     this.isTransparent = false,
-    required this.begin,
-    required this.end,
+    this.opacity = 1,
     @required this.action,
   }) : super(key: key);
 
@@ -51,33 +45,22 @@ class MyGradientButton extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        gradient: LinearGradient(
-          colors: [
-            hexaCodeToColor(lsColor![0]).withOpacity(lsColorOpacity![0]),
-            hexaCodeToColor(lsColor![1]).withOpacity(lsColorOpacity![1])
-          ],
-          begin: begin,
-          end: end,
-          stops: const [0.25, 0.75],
-        ),
+        borderRadius: BorderRadius.circular(50),
+        color: isTransparent == true ? hexaCodeToColor(AppColors.lightGrey) : hexaCodeToColor(buttonColor!).withOpacity(opacity)
       ),
       child: MaterialButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        disabledColor: Colors.grey,
-        disabledTextColor: Colors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         onPressed: action == null
           ? null
           : () {
-            action!();
-          },
+              action!();
+            },
         child: child ??
           MyTextConstant(
             text: textButton!,
             color2: Color(int.parse("0xFF${textColor!.replaceAll("#", '')}")),
             fontWeight: fontWeight!,
-            // width: 100,
-            // fontSize: fontSize,
+            fontSize: fontSize,
             overflow: TextOverflow.ellipsis,
           ),
       ),

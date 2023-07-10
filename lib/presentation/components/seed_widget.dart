@@ -44,18 +44,18 @@ class SeedsCompoent {
             padding: const EdgeInsets.symmetric(vertical: 2),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               if ((i * 3 + pos + 1) < 10)
-                MyText(
+                MyTextConstant(
                   text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                  hexaColor: AppColors.textColor,
-                  fontSize: 17 * MediaQuery.of(context).textScaleFactor,
-                  fontWeight: FontWeight.bold
+                  color2: hexaCodeToColor(AppColors.white),
+                  fontSize: 16 * MediaQuery.of(context).textScaleFactor,
+                  fontWeight: FontWeight.w600
                 )
               else
-                MyText(
+                MyTextConstant(
                   text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                  hexaColor: AppColors.textColor,
-                  fontSize: 17 * MediaQuery.of(context).textScaleFactor,
-                  fontWeight: FontWeight.bold
+                  color2: hexaCodeToColor(AppColors.white),
+                  fontSize: 16 * MediaQuery.of(context).textScaleFactor,
+                  fontWeight: FontWeight.w600
                 ),
             ]),
           ),
@@ -76,15 +76,15 @@ class SeedsCompoent {
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.whiteHexaColor),
+          color: hexaCodeToColor(AppColors.primary),
           borderRadius: const BorderRadius.all(Radius.circular(50)),
         ),
         // color: grey,
-        child: MyText(
+        child: MyTextConstant(
           text: txt,
-          hexaColor: AppColors.textColor,
-          fontSize: 17 * MediaQuery.of(context).textScaleFactor,
-          fontWeight: FontWeight.bold
+          color2: hexaCodeToColor(AppColors.white),
+          fontSize: 16 * MediaQuery.of(context).textScaleFactor,
+          fontWeight: FontWeight.w600
         ),
       )
     );

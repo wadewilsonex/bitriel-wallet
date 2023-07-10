@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
 
 class CreateWallet extends StatelessWidget {
 
@@ -13,9 +14,13 @@ class CreateWallet extends StatelessWidget {
 
     createWalletImpl.setBuildContext = context;
 
+    // createWalletImpl.showWarning();
+
     if (createWalletImpl.seed.value.isEmpty) createWalletImpl.generateSeed();
 
     return Scaffold(
+      backgroundColor: hexaCodeToColor(AppColors.background),
+      appBar: appBar(context, title: "Create Mnemonic"),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -30,13 +35,11 @@ class CreateWallet extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              _optionButton(createWalletImpl),
+              _optionButton(context, createWalletImpl),
 
               Expanded(child: Container()),
               MyGradientButton(
-                textButton: "Continue",
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
+                textButton: "Next",
                 action: () async {
                   Navigator.push(
                     context,
@@ -52,75 +55,79 @@ class CreateWallet extends StatelessWidget {
   }
 
   Widget _textHeader() {
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MyText(
-          text: "Seed",
-          fontWeight: FontWeight.w600,
-          textAlign: TextAlign.start,
-          fontSize: 25,
-          color: Colors.black,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        MyText(
+        MyTextConstant(
           text: "Write down or copy these words in the order and save them somewhere safe.\n\nAfter writing and securing your 12 words, click continue to proceed.",
           textAlign: TextAlign.start,
           fontSize: 19,
-          color: Colors.grey
+          color2: hexaCodeToColor(AppColors.text)
         )
       ],
     );
   }
 
-  Widget _optionButton(CreateWalletImpl createWalletImpl) {
+  Widget _optionButton(BuildContext context, CreateWalletImpl createWalletImpl) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Flexible(
           flex: 0,
-          child: Row(
-            children: [
-              const Icon(Iconsax.repeat),
-
-              const SizedBox(width: 5),
-
-              InkWell(
-                onTap: (){
-                  createWalletImpl.generateSeed();
-                },
-                child: const MyText(
-                  text: "Change Seed",
+          child: InkWell(
+            onTap: (){
+              createWalletImpl.generateSeed();
+            },
+            child: const Row(
+              children: [
+                Icon(Iconsax.refresh),
+          
+                SizedBox(width: 5),
+          
+                MyTextConstant(
+                  text: "New Mnemonic",
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.start,
-                  color: Colors.black,
+                  color2: Colors.black,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         
         const SizedBox(width: 20),
 
-        const Flexible(
+        Flexible(
           flex: 0,
-          child: Row(
-            children: [
-              Icon(Iconsax.copy),
-
-              SizedBox(width: 5),
-
-              MyText(
-                text: "Copy",
-                fontWeight: FontWeight.w600,
-                textAlign: TextAlign.start,
-                color: Colors.black,
-              ),
-            ],
+          child: InkWell(
+            onTap: (){
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text(
+                  'Copied to clipboard',
+                  textAlign: TextAlign.center,
+                ),
+                duration: Duration(seconds: 1),
+              ));
+              Clipboard.setData(
+                ClipboardData(text: createWalletImpl.seed.value),
+              );
+            },
+            child: const Row(
+              children: [
+                Icon(Iconsax.copy),
+          
+                SizedBox(width: 5),
+          
+                MyTextConstant(
+                  text: "Copy",
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.start,
+                  color2: Colors.black,
+                ),
+              ],
+            ),
           ),
         )
       ],

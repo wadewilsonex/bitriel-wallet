@@ -38,9 +38,9 @@ Widget progress({String? animationAsset, String? content}) {
             else
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
-              child: MyText(
+              child: MyTextConstant(
                 text: content, 
-                hexaColor: AppColors.whiteColorHexa,
+                color2: hexaCodeToColor(AppColors.whiteColorHexa),
               ),
             ),
           ],

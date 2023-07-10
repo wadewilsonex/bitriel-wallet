@@ -33,23 +33,23 @@ class Welcome extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        MyText(
+        MyTextConstant(
           text: "Set up\nyour Bitriel wallet",
           fontWeight: FontWeight.w600,
           textAlign: TextAlign.start,
           fontSize: 25,
-          color: Colors.black,
+          color2: Colors.black,
         ),
 
         SizedBox(
           height: 10,
         ),
 
-        MyText(
+        MyTextConstant(
           text: "Safe keeping digital assets, send, receive, trade, and more with Bitriel wallet.",
           textAlign: TextAlign.start,
           fontSize: 19,
-          color: Colors.grey
+          color2: Colors.grey
         )
       ],
     );

@@ -1,19 +1,18 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
-import 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
 
 class DashboardMenuItem extends StatelessWidget {
   final String title;
   final String? asset;
   final Widget? icon;
   final Function? action;
-
+  final String hexColor;
   const DashboardMenuItem({
     Key? key,
     required this.title,
     this.asset,
     this.icon,
     required this.action,
+    required this.hexColor,
   }) : super(key: key);
 
   @override
@@ -27,7 +26,7 @@ class DashboardMenuItem extends StatelessWidget {
         child: Container(
           height: 100,
           decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.white),
+            color: hexaCodeToColor(hexColor).withOpacity(0.10),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,10 +47,10 @@ class DashboardMenuItem extends StatelessWidget {
 
               Container(
                 margin: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
-                child: MyText(
+                child: MyTextConstant(
                   text: title,
                   fontSize: 18,
-                  hexaColor: AppColors.midNightBlue,
+                  color2: hexaCodeToColor(AppColors.midNightBlue),
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -103,10 +102,10 @@ class ScrollMenuItem extends StatelessWidget {
                 child: Image.asset(asset!, height: 25, width: 25,)
               ),
 
-              MyText(
+              MyTextConstant(
                 text: title,
                 fontSize: 15,
-                hexaColor: AppColors.midNightBlue,
+                color2: hexaCodeToColor(AppColors.midNightBlue),
                 fontWeight: FontWeight.w700,
               ),
 

@@ -22,10 +22,10 @@ class ImportWallet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             
-            const SeedContents(
-              title: 'Restore with seed', 
-              subTitle: 'Please add your 12 words seed below to restore your wallet.'
-            ),
+            // const SeedContents(
+            //   title: 'Restore with seed', 
+            //   subTitle: 'Please add your 12 words seed below to restore your wallet.'
+            // ),
       
             Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -58,9 +58,7 @@ class ImportWallet extends StatelessWidget {
               valueListenable: accManage.isSeedValid,
               builder: (context, value, wg) {
                 return MyGradientButton(
-                  textButton: "Continue",
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
+                  textButton: "Next",
                   action: value ? () async {
                     await accManage.importAccount(pin!);
                   } : null,
@@ -78,21 +76,21 @@ class ImportWallet extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MyText(
+        MyTextConstant(
           text: "Restore with seed",
           fontWeight: FontWeight.w600,
           textAlign: TextAlign.start,
           fontSize: 25,
-          color: Colors.black,
+          color2: Colors.black,
         ),
         SizedBox(
           height: 10,
         ),
-        MyText(
+        MyTextConstant(
           text: "Please add your 12 words seed below to restore your wallet.",
           textAlign: TextAlign.start,
           fontSize: 19,
-          color: Colors.grey
+          color2: Colors.grey
         )
       ],
     );

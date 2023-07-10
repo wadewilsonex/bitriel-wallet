@@ -1,7 +1,7 @@
 class ApiClient {
 
   /// Http Header
-  Map<String, String> conceteHeader({String? key, String? value}) { /* Concete More Content Of Header */
+  static Map<String, String> conceteHeader({String? key, String? value}) { /* Concete More Content Of Header */
     return key != null 
     ? { /* if Parameter != Null = Concete Header With  */
       "Content-Type": "application/json; charset=utf-8", 

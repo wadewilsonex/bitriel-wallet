@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
 
 class VerifySeedScreen extends StatelessWidget {
   
@@ -29,18 +30,8 @@ class VerifySeedScreen extends StatelessWidget {
     createWalletImpl!.remove3Seeds();
 
     return Scaffold(
-      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   automaticallyImplyLeading: false,
-      //   leading: IconButton(
-      //     icon: const Icon(Iconsax.arrow_left_2, size: 30,),
-      //     color: Colors.black,
-      //     onPressed: () {
-      //       Navigator.pop(context);
-      //     },
-      //   ),
-      // ),
+      backgroundColor: hexaCodeToColor(AppColors.background),
+      appBar: appBar(context, title: "Verify Mnemonic"),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -51,10 +42,7 @@ class VerifySeedScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
 
-                const SeedContents(
-                  title: 'Verify Seed', 
-                  subTitle: 'Almost done. Please input the words in the numerical order.'
-                ),
+                _textHeader(),
   
                 const SizedBox(height: 30),
                 Container(
@@ -74,15 +62,15 @@ class VerifySeedScreen extends StatelessWidget {
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: SeedsCompoent.getColumn(context, value.join(" "), 0, moreSize: 2.5),
+                                children: SeedsCompoent.getColumn(context, value.join(" "), 0, moreSize: 10),
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: SeedsCompoent.getColumn(context, value.join(" "), 1, moreSize: 2.5),
+                                children: SeedsCompoent.getColumn(context, value.join(" "), 1, moreSize: 10),
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: SeedsCompoent.getColumn(context, value.join(" "), 2, moreSize: 2.5),
+                                children: SeedsCompoent.getColumn(context, value.join(" "), 2, moreSize: 10),
                               ),
                             ],
                           );
@@ -148,6 +136,7 @@ class VerifySeedScreen extends StatelessWidget {
                       textColor: AppColors.primaryColor,
                       textButton: "Verify Later",
                       action: () async {
+                        // await seedVerifyLaterDialog(context, createWalletImpl!.verifyLater);
                         await seedVerifyLaterDialog(context, createWalletImpl!.verifyLater);
                       },
                     ),
@@ -158,9 +147,7 @@ class VerifySeedScreen extends StatelessWidget {
                 const SizedBox(height: 10,),
 
                 MyGradientButton(
-                  textButton: "Continue",
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
+                  textButton: "Next",
                   action: () async {
                     // submit!();
                   },
@@ -172,5 +159,22 @@ class VerifySeedScreen extends StatelessWidget {
       )
     );
   }
+
+  Widget _textHeader() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MyTextConstant(
+          text: 
+            "Almost done. Please input the words in the numerical order.",
+          textAlign: TextAlign.start,
+          fontSize: 19,
+          color2: hexaCodeToColor(AppColors.darkGrey)
+        )
+      ],
+    );
+  }
+
 
 }

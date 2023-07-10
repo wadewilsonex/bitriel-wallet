@@ -1,4 +1,8 @@
+import 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
+import 'package:bitriel_wallet/domain/model/market_top100_m.dart';
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/components/market_list_widget.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         toolbarHeight: 80,
         elevation: 0,
         backgroundColor: hexaCodeToColor(AppColors.white),
@@ -23,8 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           color: hexaCodeToColor(AppColors.white),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _menuItems(context),
+
+              _top100Tokens(),
+
             ],
           ),
         ),
@@ -42,12 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
           margin: const EdgeInsets.only(left: 10),
           child: GestureDetector(
             onTap: () async {},
-            child: const Padding(
-              padding: EdgeInsets.only(top: 10.0),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10.0),
               child: SizedBox(
-                height: 30,
-                width: 30,
-                child: Placeholder(),
+                height: 35,
+                width: 35,
+                child: RandomAvatar("string"),
               ),
             )
           ),
@@ -71,15 +80,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 5, left: 2),
-                        height: 25,
-                        width: 25,
-                        child: const Placeholder(),
+                      Consumer<AssetProvider>(
+                        builder: (context, pro, wg) {
+                          return Container(
+                            margin: const EdgeInsets.only(right: 5, left: 2),
+                            width: 25,
+                            height: 25,
+                            child: CircleAvatar(
+                              child: Image.file(
+                                File('${pro.dirPath}/default/SelendraCircle-White.png'),
+                              ),
+                            ),
+                          );
+                        }
                       ),
-                      const MyText(
+                      // Container(
+                      //   margin: const EdgeInsets.only(right: 5, left: 2),
+                      //   height: 25,
+                      //   width: 25,
+                      //   child: CircleAvatar(
+                      //     child: Image.file(
+                      //       File('${pro.dirPath}/default/SelendraCircle-White.png'),
+                      //     ),
+                      //   ),
+                      // ),
+                      MyTextConstant(
                         text: "Selendra Mainnet Network",
-                        hexaColor: AppColors.midNightBlue,
+                        color2: hexaCodeToColor(AppColors.midNightBlue),
                         fontSize: 14,
                       ),
                       Padding(
@@ -143,6 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: DashboardMenuItem(
                               title: "Swap",
                               asset: "${pro.dirPath}/icons/swap-coin.png",
+                              hexColor: "#219EBC",
                               action: () async {
                                 
                               },
@@ -155,6 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: DashboardMenuItem(
                               title: "Staking",
                               asset: "${pro.dirPath}/icons/stake-coin.png",
+                              hexColor: "#FF9F00",
                               action: () {
                                 // underContstuctionAnimationDailog(context: context);
                               },
@@ -172,6 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: DashboardMenuItem(
                               title: "Buy",
                               asset: "${pro.dirPath}/icons/buy-coin.png",
+                              hexColor: "#FF0071",
                               action: () async {
                                 // underContstuctionAnimationDailog(context: context);
                               },
@@ -184,6 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: DashboardMenuItem(
                               title: "Bitriel NFTs",
                               asset: "${pro.dirPath}/icons/nft_polygon.png",
+                              hexColor: "#6C15ED",
                               action: () {
                                 
                               },
@@ -245,4 +276,129 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+  Widget _top100Tokens() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 14),
+      child: Column(
+        children: [
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const MyTextConstant(
+                text: "Top 100",
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+
+              InkWell(
+                onTap: () {
+
+                },
+                child: MyTextConstant(
+                  text: "See All",
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color2: hexaCodeToColor(AppColors.primary),
+                ),
+              ),
+            ],
+          ),
+
+          Consumer<MarketProvider>(
+            builder: (context, marketProvider, widget) {
+              return Column(
+                children: [
+                            
+                  if (marketProvider.lsMarketLimit.isNotEmpty)
+                  CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,)
+                            
+                  // else if(marketProvider.lsMarketLimit.isEmpty) 
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(vertical: paddingSize),
+                  //   child: Column(
+                  //     children: [
+                                  
+                  //       Lottie.asset(
+                  //         "assets/animation/search_empty.json",
+                  //         repeat: true,
+                  //         reverse: true,
+                  //         width: 70.w,
+                  //       ),
+                                  
+                  //       const MyText(
+                  //         text: "Opps, Something went wrong!", 
+                  //         fontSize: 17, 
+                  //         fontWeight: FontWeight.w600,
+                  //         pTop: 20,
+                  //       )          
+                  //     ],
+                  //   ),
+                  // ),
+                  
+                ],
+              );
+            }
+          ),
+  
+          
+        ],
+      ),
+    ); 
+  }
+
+}
+
+class CoinMarket extends StatelessWidget {
+
+  final List<ListMetketCoinModel>? lsMarketCoin;
+
+  const CoinMarket({Key? key, this.lsMarketCoin}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      itemCount: 7,
+      shrinkWrap: true,
+      itemBuilder: (context, index){
+        return Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+
+          CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
+
+          ],
+        );
+      }
+    );
+  }
+
+  // Widget _viewAllCoin(BuildContext context){
+  //   return DraggableScrollableSheet(
+  //     initialChildSize: 0.9,
+  //     minChildSize: 0.5,
+  //     maxChildSize: 0.9,
+  //     expand: false,
+  //     builder: (_, scrollController) {
+  //       return ListView.builder(
+  //         controller: scrollController,
+  //         physics: const BouncingScrollPhysics(),
+  //         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+  //         itemCount: lsMarketCoin!.length,
+  //         shrinkWrap: true,
+  //         itemBuilder: (context, index){
+  //           return Column(
+  //             crossAxisAlignment: CrossAxisAlignment.end,
+  //             children: [
+  //               CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
+  //             ],
+  //           );
+  //         }
+  //       );
+  //     }
+  //   );
+  // }
 }

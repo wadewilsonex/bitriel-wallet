@@ -1,4 +1,6 @@
 
+import 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
+
 import 'index.dart';
 
 class App extends StatelessWidget {
@@ -11,13 +13,15 @@ class App extends StatelessWidget {
     Provider.of<AssetProvider>(context, listen: false).downloadFirstAsset();
 
     Provider.of<SDKProvier>(context, listen: false).connectNetwork();
+
+    Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
     
     return MaterialApp(
       title: 'Bitriel',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: hexaCodeToColor(AppColors.white), 
-          background: hexaCodeToColor(AppColors.white)
+          background: hexaCodeToColor(AppColors.white),
         ),
         useMaterial3: true,
         fontFamily: 'TitilliumWeb',

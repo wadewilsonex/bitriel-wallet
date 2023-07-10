@@ -77,9 +77,9 @@ class MyFlatButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            MyText(
+            MyTextConstant(
               text: textButton!,
-              hexaColor: textColor!,
+              color2: hexaCodeToColor(textColor!),
               fontWeight: fontWeight!,
               fontSize: fontSize,
             ),
