@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:bitriel_wallet/index.dart';
 
 class CreateWalletImpl implements CreateWalletUsecase {
-
+  
+  SDKProvier? _sdkProvier;
   BuildContext? context;
+
+  String? pin;
 
   /// For Create And Import
   ValueNotifier<bool>? isVerifying = ValueNotifier(false);
@@ -16,44 +20,76 @@ class CreateWalletImpl implements CreateWalletUsecase {
   List<int> threeSeedIndex = [];
   ValueNotifier<List<String>> verifySeeds = ValueNotifier([]);
   List<String> tmpVerifySeeds = [];
-  
-  // ValueNotifier<List<String>> miss3Seed = ValueNotifier(List.empty(growable: true));
+
+  NewAccount? newAcc;
+
+  final AccountManagementImpl _accountManagementImpl = AccountManagementImpl();
+
+  List<UnverifySeed> unverifyList = [];
 
   @override
   set setBuildContext(BuildContext ctx){
     context = ctx;
+    _sdkProvier = Provider.of<SDKProvier>(ctx, listen: false);
   }
   
   @override
   Future<void> verifyLater() async {
 
-    // _importAccountModel.status = false;
+    print("verifyLater PIN $pin");
+
+    dialogLoading(context!);
+
+    await addAndImport();
+
+    await verifyLaterData();
+
+    // // _importAccountModel.status = false;
 
     // /// From Multi Account
-    // if (widget.newAcc != null){
+    // if (newAcc != null){
 
-    //   dialogLoading(context);
+    //   dialogLoading(context!);
 
-    //   await addAndImport();
+    //   // await addAndImport();
       
-    //   Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+    //   // Provider.of<ApiProvider>(context!, listen: false).notifyListeners();
           
-    //   Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
+    //   Navigator.popUntil(context!, ModalRoute.withName('/multipleWallets'));
     // }
 
-    // /// From Onboading Page Create New
-    // else {
-      
-      Navigator.push(
-        context!, 
-        MaterialPageRoute(builder: (context) => const HomeScreen())
-        // Transition(
-        //   child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
-        //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-        // )
-      );
+    // // /// From Onboading Page Create New
+    // // else {
+
+    //   Navigator.push(
+    //     context!, 
+    //     MaterialPageRoute(builder: (context) => const HomeScreen())
+    //     // Transition(
+    //     //   child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
+    //     //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+    //     // )
+    //   );
     // }
 
+  }
+  
+  @override
+  Future<void> verifyLaterData() async {
+
+    unverifyList.add(UnverifySeed.init(
+      address: _sdkProvier!.getSdkProvider.getSELAddress,
+      status: false, 
+      ethAddress: _sdkProvier!.getSdkProvider.evmAddress,
+      btcAddress: _sdkProvier!.getSdkProvider.btcAddress// conProvider!.listContract[_apiProvider!.btcIndex].address
+    ));
+
+    print("UnverifySeed.unverifyListToJson(unverifyList) ${UnverifySeed().unverifyListToJson(unverifyList)}");
+
+    await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unverifyList)));
+
+    await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) {
+      print("readSecure ${value}");
+    });
   }
   
   @override
@@ -65,20 +101,11 @@ class CreateWalletImpl implements CreateWalletUsecase {
 
     threeSeedIndex = randomThreeEachNumber();
 
-    print("seed.value.split(,) ${seed.value.split(" ")}");
-
     /// Add Origin lsSeeds To missThreeSeed
     /// We use loop, because we want to prevent value at defautl seed
     for (var element in seed.value.split(" ")) {
       tmpVerifySeeds.add(element);
     }
-
-    print("threeSeedIndex $threeSeedIndex");
-    print("tmpVerifySeeds $tmpVerifySeeds");
-    
-    print("threeSeedIndex[0] ${threeSeedIndex[0]}");
-
-    print(tmpVerifySeeds[0]);
 
     // Replace match index with Empty
     tmpVerifySeeds[threeSeedIndex[0]] = "";
@@ -118,7 +145,7 @@ class CreateWalletImpl implements CreateWalletUsecase {
 
   @override
   Future<void> generateSeed() async {
-    seed.value = await Provider.of<SDKProvier>(context!, listen: false).getSdkProvider.generateSeed();
+    seed.value = await _sdkProvier!.getSdkProvider.generateSeed();
   }
 
   @override
@@ -210,6 +237,22 @@ class CreateWalletImpl implements CreateWalletUsecase {
         );
       }
     );
+  }
+
+  @override
+  Future<void> addAndImport() async {
+
+    await _accountManagementImpl.addAndImport(_sdkProvier!, context!, seed.value, pin!);
+
+    // await _sdkProvier!.importSeed(verifySeeds.value.join(","), pin!).then((value) {
+      
+    //   Navigator.pop(context!);
+
+    //   print("Success");
+    //   // Navigator.push(
+    //   //   context, route
+    //   // );
+    // });
   }
 
 }

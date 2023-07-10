@@ -51,6 +51,9 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   local_auth: ^2.1.6
   vibration: ^1.8.1
+  web3dart: ^2.6.1
+  web_socket_channel: ^2.4.0
+  flutter_bitcoin: ^1.0.1
   fk_user_agent: ^2.1.0
 
 dependency_overrides:
@@ -80,7 +83,6 @@ flutter:
     - .env
     - assets/js/main.js
     - assets/animation/
-    - assets/images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

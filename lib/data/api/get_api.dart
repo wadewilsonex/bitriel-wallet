@@ -78,4 +78,13 @@ class GetRequest {
     );
 
   }
+
+  static Future<http.Response> fetchAddrUxtoBTC(String btcAddr) async {
+    return await http.get(
+      Uri.parse("https://blockstream.info/api/address/$btcAddr/utxo"),
+      headers: conceteHeader(),
+    );
+
+  }
+  
 }

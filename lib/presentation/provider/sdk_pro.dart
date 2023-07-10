@@ -6,11 +6,13 @@ class SDKProvier with ChangeNotifier {
 
   BitrielSDKImpl get getSdkProvider => _sdkProvier;
 
-  void connectNetwork(){
-    _sdkProvier.initBitrielSDK(jsFilePath: "assets/js/main.js");
+  void connectNetwork() async {
+    await _sdkProvier.initBitrielSDK(jsFilePath: "assets/js/main.js");
+
   }
   
-  Future<void> importSeed(String seed, String pwd) async {
-    await _sdkProvier.importSeed(seed, pwd: pwd);
+  Future<List<dynamic>> importSeed(String seed, String pwd) async {
+    return await _sdkProvier.importSeed(seed, pin: pwd);
   }
+  
 }
