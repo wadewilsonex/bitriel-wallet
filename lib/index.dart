@@ -2,6 +2,8 @@
 export 'package:flutter/material.dart';
 export 'dart:io';
 export 'package:flutter/services.dart';
+export 'package:flutter/foundation.dart';
+export 'dart:convert';
 
 // Pub & Packages
 export 'package:bitriel_wallet/app.dart';
@@ -10,6 +12,8 @@ export 'package:path_provider/path_provider.dart';
 export 'package:local_auth/local_auth.dart';
 export 'package:web3dart/web3dart.dart';
 export 'package:web_socket_channel/io.dart';
+export 'package:ua_client_hints/ua_client_hints.dart';
+export 'package:random_avatar/random_avatar.dart';
 // ignore: depend_on_referenced_packages
 export 'package:permission_handler/permission_handler.dart';
 // ignore: depend_on_referenced_packages
@@ -41,6 +45,7 @@ export 'package:polkawallet_sdk/storage/keyring.dart';
 export 'package:polkawallet_sdk/api/types/networkParams.dart';
 export 'package:bitriel_wallet/data/sdk/bitriel_sdk.dart';
 export 'package:bitriel_wallet/data/sdk/web3.dart';
+export 'package:bitriel_wallet/data/api/api_client.dart';
 // Repository
 export 'package:bitriel_wallet/data/repository/asset_repo/asset_repo.dart';
 export 'package:bitriel_wallet/data/repository/asset_repo/asset_repo_impl.dart';
@@ -48,6 +53,7 @@ export 'package:bitriel_wallet/data/repository/sdk_repo/sdk_repo_impl.dart';
 export 'package:bitriel_wallet/data/repository/sdk_repo/web3_rep.dart';
 export 'package:bitriel_wallet/data/repository/sdk_repo/web3_impl.dart';
 export 'package:bitriel_wallet/data/repository/http_request_impl.dart';
+export 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
 
 /*---------- Domain Layer ----------*/
 export 'package:bitriel_wallet/domain/validator/form_validate.dart';
@@ -55,6 +61,7 @@ export 'package:bitriel_wallet/domain/validator/form_validate.dart';
 export 'package:bitriel_wallet/domain/model/pin_m.dart';
 export 'package:bitriel_wallet/domain/model/create_acc_m.dart';
 export 'package:bitriel_wallet/domain/model/new_acc_m.dart';
+export 'package:bitriel_wallet/domain/model/market_top100_m.dart';
 
 // Usecases
 export 'package:bitriel_wallet/domain/usecases/asset_uc/asset_uc_impl.dart';

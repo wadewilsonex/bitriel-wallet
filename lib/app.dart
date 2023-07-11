@@ -1,6 +1,3 @@
-
-import 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
-
 import 'index.dart';
 
 class App extends StatelessWidget {

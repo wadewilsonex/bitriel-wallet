@@ -4,7 +4,7 @@ import '../../../index.dart';
 
 class AppRouter {
   static final Map<String, Widget Function(BuildContext)> router = {
-    "/": (context) => const Welcome()
+    "/": (context) => const HomeScreen()
   };
   //  = GoRouter(
   //   routes: [
