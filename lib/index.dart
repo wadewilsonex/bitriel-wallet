@@ -23,6 +23,8 @@ export 'package:iconsax/iconsax.dart';
 export 'package:lottie/lottie.dart';
 export 'package:flutter_secure_storage/flutter_secure_storage.dart';
 export 'package:vibration/vibration.dart';
+export 'package:fl_chart/fl_chart.dart';
+export 'package:unicons/unicons.dart';
 
 // ignore: depend_on_referenced_packages
 export 'package:polkawallet_sdk/api/apiKeyring.dart';
@@ -63,6 +65,8 @@ export 'package:bitriel_wallet/domain/model/pin_m.dart';
 export 'package:bitriel_wallet/domain/model/create_acc_m.dart';
 export 'package:bitriel_wallet/domain/model/new_acc_m.dart';
 export 'package:bitriel_wallet/domain/model/market_top100_m.dart';
+export 'package:bitriel_wallet/domain/model/smart_contract_m.dart';
+export 'package:bitriel_wallet/domain/model/line_chart_model.dart';
 
 // Usecases
 export 'package:bitriel_wallet/domain/usecases/asset_uc/asset_uc_impl.dart';
@@ -82,6 +86,7 @@ export 'package:bitriel_wallet/domain/usecases/app_uc/app_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/app_uc/app_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/multi_acc/multi_acc_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/multi_acc/multi_acc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/wallet_uc/wallet_uc.dart';
 
 /*---------- Presentation Layer ----------*/
 
@@ -108,10 +113,13 @@ export 'package:bitriel_wallet/presentation/widget/dashboard_menu_items.dart';
 export 'package:bitriel_wallet/presentation/components/market_list_widget.dart';
 export 'package:bitriel_wallet/presentation/components/acc_item_c.dart';
 export 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/asset_item_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/wallet_widget.dart';
 
 // Provider
 export 'package:bitriel_wallet/presentation/provider/asset_pro.dart';
 export 'package:bitriel_wallet/presentation/provider/sdk_pro.dart';
+export 'package:bitriel_wallet/presentation/provider/wallet_pro.dart';
 
 /*---------- Standalone Layer ----------*/
 export 'package:bitriel_wallet/standalone/utils/routes/router.dart';

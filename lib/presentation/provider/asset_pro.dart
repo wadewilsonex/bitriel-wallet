@@ -20,5 +20,11 @@ class AssetProvider with ChangeNotifier{
     isDownloadedAsset = true;
     // Notify listeners if needed
     notifyListeners();
+
   }
+
+  Future<void> downloadSecondAsset() async {
+    await assetUCImlp!.downloadSecondAsset();
+  }
+
 }

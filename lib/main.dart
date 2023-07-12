@@ -14,6 +14,9 @@ void main() async {
         ChangeNotifierProvider<MarketProvider>(
           create: (context) => MarketProvider(),
         ),
+        ChangeNotifierProvider<WalletProvider>(
+          create: (context) => WalletProvider(),
+        ),
       ],
       child: const App()
     )

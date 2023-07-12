@@ -5,6 +5,8 @@
 |   |   |   └── api.dart
 │   │   ├── repositories/
 │   │   │   └── account_repository.dart
+│   │   ├── local_storage/
+│   │   │   └── local_storage.dart
 │   │   └── sdk/
 │   │       └── bitriel_sdk.dart
 |   |

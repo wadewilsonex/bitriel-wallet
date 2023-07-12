@@ -58,6 +58,8 @@ dependencies:
   lottie: ^2.4.0
   random_avatar: ^0.0.8
   fluttertoast:
+  fl_chart: ^0.63.0
+  unicons: ^2.1.1
 
 dependency_overrides:
   polkawallet_sdk:

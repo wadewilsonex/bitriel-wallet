@@ -16,6 +16,7 @@ class AssetUseCaseImpl implements AssetUseCases {
   @override
   Future<void> downloadFirstAsset() async {
     try {
+      
       await downloadNArchive(fileName: 'icons.zip');
       logger.d("downloadNArchive");
     } catch (e) {
@@ -33,6 +34,7 @@ class AssetUseCaseImpl implements AssetUseCases {
     await downloadNArchive(fileName: 'default.zip');
 
     await downloadNArchive(fileName: 'payment.zip');
+
   }
 
   @override
@@ -62,4 +64,5 @@ class AssetUseCaseImpl implements AssetUseCases {
     // Directory("${dirPath!.value}/default").deleteSync(recursive: true);
     // Directory("${dirPath!.value}/payment").deleteSync(recursive: true);
   }
+
 }

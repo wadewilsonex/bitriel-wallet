@@ -1,47 +1,177 @@
-// import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/index.dart';
 
-// Widget tabBarView(BuildContext context, Function dismiss) {
-//   return TabBarView(
-//     children: [
+Widget tabBarView(BuildContext context, Function dismiss) {
+
+  return TabBarView(
+    children: [
       
-//       SingleChildScrollView(
-//         child: Container(
-//           margin: const EdgeInsets.symmetric(horizontal: 20),
-//           child: Column(
-//             children: [
+      SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
 
-//               const SizedBox(height: 10),
-//               Consumer<ContractProvider>(
-//                 builder: (context, pro, wg) {
-//                   return _selendraNetworkList(context, pro.sortListContract, pro, dismiss);
-//                 }
-//               ),
+              const SizedBox(height: 10),
+              // Consumer<ContractProvider>(
+              //   builder: (context, pro, wg) {
+              //     return _
+                  selendraNetworkList(context, [], dismiss),
+              //   }
+              // ),
 
-//               _addMoreAsset(context),
-//             ],
-//           )
-//         ),
-//       ),
+              // _addMoreAsset(context),
+            ],
+          )
+        ),
+      ),
         
-//       // ListView(
-//       //   children: [
-//       //     for (int i = 0; i < 10; i++)
-//       //     Container(
-//       //         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-//       //         child: _nftAndTicket(context)
-//       //     ),
-//       //   ],
-//       // ),
-//     ],
-//   );
-// }
+      // ListView(
+      //   children: [
+      //     for (int i = 0; i < 10; i++)
+      //     Container(
+      //         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      //         child: _nftAndTicket(context)
+      //     ),
+      //   ],
+      // ),
+    ],
+  );
+}
 
-// Widget _userWallet(BuildContext context) {
+Widget selendraNetworkList(BuildContext context, List<SmartContractModel> lsAsset, Function dismiss){
+  return ListView.builder(
+    physics: const BouncingScrollPhysics(),
+    itemCount: lsAsset.length,
+    shrinkWrap: true,
+    itemBuilder: (context, index){
+      return GestureDetector(
+            onTap: () {
+              // Navigator.push(
+              //   context,
+              //   Transition(
+              //     child: AssetInfo(
+              //       index: index,
+              //       scModel: lsAsset[index]
+              //     ),
+              //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+              //   ),
+              // );
+            },
+            child: AssetsItemComponent(
+              scModel: lsAsset[index]
+            )
+          )
+      // lsAsset[index].isAdded == true
+      //   ? 
+        // Dismissible(
+        //   key: Key(index.toString()),
+        //   onDismissed: (DismissDirection dismissDirection) async {
+
+        //     await dismiss(lsAsset, index);
+        //   },
+
+        //   background: Container(
+        //     color: Colors.red,
+        //     child: Padding(
+        //       padding: const EdgeInsets.all(15),
+        //       child: Row(
+        //         mainAxisAlignment: MainAxisAlignment.end,
+        //         children: const [
+        //           Icon(Iconsax.trash, color: Colors.white),
+
+        //           SizedBox(width: 5),
+
+        //           Text('Remove', style: TextStyle(color: Colors.white)),
+        //         ],
+          
+        //       ),
+          
+        //     ),
+          
+        //   ),
+        //   direction: DismissDirection.endToStart,
+        //   child: GestureDetector(
+        //     onTap: () {
+        //       Navigator.push(
+        //         context,
+        //         Transition(
+        //           child: AssetInfo(
+        //             index: index,
+        //             scModel: lsAsset[index]
+        //           ),
+        //           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+        //         ),
+        //       );
+        //     },
+        //     child: AssetsItemComponent(
+        //       scModel: lsAsset[index]
+        //     )
+        //   ),
+        // ) 
+        // : GestureDetector(
+        //   onTap: () {
+        //     Navigator.push(
+        //       context,
+        //       Transition(
+        //         child: AssetInfo(
+        //           index: index,
+        //           scModel: lsAsset[index]
+        //         ),
+        //         transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+        //       ),
+        //     );
+        //   },
+        //   child: AssetsItemComponent(
+        //     scModel: lsAsset[index]
+        //   )
+        // )
+        ;
+    }
+  );
+}
+
+Widget _addMoreAsset(BuildContext context){
+  return GestureDetector(
+    child: Container(
+      width: MediaQuery.of(context).size.width,
+      color: Colors.transparent,
+      padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          
+          MyTextConstant(
+            text: "Don't see your token?",
+            color2: Colors.grey.shade400,
+          ),
+      
+          TextButton(
+            onPressed: (){
+              // Navigator.push(
+              //   context, 
+              //   MaterialPageRoute(builder: (context) => const AddAsset())
+              // );
+            },
+            child: const MyTextConstant(
+              text: "Import asset",
+              // hexaColor: AppColors.primaryColor,
+              fontWeight: FontWeight.bold,
+              // left: 5.sp
+            )
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget userWallet(BuildContext context) {
 
 //     ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
 
-//     return Column(
-//       children: [
+    return Column(
+      children: [
 
 //         Consumer<VerifySeedsProvider>(
 //           builder: (context, verifyingP, wg) {
@@ -320,6 +450,6 @@
 //             );
 //           } 
 //         ),
-//       ],
-//     );
-//   }
+      ],
+    );
+}
