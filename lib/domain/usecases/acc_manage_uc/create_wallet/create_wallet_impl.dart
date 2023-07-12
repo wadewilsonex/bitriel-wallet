@@ -41,6 +41,8 @@ class CreateWalletImpl implements CreateWalletUsecase {
 
   bool? isMultiAcc = false;
   bool? isVerifyLater = false;
+
+  ValueNotifier<bool> isMatch = ValueNotifier(false);
   // if (isMultiAcc == true) {
   //     Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute.toString()}", (route) => false);
   //   }
@@ -54,30 +56,29 @@ class CreateWalletImpl implements CreateWalletUsecase {
   }
   
   @override
-  void remove3Seeds() {
+  void remove3Seeds({bool isReset = false}) {
 
     // miss3Seed.value = [];
     // tmpThreeSeed.value = [];
-    verify.verifySeeds = [];
+    verify.verifySeeds!.clear();
     verifySeeds.value.clear();
 
-    verify.threeSeedIndex = randomThreeEachNumber();
+    verify.tmpThreeSeedIndex!.clear();
+    tmpThreeSeedIndex.value.clear();
+
+    if (isReset == false) verify.threeSeedIndex = randomThreeEachNumber();
 
     /// Add Origin lsSeeds To missThreeSeed
     /// We use loop, because we want to prevent value at defautl seed
     for (var element in seed.value.split(" ")) {
       verify.verifySeeds!.add(element);
-      verifySeeds.value.add(element);
     }
+    verifySeeds.value = verify.verifySeeds!;
 
     for (var element in verify.threeSeedIndex!) {
       verify.tmpThreeSeedIndex!.add(element);
-      tmpThreeSeedIndex.value.add(element);
     }
-
-    print("verify.verifySeeds! ${verify.verifySeeds!}");
-
-    print("verify.tmpThreeSeedIndex! ${verify.tmpThreeSeedIndex!}");
+    tmpThreeSeedIndex.value = verify.tmpThreeSeedIndex!;
 
     // Replace match index with Empty
     verify.verifySeeds![verify.tmpThreeSeedIndex![0]] = "";
@@ -87,14 +88,23 @@ class CreateWalletImpl implements CreateWalletUsecase {
     verifySeeds.value[tmpThreeSeedIndex.value[0]] = "";
     verifySeeds.value[tmpThreeSeedIndex.value[1]] = "";
     verifySeeds.value[tmpThreeSeedIndex.value[2]] = "";
+
+    if (isReset == true) {
+      isMatch.value = false;
+      resetNotify();
+    }
   
   }
 
-  @override
-  void resetThreeSeed(){
-    for (var element in verify.threeSeedIndex!) {
-      verify.tmpThreeSeedIndex!.add(element);
-    }
+  void resetNotify(){
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    isReset.notifyListeners();
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    isMatch.notifyListeners();
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    tmpThreeSeedIndex.notifyListeners();
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    verifySeeds.notifyListeners();
   }
 
   @override
@@ -108,12 +118,27 @@ class CreateWalletImpl implements CreateWalletUsecase {
     // }
     
     verify.seedWord = (seed.value.split(" ")[verify.tmpThreeSeedIndex![rmIndex]]);
-
-    verify.verifySeeds![index] = verify.seedWord!;
+    print("verify.seedWord ${verify.seedWord}");
+    for (var element in verify.verifySeeds!) {
+      if (element.isEmpty){
+        verify.verifySeeds![verify.verifySeeds!.indexOf(element)] = verify.seedWord!;
+        break;
+      }
+    }
+    print("verify.verifySeeds! ${verify.verifySeeds!}");
     verifySeeds.value = verify.verifySeeds!;
 
     verify.tmpThreeSeedIndex!.removeAt(rmIndex);
     tmpThreeSeedIndex.value = verify.tmpThreeSeedIndex!;
+
+    print("tmpThreeSeedIndex.value ${tmpThreeSeedIndex.value}");
+
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    verifySeeds.notifyListeners();
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    tmpThreeSeedIndex.notifyListeners();
+
+    isFilledSeedMatch();
 
     // verify.verifySeeds = verify.threeSeedIndex![index];
 
@@ -124,11 +149,20 @@ class CreateWalletImpl implements CreateWalletUsecase {
     // verify.tmpThreeSeedIndex!.remove(rmIndex);
     
     // // Enable Reset Three Seed Back
-    // if (isReset.value == false) isReset.value = true;
+    if (isReset.value == false) isReset.value = true;
 
     // widget.createKeyModel!.tmpSeed = widget.createKeyModel!.missingSeeds.join(" ");
     // threeSeed.value.split(" ").removeAt(rmIndex);
 
+  }
+  
+  void isFilledSeedMatch(){
+    
+    if (tmpThreeSeedIndex.value.isEmpty){
+      if (verifySeeds.value.join(" ") == seed.value){
+        isMatch.value = true;
+      }
+    }
   }
 
   @override
@@ -208,6 +242,8 @@ class CreateWalletImpl implements CreateWalletUsecase {
 
     if (isMultiAcc == true) {
       Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute}", (route) => false);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.homeRoute}", (route) => false);
     }
     
   }

@@ -12,7 +12,7 @@ class VerifySeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (createWalletImpl!.verify.tmpThreeSeedIndex!.isEmpty) createWalletImpl!.remove3Seeds();
+    if (createWalletImpl!.tmpThreeSeedIndex.value.isEmpty && createWalletImpl!.isMatch.value == false) createWalletImpl!.remove3Seeds();
 
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
@@ -75,7 +75,7 @@ class VerifySeedScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20),
                       child: Container(
                         alignment: Alignment.center,
-                        height: 30,
+                        height: 50,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           physics: const NeverScrollableScrollPhysics(),
@@ -97,38 +97,38 @@ class VerifySeedScreen extends StatelessWidget {
                   }
                 ),
   
-                // const SizedBox(height: 3),
-                // // Display Refresh Button When User Fill Out All
+                const SizedBox(height: 3),
                 
-                // ValueListenableBuilder(
-                //   valueListenable: createWalletImpl!.isReset, 
-                //   builder: (context, value, wg){
-                //     if (value == false) return const SizedBox();
-                //     return Align(
-                //       alignment: Alignment.center,
-                //       child: InkWell(
-                //         child: Padding(
-                //           padding: const EdgeInsets.all(15),
-                //           child: Row(
-                //             mainAxisSize: MainAxisSize.min,
-                //             crossAxisAlignment: CrossAxisAlignment.center,
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: [
-                //               Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 30),
-                //               const SizedBox(width: 9),
-                //               const MyTextConstant(
-                //                 text: "Try Again",
-                //                 fontSize: 17,
-                //                 fontWeight: FontWeight.bold,  
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //         onTap: () => createWalletImpl!.remove3Seeds()
-                //       ),
-                //     );
-                //   }
-                // ),
+                // Display Refresh Button When User Fill Out All
+                ValueListenableBuilder(
+                  valueListenable: createWalletImpl!.isReset, 
+                  builder: (context, value, wg){
+                    if (value == false) return const SizedBox();
+                    return Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 30),
+                              const SizedBox(width: 9),
+                              const MyTextConstant(
+                                text: "Try Again",
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,  
+                              ),
+                            ],
+                          ),
+                        ),
+                        onTap: () => createWalletImpl!.remove3Seeds(isReset: true)
+                      ),
+                    );
+                  }
+                ),
   
                 Flexible(child: Container()),
                 
@@ -152,12 +152,18 @@ class VerifySeedScreen extends StatelessWidget {
 
                 const SizedBox(height: 10,),
 
-                MyGradientButton(
-                  textButton: "Next",
-                  action: () async {
-                    // submit!();
-                    await createWalletImpl!.addAndImport();
-                  },
+                ValueListenableBuilder(
+                  valueListenable: createWalletImpl!.isMatch, 
+                  builder: (context, value, wg){
+                    return MyGradientButton(
+                      textButton: "Next",
+                      isTransparent: !  value,
+                      action: value == false ? null : () async {
+                        // submit!();
+                        await createWalletImpl!.addAndImport();
+                      },
+                    );
+                  }
                 )
               ],
             ),

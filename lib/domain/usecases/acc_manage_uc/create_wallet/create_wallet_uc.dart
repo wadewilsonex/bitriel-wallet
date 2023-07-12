@@ -15,6 +15,6 @@ abstract class CreateWalletUsecase {
   /// 2
   void remove3Seeds();
   void onTapThreeSeeds(int index, int rmIndex);
-  void resetThreeSeed();
+  // void resetThreeSeed();
 
 }

@@ -1,5 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
 
 class CreateWalletScreen extends StatelessWidget {
 
@@ -20,6 +19,7 @@ class CreateWalletScreen extends StatelessWidget {
 
     if (createWalletImpl.seed.value.isEmpty) {
       createWalletImpl.pin = pin;
+      // createWalletImpl.seed.value = "vacant ladder aware place train cancel between dragon skin glow leaf wave";
       createWalletImpl.generateSeed();
     }
 

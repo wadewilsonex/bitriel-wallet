@@ -94,6 +94,7 @@ export 'package:bitriel_wallet/presentation/screen/pin_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/home_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/account/multi_acc_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/setting_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/wallet/wallet_screen.dart';
 // Widget
 export 'package:bitriel_wallet/presentation/widget/text_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/seed_widget.dart';
