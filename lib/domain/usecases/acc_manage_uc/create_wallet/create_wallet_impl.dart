@@ -1,11 +1,22 @@
-import 'dart:convert';
 import 'dart:math';
 import 'package:bitriel_wallet/index.dart';
+
+class Verify {
+
+  String? seedWord;
+  String? threeSeed = "";
+
+  List<int>? threeSeedIndex = [];
+
+  List<int>? tmpThreeSeedIndex = [];
+  List<String>? verifySeeds = [];
+
+}
 
 class CreateWalletImpl implements CreateWalletUsecase {
   
   SDKProvier? _sdkProvier;
-  BuildContext? context;
+  BuildContext? _context;
 
   String? pin;
 
@@ -16,10 +27,11 @@ class CreateWalletImpl implements CreateWalletUsecase {
   ValueNotifier<String> seed = ValueNotifier('');
 
   /// For Verify Seed
-  ValueNotifier<String> threeSeed = ValueNotifier('');
-  List<int> threeSeedIndex = [];
+  // ValueNotifier<String> threeSeed = ValueNotifier('');;
+  ValueNotifier<List<int>> tmpThreeSeedIndex = ValueNotifier([]);
   ValueNotifier<List<String>> verifySeeds = ValueNotifier([]);
-  List<String> tmpVerifySeeds = [];
+
+  ValueNotifier<bool> isReset = ValueNotifier(false);
 
   NewAccount? newAcc;
 
@@ -27,69 +39,18 @@ class CreateWalletImpl implements CreateWalletUsecase {
 
   List<UnverifySeed> unverifyList = [];
 
+  bool? isMultiAcc = false;
+  bool? isVerifyLater = false;
+  // if (isMultiAcc == true) {
+  //     Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute.toString()}", (route) => false);
+  //   }
+
+  final Verify verify = Verify();
+
   @override
   set setBuildContext(BuildContext ctx){
-    context = ctx;
+    _context = ctx;
     _sdkProvier = Provider.of<SDKProvier>(ctx, listen: false);
-  }
-  
-  @override
-  Future<void> verifyLater() async {
-
-    print("verifyLater PIN $pin");
-
-    dialogLoading(context!);
-
-    await addAndImport();
-
-    await verifyLaterData();
-
-    // // _importAccountModel.status = false;
-
-    // /// From Multi Account
-    // if (newAcc != null){
-
-    //   dialogLoading(context!);
-
-    //   // await addAndImport();
-      
-    //   // Provider.of<ApiProvider>(context!, listen: false).notifyListeners();
-          
-    //   Navigator.popUntil(context!, ModalRoute.withName('/multipleWallets'));
-    // }
-
-    // // /// From Onboading Page Create New
-    // // else {
-
-    //   Navigator.push(
-    //     context!, 
-    //     MaterialPageRoute(builder: (context) => const HomeScreen())
-    //     // Transition(
-    //     //   child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
-    //     //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-    //     // )
-    //   );
-    // }
-
-  }
-  
-  @override
-  Future<void> verifyLaterData() async {
-
-    unverifyList.add(UnverifySeed.init(
-      address: _sdkProvier!.getSdkProvider.getSELAddress,
-      status: false, 
-      ethAddress: _sdkProvier!.getSdkProvider.evmAddress,
-      btcAddress: _sdkProvier!.getSdkProvider.btcAddress// conProvider!.listContract[_apiProvider!.btcIndex].address
-    ));
-
-    print("UnverifySeed.unverifyListToJson(unverifyList) ${UnverifySeed().unverifyListToJson(unverifyList)}");
-
-    await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unverifyList)));
-
-    await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) {
-      print("readSecure ${value}");
-    });
   }
   
   @override
@@ -97,25 +58,77 @@ class CreateWalletImpl implements CreateWalletUsecase {
 
     // miss3Seed.value = [];
     // tmpThreeSeed.value = [];
-    tmpVerifySeeds = [];
+    verify.verifySeeds = [];
+    verifySeeds.value.clear();
 
-    threeSeedIndex = randomThreeEachNumber();
+    verify.threeSeedIndex = randomThreeEachNumber();
 
     /// Add Origin lsSeeds To missThreeSeed
     /// We use loop, because we want to prevent value at defautl seed
     for (var element in seed.value.split(" ")) {
-      tmpVerifySeeds.add(element);
+      verify.verifySeeds!.add(element);
+      verifySeeds.value.add(element);
     }
 
-    // Replace match index with Empty
-    tmpVerifySeeds[threeSeedIndex[0]] = "";
-    tmpVerifySeeds[threeSeedIndex[1]] = "";
-    tmpVerifySeeds[threeSeedIndex[2]] = "";
+    for (var element in verify.threeSeedIndex!) {
+      verify.tmpThreeSeedIndex!.add(element);
+      tmpThreeSeedIndex.value.add(element);
+    }
 
-    verifySeeds.value = tmpVerifySeeds;
+    print("verify.verifySeeds! ${verify.verifySeeds!}");
+
+    print("verify.tmpThreeSeedIndex! ${verify.tmpThreeSeedIndex!}");
+
+    // Replace match index with Empty
+    verify.verifySeeds![verify.tmpThreeSeedIndex![0]] = "";
+    verify.verifySeeds![verify.tmpThreeSeedIndex![1]] = "";
+    verify.verifySeeds![verify.tmpThreeSeedIndex![2]] = "";
+
+    verifySeeds.value[tmpThreeSeedIndex.value[0]] = "";
+    verifySeeds.value[tmpThreeSeedIndex.value[1]] = "";
+    verifySeeds.value[tmpThreeSeedIndex.value[2]] = "";
+  
+  }
+
+  @override
+  void resetThreeSeed(){
+    for (var element in verify.threeSeedIndex!) {
+      verify.tmpThreeSeedIndex!.add(element);
+    }
+  }
+
+  @override
+  void onTapThreeSeeds(int index, int rmIndex){
+    
+    // for(int i = 0; i < tmpVerifySeeds.length; i++){
+    //   if (tmpVerifySeeds[i] == ""){
+    //     tmpVerifySeeds[i] = widget.createKeyModel!.lsSeeds![index];
+    //     break;
+    //   }
+    // }
+    
+    verify.seedWord = (seed.value.split(" ")[verify.tmpThreeSeedIndex![rmIndex]]);
+
+    verify.verifySeeds![index] = verify.seedWord!;
+    verifySeeds.value = verify.verifySeeds!;
+
+    verify.tmpThreeSeedIndex!.removeAt(rmIndex);
+    tmpThreeSeedIndex.value = verify.tmpThreeSeedIndex!;
+
+    // verify.verifySeeds = verify.threeSeedIndex![index];
+
+    // verify.threeSeedIndex!.remove(rmIndex);
+
+    // verifySeeds.value[index] = verify. ;
+    
+    // verify.tmpThreeSeedIndex!.remove(rmIndex);
+    
+    // // Enable Reset Three Seed Back
+    // if (isReset.value == false) isReset.value = true;
 
     // widget.createKeyModel!.tmpSeed = widget.createKeyModel!.missingSeeds.join(" ");
-  
+    // threeSeed.value.split(" ").removeAt(rmIndex);
+
   }
 
   @override
@@ -149,110 +162,54 @@ class CreateWalletImpl implements CreateWalletUsecase {
   }
 
   @override
-  Future<void> showWarning() async{
-    return showModalBottomSheet(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-      ),
-      isDismissible: false,
-      enableDrag: false,
-      context: context!,
-      builder: (setBuildContext) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+  Future<void> verifyLater() async {
 
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: MyTextConstant(
-                  text: "Please, read carefully!",
-                  fontSize: 18,
-                  color2: hexaCodeToColor(AppColors.midNightBlue),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+    isVerifyLater = true;
 
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: hexaCodeToColor(AppColors.red).withOpacity(0.25),
-                ),
-                height: 50,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min, 
-                  children: <Widget>[
+    await addAndImport();
+    // await verifyLaterData();
 
-                    const SizedBox(width: 5),
+    // // _importAccountModel.status = false;
 
-                    SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: Lottie.asset(
-                        "assets/animation/loading-block.json",
-                        repeat: true,
-                      ),
-                    ),
+    // /// From Multi Account
+    // if (newAcc != null){
 
-                    const SizedBox(width: 5),
+    //   dialogLoading(context!);
 
-                    Expanded(
-                      child: MyTextConstant(
-                        text: "The information below is important to guarantee your account security.",
-                        color2: hexaCodeToColor(AppColors.red),
-                        textAlign: TextAlign.start,
-                      ),
-                    )
-                  ]
-                ),
-              ),
+    //   // await addAndImport();
+      
+    //   // Provider.of<ApiProvider>(context!, listen: false).notifyListeners();
+          
+    //   Navigator.popUntil(context!, ModalRoute.withName('/multipleWallets'));
+    // }
 
-              const SizedBox(height: 5),
+    // // /// From Onboading Page Create New
+    // // else {
 
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: MyTextConstant(
-                  text:
-                    "Please write down your wallet's mnemonic seed and keep it in a safe place. The mnemonic can be used to restore your wallet. If you lose it, all your assets that link to it will be lost.",
-                  textAlign: TextAlign.start,
-                  color2: hexaCodeToColor(AppColors.midNightBlue),
-                ),
-              ),
+    //   Navigator.push(
+    //     context!, 
+    //     MaterialPageRoute(builder: (context) => const HomeScreen())
+    //     // Transition(
+    //     //   child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
+    //     //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+    //     // )
+    //   );
+    // }
 
-              const SizedBox(height: 5),
-
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: MyGradientButton(
-                  textButton: "I Agree",
-                  action: () async{
-                    Navigator.of(context!).pop();
-                  },
-                ),
-              ),
-
-            ],
-          ),
-        );
-      }
-    );
   }
 
   @override
   Future<void> addAndImport() async {
 
-    await _accountManagementImpl.addAndImport(_sdkProvier!, context!, seed.value, pin!);
+    await _accountManagementImpl.addAndImport(_sdkProvier!, _context!, seed.value, pin!);
 
-    // await _sdkProvier!.importSeed(verifySeeds.value.join(","), pin!).then((value) {
-      
-    //   Navigator.pop(context!);
+    // If Verify Later Chosen then Param will pass to false, Else Param will pass to true
+    await _accountManagementImpl.verifyLaterData(_sdkProvier!, isVerifyLater == true ? false : true);
 
-    //   print("Success");
-    //   // Navigator.push(
-    //   //   context, route
-    //   // );
-    // });
+    if (isMultiAcc == true) {
+      Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute}", (route) => false);
+    }
+    
   }
 
 }

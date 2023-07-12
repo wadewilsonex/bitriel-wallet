@@ -1,19 +1,24 @@
 import 'package:bitriel_wallet/domain/usecases/acc_manage_uc/import_wallet/import_wallet_impl.dart';
 import 'package:bitriel_wallet/index.dart';
 
-class ImportWallet extends StatelessWidget {
+class ImportWalletScreen extends StatelessWidget {
 
   final String? pin;
 
   final bool? isVerify;
 
-  const ImportWallet({super.key, this.pin, this.isVerify = false});
+  final bool? isMultiAcc;
+
+  const ImportWalletScreen({super.key, this.pin, this.isMultiAcc = false, this.isVerify = false});
 
   @override
   Widget build(BuildContext context) {
     
-    final importWalletImpl = ImportWalletImpl();
+    final ImportWalletImpl importWalletImpl = ImportWalletImpl();
+    
     importWalletImpl.setContext = context;
+
+    importWalletImpl.isMultiAcc = isMultiAcc;
     // importWalletImpl.isSeedValid.value = isSeed!;
 
     return Scaffold(
@@ -66,6 +71,7 @@ class ImportWallet extends StatelessWidget {
                 );
               }
             ),
+
           ],
         ),
       )

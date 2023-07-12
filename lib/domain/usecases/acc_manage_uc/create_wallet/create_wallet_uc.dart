@@ -6,8 +6,6 @@ abstract class CreateWalletUsecase {
 
   Future<void> verifyLater();
 
-  Future<void> verifyLaterData();
-
   Future<void> addAndImport();
   
   Future<void> generateSeed();
@@ -16,7 +14,7 @@ abstract class CreateWalletUsecase {
   List<int> randomThreeEachNumber();
   /// 2
   void remove3Seeds();
-
-  void showWarning();
+  void onTapThreeSeeds(int index, int rmIndex);
+  void resetThreeSeed();
 
 }

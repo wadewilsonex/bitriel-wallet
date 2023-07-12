@@ -1,10 +1,23 @@
 // import 'package:go_router/go_router.dart';
+import 'package:bitriel_wallet/index.dart';
 
-import '../../../index.dart';
+enum BitrielRouter {
+  defaultRoute,
+  welcomeRoute,
+  multiAccRoute,
+  importWalletRoute,
+  createWalletRoute,
+}
 
 class AppRouter {
   static final Map<String, Widget Function(BuildContext)> router = {
-    "/": (context) => const Welcome()
+    // "/": (context) => const SplashScreen(),
+    "/": (context) => const SettingScreen(),
+    "/${BitrielRouter.welcomeRoute}": (context) => const Welcome(),
+    "/${BitrielRouter.multiAccRoute}": (context) => const MultiAccountScreen(),
+    "/${BitrielRouter.createWalletRoute}": (context) => const CreateWalletScreen(),
+    "/${BitrielRouter.importWalletRoute}": (context) => const ImportWalletScreen(),
+
   };
   //  = GoRouter(
   //   routes: [

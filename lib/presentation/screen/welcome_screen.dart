@@ -79,7 +79,7 @@ class Welcome extends StatelessWidget {
 
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CreateWallet(pin: value!,))
+                    MaterialPageRoute(builder: (context) => CreateWalletScreen(pin: value!,))
                   );
                 }
               });
@@ -113,7 +113,7 @@ class Welcome extends StatelessWidget {
 
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ImportWallet(pin: value,))
+                    MaterialPageRoute(builder: (context) => ImportWalletScreen(pin: value,))
                   );
                 }
               });

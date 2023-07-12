@@ -11,7 +11,7 @@ class SecureStorage {
     await _secureStorage.write(key: key!, value: encodeValue);
   }
 
-  static Future<String?> readData({String? key, String? encodeValue}) async {
+  static Future<String?> readData({String? key}) async {
     return await _secureStorage.read(key: key!);
   }
 

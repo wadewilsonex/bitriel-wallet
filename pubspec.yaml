@@ -41,12 +41,7 @@ dependencies:
   iconsax: ^0.0.8
   flutter_dotenv: ^5.1.0
   rename: ^2.1.1
-  # Dependencies for the presentation layer
-  pinput: ^2.2.31
-  path_provider: ^2.0.15
-  provider: ^6.0.5
-  lottie: ^2.4.0
-  random_avatar: ^0.0.8
+  
   # Dependencies for the domain layer
   flutter_secure_storage: ^8.0.0
   local_auth: ^2.1.6
@@ -55,6 +50,14 @@ dependencies:
   web_socket_channel: ^2.4.0
   flutter_bitcoin: ^1.0.1
   fk_user_agent: ^2.1.0
+
+  # Dependencies for the presentation layer
+  pinput: ^2.2.31
+  path_provider: ^2.0.15
+  provider: ^6.0.5
+  lottie: ^2.4.0
+  random_avatar: ^0.0.8
+  fluttertoast:
 
 dependency_overrides:
   polkawallet_sdk:

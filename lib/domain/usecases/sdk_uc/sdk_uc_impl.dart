@@ -14,6 +14,9 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
   String get getSELAddress => _sdkRepoImpl.getKeyring.current.address!;
 
+  Keyring get getKeyring => _sdkRepoImpl.getKeyring;
+  WalletSDK get getWalletSdk => _sdkRepoImpl.getWalletSdk;
+
   //  = 'assets/js/main.js'
   /// 2 
   @override

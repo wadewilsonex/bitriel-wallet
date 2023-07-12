@@ -1,11 +1,13 @@
 import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
 
-class CreateWallet extends StatelessWidget {
+class CreateWalletScreen extends StatelessWidget {
 
   final String? pin;
 
-  const CreateWallet({super.key, this.pin});
+  final bool? isMultiAcc;
+
+  const CreateWalletScreen({super.key, this.pin, this.isMultiAcc = false});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +15,8 @@ class CreateWallet extends StatelessWidget {
     final CreateWalletImpl createWalletImpl = CreateWalletImpl();
 
     createWalletImpl.setBuildContext = context;
+
+    createWalletImpl.isMultiAcc = isMultiAcc;
 
     if (createWalletImpl.seed.value.isEmpty) {
       createWalletImpl.pin = pin;

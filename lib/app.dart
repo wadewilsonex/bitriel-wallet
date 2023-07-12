@@ -1,6 +1,4 @@
 
-import 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
-
 import 'index.dart';
 
 class App extends StatelessWidget {
@@ -33,4 +31,28 @@ class App extends StatelessWidget {
       initialRoute: "/",
     );
   }
+}
+
+class SplashScreen extends StatelessWidget {
+
+  const SplashScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    final AppUsecasesImpl appImpl = AppUsecasesImpl();
+
+    appImpl.setBuildContext = context;
+
+    if (appImpl.sdkProvier!.isConnected) appImpl.checkAccountExist();
+
+    return const Scaffold(
+      body: SizedBox(
+        child: Center(
+          child: CircularProgressIndicator()
+        )
+      ),
+    );
+  }
+
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bitriel_wallet/index.dart';
 
 class AccountManagementImpl extends AccountMangementUC {
@@ -8,6 +10,8 @@ class AccountManagementImpl extends AccountMangementUC {
   List<dynamic>? importData;
 
   SeedBackupData? _pk;
+
+  List<UnverifySeed> unverifyList = [];
 
   @override
   // ignore: avoid_renaming_method_parameters
@@ -33,6 +37,27 @@ class AccountManagementImpl extends AccountMangementUC {
       Navigator.pop(context);
       debugPrint("Error addAndImport $e");
     }
+  }
+
+  @override
+  Future<void> verifyLaterData(SDKProvier? sdkProvider, bool status) async {
+
+    await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) async {
+
+      if(value.isNotEmpty){
+        unverifyList = UnverifySeed().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+      }
+
+    });
+
+    unverifyList.add(UnverifySeed.init(
+      address: sdkProvider!.getSdkProvider.getSELAddress,
+      status: status, 
+      ethAddress: sdkProvider.getSdkProvider.evmAddress,
+      btcAddress: sdkProvider.getSdkProvider.btcAddress// conProvider!.listContract[_apiProvider!.btcIndex].address
+    ));
+
+    await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unverifyList)));
   }
   
 }

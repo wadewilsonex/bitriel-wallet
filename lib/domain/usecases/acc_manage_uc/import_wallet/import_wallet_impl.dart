@@ -2,7 +2,7 @@ import 'package:bitriel_wallet/index.dart';
 
 class ImportWalletImpl implements ImportWalletUsecases {
 
-  BuildContext? context;
+  BuildContext? _context;
 
   TextEditingController seedController = TextEditingController();
   
@@ -13,8 +13,10 @@ class ImportWalletImpl implements ImportWalletUsecases {
   
   final AccountManagementImpl _accountManagementImpl = AccountManagementImpl();
 
+  bool? isMultiAcc = false;
+
   set setContext(BuildContext ctx) {
-    context = ctx;
+    _context = ctx;
     sdkProvider = Provider.of<SDKProvier>(ctx, listen: false);
   }
   
@@ -37,7 +39,13 @@ class ImportWalletImpl implements ImportWalletUsecases {
   @override
   Future<void> addAndImport(String pin) async {
 
-    await _accountManagementImpl.addAndImport(sdkProvider!, context!, seedController.text, pin);
+    await _accountManagementImpl.addAndImport(sdkProvider!, _context!, seedController.text, pin);
+
+    await _accountManagementImpl.verifyLaterData(sdkProvider, true);
+
+    if (isMultiAcc == true) {
+      Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute.toString()}", (route) => false);
+    }
 
   }
 

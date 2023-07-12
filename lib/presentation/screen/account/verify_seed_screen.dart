@@ -9,25 +9,10 @@ class VerifySeedScreen extends StatelessWidget {
   
   const VerifySeedScreen({super.key, this.seed, this.pin, required this.createWalletImpl});
 
-  // final CreateKeyModel? createKeyModel;
-  // final Function? submit;
-  // final Function? submitUnverify;
-  // final Function? onTap;
-  // final Function? remove3Seeds;
-
-  // const VerifySeeds({
-  //   Key? key, 
-  //   this.createKeyModel,
-  //   this.submit,
-  //   this.onTap,
-  //   this.submitUnverify,
-  //   this.remove3Seeds
-  // }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
 
-    createWalletImpl!.remove3Seeds();
+    if (createWalletImpl!.verify.tmpThreeSeedIndex!.isEmpty) createWalletImpl!.remove3Seeds();
 
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
@@ -57,6 +42,7 @@ class VerifySeedScreen extends StatelessWidget {
                       ValueListenableBuilder(
                         valueListenable: createWalletImpl!.verifySeeds,
                         builder: (context, value, wg) {
+                          // print("createWalletImpl!.verifySeeds ${createWalletImpl!.verifySeeds}");
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -80,48 +66,68 @@ class VerifySeedScreen extends StatelessWidget {
                   )
                 ),
   
-                // if (createKeyModel!.tmpThreeNum!.isNotEmpty) Padding(
-                //   padding: const EdgeInsets.only(top: 20),
-                //   child: Container(
-                //     alignment: Alignment.center,
-                //     height: 30,
-                //     child: ListView.builder(
-                //       scrollDirection: Axis.horizontal,
-                //       physics: const NeverScrollableScrollPhysics(),
-                //       shrinkWrap: true,
-                //       itemCount: createKeyModel!.tmpThreeNum!.length,
-                //       itemBuilder: (context, i){
-                //         return SeedsCompoent().seedContainer(context, createKeyModel!.lsSeeds![int.parse(createKeyModel!.tmpThreeNum![i])], int.parse(createKeyModel!.tmpThreeNum![i]), i, onTap);
-                //       }
-                //     ),
-                //   ),
-                // ),
+                ValueListenableBuilder(
+                  valueListenable: createWalletImpl!.tmpThreeSeedIndex, 
+                  builder: (context, value, wg){
+                    print("createWalletImpl!.tmpThreeSeedIndex ${createWalletImpl!.tmpThreeSeedIndex}");
+                    // if (createWalletImpl!.tmpThreeSeedIndex.value.isNotEmpty) 
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 30,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: value.length,
+                          itemBuilder: (context, i){
+                            
+                            return SeedsCompoent.seedContainer(
+                              context, 
+                              createWalletImpl!.seed.value.split(" ")[value[i]], 
+                              value[i],
+                              i, 
+                              createWalletImpl!.onTapThreeSeeds
+                            );
+                          }
+                        ),
+                      ),
+                    );
+                  }
+                ),
   
                 // const SizedBox(height: 3),
                 // // Display Refresh Button When User Fill Out All
-                // if (createKeyModel!.tmpThreeNum!.isEmpty)
-                // Align(
-                //   alignment: Alignment.center,
-                //   child: InkWell(
-                //     child: Padding(
-                //       padding: const EdgeInsets.all(15),
-                //       child: Row(
-                //         mainAxisSize: MainAxisSize.min,
-                //         crossAxisAlignment: CrossAxisAlignment.center,
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
-                //           const SizedBox(width: 9),
-                //           const MyText(
-                //             text: "Try Again",
-                //             fontSize: 17,
-                //             fontWeight: FontWeight.bold,  
+                
+                // ValueListenableBuilder(
+                //   valueListenable: createWalletImpl!.isReset, 
+                //   builder: (context, value, wg){
+                //     if (value == false) return const SizedBox();
+                //     return Align(
+                //       alignment: Alignment.center,
+                //       child: InkWell(
+                //         child: Padding(
+                //           padding: const EdgeInsets.all(15),
+                //           child: Row(
+                //             mainAxisSize: MainAxisSize.min,
+                //             crossAxisAlignment: CrossAxisAlignment.center,
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 30),
+                //               const SizedBox(width: 9),
+                //               const MyTextConstant(
+                //                 text: "Try Again",
+                //                 fontSize: 17,
+                //                 fontWeight: FontWeight.bold,  
+                //               ),
+                //             ],
                 //           ),
-                //         ],
+                //         ),
+                //         onTap: () => createWalletImpl!.remove3Seeds()
                 //       ),
-                //     ),
-                //     onTap: () => remove3Seeds!()
-                //   ),
+                //     );
+                //   }
                 // ),
   
                 Flexible(child: Container()),
@@ -150,6 +156,7 @@ class VerifySeedScreen extends StatelessWidget {
                   textButton: "Next",
                   action: () async {
                     // submit!();
+                    await createWalletImpl!.addAndImport();
                   },
                 )
               ],

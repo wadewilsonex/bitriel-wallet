@@ -212,7 +212,7 @@ class PinUsecaseImpl implements PinUsecase{
           // ignore: use_build_context_synchronously
           Navigator.push(
             context, 
-            MaterialPageRoute(builder: (context) => const CreateWallet())
+            MaterialPageRoute(builder: (context) => const CreateWalletScreen())
             // Transition(
             //   child: CreateSeeds(passCode: pin, newAcc: null,),
             //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
@@ -223,7 +223,7 @@ class PinUsecaseImpl implements PinUsecase{
           // ignore: use_build_context_synchronously
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ImportWallet()) 
+            MaterialPageRoute(builder: (context) => const ImportWalletScreen()) 
             // Transition(
             //   // ignore: missing_required_param
             //   child: ImportAcc(passCode: pin),

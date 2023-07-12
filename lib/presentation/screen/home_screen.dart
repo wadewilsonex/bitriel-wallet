@@ -1,8 +1,4 @@
-import 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
-import 'package:bitriel_wallet/domain/model/market_top100_m.dart';
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/components/market_list_widget.dart';
-import 'package:random_avatar/random_avatar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +8,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               _menuItems(context),
 
               _top100Tokens(),
