@@ -2,6 +2,8 @@
 export 'package:flutter/material.dart';
 export 'dart:io';
 export 'package:flutter/services.dart';
+export 'package:flutter/foundation.dart';
+export 'dart:convert';
 
 // Pub & Packages
 export 'package:bitriel_wallet/app.dart';
@@ -10,6 +12,7 @@ export 'package:path_provider/path_provider.dart';
 export 'package:local_auth/local_auth.dart';
 export 'package:web3dart/web3dart.dart';
 export 'package:web_socket_channel/io.dart';
+export 'package:ua_client_hints/ua_client_hints.dart';
 export 'package:random_avatar/random_avatar.dart';
 // ignore: depend_on_referenced_packages
 export 'package:permission_handler/permission_handler.dart';
@@ -42,6 +45,7 @@ export 'package:polkawallet_sdk/storage/keyring.dart';
 export 'package:polkawallet_sdk/api/types/networkParams.dart';
 export 'package:bitriel_wallet/data/sdk/bitriel_sdk.dart';
 export 'package:bitriel_wallet/data/sdk/web3.dart';
+export 'package:bitriel_wallet/data/api/api_client.dart';
 // Repository
 export 'package:bitriel_wallet/data/repository/asset_repo/asset_repo.dart';
 export 'package:bitriel_wallet/data/repository/asset_repo/asset_repo_impl.dart';
@@ -102,6 +106,7 @@ export 'package:bitriel_wallet/presentation/widget/btn_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/dashboard_menu_items.dart';
 export 'package:bitriel_wallet/presentation/components/market_list_widget.dart';
 export 'package:bitriel_wallet/presentation/components/acc_item_c.dart';
+export 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
 
 // Provider
 export 'package:bitriel_wallet/presentation/provider/asset_pro.dart';

@@ -114,7 +114,7 @@ Future<void> seedVerifyLaterDialog(BuildContext context, Function? submit) async
                   height: 100,
                   width: 100,
                   child: Lottie.asset(
-                    "assets/animation/loading-block.json",
+                    "assets/animation/warning-shield.json",
                     repeat: true,
                   ),
                 ),

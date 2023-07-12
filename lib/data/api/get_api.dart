@@ -86,5 +86,46 @@ class GetRequest {
     );
 
   }
-  
+
+  static Future<List<ListMetketCoinModel>> listMarketCoin() async{
+    
+    List<ListMetketCoinModel> lsMarketLimit = List<ListMetketCoinModel>.empty(growable: true);
+
+    final String ua = await userAgent();
+
+    try {
+
+      final res = await http.get(
+        Uri.parse('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'),
+        headers: ApiClient.conceteHeader(
+          key: "User-Agent",
+          value: ua,
+        )
+      );
+
+      lsMarketLimit = List<ListMetketCoinModel>.empty(growable: true);
+
+      if (res.statusCode == 200) {
+        final data = await jsonDecode(res.body);
+
+        for(int i = 0; i < data.length; i++){
+          
+          lsMarketLimit.add(ListMetketCoinModel().fromJson(data[i]));
+
+        }
+
+        return lsMarketLimit;
+      }
+      
+    } catch (e){
+      
+      if (kDebugMode) {
+        debugPrint("error fetch listMarketCoin $e");
+      }
+    }
+
+    return [];
+
+  }
+
 }

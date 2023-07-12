@@ -9,23 +9,36 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  final ScrollController _scrollController = ScrollController();
+  bool backToTop = false;
+
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      setState(() {
+        backToTop = _scrollController.offset > 400 ? true : false;
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        toolbarHeight: 80,
-        elevation: 0,
-        backgroundColor: hexaCodeToColor(AppColors.white),
-        automaticallyImplyLeading: false,
-        title: _appBar()
-      ),
+      appBar: defaultAppBar(context: context),
       body: SingleChildScrollView(
+        controller: _scrollController,
         physics: const BouncingScrollPhysics(),
         child: Container(
           color: hexaCodeToColor(AppColors.white),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
               _menuItems(context),
@@ -35,113 +48,23 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      )
+      ),
+      floatingActionButton: floatButton(_scrollController, backToTop)
     );
   }
 
-  Widget _appBar() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Avartar
-        Container(
-          margin: const EdgeInsets.only(left: 10),
-          child: GestureDetector(
-            onTap: () async {},
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: SizedBox(
-                height: 35,
-                width: 35,
-                child: RandomAvatar("string"),
-              ),
-            )
-          ),
-        ),
-
-        const Spacer(),
-
-        StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return GestureDetector(
-              onTap: () async {},
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: hexaCodeToColor(AppColors.background),
-                    borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Consumer<AssetProvider>(
-                        builder: (context, pro, wg) {
-                          return Container(
-                            margin: const EdgeInsets.only(right: 5, left: 2),
-                            width: 25,
-                            height: 25,
-                            child: CircleAvatar(
-                              child: Image.file(
-                                File('${pro.dirPath}/default/SelendraCircle-White.png'),
-                              ),
-                            ),
-                          );
-                        }
-                      ),
-                      // Container(
-                      //   margin: const EdgeInsets.only(right: 5, left: 2),
-                      //   height: 25,
-                      //   width: 25,
-                      //   child: CircleAvatar(
-                      //     child: Image.file(
-                      //       File('${pro.dirPath}/default/SelendraCircle-White.png'),
-                      //     ),
-                      //   ),
-                      // ),
-                      MyTextConstant(
-                        text: "Selendra Mainnet Network",
-                        color2: hexaCodeToColor(AppColors.midNightBlue),
-                        fontSize: 14,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Icon(
-                          Iconsax.arrow_down_1,
-                          size: 25,
-                          color: hexaCodeToColor("#5C5C5C"),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-
-        const Spacer(),
-
-        Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Ink(
-            decoration: ShapeDecoration(
-              color: hexaCodeToColor(AppColors.background),
-              shape: const CircleBorder(),
-            ),
-            child: IconButton(
-              splashRadius: 24,
-              icon: Icon(Iconsax.scan, color: hexaCodeToColor(AppColors.midNightBlue)),
-              onPressed: () async {},
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  Widget floatButton(ScrollController scrollController, bool backToTop) 
+  => backToTop ? FloatingActionButton(
+    onPressed: () {
+      _scrollController.animateTo(
+        0, 
+        duration: const Duration(seconds: 1), 
+        curve: Curves.bounceInOut
+      );
+    },
+    child: const Icon(Iconsax.arrow_up_3),
+  ) 
+  : const SizedBox();
 
   Widget _menuItems(BuildContext context) {
     return Consumer<AssetProvider>(
@@ -258,6 +181,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return ListView.builder(
       shrinkWrap: true,
+      addAutomaticKeepAlives: false,
+      addRepaintBoundaries: false,
       scrollDirection: Axis.horizontal,
       itemCount: menuName.length,
       itemBuilder:(context, index) {
@@ -275,65 +200,70 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _listMarketView({required List<ListMetketCoinModel> lsMarketCoin}) {
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      addAutomaticKeepAlives: false,
+      addRepaintBoundaries: false,
+      itemCount: lsMarketCoin.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index){
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+
+            CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
+
+          ],
+        );
+      }
+    );
+  }
+
   Widget _top100Tokens() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 14),
       child: Column(
         children: [
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const MyTextConstant(
-                text: "Top 100",
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-
-              InkWell(
-                onTap: () {
-
-                },
-                child: MyTextConstant(
-                  text: "See All",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  color2: hexaCodeToColor(AppColors.primary),
-                ),
-              ),
-            ],
+          const Align(
+            alignment: Alignment.topLeft,
+            child: MyTextConstant(
+              text: "Top Coins 100",
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
           ),
 
           Consumer<MarketProvider>(
             builder: (context, marketProvider, widget) {
               return Column(
                 children: [
-                            
+                          
                   if (marketProvider.lsMarketLimit.isNotEmpty)
-                  CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,)
+                  _listMarketView(lsMarketCoin: marketProvider.lsMarketLimit)
                             
-                  // else if(marketProvider.lsMarketLimit.isEmpty) 
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(vertical: paddingSize),
-                  //   child: Column(
-                  //     children: [
+                  else if(marketProvider.lsMarketLimit.isEmpty) 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: paddingSize),
+                    child: Column(
+                      children: [
                                   
-                  //       Lottie.asset(
-                  //         "assets/animation/search_empty.json",
-                  //         repeat: true,
-                  //         reverse: true,
-                  //         width: 70.w,
-                  //       ),
+                        Lottie.asset(
+                          "assets/animation/search_empty.json",
+                          repeat: false,
+                          reverse: false,
+                          width: MediaQuery.of(context).size.width / 2,
+                        ),
                                   
-                  //       const MyText(
-                  //         text: "Opps, Something went wrong!", 
-                  //         fontSize: 17, 
-                  //         fontWeight: FontWeight.w600,
-                  //         pTop: 20,
-                  //       )          
-                  //     ],
-                  //   ),
-                  // ),
+                        const MyTextConstant(
+                          text: "Opps, Something went wrong!", 
+                          fontSize: 17, 
+                          fontWeight: FontWeight.w600,
+                        )          
+                      ],
+                    ),
+                  ),
                   
                 ],
               );
@@ -346,57 +276,4 @@ class _HomeScreenState extends State<HomeScreen> {
     ); 
   }
 
-}
-
-class CoinMarket extends StatelessWidget {
-
-  final List<ListMetketCoinModel>? lsMarketCoin;
-
-  const CoinMarket({Key? key, this.lsMarketCoin}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      itemCount: 7,
-      shrinkWrap: true,
-      itemBuilder: (context, index){
-        return Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-
-          CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
-
-          ],
-        );
-      }
-    );
-  }
-
-  // Widget _viewAllCoin(BuildContext context){
-  //   return DraggableScrollableSheet(
-  //     initialChildSize: 0.9,
-  //     minChildSize: 0.5,
-  //     maxChildSize: 0.9,
-  //     expand: false,
-  //     builder: (_, scrollController) {
-  //       return ListView.builder(
-  //         controller: scrollController,
-  //         physics: const BouncingScrollPhysics(),
-  //         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-  //         itemCount: lsMarketCoin!.length,
-  //         shrinkWrap: true,
-  //         itemBuilder: (context, index){
-  //           return Column(
-  //             crossAxisAlignment: CrossAxisAlignment.end,
-  //             children: [
-  //               CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
-  //             ],
-  //           );
-  //         }
-  //       );
-  //     }
-  //   );
-  // }
 }
