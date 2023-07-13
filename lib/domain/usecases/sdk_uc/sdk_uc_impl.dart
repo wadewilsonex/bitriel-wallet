@@ -17,6 +17,17 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   Keyring get getKeyring => _sdkRepoImpl.getKeyring;
   WalletSDK get getWalletSdk => _sdkRepoImpl.getWalletSdk;
 
+  Web3Client get getBscClient => _web3repoImpl.getBscClient;
+  Web3Client get getEthClient => _web3repoImpl.getEthClient;
+
+  //
+  //
+  // ///////////////////////////////////////////////////////////////////////////
+  /* ---------------------------------- Substrate ------------------------------ */
+  // ///////////////////////////////////////////////////////////////////////////
+  //
+  //
+  
   //  = 'assets/js/main.js'
   /// 2 
   @override
@@ -111,7 +122,14 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     return ( await _sdkRepoImpl.getWalletSdk.api.keyring.generateMnemonic(_sdkRepoImpl.getKeyring.ss58!) ).mnemonic!;
   }
   
-  /* --------------Web3------------- */
+  // 
+  // 
+  // ///////////////////////////////////////////////////////////////////////////
+  /* ------------------------------------ Web3 ------------------------------ */
+  // ///////////////////////////////////////////////////////////////////////////
+  // 
+  // 
+  
   String? evmAddress;
   String? btcAddress;
 
@@ -125,8 +143,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
   // Extract BTC Address 13..
   Future<void> queryBtcData(String seeds, String pin) async {
-
-    // final contractPro = Provider.of<ContractProvider>(context, listen: false);
     
     try {
       final seed = bip39.mnemonicToSeed(seeds);
@@ -182,4 +198,11 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     final key = Encrypt.passwordToEncryptKey(pin);
     return await FlutterAesEcbPkcs5.encryptString(privateKey, key);
   }
+
+  Future<EtherAmount> getWeb3Balance(Web3Client client, EthereumAddress addr) async {
+    print("addr ${addr.hex}");
+    // return await client.getBalance(addr);
+    return EtherAmount.zero();
+  }
+  
 }

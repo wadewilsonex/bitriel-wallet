@@ -31,6 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
+    final walletPro = Provider.of<WalletProvider>(context);
+    walletPro.getAsset();
+    walletPro.sortAsset();
+
     return Scaffold(
       appBar: defaultAppBar(context: context),
       body: SingleChildScrollView(
@@ -240,10 +245,10 @@ class _HomeScreenState extends State<HomeScreen> {
               return Column(
                 children: [
                           
-                  if (marketProvider.lsMarketLimit.isNotEmpty)
-                  _listMarketView(lsMarketCoin: marketProvider.lsMarketLimit)
+                  if (marketProvider.marketUsecasesImpl.listMarket.isNotEmpty)
+                  _listMarketView(lsMarketCoin: marketProvider.marketUsecasesImpl.listMarket)
                             
-                  else if(marketProvider.lsMarketLimit.isEmpty) 
+                  else if(marketProvider.marketUsecasesImpl.listMarket.isEmpty) 
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: paddingSize),
                     child: Column(

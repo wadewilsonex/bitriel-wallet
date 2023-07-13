@@ -6,6 +6,11 @@ class WalletScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final walletPro = Provider.of<WalletProvider>(context, listen: false);
+    walletPro.setBuilderContext = context;
+    walletPro.getAsset();
+
     // return SizedBox();
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
@@ -58,7 +63,18 @@ class WalletScreen extends StatelessWidget {
                 ),
               ),
             ], 
-            body: SizedBox(),
+            
+            body: Consumer<WalletProvider>(
+              builder: (context, pro, wg){
+                print("Provider.of<SDKProvier>(context, listen: false).getSdkProvider.evmAddress ${Provider.of<SDKProvier>(context, listen: false).getSdkProvider.evmAddress}");
+                return ListView.builder(
+                  itemCount: pro.sortListContract!.length,
+                  itemBuilder: (context, index){
+                    return Text("${pro.sortListContract![index].symbol!} ${pro.sortListContract![index].balance!}");
+                  }
+                );
+              },
+            ),
             
             // body: _tabBarView(context, dismiss!),
           ),

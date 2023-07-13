@@ -23,3 +23,24 @@ The three-tier architecture is a common software architecture that is used to de
 
 ## Also inside presentation layers we follow Features-First structure.
 
+
+1. Presentation Tier (Client-side):
+
+User interface components, such as widgets and screens, are implemented in Flutter.
+This tier focuses on the presentation and rendering of data to the user.
+It interacts with the middle tier to retrieve and update data.
+
+2. Application Tier (Middle-tier):
+
+The middle tier contains the business logic and application-specific functionality.
+The "model" folder can be located within this tier.
+The model folder contains the data models that represent the structure and behavior of your application's data.
+These models may include classes or objects that define entities, such as users, products, or any other data entities relevant to your application.
+The middle tier utilizes these models to process and manipulate data.
+
+3. Data Tier (Backend):
+
+The data tier deals with data storage and retrieval.
+It includes databases, APIs, or external services that handle the persistence and retrieval of data.
+The middle tier interacts with the data tier to perform CRUD (Create, Read, Update, Delete) operations on the data models.
+

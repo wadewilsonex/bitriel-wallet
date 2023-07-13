@@ -56,6 +56,7 @@ export 'package:bitriel_wallet/data/repository/sdk_repo/web3_rep.dart';
 export 'package:bitriel_wallet/data/repository/sdk_repo/web3_impl.dart';
 export 'package:bitriel_wallet/data/repository/http_request_impl.dart';
 export 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
+export 'package:bitriel_wallet/data/repository/market_repo/market_repo_impl.dart';
 
 /*---------- Domain Layer ----------*/
 
@@ -86,7 +87,10 @@ export 'package:bitriel_wallet/domain/usecases/app_uc/app_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/app_uc/app_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/multi_acc/multi_acc_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/multi_acc/multi_acc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/martket_uc/market_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/martket_uc/market_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/wallet_uc/wallet_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/wallet_uc/wallet_impl.dart';
 
 /*---------- Presentation Layer ----------*/
 
@@ -102,29 +106,29 @@ export 'package:bitriel_wallet/presentation/screen/setting_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/wallet/wallet_screen.dart';
 // Widget
 export 'package:bitriel_wallet/presentation/widget/text_widget.dart';
-export 'package:bitriel_wallet/presentation/widget/seed_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/account/seed_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/textformfield_wg.dart';
-export 'package:bitriel_wallet/presentation/components/button_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/button_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/pin_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/dialog_widget.dart';
-export 'package:bitriel_wallet/presentation/components/seed_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/btn_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/dashboard_menu_items.dart';
-export 'package:bitriel_wallet/presentation/components/market_list_widget.dart';
-export 'package:bitriel_wallet/presentation/components/acc_item_c.dart';
+export 'package:bitriel_wallet/presentation/widget/market_list_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/acc_item_c.dart';
 export 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
-export 'package:bitriel_wallet/presentation/widget/asset_item_widget.dart';
-export 'package:bitriel_wallet/presentation/widget/wallet_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/wallet/asset_item_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/wallet/wallet_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/text_c.dart';
 
 // Provider
 export 'package:bitriel_wallet/presentation/provider/asset_pro.dart';
 export 'package:bitriel_wallet/presentation/provider/sdk_pro.dart';
 export 'package:bitriel_wallet/presentation/provider/wallet_pro.dart';
+export 'package:bitriel_wallet/presentation/provider/market_pro.dart';
 
 /*---------- Standalone Layer ----------*/
 export 'package:bitriel_wallet/standalone/utils/routes/router.dart';
 export 'package:bitriel_wallet/standalone/utils/app_utils/app_utils.dart';
-export 'package:bitriel_wallet/presentation/components/text_c.dart';
 export 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
 export 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
 export 'package:bitriel_wallet/standalone/core/db_key_con.dart';

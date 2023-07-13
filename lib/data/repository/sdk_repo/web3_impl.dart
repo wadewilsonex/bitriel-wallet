@@ -12,6 +12,7 @@ class Web3RepoImpl implements Web3Repository {
   Future<void> web3Init() async {
     await _web3blockchain.initBscClient();
     await _web3blockchain.initEthClient();
+    print("finish web3Init");
   }
 
 }

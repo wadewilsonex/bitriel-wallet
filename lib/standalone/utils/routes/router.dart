@@ -14,8 +14,8 @@ enum BitrielRouter {
 class AppRouter {
   
   static final Map<String, Widget Function(BuildContext)> router = {
-    // "/": (context) => const SplashScreen(),
-    "/": (context) => const WalletScreen(),
+    "/": (context) => const SplashScreen(),
+    // "/": (context) => const WalletScreen(),
     "/${BitrielRouter.welcomeRoute}": (context) => const Welcome(),
     "/${BitrielRouter.multiAccRoute}": (context) => const MultiAccountScreen(),
     "/${BitrielRouter.createWalletRoute}": (context) => const CreateWalletScreen(),

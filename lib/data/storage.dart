@@ -18,4 +18,8 @@ class SecureStorage {
   static Future<void> writeSecureList(String key, String value) async {
     await _secureStorage.write(key: key, value: value);
   }
+
+  static Future<bool> isContain(String key) async {
+    return await _secureStorage.containsKey(key: key);
+  }
 }
