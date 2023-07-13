@@ -11,7 +11,6 @@ class App extends StatelessWidget {
 
     Provider.of<SDKProvier>(context, listen: false).connectNetwork();
 
-    Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
     
     return MaterialApp(
       title: 'Bitriel',
