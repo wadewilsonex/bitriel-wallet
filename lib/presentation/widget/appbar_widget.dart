@@ -57,7 +57,10 @@ PreferredSizeWidget defaultAppBar({
           margin: const EdgeInsets.only(left: 10),
           child: GestureDetector(
             onTap: () async {
-              bottomSheetAddAccount(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MultiAccountScreen()) 
+              );
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -74,7 +77,7 @@ PreferredSizeWidget defaultAppBar({
         
         GestureDetector(
           onTap: () async {
-            
+            bottomSheetCgNetwork(context);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,7 +145,7 @@ PreferredSizeWidget defaultAppBar({
 }
 
 
-void bottomSheetAddAccount(BuildContext context) async{
+void bottomSheetCgNetwork(BuildContext context) async{
   
   return showModalBottomSheet(
     backgroundColor: hexaCodeToColor(AppColors.white),
@@ -163,7 +166,7 @@ void bottomSheetAddAccount(BuildContext context) async{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   MyTextConstant(
-                    text: "Switch/Create Wallet",
+                    text: "Networks",
                     fontSize: 18,
                     color2: hexaCodeToColor(AppColors.midNightBlue),
                     fontWeight: FontWeight.w600,
@@ -182,9 +185,10 @@ void bottomSheetAddAccount(BuildContext context) async{
               ),
             ),
 
+            // Network RPC 0
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(50),
                 border: Border.all(
                   color: hexaCodeToColor(AppColors.primary),
                 )
@@ -211,7 +215,7 @@ void bottomSheetAddAccount(BuildContext context) async{
                       children: [
 
                         MyTextConstant(
-                          text: "Sam Allen",
+                          text: "Selendra via Endpoint 0",
                           color2: hexaCodeToColor(AppColors.midNightBlue),
                           textAlign: TextAlign.start,
                           fontWeight: FontWeight.w700,
@@ -219,7 +223,59 @@ void bottomSheetAddAccount(BuildContext context) async{
                         ),
 
                         const MyTextConstant(
-                          text: "seF4221ffg.......d2213f4fsad",
+                          text: "wss://rpc0.selendra.org",
+                          textAlign: TextAlign.start,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                      ],
+                    ),
+                  )
+                ]
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Network RPC 1
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(
+                  color: hexaCodeToColor(AppColors.primary),
+                )
+              ),
+              height: 60,
+              child: Row(
+                mainAxisSize: MainAxisSize.min, 
+                children: <Widget>[
+
+                  const SizedBox(width: 10),
+
+                  SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: RandomAvatar("Allens"),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+
+                        MyTextConstant(
+                          text: "Selendra via Endpoint 1",
+                          color2: hexaCodeToColor(AppColors.midNightBlue),
+                          textAlign: TextAlign.start,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
+
+                        const MyTextConstant(
+                          text: "wss://rpc1.selendra.org",
                           textAlign: TextAlign.start,
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
@@ -235,7 +291,7 @@ void bottomSheetAddAccount(BuildContext context) async{
             Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
               child: MyGradientButton(
-                textButton: "Create Wallet",
+                textButton: "Switch Network",
                 action: () async{
                   Navigator.of(context).pop();
                 },

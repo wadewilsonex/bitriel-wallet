@@ -3,6 +3,14 @@ import 'dart:math';
 import 'package:intl/intl.dart';
 
 class Fmt {
+
+  // Convert number commas EX: 10000000 => 10,000,000
+  RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  String Function(Match) mathFunc = (Match match) => '${match[1]},';
+
+  // Convert number to word
+  final formatter = NumberFormat.compact(locale: "en_US", explicitSign: false);
+
   static String doubleFormat(
     double? value, {
     int length = 6,

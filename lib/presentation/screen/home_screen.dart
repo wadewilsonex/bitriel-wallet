@@ -1,4 +1,7 @@
+import 'package:bitriel_wallet/data/api/get_api.dart';
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/screen/token_info.dart';
+import 'package:bitriel_wallet/standalone/utils/app_utils/fmt.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,18 +12,26 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  final coinMarketCap = GetRequest();
+  List<Market> markets = [];
+
   final ScrollController _scrollController = ScrollController();
   bool backToTop = false;
 
   @override
   void initState() {
+    super.initState();
     _scrollController.addListener(() {
       setState(() {
         backToTop = _scrollController.offset > 400 ? true : false;
       });
     });
 
-    super.initState();
+    coinMarketCap.getMarkets().then((value) {
+      setState(() {
+        markets = value;
+      });
+    });
   }
 
   @override
@@ -220,26 +231,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _listMarketView({required List<ListMetketCoinModel> lsMarketCoin}) {
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      addAutomaticKeepAlives: false,
-      addRepaintBoundaries: false,
-      itemCount: lsMarketCoin.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index){
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-
-            CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
-
-          ],
-        );
-      }
-    );
-  }
-
   Widget _top100Tokens() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 14),
@@ -255,45 +246,101 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          Consumer<MarketProvider>(
-            builder: (context, marketProvider, widget) {
-              return Column(
-                children: [
-                          
-                  if (marketProvider.marketUsecasesImpl.listMarket.isNotEmpty)
-                  _listMarketView(lsMarketCoin: marketProvider.marketUsecasesImpl.listMarket)
-                            
-                  else if(marketProvider.marketUsecasesImpl.listMarket.isEmpty) 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: paddingSize),
-                    child: Column(
-                      children: [
-                                  
-                        Lottie.asset(
-                          "assets/animation/search_empty.json",
-                          repeat: false,
-                          reverse: false,
-                          width: MediaQuery.of(context).size.width / 2,
-                        ),
-                                  
-                        const MyTextConstant(
-                          text: "Opps, Something went wrong!", 
-                          fontSize: 17, 
-                          fontWeight: FontWeight.w600,
-                        )          
-                      ],
-                    ),
-                  ),
-                  
-                ],
-              );
-            }
-          ),
-  
-          
+          _listMarketView()
+
         ],
       ),
     ); 
+  }
+
+  Widget _listMarketView() {
+    
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      addAutomaticKeepAlives: false,
+      addRepaintBoundaries: false,
+      itemCount: markets.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index){
+        Market current = markets[index];
+
+        final String priceConvert = double.parse("${current.price}".replaceAll(",", "")).toStringAsFixed(2);
+        
+        return InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TokenInfo(tokenName: current.name, market: current,))
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              children: <Widget>[
+                // Asset Logo
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    color: Colors.white, 
+                    child: Image.network(
+                      current.logo, width: 30, height: 30,
+                    )
+                  )
+                ),
+            
+                // Asset Name
+                const SizedBox(width: 10),
+          
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                
+                      Row( 
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          
+                          MyTextConstant(
+                            text: current.symbol.toUpperCase(),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color2: hexaCodeToColor(AppColors.text),
+                            textAlign: TextAlign.start,
+                          ),
+          
+                        ],
+                      ),
+                
+                      MyTextConstant(
+                        text: current.name,
+                        fontSize: 12,
+                        color2: hexaCodeToColor(AppColors.darkGrey),
+                        textAlign: TextAlign.start,
+                      )
+                    ],
+                  ),
+                ),
+                
+                const Spacer(),
+          
+                // Total Amount
+                MyTextConstant(
+                  fontSize: 17,
+                  text: "\$${priceConvert.replaceAllMapped(Fmt().reg, Fmt().mathFunc)}",
+                  textAlign: TextAlign.right,
+                  fontWeight: FontWeight.w600,
+                  color2: hexaCodeToColor(AppColors.text),
+                  overflow: TextOverflow.fade,
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
   }
 
 }

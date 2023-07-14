@@ -7,7 +7,7 @@ Widget itemButton({required String title, required IconData icon, String? titleC
     child: Container(
       height: 40,
       decoration: BoxDecoration(
-        color: hexaCodeToColor(AppColors.lightColorBg),
+        color: hexaCodeToColor(AppColors.white),
         borderRadius: BorderRadius.circular(10)
       ),
       child: Padding(

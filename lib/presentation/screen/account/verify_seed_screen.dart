@@ -141,7 +141,6 @@ class VerifySeedScreen extends StatelessWidget {
                       textColor: AppColors.primaryColor,
                       textButton: "Verify Later",
                       action: () async {
-                        // await seedVerifyLaterDialog(context, createWalletImpl!.verifyLater);
                         await seedVerifyLaterDialog(context, createWalletImpl!.verifyLater);
                       },
                     ),

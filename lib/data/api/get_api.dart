@@ -87,34 +87,23 @@ class GetRequest {
 
   }
 
-  static Future<http.Response> listMarketCoin() async{
+  Future<List<Market>> getMarkets() async {
+    var address = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing";
+    var token = dotenv.get('COINMARKETCAP');
+    var resualt = await http.get(Uri.parse(address),headers: {
+      "X-CMC_PRO_API_KEY" : token
+    });
+    
+    List<Market> markets = [];
 
-    final String ua = await userAgent();
-
-    // try {
-
-      
-      
-    // } catch (e){
-      
-    //   if (kDebugMode) {
-    //     debugPrint("error fetch listMarketCoin $e");
-    //   }
-    // }
-
-    // return [];
-
-    return await http.get(
-      Uri.parse('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'),
-      headers: ApiClient.conceteHeader(
-        key: "User-Agent",
-        value: ua,
-      )
-    );
-
-
-    // return lsMarketLimit;
-
+    if (resualt.statusCode == 200) {
+      var json = jsonDecode(resualt.body);
+      for (var jsonMarket in json['data']['cryptoCurrencyList']){
+        var market = Market.fromJson(jsonMarket);
+        markets.add(market);
+      }
+    }
+    return markets;
   }
 
 }

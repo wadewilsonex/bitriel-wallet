@@ -78,28 +78,4 @@ class ImportWalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _textHeader() {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        MyTextConstant(
-          text: "Restore with seed",
-          fontWeight: FontWeight.w600,
-          textAlign: TextAlign.start,
-          fontSize: 25,
-          color2: Colors.black,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        MyTextConstant(
-          text: "Please add your 12 words seed below to restore your wallet.",
-          textAlign: TextAlign.start,
-          fontSize: 19,
-          color2: Colors.grey
-        )
-      ],
-    );
-  }
 }
