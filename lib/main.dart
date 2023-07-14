@@ -11,6 +11,9 @@ void main() async {
         ChangeNotifierProvider<SDKProvier>(
           create: (context) => SDKProvier(),
         ),
+        ChangeNotifierProvider<WalletProvider>(
+          create: (context) => WalletProvider(),
+        ),
       ],
       child: const App()
     )
