@@ -1,5 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
 
 class VerifySeedScreen extends StatelessWidget {
   

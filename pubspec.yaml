@@ -41,6 +41,7 @@ dependencies:
   iconsax: ^0.0.8
   flutter_dotenv: ^5.1.0
   rename: ^2.1.1
+  logger: ^1.4.0
   
   # Dependencies for the domain layer
   flutter_secure_storage: ^8.0.0
@@ -58,6 +59,7 @@ dependencies:
   lottie: ^2.4.0
   random_avatar: ^0.0.8
   fluttertoast:
+  intl: ^0.18.1
 
 dependency_overrides:
   polkawallet_sdk:

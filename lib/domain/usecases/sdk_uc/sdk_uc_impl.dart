@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:bitriel_wallet/index.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bip39/bip39.dart' as bip39;

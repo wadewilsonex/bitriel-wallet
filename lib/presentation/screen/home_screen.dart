@@ -1,6 +1,7 @@
 import 'package:bitriel_wallet/data/api/get_api.dart';
 import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/screen/token_info.dart';
+import 'package:bitriel_wallet/standalone/utils/app_utils/fmt.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -233,6 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _listMarketView() {
+    
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       addAutomaticKeepAlives: false,
@@ -241,6 +243,8 @@ class _HomeScreenState extends State<HomeScreen> {
       shrinkWrap: true,
       itemBuilder: (context, index){
         Market current = markets[index];
+
+        final String priceConvert = double.parse("${current.price}".replaceAll(",", "")).toStringAsFixed(2);
         
         return InkWell(
           onTap: () {
@@ -305,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Total Amount
                 MyTextConstant(
                   fontSize: 17,
-                  text: "\$${double.parse("${current.price}".replaceAll(",", "")).toStringAsFixed(2)}",
+                  text: "\$${priceConvert.replaceAllMapped(Fmt().reg, Fmt().mathFunc)}",
                   textAlign: TextAlign.right,
                   fontWeight: FontWeight.w600,
                   color2: hexaCodeToColor(AppColors.text),
