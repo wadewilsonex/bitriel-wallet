@@ -4,14 +4,12 @@ class WalletUcImpl implements WalletUsecases{
 
   String? _dir;
 
-  BuildContext? _context;
-  SDKProvier? sdkProvier;
+  // BuildContext? _context;
 
-  set setBuilder(BuildContext ctx){
+  // set setBuilder(BuildContext ctx){
 
-    _context = ctx;
-    sdkProvier ??= Provider.of<SDKProvier>(_context!, listen: false);
-  }
+  //   _context = ctx;
+  // }
 
   /// 1 fetchCoinsFromLocalStorage
   /// 
@@ -21,7 +19,7 @@ class WalletUcImpl implements WalletUsecases{
   @override
   Future<List<List<SmartContractModel>>> fetchCoinsFromLocalStorage() async {
 
-    if (await SecureStorage.isContain(DbKey.listContract) ){
+    if ( !(await SecureStorage.isContain(DbKey.listContract)) ){
 
       return [
         await SecureStorage.readData(key: DbKey.listContract).then((value) {
@@ -75,11 +73,16 @@ class WalletUcImpl implements WalletUsecases{
         symbol: e["symbol"],
         org: e["org"],
         orgTest: e["org_test"],
+        isBSC: e["is_bsc"],
+        isEther: e["is_ether"],
+        isNative: e["is_native"],
+        isBep20: e["is_bep20"],
+        isErc20: e["is_erc20"],
         isContain: e["isContain"],
         balance: e["balance"],
         show: e["show"],
         maxSupply: e["max_supply"],
-        description: e["description"]
+        description: e["description"],
         // lineChartList: Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data'] != null ? List<List<double>>.from(Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']) : null, //e['lineChartData'],
         // lineChartList: e['lineChartData'],
         // listActivity: [],
@@ -153,11 +156,35 @@ class WalletUcImpl implements WalletUsecases{
   /// Fallback assignment operator: ??=
   /// it assigns a value if the variable is null.
   @override
-  Future<EtherAmount> queryCoinsBalance(List<SmartContractModel> lstCoins) async {
+  Future<EtherAmount> getCoinsBalance(SDKProvier sdkProvier, List<SmartContractModel> lstCoins) async {
     
     print("queryCoinsBalance wallet uc");
-    return await sdkProvier!.getSdkProvider.getWeb3Balance(sdkProvier!.getSdkProvider.getEthClient, EthereumAddress.fromHex(sdkProvier!.getSdkProvider.evmAddress!));
+    return await sdkProvier.getSdkProvider.getEvmBalance(sdkProvier.getSdkProvider.getEthClient, EthereumAddress.fromHex(sdkProvier.getSdkProvider.evmAddress!));
     // balance.getValueInUnit(EtherUnit.ether)
+  }
+
+  Future<dynamic> getContractBalance(String coinBalance, String abiPath, String contractAddr, {String? contractName}) async {
+
+    DeployedContract contract = await _contractfromAssets(abiPath, contractAddr);
+
+    
+    // await SDKProvier
+  }
+
+  Future<BigInt> getChainDecimal(Web3Client client, DeployedContract contract, ContractFunction function, List params) async {
+    return (await client.call(
+      contract: contract, 
+      function: function, 
+      params: params
+    )).first as BigInt;
+  }
+
+  static Future<DeployedContract> _contractfromAssets(String abiPath, String contractAddr, {String? contractName}) async {
+    final String contractJson = await rootBundle.loadString(abiPath);
+    return DeployedContract(
+      ContractAbi.fromJson(contractJson, contractName ?? 'contract'),
+      EthereumAddress.fromHex(contractAddr),
+    );
   }
   
 }

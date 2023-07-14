@@ -26,4 +26,5 @@ class AppUsecasesImpl implements AppUsecases {
     }
     
   }
+  
 }

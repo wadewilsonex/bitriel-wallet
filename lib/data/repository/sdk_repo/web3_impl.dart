@@ -10,9 +10,10 @@ class Web3RepoImpl implements Web3Repository {
   /// Connect Both Ethereum Network and Binance Smart Chain
   @override
   Future<void> web3Init() async {
+
     await _web3blockchain.initBscClient();
     await _web3blockchain.initEthClient();
-    print("finish web3Init");
+    
   }
 
 }

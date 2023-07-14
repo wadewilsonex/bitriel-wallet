@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:bitriel_wallet/index.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bip39/bip39.dart' as bip39;
@@ -32,12 +31,14 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// 2 
   @override
   Future<void> initBitrielSDK({required String jsFilePath, int nodeIndex = 0}) async {
+
     await rootBundle.loadString(jsFilePath).then((js) async {
       // 2.1. Init Keyring
       await _sdkRepoImpl.initBitrielSDK(jsCode: js);
     });
     
     await _web3repoImpl.web3Init();
+    
   }
 
   @override
@@ -121,6 +122,60 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   Future<String> generateSeed() async {
     return ( await _sdkRepoImpl.getWalletSdk.api.keyring.generateMnemonic(_sdkRepoImpl.getKeyring.ss58!) ).mnemonic!;
   }
+
+  Future<void> deleteAccount(BuildContext? context) async {
+
+    dialogLoading(context!);
+
+    // final api = Provider.of<ApiProvider>(context, listen: false);
+    
+    try {
+
+      for( KeyPairData e in _sdkRepoImpl.getKeyring.allAccounts){
+        await _sdkRepoImpl.getWalletSdk.api.keyring.deleteAccount(
+          _sdkRepoImpl.getKeyring,
+          e,
+        );
+      }
+
+      await SecureStorage.deleteAll();
+
+      // final mode = await StorageServices.fetchData(DbKey.themeMode);
+      // final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
+
+      // await StorageServices.clearStorage();
+
+      // // Re-Save Them Mode
+      // await StorageServices.storeData(mode, DbKey.themeMode);
+      // await StorageServices.storeData(sldNW, DbKey.sldNetwork);
+
+      // await StorageServices.clearSecure();
+      
+      // Provider.of<ContractProvider>(context, listen: false).resetConObject();
+      
+      await Future.delayed(const Duration(seconds: 2), () {});
+      
+      // Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+
+      // Navigator.pushAndRemoveUntil(
+      //   context, 
+      //   RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/')
+      // );
+
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamedAndRemoveUntil(
+        context, 
+        "/${BitrielRouter.welcomeRoute}", 
+        (route) => false
+      );
+
+    } catch (e) {
+
+      if (kDebugMode) {
+      }
+      // await dialog(context, e.toString(), 'Opps');
+    }
+  }
   
   // 
   // 
@@ -199,10 +254,20 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     return await FlutterAesEcbPkcs5.encryptString(privateKey, key);
   }
 
-  Future<EtherAmount> getWeb3Balance(Web3Client client, EthereumAddress addr) async {
-    print("addr ${addr.hex}");
-    // return await client.getBalance(addr);
-    return EtherAmount.zero();
+  Future<EtherAmount> getBep20Balance(Web3Client client, EthereumAddress addr) async {
+    print("getWeb3Balance addr ${addr.hex}");
+    return await client.getBalance(addr);
+    // return EtherAmount.zero();
+  }
+
+  Future<EtherAmount> getErc20Balance(Web3Client client, EthereumAddress addr) async {
+    print("getWeb3Balance addr ${addr.hex}");
+    return await client.getBalance(addr);
+    // return EtherAmount.zero();
+  }
+
+  Future<EtherAmount> getEvmBalance(Web3Client client, EthereumAddress addr) async {
+    return await client.getBalance(addr);
   }
   
 }

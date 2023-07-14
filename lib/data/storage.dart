@@ -22,4 +22,11 @@ class SecureStorage {
   static Future<bool> isContain(String key) async {
     return await _secureStorage.containsKey(key: key);
   }
+
+  static Future<void> deleteKey(String key) async {
+    await _secureStorage.delete(key: key);
+  }
+  static Future<void> deleteAll() async {
+    return await _secureStorage.deleteAll();
+  }
 }

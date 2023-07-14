@@ -31,10 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-    final walletPro = Provider.of<WalletProvider>(context);
-    walletPro.getAsset();
-    walletPro.sortAsset();
+
+    // Setup Evm Address
+    SecureStorage.readData(key: DbKey.privateList).then((value) {
+      Provider.of<SDKProvier>(context, listen: false).setEvmAddress = (json.decode(value!))[0]['eth_address'];
+    });
 
     return Scaffold(
       appBar: defaultAppBar(context: context),
@@ -45,6 +46,20 @@ class _HomeScreenState extends State<HomeScreen> {
           color: hexaCodeToColor(AppColors.white),
           child: Column(
             children: [
+
+              TextButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
+                }, 
+                child: const Text("To wallet screen")
+              ),
+
+              TextButton(
+                onPressed: () async {
+                  await Provider.of<SDKProvier>(context, listen: false).getSdkProvider.deleteAccount(context);
+                }, 
+                child: const Text("Delete account")
+              ),
 
               _menuItems(context),
 

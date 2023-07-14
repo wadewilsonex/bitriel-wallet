@@ -14,6 +14,13 @@ class SmartContractModel {
   String? type;
   String? org;
   String? orgTest;
+
+  bool? isEther;
+  bool? isBSC;
+  bool? isNative;
+  bool? isBep20;
+  bool? isErc20;
+  
   // Market? marketData;
   String? marketPrice;
   String? change24h;
@@ -54,7 +61,13 @@ class SmartContractModel {
     this.contract,
     this.contractTest,
     // this.chart,
-    this.isAdded = false
+    this.isAdded = false,
+    this.isEther,
+    this.isBSC,
+    this.isNative,
+    this.isBep20,
+    this.isErc20
+
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {
@@ -68,6 +81,11 @@ class SmartContractModel {
       logo: json['logo'],
       org: json['org'],
       orgTest: json['org_test'],
+      isEther: json["is_ether"] ?? false,
+      isBSC: json["is_bsc"] ?? false,
+      isNative: json["is_native"] ?? false,
+      isBep20: json["is_bep20"] ?? false,
+      isErc20: json["is_erc20"] ?? false,
       contract: json['contract'],
       contractTest: json['contract_test'],
       chainDecimal: json['chainDecimal'],
@@ -82,7 +100,7 @@ class SmartContractModel {
       show: json['show'],
       maxSupply: json['max_supply'],
       description: json['description'],
-      isAdded: json['isAdded'] ?? false
+      isAdded: json['isAdded'] ?? false,
     );
   }
 
@@ -108,6 +126,12 @@ class SmartContractModel {
     'max_supply': asset.maxSupply,
     'description': asset.description,
     'isAdded': asset.isAdded,
+
+    'is_bsc': asset.isEther,
+    'is_ether': asset.isBSC,
+    'is_native': asset.isNative,
+    'is_bep20': asset.isBep20,
+    'is_erc20': asset.isErc20,
   };
 
   static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {
