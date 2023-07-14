@@ -55,6 +55,7 @@ export 'package:bitriel_wallet/data/repository/sdk_repo/sdk_repo_impl.dart';
 export 'package:bitriel_wallet/data/repository/sdk_repo/web3_rep.dart';
 export 'package:bitriel_wallet/data/repository/sdk_repo/web3_impl.dart';
 export 'package:bitriel_wallet/data/repository/http_request_impl.dart';
+export 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
 
 /*---------- Domain Layer ----------*/
 

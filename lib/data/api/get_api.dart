@@ -87,23 +87,12 @@ class GetRequest {
 
   }
 
-  Future<List<Market>> getMarkets() async {
+  static Future<http.Response> getMarkets() async {
     var address = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing";
     var token = dotenv.get('COINMARKETCAP');
-    var resualt = await http.get(Uri.parse(address),headers: {
+    return await http.get(Uri.parse(address),headers: {
       "X-CMC_PRO_API_KEY" : token
     });
-    
-    List<Market> markets = [];
-
-    if (resualt.statusCode == 200) {
-      var json = jsonDecode(resualt.body);
-      for (var jsonMarket in json['data']['cryptoCurrencyList']){
-        var market = Market.fromJson(jsonMarket);
-        markets.add(market);
-      }
-    }
-    return markets;
   }
 
 }

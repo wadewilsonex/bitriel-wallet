@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/data/api/get_api.dart';
+import 'package:bitriel_wallet/domain/usecases/market_uc/market_uc_impl.dart';
 import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/screen/token_info.dart';
 import 'package:bitriel_wallet/standalone/utils/app_utils/fmt.dart';
@@ -12,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  final coinMarketCap = GetRequest();
+  final coinMarketCap = MarketUCImpl();
   List<Market> markets = [];
 
   final ScrollController _scrollController = ScrollController();
