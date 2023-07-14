@@ -13,7 +13,6 @@ class SdkRepoImpl implements SDKRepository {
   final NetworkParams _params = NetworkParams();
 
   SdkRepoImpl(){
-    print("Start init param SdkRepoImpl");
     initParam();
   }
 
@@ -39,5 +38,17 @@ class SdkRepoImpl implements SDKRepository {
   @override
   Future<void> connectNode({required String jsCode}) async {
     await _bitrielSDK.connectNode(jsCode: jsCode, nodes: nodes);
+  }
+
+  Future<String> querySELAddress(String address) async {
+    
+    // Get SEL native Address From Account 
+    return await _bitrielSDK.walletSDK.webView!.evalJavascript("account.getBalance(api, '$address', 'Balance')").then((value) {
+      return Fmt.balance(
+        value['freeBalance'].toString(),
+        18,
+      );
+
+    });
   }
 }

@@ -13,6 +13,11 @@ class SDKProvier with ChangeNotifier {
     notifyListeners();
   }
 
+  set setBtcAddress(String value){
+    _sdkProvier.btcAddress = value;
+    notifyListeners();
+  }
+
   void connectNetwork() async {
 
     await _sdkProvier.initBitrielSDK(jsFilePath: "assets/js/main.js");

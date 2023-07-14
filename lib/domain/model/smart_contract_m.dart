@@ -35,6 +35,7 @@ class SmartContractModel {
   // List<FlSpot>? chart;
   LineChartModel? lineChartModel = LineChartModel();
   double? money;
+  List<Map<String, dynamic>>? platform;
 
   SmartContractModel({
     this.index,
@@ -66,8 +67,8 @@ class SmartContractModel {
     this.isBSC,
     this.isNative,
     this.isBep20,
-    this.isErc20
-
+    this.isErc20,
+    this.platform
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {
@@ -101,6 +102,7 @@ class SmartContractModel {
       maxSupply: json['max_supply'],
       description: json['description'],
       isAdded: json['isAdded'] ?? false,
+      platform: json['platform']
     );
   }
 
@@ -132,6 +134,7 @@ class SmartContractModel {
     'is_native': asset.isNative,
     'is_bep20': asset.isBep20,
     'is_erc20': asset.isErc20,
+    'platform': asset.platform
   };
 
   static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {

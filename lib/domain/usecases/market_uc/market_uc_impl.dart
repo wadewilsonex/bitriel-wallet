@@ -4,8 +4,16 @@ class MarketUCImpl implements MarketUseCases {
 
   MarketRepoImpl marketRepoImpl = MarketRepoImpl();
 
+  ValueNotifier<List<Market>> lstMarket = ValueNotifier([]);
+  
+  ValueNotifier<bool> backToTop = ValueNotifier(false);
+  
+  ScrollController scrollController = ScrollController();
+
   @override
-  Future<List<Market>> getMarkets() async {
-    return await marketRepoImpl.getMarkets();
+  Future<void> getMarkets() async {
+
+    lstMarket.value = [];
+    lstMarket.value = await marketRepoImpl.getMarkets();
   }
 }

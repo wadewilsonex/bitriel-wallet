@@ -1,5 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/standalone/utils/app_utils/fmt.dart';
 
 class TokenInfo extends StatefulWidget {
   final String tokenName;

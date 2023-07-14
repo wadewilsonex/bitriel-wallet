@@ -1,54 +1,31 @@
 import 'package:bitriel_wallet/index.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
+  
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-
-  final coinMarketCap = MarketUCImpl();
-  List<Market> markets = [];
-
-  final ScrollController _scrollController = ScrollController();
-  bool backToTop = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      setState(() {
-        backToTop = _scrollController.offset > 400 ? true : false;
-      });
-    });
-
-    coinMarketCap.getMarkets().then((value) {
-      setState(() {
-        markets = value;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
 
   @override
   Widget build(BuildContext context) {
 
+    final coinMarketCap = MarketUCImpl();
+    
+    coinMarketCap.scrollController.addListener(() {
+      coinMarketCap.backToTop.value = coinMarketCap.scrollController.offset > 400 ? true : false;
+    });
+
+    coinMarketCap.getMarkets();
+
     // Setup Evm Address
     SecureStorage.readData(key: DbKey.privateList).then((value) {
       Provider.of<SDKProvier>(context, listen: false).setEvmAddress = (json.decode(value!))[0]['eth_address'];
+      Provider.of<SDKProvier>(context, listen: false).setBtcAddress = (json.decode(value))[0]['btc_address'];
     });
+
 
     return Scaffold(
       appBar: defaultAppBar(context: context),
       body: SingleChildScrollView(
-        controller: _scrollController,
+        controller: coinMarketCap.scrollController,
         physics: const BouncingScrollPhysics(),
         child: Container(
           color: hexaCodeToColor(AppColors.white),
@@ -71,20 +48,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
               _menuItems(context),
 
-              _top100Tokens(),
+              _top100Tokens(coinMarketCap),
 
             ],
           ),
         ),
       ),
-      floatingActionButton: floatButton(_scrollController, backToTop)
+      floatingActionButton: ValueListenableBuilder(
+        valueListenable: coinMarketCap.backToTop,
+        builder: (context, value, wg){
+          return floatButton(coinMarketCap.scrollController, value);
+        }
+      )
     );
   }
 
   Widget floatButton(ScrollController scrollController, bool backToTop) 
   => backToTop ? FloatingActionButton(
     onPressed: () {
-      _scrollController.animateTo(
+      scrollController.animateTo(
         0, 
         duration: const Duration(seconds: 1), 
         curve: Curves.bounceInOut
@@ -228,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _top100Tokens() {
+  Widget _top100Tokens(MarketUCImpl coinMarketCap) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 14),
       child: Column(
@@ -243,14 +225,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          _listMarketView()
+          ValueListenableBuilder(
+            valueListenable: coinMarketCap.lstMarket, 
+            builder: (context, value, wg){
+              if (value.isEmpty) return const CircularProgressIndicator();
+              return _listMarketView(value);
+            }
+          )
 
         ],
       ),
     ); 
   }
 
-  Widget _listMarketView() {
+  Widget _listMarketView(List<Market> markets){
     
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
@@ -259,6 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
       itemCount: markets.length,
       shrinkWrap: true,
       itemBuilder: (context, index){
+
         Market current = markets[index];
 
         final String priceConvert = double.parse("${current.price}".replaceAll(",", "")).toStringAsFixed(2);
@@ -339,5 +328,4 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     );
   }
-
 }

@@ -229,7 +229,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     }
   }
 
-  Future<void> getBtcBalance() async {
+  Future<String> getBtcBalance() async {
 
     int totalSatoshi = 0;
     Response res = await _httpRequestImpl.fetchAddrUxtoBTC(btcAddress!);
@@ -247,6 +247,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
       // contract.listContract[btcIndex].balance = (totalSatoshi / bitcoinSatFmt).toString();
     }
+    return totalSatoshi.toString();
   }
   
   Future<String?> _encryptPrivateKey(String privateKey, String pin) async {
@@ -255,13 +256,11 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   }
 
   Future<EtherAmount> getBep20Balance(Web3Client client, EthereumAddress addr) async {
-    print("getWeb3Balance addr ${addr.hex}");
     return await client.getBalance(addr);
     // return EtherAmount.zero();
   }
 
   Future<EtherAmount> getErc20Balance(Web3Client client, EthereumAddress addr) async {
-    print("getWeb3Balance addr ${addr.hex}");
     return await client.getBalance(addr);
     // return EtherAmount.zero();
   }
@@ -270,4 +269,16 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     return await client.getBalance(addr);
   }
   
+  Future<BigInt> callWeb3ContractFunc(Web3Client client, DeployedContract contract, ContractFunction function, { List params = const [] }) async {
+    try {
+      return await _web3repoImpl.callWeb3ContractFunc(client, contract, function, params: params);
+    } catch (e) {
+      print("Error callWeb3ContractFunc $e");
+    }
+    return BigInt.zero;
+  }
+
+  Future<String> fetchSELAddress() async {
+    return await _sdkRepoImpl.querySELAddress(getSELAddress);
+  }
 }

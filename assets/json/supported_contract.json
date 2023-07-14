@@ -166,7 +166,7 @@
         "org_test": "",
         "is_bsc": false,
         "is_ether": false,
-        "is_native": false,
+        "is_native": true,
         "is_bep20": false,
         "is_erc20": false,
         "balance": "0.0",
