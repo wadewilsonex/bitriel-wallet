@@ -11,8 +11,6 @@ class MultiAccountScreen extends StatelessWidget {
 
     multiAccountImpl.setContext = context;
 
-    if (multiAccountImpl.sdkProvier!.isConnected ) print(multiAccountImpl.getAllAccount.length);
-
     multiAccountImpl.accInfoFromLocalStorage();
     
     return Scaffold(
@@ -28,6 +26,8 @@ class MultiAccountScreen extends StatelessWidget {
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             onTap: () async {
+
+              multiAccountImpl.switchAccount(multiAccountImpl.getAllAccount[index]);
 
             //   // accountModel!.accIndex = index;
 

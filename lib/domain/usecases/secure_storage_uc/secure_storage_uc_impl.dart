@@ -28,4 +28,9 @@ class SecureStorageImpl implements SecureStorageUsecase {
   Future<void> clearAllSecure() async {
     await _storage.deleteAll();
   }
+
+  @override
+  Future<bool> isKeyAvailable(String key) async {
+    return await _storage.containsKey(key: key);
+  }
 }

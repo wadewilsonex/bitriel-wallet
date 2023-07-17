@@ -11,6 +11,8 @@ class AccountManagementImpl extends AccountMangementUC {
 
   List<UnverifySeed> unverifyList = [];
 
+  List<UnverifySeed> unVerifyAccount = [];
+
   @override
   // ignore: avoid_renaming_method_parameters
   Future<void> addAndImport(SDKProvier sdkProvider, BuildContext context, String seed, String pin) async {
@@ -23,11 +25,11 @@ class AccountManagementImpl extends AccountMangementUC {
       importData = await sdkProvider.importSeed(seed, pin);
       
       // Extract private from seed
-      _pk = await sdkProvider.getSdkProvider.getPrivateKeyFromSeeds(importData![1], pin);
+      _pk = await sdkProvider.getSdkImpl.getPrivateKeyFromSeeds(importData![1], pin);
 
       // Use Seed to query EVM address
       // And Use PrivateKey to extract BTC native address.
-      await sdkProvider.getSdkProvider.queryAddress(seed, _pk!.seed!, pin);
+      await sdkProvider.getSdkImpl.queryAddress(seed, _pk!.seed!, pin);
 
     }catch (e) {
       
@@ -49,13 +51,23 @@ class AccountManagementImpl extends AccountMangementUC {
     });
 
     unverifyList.add(UnverifySeed.init(
-      address: sdkProvider!.getSdkProvider.getSELAddress,
+      address: sdkProvider!.getSdkImpl.getSELAddress,
       status: status, 
-      ethAddress: sdkProvider.getSdkProvider.evmAddress,
-      btcAddress: sdkProvider.getSdkProvider.btcAddress// conProvider!.listContract[_apiProvider!.btcIndex].address
+      ethAddress: sdkProvider.getSdkImpl.evmAddress,
+      btcAddress: sdkProvider.getSdkImpl.btcAddress// conProvider!.listContract[_apiProvider!.btcIndex].address
     ));
 
     await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unverifyList)));
+  }
+
+  Future<void> fetchAccount() async {
+
+    await SecureStorage.readData(key: DbKey.privateList).then((value) {
+      unVerifyAccount = UnverifySeed().fromJsonDb( List<Map<String, dynamic>>.from(json.decode(value!)) );
+
+      // Reverse Index Acconts
+      unVerifyAccount = unVerifyAccount.reversed.toList();
+    });
   }
   
 }

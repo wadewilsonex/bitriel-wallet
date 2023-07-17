@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bitriel_wallet/index.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bip39/bip39.dart' as bip39;
@@ -5,19 +7,27 @@ import 'package:flutter_bitcoin/flutter_bitcoin.dart';
 
 class BitrielSDKImpl implements BitrielSDKUseCase{
   
-  final SdkRepoImpl _sdkRepoImpl = SdkRepoImpl();
+  final SdkRepoImpl sdkRepoImpl = SdkRepoImpl();
 
   final Web3RepoImpl _web3repoImpl = Web3RepoImpl();
 
   final HttpRequestImpl _httpRequestImpl = HttpRequestImpl();
 
-  String get getSELAddress => _sdkRepoImpl.getKeyring.current.address!;
+  String get getSELAddress => sdkRepoImpl.getKeyring.current.address!;
 
-  Keyring get getKeyring => _sdkRepoImpl.getKeyring;
-  WalletSDK get getWalletSdk => _sdkRepoImpl.getWalletSdk;
+  Keyring get getKeyring => sdkRepoImpl.getKeyring;
+  WalletSDK get getWalletSdk => sdkRepoImpl.getWalletSdk;
 
   Web3Client get getBscClient => _web3repoImpl.getBscClient;
   Web3Client get getEthClient => _web3repoImpl.getEthClient;
+
+  List<String> lstSelendraNetwork = [];
+
+  int connectedIndex = 0;
+  
+  final SecureStorageImpl _storageImpl = SecureStorageImpl();
+
+  String? jsFile;
 
   //
   //
@@ -26,23 +36,38 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   // ///////////////////////////////////////////////////////////////////////////
   //
   //
-  
-  //  = 'assets/js/main.js'
-  /// 2 
-  @override
-  Future<void> initBitrielSDK({required String jsFilePath, int nodeIndex = 0}) async {
 
-    await rootBundle.loadString(jsFilePath).then((js) async {
-      // 2.1. Init Keyring
-      await _sdkRepoImpl.initBitrielSDK(jsCode: js);
-    });
-    
-    await _web3repoImpl.web3Init();
-    
-  }
-
+  /// 1.
   @override
-  void dynamicNetwork() async {
+  Future<void> fetchNetwork() async {
+
+    try {
+
+      lstSelendraNetwork.clear();
+
+      /// Check Selendra Network
+      await _storageImpl.isKeyAvailable(DbKey.sldNetwork).then((value) async {
+
+        if (value == true){
+          lstSelendraNetwork = List<String>.from( json.decode( (await _storageImpl.readSecure(DbKey.sldNetwork))! ));
+        
+        } else {
+          lstSelendraNetwork = await HttpRequestImpl().fetchSelendraEndpoint();
+
+          await _storageImpl.writeSecure(DbKey.sldNetwork, json.encode(lstSelendraNetwork));
+        }
+      });
+
+      /// Check Connected Network
+      // await _storageImpl.readSecure(DbKey.connectedIndex)!.then((value) {
+      //   if (value.isNotEmpty){
+      //     connectedIndex = json.decode(value);
+      //   }
+      // });
+
+    } catch (e){
+      print("Error fetchNetwork $e");
+    }
     // Asign Network
     // await StorageServices.fetchData(DbKey.sldNetwork).then((nw) async {
     //   /// Get Endpoint form Local DB
@@ -59,10 +84,45 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       
     // });
   }
+  
+  //  = 'assets/js/main.js'
+  /// 2 
+  @override
+  Future<void> initBitrielSDK({required String jsFilePath}) async {
+
+    await setNetworkParam(lstSelendraNetwork[connectedIndex], connectedIndex);
+
+    await rootBundle.loadString(jsFilePath).then((js) async {
+
+      jsFile = js;
+      // 2.1. Init Keyring
+      await sdkRepoImpl.initBitrielSDK(jsCode: js);
+    });
+    
+    await _web3repoImpl.web3Init();
+    
+  }
+
+  @override
+  Future<void> setNetworkParam(String network, int nwIndex) async {
+    
+    sdkRepoImpl.setNetworkParam(network: network);
+
+    // if (connectedIndex != nwIndex){
+
+    //   Timer timer = AppUtils.timer( () async { await _sdkRepoImpl.connectNode(jsCode: jsFile!); });
+    //   print("connnected ${timer.tick}");
+    //   // if (timer)
+    //   // connectedIndex = nwIndex;
+      
+    //   // await _storageImpl.writeSecure(DbKey.connectedIndex, json.encode(nwIndex));
+    // }
+
+  }
 
   @override
   Future<bool> validateMnemonic(String seed) async { 
-    return await _sdkRepoImpl.getWalletSdk.api.keyring.checkMnemonicValid(seed);
+    return await sdkRepoImpl.getWalletSdk.api.keyring.checkMnemonicValid(seed);
   }
 
   /// 3. Import and Add Account
@@ -76,8 +136,8 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   Future<List<dynamic>> importSeed(String seed, {KeyType keyType = KeyType.mnemonic, String? name = "Username", required String? pin}) async {
 
     // 3.1
-    final jsn = await _sdkRepoImpl.getWalletSdk.api.keyring.importAccount(
-      _sdkRepoImpl.getKeyring, 
+    final jsn = await sdkRepoImpl.getWalletSdk.api.keyring.importAccount(
+      sdkRepoImpl.getKeyring, 
       keyType: keyType, 
       key: seed, 
       name: name!, 
@@ -85,8 +145,8 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     );
 
     // 3.2
-    final keyPair = await _sdkRepoImpl.getWalletSdk.api.keyring.addAccount(
-      _sdkRepoImpl.getKeyring, 
+    final keyPair = await sdkRepoImpl.getWalletSdk.api.keyring.addAccount(
+      sdkRepoImpl.getKeyring, 
       keyType: keyType, 
       acc: jsn!, 
       password: pin
@@ -101,9 +161,9 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// 
   /// 4.1 We use private to backup seeds.
   Future<SeedBackupData?> getPrivateKeyFromSeeds(KeyPairData keyPair, String pin) async {
-    return await _sdkRepoImpl.getWalletSdk.api.keyring.getDecryptedSeed(
-      _sdkRepoImpl.getKeyring, 
-      _sdkRepoImpl.getKeyring.current, 
+    return await sdkRepoImpl.getWalletSdk.api.keyring.getDecryptedSeed(
+      sdkRepoImpl.getKeyring, 
+      sdkRepoImpl.getKeyring.current, 
       pin
     );
   }
@@ -120,7 +180,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   
   @override
   Future<String> generateSeed() async {
-    return ( await _sdkRepoImpl.getWalletSdk.api.keyring.generateMnemonic(_sdkRepoImpl.getKeyring.ss58!) ).mnemonic!;
+    return ( await sdkRepoImpl.getWalletSdk.api.keyring.generateMnemonic(sdkRepoImpl.getKeyring.ss58!) ).mnemonic!;
   }
 
   Future<void> deleteAccount(BuildContext? context) async {
@@ -131,9 +191,9 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     
     try {
 
-      for( KeyPairData e in _sdkRepoImpl.getKeyring.allAccounts){
-        await _sdkRepoImpl.getWalletSdk.api.keyring.deleteAccount(
-          _sdkRepoImpl.getKeyring,
+      for( KeyPairData e in sdkRepoImpl.getKeyring.allAccounts){
+        await sdkRepoImpl.getWalletSdk.api.keyring.deleteAccount(
+          sdkRepoImpl.getKeyring,
           e,
         );
       }
@@ -279,6 +339,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   }
 
   Future<String> fetchSELAddress() async {
-    return await _sdkRepoImpl.querySELAddress(getSELAddress);
+    return await sdkRepoImpl.querySELAddress(getSELAddress);
   }
 }

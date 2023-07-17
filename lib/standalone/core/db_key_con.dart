@@ -34,5 +34,6 @@ class DbKey {
   static String wcSession = "session";
 
   static String sldNetwork = "sldNetwork_key";
+  static String connectedIndex = "connectedIndex_key";
   static String lsSldEndpoint = "lsSldEndpoint_key";
 }

@@ -13,6 +13,7 @@ class WalletScreen extends StatelessWidget {
       walletPro.setBuildContext = context;
       walletPro.getAsset();
       
+      Provider.of<SDKProvier>(context, listen: false).fetchAllAccount();
     }
 
     return Scaffold(
@@ -67,15 +68,42 @@ class WalletScreen extends StatelessWidget {
               ),
             ], 
             
-            body: Consumer<WalletProvider>(
-              builder: (context, pro, wg){
-                return ListView.builder(
-                  itemCount: pro.sortListContract!.length,
-                  itemBuilder: (context, index){
-                    return Text("${pro.sortListContract![index].symbol!} ${pro.sortListContract![index].balance!}");
-                  }
-                );
-              },
+            body: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+            
+            
+                  Expanded(
+                    child: Consumer<SDKProvier>(
+                      builder: (context, value, wg){
+                        return ListView.builder(
+                          itemCount: value.getUnverifyAcc.length,
+                          itemBuilder: (context, index){
+                            if (value.getUnverifyAcc[index].status == true){
+                              return Text("Arealdy verify");
+                            }else{
+                              return Text("Not yet verify");
+                            }
+                          }
+                        );
+                      }
+                    ),
+                  ),
+                  // Consumer<WalletProvider>(
+                  //   builder: (context, pro, wg){
+                  //     return ListView.builder(
+                  //       itemCount: pro.sortListContract!.length,
+                  //       itemBuilder: (context, index){
+            
+                  //         return Text("${pro.sortListContract![index].symbol!} ${pro.sortListContract![index].balance!}");
+                  //       }
+                  //     );
+                  //   },
+                  // ),
+                ],
+              ),
             ),
             
             // body: _tabBarView(context, dismiss!),

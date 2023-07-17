@@ -12,24 +12,20 @@ class SdkRepoImpl implements SDKRepository {
 
   final NetworkParams _params = NetworkParams();
 
-  SdkRepoImpl(){
-    initParam();
-  }
-
   /// 1.
   /// 
   /// Init Selendra Chain Parameter
   @override
-  void initParam(){
+  void setNetworkParam({String? network, int ss58 = 204}){
     nodes.clear();
-    _params.endpoint = 'wss://rpc0.selendra.org';
-    _params.ss58 = 204;
+    _params.endpoint = network;
+    _params.ss58 = ss58;
     nodes.add(_params);
   }
 
   /// 2.
   @override
-  Future<void> initBitrielSDK({required String jsCode, int nodeIndex = 0}) async {
+  Future<void> initBitrielSDK({required String jsCode}) async {
     await _bitrielSDK.initBitrielSDK(jsCode: jsCode, nodes: nodes);
     await connectNode(jsCode: jsCode);
   }

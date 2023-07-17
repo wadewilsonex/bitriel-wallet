@@ -15,12 +15,7 @@ class HomeScreen extends StatelessWidget {
 
     coinMarketCap.getMarkets();
 
-    // Setup Evm Address
-    SecureStorage.readData(key: DbKey.privateList).then((value) {
-      Provider.of<SDKProvier>(context, listen: false).setEvmAddress = (json.decode(value!))[0]['eth_address'];
-      Provider.of<SDKProvier>(context, listen: false).setBtcAddress = (json.decode(value))[0]['btc_address'];
-    });
-
+    Provider.of<SDKProvier>(context, listen: false).fetchAllAccount();
 
     return Scaffold(
       appBar: defaultAppBar(context: context),
@@ -41,7 +36,7 @@ class HomeScreen extends StatelessWidget {
 
               TextButton(
                 onPressed: () async {
-                  await Provider.of<SDKProvier>(context, listen: false).getSdkProvider.deleteAccount(context);
+                  await Provider.of<SDKProvier>(context, listen: false).getSdkImpl.deleteAccount(context);
                 }, 
                 child: const Text("Delete account")
               ),

@@ -156,7 +156,7 @@ class WalletUcImpl implements WalletUsecases{
   }
 
   Future<String> queryBtcBalance() async {
-    _bitrielSDKImpl ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkProvider;
+    _bitrielSDKImpl ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkImpl;
     // return await _httpRequestImpl.fetchAddrUxtoBTC(_bitrielSDKImpl!.btcAddress!).then((value) {
 
     // });
@@ -169,14 +169,14 @@ class WalletUcImpl implements WalletUsecases{
   Future<EtherAmount> getCoinsBalance(SDKProvier sdkProvier, List<SmartContractModel> lstCoins) async {
     
     print("queryCoinsBalance wallet uc");
-    return await sdkProvier.getSdkProvider.getEvmBalance(sdkProvier.getSdkProvider.getEthClient, EthereumAddress.fromHex(sdkProvier.getSdkProvider.evmAddress!));
+    return await sdkProvier.getSdkImpl.getEvmBalance(sdkProvier.getSdkImpl.getEthClient, EthereumAddress.fromHex(sdkProvier.getSdkImpl.evmAddress!));
     // balance.getValueInUnit(EtherUnit.ether)
   }
 
   /// BEP20 & ERC-20
   Future<BigInt> getContractBalance(Web3Client client, String abiPath, String contractAddr, {String? contractName}) async {
     
-    _bitrielSDKImpl ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkProvider;
+    _bitrielSDKImpl ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkImpl;
     // if (_bitrielSDKImpl == null){
     //   _bitrielSDKImpl = Provider.of<SDKProvier>(_context!, listen: false).getSdkProvider;
     // }
