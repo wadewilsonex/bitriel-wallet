@@ -63,7 +63,7 @@ class ImportWalletScreen extends StatelessWidget {
             ValueListenableBuilder(
               valueListenable: importWalletImpl.isSeedValid,
               builder: (context, value, wg) {
-                return MyGradientButton(
+                return MyButton(
                   textButton: "Next",
                   action: value ? () async {
                     await importWalletImpl.addAndImport(pin!);

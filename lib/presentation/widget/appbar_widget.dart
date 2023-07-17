@@ -43,7 +43,7 @@ PreferredSizeWidget defaultAppBar({
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(50)),
-          color: hexaCodeToColor("#8ECAE6").withOpacity(0.20)
+          color: hexaCodeToColor(AppColors.cardColor)
         ),
       ),
     ),
@@ -290,7 +290,7 @@ void bottomSheetCgNetwork(BuildContext context) async{
           
             Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-              child: MyGradientButton(
+              child: MyButton(
                 textButton: "Switch Network",
                 action: () async{
                   Navigator.of(context).pop();

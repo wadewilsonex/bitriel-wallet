@@ -121,7 +121,7 @@ class _TokenInfoState extends State<TokenInfo> {
       children: [
 
         Expanded(
-          child: MyGradientButton(
+          child: MyButton(
             edgeMargin: const EdgeInsets.all(10),
             textButton: "Buy",
             fontWeight: FontWeight.w600,
@@ -135,7 +135,7 @@ class _TokenInfoState extends State<TokenInfo> {
         ),
     
         Expanded(
-          child: MyGradientButton(
+          child: MyButton(
             edgeMargin: const EdgeInsets.all(10),
             textButton: "Sell",
             fontWeight: FontWeight.w600,

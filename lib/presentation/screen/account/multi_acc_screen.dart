@@ -188,7 +188,7 @@ class MultiAccountScreen extends StatelessWidget {
             //               //     btn2: Container(),
             //               //     btn: Padding(
             //               //       padding: const EdgeInsets.all(paddingSize),
-            //               //       child: MyGradientButton(
+            //               //       child: MyButton(
             //               //         textButton: "Cancel",
             //               //         begin: Alignment.bottomLeft,
             //               //         end: Alignment.topRight,
@@ -231,7 +231,7 @@ class MultiAccountScreen extends StatelessWidget {
 
             //               //     btn2: Padding(
             //               //       padding: const EdgeInsets.all(paddingSize),
-            //               //       child: MyGradientButton(
+            //               //       child: MyButton(
             //               //         textButton: "Cancel",
             //               //         begin: Alignment.bottomLeft,
             //               //         end: Alignment.topRight,
@@ -379,7 +379,7 @@ class MultiAccountScreen extends StatelessWidget {
         children: [
 
           Expanded(
-            child: MyGradientButton(
+            child: MyButton(
               edgeMargin: const EdgeInsets.all(10),
               textButton: "Create Wallet",
               fontWeight: FontWeight.w600,
@@ -424,7 +424,7 @@ class MultiAccountScreen extends StatelessWidget {
           ),
       
           Expanded(
-            child: MyGradientButton(
+            child: MyButton(
               edgeMargin: const EdgeInsets.all(10),
               textButton: "Import Wallet",
               fontWeight: FontWeight.w600,

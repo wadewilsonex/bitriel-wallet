@@ -153,7 +153,7 @@ class VerifySeedScreen extends StatelessWidget {
                 ValueListenableBuilder(
                   valueListenable: createWalletImpl!.isMatch, 
                   builder: (context, value, wg){
-                    return MyGradientButton(
+                    return MyButton(
                       textButton: "Next",
                       isTransparent: !  value,
                       action: value == false ? null : () async {

@@ -13,6 +13,7 @@ export 'package:local_auth/local_auth.dart';
 export 'package:web3dart/web3dart.dart';
 export 'package:web_socket_channel/io.dart';
 export 'package:ua_client_hints/ua_client_hints.dart';
+export 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 export 'package:random_avatar/random_avatar.dart';
 // ignore: depend_on_referenced_packages
 export 'package:permission_handler/permission_handler.dart';
@@ -68,6 +69,7 @@ export 'package:bitriel_wallet/domain/model/new_acc_m.dart';
 export 'package:bitriel_wallet/domain/model/smart_contract_m.dart';
 export 'package:bitriel_wallet/domain/model/line_chart_model.dart';
 export 'package:bitriel_wallet/domain/model/market.m.dart';
+export 'package:bitriel_wallet/domain/model/navbar_m.dart';
 
 // Usecases
 export 'package:bitriel_wallet/domain/usecases/asset_uc/asset_uc_impl.dart';
@@ -91,6 +93,8 @@ export 'package:bitriel_wallet/domain/usecases/wallet_uc/wallet_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/wallet_uc/wallet_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/market_uc/market_uc_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/market_uc/market_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/navbar/navbar_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/navbar/navbar_uc_impl.dart';
 
 /*---------- Presentation Layer ----------*/
 
@@ -133,3 +137,4 @@ export 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
 export 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
 export 'package:bitriel_wallet/standalone/core/db_key_con.dart';
 export 'package:bitriel_wallet/standalone/utils/app_utils/fmt.dart';
+export 'package:bitriel_wallet/standalone/utils/app_utils/icon_path_util.dart';

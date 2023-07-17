@@ -40,7 +40,7 @@ class DashboardMenuItem extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Image.file(File(asset!), width: 50, height: 50,),
+                    child: Image.asset(asset!, width: 50, height: 50,),
                   ),
                 ),
               ),

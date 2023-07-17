@@ -81,7 +81,7 @@ Future<String?> editAccountNameDialog(BuildContext context) {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: MyGradientButton(
+                  child: MyButton(
                     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
                     textButton: "Update",
                     // begin: Alignment.bottomLeft,
