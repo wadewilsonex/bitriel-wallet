@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
 
     coinMarketCap.getMarkets();
 
+    Provider.of<SDKProvier>(context, listen: false).setBuildContext = context;
     Provider.of<SDKProvier>(context, listen: false).fetchAllAccount();
 
     return Scaffold(

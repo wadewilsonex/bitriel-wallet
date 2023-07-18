@@ -21,6 +21,7 @@ class SdkRepoImpl implements SDKRepository {
     _params.endpoint = network;
     _params.ss58 = ss58;
     nodes.add(_params);
+    print("setNetworkParam $nodes");
   }
 
   /// 2.

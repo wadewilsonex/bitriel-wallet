@@ -341,20 +341,28 @@ class AppUtils {
     return color;
   }
   
-  static Timer timer(Function func) {
-    print("timer");
+  /// terminator function:
+  /// 
+  /// Param 1: isSuccess
+  /// Param 2: just pass modalBottomState into.
+  static Timer timer(Function func, Function terminator, Function modalBottomSetState) {
+    
     return Timer.periodic(const Duration(seconds: 1), (timer) async {
-      print(timer.tick);
-      if (timer.tick == 10) {
+      
+      // If Time Reached 13 Seconds Means Terminate Process By Call terminator placed inside Sdk Provider
+      if (timer.tick == 13) {
         timer.cancel();
 
-        // terminator(false);
+        terminator(false, modalBottomSetState);
       
       }
-      
+
+      // If Connect Success Perform Success Logic by Call terminator placed inside Sdk Provider
       if (timer.tick == 1){
         await func();
-        // terminator(true);
+        timer.cancel();
+        terminator(true, modalBottomSetState);
+        
       }
 
     });

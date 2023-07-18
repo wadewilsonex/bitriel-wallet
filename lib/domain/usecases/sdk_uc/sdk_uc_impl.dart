@@ -29,6 +29,10 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
   String? jsFile;
 
+  BuildContext? context;
+
+  set setBuildContext(BuildContext ctx) => context = ctx;
+
   //
   //
   // ///////////////////////////////////////////////////////////////////////////
@@ -59,30 +63,16 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       });
 
       /// Check Connected Network
-      // await _storageImpl.readSecure(DbKey.connectedIndex)!.then((value) {
-      //   if (value.isNotEmpty){
-      //     connectedIndex = json.decode(value);
-      //   }
-      // });
+      await _storageImpl.readSecure(DbKey.connectedIndex)!.then((value) {
+        if (value.isNotEmpty){
+          connectedIndex = json.decode(value);
+        }
+      });
 
     } catch (e){
       print("Error fetchNetwork $e");
     }
-    // Asign Network
-    // await StorageServices.fetchData(DbKey.sldNetwork).then((nw) async {
-    //   /// Get Endpoint form Local DB
-    //   /// 
-    //   if (nw != null){
-
-    //     selNetwork = nw;
-    //   } else {
-    //     selNetwork = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
-
-    //   }
-
-    //   await StorageServices.storeData(selNetwork, DbKey.sldNetwork);
-      
-    // });
+    
   }
   
   //  = 'assets/js/main.js'
@@ -103,20 +93,19 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     
   }
 
+  /// Change Network Perform From Sdk Provider
   @override
-  Future<void> setNetworkParam(String network, int nwIndex) async {
-    
-    sdkRepoImpl.setNetworkParam(network: network);
+  Future<void> setNetworkParam(String network, int nwIndex, {Function? connectionTerminator, Function? modalBottomSetState}) async {
 
-    // if (connectedIndex != nwIndex){
+    // Set Network Param with New Network Selected
+    sdkRepoImpl.setNetworkParam(network: lstSelendraNetwork[nwIndex]);
 
-    //   Timer timer = AppUtils.timer( () async { await _sdkRepoImpl.connectNode(jsCode: jsFile!); });
-    //   print("connnected ${timer.tick}");
-    //   // if (timer)
-    //   // connectedIndex = nwIndex;
-      
-    //   // await _storageImpl.writeSecure(DbKey.connectedIndex, json.encode(nwIndex));
-    // }
+    // Check If Current Index Selected
+    if (connectedIndex != nwIndex){
+
+      /// Call Timer To Handle Connection
+      AppUtils.timer( () async { await sdkRepoImpl.connectNode(jsCode: jsFile!); }, connectionTerminator!, modalBottomSetState!);
+    }
 
   }
 

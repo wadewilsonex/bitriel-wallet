@@ -13,7 +13,6 @@ class AppUsecasesImpl implements AppUsecases {
   @override
   Future<void> checkAccountExist() async {
 
-    print("sdkProvier!.getSdkProvider.getKeyring.allAccounts.isNotEmpty ${sdkProvier!.getSdkImpl.getKeyring.allAccounts.isNotEmpty}");
     if (sdkProvier!.getSdkImpl.getKeyring.allAccounts.isNotEmpty){
       await Future.delayed(const Duration(seconds: 1), (){
 

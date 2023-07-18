@@ -237,12 +237,8 @@ Widget _networkItem(BuildContext context, String nw, int index, Function stateFu
   return InkWell(
     onTap: () async {
 
-      await Provider.of<SDKProvier>(context, listen: false).getSdkImpl.setNetworkParam(nw, index);
-
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-      Provider.of<SDKProvier>(context, listen: false).notifyListeners;
-
-      stateFunc( () {});
+      await Provider.of<SDKProvier>(context, listen: false).setNetworkParamState(nw, index, stateFunc);//getSdkImpl.setNetworkParam(nw, index);
+      
     },
     child: Column(
       mainAxisSize: MainAxisSize.min,

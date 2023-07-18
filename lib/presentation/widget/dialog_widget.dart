@@ -1,9 +1,9 @@
 import 'package:bitriel_wallet/index.dart';
 import 'dart:ui';
 
-dialogLoading(BuildContext context, {String? animationAsset, String? content}) {
+dialogLoading(BuildContext context, {String? animationAsset, String? content, bool isDismissable = true}) {
   return showDialog(
-    barrierDismissible: true,
+    barrierDismissible: isDismissable,
     context: context,
     builder: (context) {
       return BackdropFilter(
