@@ -1,4 +1,6 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/screen/swap_exchange_screen.dart';
+import 'package:bitriel_wallet/presentation/widget/shimmer_market_widget.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -8,13 +10,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final coinMarketCap = MarketUCImpl();
-    
+
     coinMarketCap.scrollController.addListener(() {
       coinMarketCap.backToTop.value = coinMarketCap.scrollController.offset > 400 ? true : false;
     });
 
     coinMarketCap.getMarkets();
-
+    
     // Setup Evm Address
     SecureStorage.readData(key: DbKey.privateList).then((value) {
       Provider.of<SDKProvier>(context, listen: false).setEvmAddress = (json.decode(value!))[0]['eth_address'];
@@ -30,25 +32,25 @@ class HomeScreen extends StatelessWidget {
           color: hexaCodeToColor(AppColors.white),
           child: Column(
             children: [
-
+      
               TextButton(
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
                 }, 
                 child: const Text("To wallet screen")
               ),
-
+      
               TextButton(
                 onPressed: () async {
                   await Provider.of<SDKProvier>(context, listen: false).getSdkProvider.deleteAccount(context);
                 }, 
                 child: const Text("Delete account")
               ),
-
+      
               _menuItems(context),
-
-              _top100Tokens(coinMarketCap),
-
+      
+              _top100Tokens(context, coinMarketCap),
+      
             ],
           ),
         ),
@@ -100,7 +102,10 @@ class HomeScreen extends StatelessWidget {
                           asset: "assets/icons/exchange.png",
                           hexColor: "#219EBC",
                           action: () async {
-                            
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const SwapExchange())
+                            );
                           },
                         ),
                       ),
@@ -204,8 +209,8 @@ class HomeScreen extends StatelessWidget {
       },
     );
   }
-
-  Widget _top100Tokens(MarketUCImpl coinMarketCap) {
+  
+  Widget _topGainerTokens(BuildContext context, MarketUCImpl coinMarketCap) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 14),
       child: Column(
@@ -223,7 +228,63 @@ class HomeScreen extends StatelessWidget {
           ValueListenableBuilder(
             valueListenable: coinMarketCap.lstMarket, 
             builder: (context, value, wg){
-              if (value.isEmpty) return const CircularProgressIndicator();
+              if (value.isEmpty) return const ShimmerMarketWidget();
+              return _listMarketView(value);
+            }
+          )
+
+        ],
+      ),
+    ); 
+  }
+
+ Widget _topLoserTokens(BuildContext context, MarketUCImpl coinMarketCap) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 14),
+      child: Column(
+        children: [
+
+          const Align(
+            alignment: Alignment.topLeft,
+            child: MyTextConstant(
+              text: "Top Coins 100",
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+
+          ValueListenableBuilder(
+            valueListenable: coinMarketCap.lstMarket, 
+            builder: (context, value, wg){
+              if (value.isEmpty) return const ShimmerMarketWidget();
+              return _listMarketView(value);
+            }
+          )
+
+        ],
+      ),
+    ); 
+  }
+
+  Widget _top100Tokens(BuildContext context, MarketUCImpl coinMarketCap) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 14),
+      child: Column(
+        children: [
+
+          const Align(
+            alignment: Alignment.topLeft,
+            child: MyTextConstant(
+              text: "Top Coins 100",
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+
+          ValueListenableBuilder(
+            valueListenable: coinMarketCap.lstMarket, 
+            builder: (context, value, wg){
+              if (value.isEmpty) return const ShimmerMarketWidget();
               return _listMarketView(value);
             }
           )

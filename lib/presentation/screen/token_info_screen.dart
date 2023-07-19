@@ -112,6 +112,8 @@ class _TokenInfoState extends State<TokenInfo> {
 
         rowTokenInfo(title: "Total Supply", price: double.parse("${widget.market.totalSupply}".replaceAll(",", "")).toStringAsFixed(2)),
 
+        rowTokenInfo(title: "Max Supply", price: double.parse("${widget.market.maxSupply}".replaceAll(",", "")).toStringAsFixed(2)),
+
       ],
     );
   }

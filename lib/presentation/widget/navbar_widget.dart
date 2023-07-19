@@ -21,7 +21,7 @@ class MainScreen extends StatelessWidget {
         resizeToAvoidBottomInset: true,
         stateManagement: true,
         hideNavigationBarWhenKeyboardShows: true,
-        popAllScreensOnTapOfSelectedTab: false,
+        popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
         itemAnimationProperties: const ItemAnimationProperties(
           duration: Duration(milliseconds: 200),
@@ -47,7 +47,7 @@ class MainScreen extends StatelessWidget {
     return [
       const HomeScreen(),
       const WalletScreen(),
-      const HomeScreen(),
+      const SettingScreen(),
       // const WalletScreen(),
     ];
   }
