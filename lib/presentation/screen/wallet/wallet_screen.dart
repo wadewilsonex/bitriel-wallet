@@ -1,5 +1,7 @@
 import 'package:bitriel_wallet/domain/model/assets_m.dart';
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/screen/wallet/payment_screen.dart';
+import 'package:bitriel_wallet/presentation/screen/wallet/receive_screen.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 class WalletScreen extends StatelessWidget {
@@ -142,7 +144,10 @@ Widget _cardPortfolio(BuildContext context) {
                 fontWeight: FontWeight.w600,
                 buttonColor: AppColors.green,
                 action: () async {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TokenPayment())
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +174,10 @@ Widget _cardPortfolio(BuildContext context) {
                 fontWeight: FontWeight.w600,
                 buttonColor: "161414",
                 action: () async {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ReceiveWallet())
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

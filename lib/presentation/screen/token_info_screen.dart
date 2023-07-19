@@ -127,7 +127,7 @@ class _TokenInfoState extends State<TokenInfo> {
             edgeMargin: const EdgeInsets.all(10),
             textButton: "Buy",
             fontWeight: FontWeight.w600,
-            buttonColor: AppColors.green,
+            buttonColor: "#00A478",
             opacity: 0.9,
             action: () async {
 
@@ -141,7 +141,7 @@ class _TokenInfoState extends State<TokenInfo> {
             edgeMargin: const EdgeInsets.all(10),
             textButton: "Sell",
             fontWeight: FontWeight.w600,
-            buttonColor: AppColors.red,
+            buttonColor: "#ED2727",
             opacity: 0.9,
             action: () async {
 
