@@ -21,7 +21,8 @@ class SdkRepoImpl implements SDKRepository {
     _params.endpoint = network;
     _params.ss58 = ss58;
     nodes.add(_params);
-    print("setNetworkParam $nodes");
+
+    print("_params.endpoint ${_params.endpoint}");
   }
 
   /// 2.
@@ -48,4 +49,9 @@ class SdkRepoImpl implements SDKRepository {
 
     });
   }
+
+  Future<void> disconnectNode() async {
+    await _bitrielSDK.walletSDK.webView!.evalJavascript("settings.disconnect()");
+  }
+  
 }

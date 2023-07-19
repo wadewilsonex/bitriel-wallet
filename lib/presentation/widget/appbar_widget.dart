@@ -1,3 +1,4 @@
+import 'package:bitriel_wallet/domain/model/network_m.dart';
 import 'package:bitriel_wallet/index.dart';
 
 PreferredSizeWidget appBar(final BuildContext context, {required final String title}) {
@@ -204,8 +205,21 @@ void bottomSheetCgNetwork(BuildContext context) async{
                       return ListView.builder(
                         itemCount: pro.getLstSelNetwork.length,
                         shrinkWrap: true,
-                        itemBuilder: (contex, index){
-                          return  _networkItem(context, pro.getLstSelNetwork[index], index, setState);
+                        itemBuilder: (contex, nwIndex){
+
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(pro.getLstSelNetwork[nwIndex].network!.index == 0 ? 'Mainnet' : 'Testnet'),
+                              ListView.builder(
+                              itemCount: pro.getLstSelNetwork[nwIndex].lstNetwork!.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, epIndex){
+                                return _networkItem(context, pro.getLstSelNetwork[nwIndex].lstNetwork![epIndex], nwIndex, epIndex, setState);
+                              },
+                              ),
+                            ],
+                          );
                         },
                       );
                     },
@@ -232,12 +246,13 @@ void bottomSheetCgNetwork(BuildContext context) async{
   );
 }
 
-Widget _networkItem(BuildContext context, String nw, int index, Function stateFunc) {
+Widget _networkItem(BuildContext context, String nw, int nwIndex, int epIndex, Function stateFunc) {
   
+  final sdk = Provider.of<SDKProvier>(context, listen: false);
   return InkWell(
     onTap: () async {
 
-      await Provider.of<SDKProvier>(context, listen: false).setNetworkParamState(nw, index, stateFunc);//getSdkImpl.setNetworkParam(nw, index);
+      // await sdk.setNetworkParamState(sdk.getLstSelNetwork[nwIndex], nwIndex, epIndex, stateFunc);//getSdkImpl.setNetworkParam(nw, index);
       
     },
     child: Column(
@@ -265,7 +280,7 @@ Widget _networkItem(BuildContext context, String nw, int index, Function stateFu
                   children: [
   
                     MyTextConstant(
-                      text: "Selendra via Endpoint ${index+1}",
+                      text: "Selendra via Endpoint ${epIndex+1}",
                       color2: hexaCodeToColor(AppColors.midNightBlue),
                       textAlign: TextAlign.start,
                       fontWeight: FontWeight.w700,
@@ -282,7 +297,10 @@ Widget _networkItem(BuildContext context, String nw, int index, Function stateFu
                 ),
               ),
 
-              if (Provider.of<SDKProvier>(context, listen: false).getSdkImpl.connectedIndex == index)
+              if (
+                sdk.getSdkImpl.connectedIndex == epIndex && 
+                sdk.getSdkImpl.networkIndex == nwIndex
+              )
               const Icon(Icons.check_box)
             ]
           ),

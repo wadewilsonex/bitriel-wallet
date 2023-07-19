@@ -17,12 +17,10 @@ class Web3RepoImpl implements Web3Repository {
   }
 
   Future<BigInt> callWeb3ContractFunc(Web3Client client, DeployedContract contract, ContractFunction function, { List? params }) async {
-    print("callWeb3ContractFunc");
-    print("callWeb3ContractFunc ${params![0]}");
     return (await client.call(
       contract: contract, 
       function: function, 
-      params: params
+      params: params!
     )).first as BigInt;
   }
 }

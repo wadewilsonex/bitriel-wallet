@@ -37,6 +37,19 @@ class HomeScreen extends StatelessWidget {
 
               TextButton(
                 onPressed: () async {
+                  await Provider.of<SDKProvier>(context, listen: false).disconnect();
+                }, 
+                child: const Text("Disconnect")
+              ),
+              TextButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
+                }, 
+                child: const Text("To wallet screen")
+              ),
+
+              TextButton(
+                onPressed: () async {
                   await Provider.of<SDKProvier>(context, listen: false).getSdkImpl.deleteAccount(context);
                 }, 
                 child: const Text("Delete account")

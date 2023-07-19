@@ -12,9 +12,9 @@ class HttpRequestImpl extends HttpRequestRepo {
   }
 
   @override
-  Future<List<String>> fetchSelendraEndpoint() async {
+  Future<Map<String, List<dynamic>>> fetchSelendraEndpoint() async {
     return await GetRequest.getSelendraEndpoint().then((value) {
-      return List<String>.from( (json.decode(value.body))['mainnet'] );
+      return Map<String, List<dynamic>>.from(json.decode(value.body));
     });
   }
 }

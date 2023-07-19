@@ -346,8 +346,8 @@ class AppUtils {
   /// Param 1: isSuccess
   /// Param 2: just pass modalBottomState into.
   static Timer timer(Function func, Function terminator, Function modalBottomSetState) {
-    
     return Timer.periodic(const Duration(seconds: 1), (timer) async {
+    print("timer ${timer.tick}");
       
       // If Time Reached 13 Seconds Means Terminate Process By Call terminator placed inside Sdk Provider
       if (timer.tick == 13) {
@@ -361,6 +361,7 @@ class AppUtils {
       if (timer.tick == 1){
         await func();
         timer.cancel();
+        
         terminator(true, modalBottomSetState);
         
       }

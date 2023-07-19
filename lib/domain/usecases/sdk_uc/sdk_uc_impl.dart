@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bitriel_wallet/domain/model/network_m.dart';
 import 'package:bitriel_wallet/index.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bip39/bip39.dart' as bip39;
@@ -21,9 +22,12 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   Web3Client get getBscClient => _web3repoImpl.getBscClient;
   Web3Client get getEthClient => _web3repoImpl.getEthClient;
 
-  List<String> lstSelendraNetwork = [];
+  // Map<String, List<String>> lstSelendraNetwork = {};
 
+  int networkIndex = 0;
   int connectedIndex = 0;
+
+  List<NetworkModel> lstSelendraNetwork = [];
   
   final SecureStorageImpl _storageImpl = SecureStorageImpl();
 
@@ -49,20 +53,27 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
       lstSelendraNetwork.clear();
 
-      /// Check Selendra Network
+      /// 1.1 Check Selendra Network
       await _storageImpl.isKeyAvailable(DbKey.sldNetwork).then((value) async {
 
         if (value == true){
-          lstSelendraNetwork = List<String>.from( json.decode( (await _storageImpl.readSecure(DbKey.sldNetwork))! ));
+
+          lstSelendraNetwork = NetworkModel().fromJson( Map<String, List<dynamic>>.from(json.decode( (await _storageImpl.readSecure(DbKey.sldNetwork))!) ));
         
         } else {
-          lstSelendraNetwork = await HttpRequestImpl().fetchSelendraEndpoint();
 
-          await _storageImpl.writeSecure(DbKey.sldNetwork, json.encode(lstSelendraNetwork));
+          await HttpRequestImpl().fetchSelendraEndpoint().then((value) async {
+            
+            lstSelendraNetwork = NetworkModel().fromJson( value );
+
+            await _storageImpl.writeSecure(DbKey.sldNetwork, json.encode(value));
+
+          });
+
         }
       });
 
-      /// Check Connected Network
+      /// 1.2 Check Connected Network
       await _storageImpl.readSecure(DbKey.connectedIndex)!.then((value) {
         if (value.isNotEmpty){
           connectedIndex = json.decode(value);
@@ -80,7 +91,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   @override
   Future<void> initBitrielSDK({required String jsFilePath}) async {
 
-    await setNetworkParam(lstSelendraNetwork[connectedIndex], connectedIndex);
+    await setNetworkParam(lstSelendraNetwork[networkIndex].lstNetwork![connectedIndex], networkIndex, connectedIndex);
 
     await rootBundle.loadString(jsFilePath).then((js) async {
 
@@ -95,16 +106,20 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
   /// Change Network Perform From Sdk Provider
   @override
-  Future<void> setNetworkParam(String network, int nwIndex, {Function? connectionTerminator, Function? modalBottomSetState}) async {
+  Future<void> setNetworkParam(String network, int nwIndex, int epIndex, {Function? connectionTerminator, Function? modalBottomSetState}) async {
 
+    print("setNetworkParam");
     // Set Network Param with New Network Selected
-    sdkRepoImpl.setNetworkParam(network: lstSelendraNetwork[nwIndex]);
-
+    sdkRepoImpl.setNetworkParam(network: lstSelendraNetwork[nwIndex].lstNetwork![epIndex]);
+    
     // Check If Current Index Selected
-    if (connectedIndex != nwIndex){
+    if ( (connectedIndex != epIndex && networkIndex == nwIndex) || connectedIndex != nwIndex ){
 
       /// Call Timer To Handle Connection
       AppUtils.timer( () async { await sdkRepoImpl.connectNode(jsCode: jsFile!); }, connectionTerminator!, modalBottomSetState!);
+
+      // if (networkIndex != nwIndex ) networkIndex = nwIndex;
+
     }
 
   }

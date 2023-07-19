@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bitriel_wallet/domain/model/network_m.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class SDKProvier with ChangeNotifier {
@@ -28,7 +29,7 @@ class SDKProvier with ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> get getLstSelNetwork => _sdkImpl.lstSelendraNetwork;
+  List<NetworkModel> get getLstSelNetwork => _sdkImpl.lstSelendraNetwork;
 
   /// 1.
   void connectNetwork() async {
@@ -47,15 +48,15 @@ class SDKProvier with ChangeNotifier {
   }
 
   /// Change Network
-  Future<void> setNetworkParamState(String network, int nwIndex, Function modalBottomSetState) async {
-
-    if (_sdkImpl.connectedIndex != nwIndex){
+  Future<void> setNetworkParamState(NetworkModel nwModel, int nwIndex, int epIndex, Function modalBottomSetState) async {
+    print("State setNetworkParamState");
+    if ( (_sdkImpl.networkIndex == nwIndex && _sdkImpl.connectedIndex != epIndex) || _sdkImpl.networkIndex != nwIndex ){
 
       dialogLoading(_sdkImpl.context!);
 
       isConnected = false;
 
-      await _sdkImpl.setNetworkParam(network, nwIndex, connectionTerminator: connectionTerminator, modalBottomSetState: modalBottomSetState);
+      await _sdkImpl.setNetworkParam(nwModel.network == Network.Mainnet ? "Mainnet" : "Testnet", nwIndex, epIndex, connectionTerminator: connectionTerminator, modalBottomSetState: modalBottomSetState);
     }
   }
 
@@ -72,9 +73,12 @@ class SDKProvier with ChangeNotifier {
     Navigator.pop(_sdkImpl.context!);
     
     if (isSuccess == true) {
+      print("Never success isSuccess");
       changeModalBottomState(() {});
 
+      _sdkImpl.networkIndex = _sdkImpl.networkIndex == 0 ? 1 : 0;
       _sdkImpl.connectedIndex = _sdkImpl.connectedIndex == 0 ? 1 : 0;
+      
 
       isConnected = true;
 
@@ -90,14 +94,21 @@ class SDKProvier with ChangeNotifier {
     // Connection Failed
     else {
 
+      print("connect failed");
+
+      print(_sdkImpl.networkIndex);
+
       // In this connect failed:
       // Reset Set Param To previous Network sdk_uc_impl.dart file line 83
-      _sdkImpl.setNetworkParam(_sdkImpl.lstSelendraNetwork[_sdkImpl.connectedIndex], _sdkImpl.connectedIndex);
+      _sdkImpl.setNetworkParam(_sdkImpl.lstSelendraNetwork[_sdkImpl.networkIndex].lstNetwork![_sdkImpl.connectedIndex], _sdkImpl.networkIndex, _sdkImpl.connectedIndex);
 
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(_sdkImpl.context!).showSnackBar(
         const SnackBar(content: Text("Connect RP1 failed"))
       );
+
+      await _sdkImpl.sdkRepoImpl.connectNode(jsCode: _sdkImpl.jsFile!);
+      
     }
 
     connectFailed = isSuccess;
@@ -117,5 +128,9 @@ class SDKProvier with ChangeNotifier {
 
     setEvmAddress = getUnverifyAcc[0].ethAddress!;
     setBtcAddress = getUnverifyAcc[0].btcAddress!;
+  }
+
+  Future<void> disconnect() async {
+    await _sdkImpl.sdkRepoImpl.disconnectNode();
   }
 }
