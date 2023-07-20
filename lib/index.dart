@@ -16,6 +16,8 @@ export 'package:ua_client_hints/ua_client_hints.dart';
 export 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 export 'package:random_avatar/random_avatar.dart';
 export 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
+export 'package:quickalert/quickalert.dart';
+
 // ignore: depend_on_referenced_packages
 export 'package:permission_handler/permission_handler.dart';
 // ignore: depend_on_referenced_packages

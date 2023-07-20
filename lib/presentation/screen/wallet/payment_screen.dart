@@ -29,12 +29,18 @@ class TokenPayment extends StatelessWidget {
                 Expanded(
                   child: MyButton(
                     edgeMargin: const EdgeInsets.all(10),
-                    textButton: "Review Payment",
+                    textButton: "Send",
                     fontWeight: FontWeight.w600,
                     buttonColor: AppColors.primary,
                     opacity: 0.9,
                     action: () async {
-          
+                      
+                      QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.success,
+                        text: 'Transaction Completed Successfully!',
+                      );
+
                     },
                   ),
                 ),

@@ -32,6 +32,8 @@ class WalletScreen extends StatelessWidget {
             _searchBar(searchController),
 
             _listItemAsset(),
+
+            _addMoreAsset(context),
           ],
         ),
       ),
@@ -299,6 +301,42 @@ Widget _searchBar(TextEditingController searchController) {
       ),
     );
   }
+
+Widget _addMoreAsset(BuildContext context){
+  return GestureDetector(
+    child: Container(
+      width: MediaQuery.of(context).size.width,
+      color: Colors.transparent,
+      padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          
+          MyTextConstant(
+            text: "Don't see your token?",
+            color2: Colors.grey.shade400,
+          ),
+      
+          TextButton(
+            onPressed: (){
+              // Navigator.push(
+              //   context, 
+              //   MaterialPageRoute(builder: (context) => const AddAsset())
+              // );
+            },
+            child: MyTextConstant(
+              text: "Import asset",
+              color2: hexaCodeToColor(AppColors.primary),
+              fontWeight: FontWeight.bold,
+              // left: 5.sp
+            )
+          )
+        ],
+      ),
+    ),
+  );
+}
 
 //  Widget _listAsset(BuildContext context, IndexPath index, Map<String, List> elements) {
 
