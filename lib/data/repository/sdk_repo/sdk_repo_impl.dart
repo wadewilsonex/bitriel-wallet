@@ -49,9 +49,18 @@ class SdkRepoImpl implements SDKRepository {
 
     });
   }
+  
 
   Future<void> disconnectNode() async {
     await _bitrielSDK.walletSDK.webView!.evalJavascript("settings.disconnect()");
+  }
+
+  @override
+  /// Web3 
+  /// 
+  Future<bool> validateWeb3Address(String addr) async {
+
+    return await _bitrielSDK.walletSDK.webView!.evalJavascript('wallets.validateEtherAddr("$addr")');
   }
   
 }

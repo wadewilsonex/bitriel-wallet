@@ -6,5 +6,7 @@ abstract class SDKRepository {
   /// 3.
   Future<void> connectNode({required String jsCode});
   
+  /// Web3
+  Future<bool> validateWeb3Address(String addr);
 
 }

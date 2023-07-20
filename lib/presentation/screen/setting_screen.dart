@@ -1,75 +1,116 @@
 import 'package:bitriel_wallet/index.dart';
 
 class SettingScreen extends StatelessWidget {
+  const SettingScreen({Key? key}) : super(key: key);
 
-  const SettingScreen({super.key});
-  
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      body: Column(
-        children: [
-
-          InkWell(
-            onTap: (){
-
-              Navigator.push(
-                context, 
-                MaterialPageRoute(
-                  settings: const RouteSettings(name: "/multipleWallets"),
-                  builder: (context) => const MultiAccountScreen()
-                )
-              );
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05),
-                    shape: BoxShape.circle
-                  ),
-                  child: const SizedBox(height: 30, width: 30, child: Icon(Icons.account_circle_outlined)),
-                ),
-          
-                const SizedBox(width: 10,),
-          
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MyTextConstant(
-                        text: "Account",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                      ),
-                    ],
-                  ),
-                ),
-                
-                // Icon(settingsWalletSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 30,),
-          
-              ],
-            ),
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.white.withOpacity(.94),
+        appBar: AppBar(
+          title: const Text(
+            "Settings",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
-
-        ]
-      )
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: ListView(
+            children: [
+              SettingsGroup(
+                settingsGroupTitle: "General",
+                items: [
+                  // SettingsItem(
+                  //   onTap: () {},
+                  //   icons: CupertinoIcons.pencil_outline,
+                  //   iconStyle: IconStyle(),
+                  //   title: 'Appearance',
+                  //   subtitle: "Make Ziar'App yours",
+                  // ),
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Icons.fingerprint,
+                    iconStyle: IconStyle(
+                      iconsColor: Colors.white,
+                      withBackground: true,
+                      backgroundColor: hexaCodeToColor(AppColors.primary),
+                    ),
+                    title: 'Privacy',
+                    subtitle: "Manage Your Privacy Settings",
+                  ),
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Icons.dark_mode_rounded,
+                    iconStyle: IconStyle(
+                      iconsColor: Colors.white,
+                      withBackground: true,
+                      backgroundColor: Colors.green,
+                    ),
+                    title: 'Dark mode',
+                    subtitle: "Automatic",
+                    trailing: Switch.adaptive(
+                      value: false,
+                      onChanged: (value) {},
+                    ),
+                  ),
+                ],
+              ),
+              SettingsGroup(
+                items: [
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Icons.info_rounded,
+                    iconStyle: IconStyle(
+                      backgroundColor: Colors.purple,
+                    ),
+                    title: 'About',
+                    subtitle: "Learn more about Bitriel",
+                  ),
+                ],
+              ),
+              // You can add a settings title
+              SettingsGroup(
+                settingsGroupTitle: "Account",
+                items: [
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Iconsax.user,
+                    title: "Manage Accounts",
+                    iconStyle: IconStyle(
+                      backgroundColor: hexaCodeToColor(AppColors.defiMenuItem),
+                    ),
+                  ),
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Iconsax.cloud_change,
+                    title: "Backup Account",
+                    iconStyle: IconStyle(
+                      backgroundColor: hexaCodeToColor(AppColors.midNightBlue),
+                    ),
+                  ),
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Iconsax.trash,
+                    title: "Delete Account",
+                    subtitle: "Delete all your wallets",
+                    iconStyle: IconStyle(
+                      backgroundColor: Colors.red,
+                    ),
+                    titleStyle: const TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
-
-}
-
-class CardSection {
-  final String? title;
-  final String? subtittle;
-  final String? trailingTitle;
-  final Widget? leadingIcon;
-  final IconData? trailingIcon;
-  final Function? action;
-
-  CardSection({this.title, this.subtittle, this.trailingTitle, this.leadingIcon, this.trailingIcon, this.action});
 }

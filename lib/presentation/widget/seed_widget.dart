@@ -59,7 +59,7 @@ Future<void> seedVerifyLaterDialog(BuildContext context, Function? submit) async
 
                 const SizedBox(height: 10,),
 
-                MyGradientButton(
+                MyButton(
                   textButton: "Yes, Verify Later",
                   buttonColor: AppColors.white,
                   opacity: 0,
@@ -71,7 +71,7 @@ Future<void> seedVerifyLaterDialog(BuildContext context, Function? submit) async
           
                 const SizedBox(height: 10,),
           
-                MyGradientButton(
+                MyButton(
                   textButton: "No, Verify Now",
                   action: (){
                     Navigator.pop(context);

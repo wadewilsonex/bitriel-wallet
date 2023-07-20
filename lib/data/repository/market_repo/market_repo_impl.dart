@@ -10,7 +10,7 @@ class MarketRepoImpl implements MarketRepository {
     await GetRequest.getMarkets().then((value) {
       if (value.statusCode == 200) {
         var json = jsonDecode(value.body);
-        for (var jsonMarket in json['data']['cryptoCurrencyList']){
+        for (var jsonMarket in json['data']){
           var market = Market.fromJson(jsonMarket);
           markets.add(market);
         }

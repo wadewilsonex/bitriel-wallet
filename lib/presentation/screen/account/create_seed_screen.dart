@@ -43,7 +43,7 @@ class CreateWalletScreen extends StatelessWidget {
               _optionButton(context, createWalletImpl),
 
               Expanded(child: Container()),
-              MyGradientButton(
+              MyButton(
                 textButton: "Next",
                 action: () async {
                   Navigator.push(

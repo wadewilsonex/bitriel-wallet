@@ -1,4 +1,3 @@
-import 'package:bitriel_wallet/domain/model/network_m.dart';
 import 'package:bitriel_wallet/index.dart';
 
 PreferredSizeWidget appBar(final BuildContext context, {required final String title}) {
@@ -44,7 +43,7 @@ PreferredSizeWidget defaultAppBar({
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(50)),
-          color: hexaCodeToColor("#8ECAE6").withOpacity(0.20)
+          color: hexaCodeToColor(AppColors.cardColor)
         ),
       ),
     ),
@@ -70,7 +69,8 @@ PreferredSizeWidget defaultAppBar({
                 width: 40,
                 child: Consumer<SDKProvier>(
                 builder: (context, pro, wg) {
-                    return RandomAvatar(pro.getSdkImpl.getKeyring.current.icon!);
+                    if (pro.isConnected == false) return const SizedBox();
+                    return RandomAvatar( pro.getSdkImpl.getKeyring.current.icon!);
                   }
                 ),
               ),
@@ -94,7 +94,7 @@ PreferredSizeWidget defaultAppBar({
                   return Container(
                     margin: const EdgeInsets.only(top: 10, bottom: 5),
                     child: MyTextConstant(
-                      text: pro.getSdkImpl.getKeyring.current.address!.replaceRange(6, pro.getSdkImpl.getKeyring.current.address!.length - 6, "......."),//"seF4221ffg.......d2213f4fsad",
+                      text: pro.isConnected == false ? "" : pro.getSdkImpl.getKeyring.current.address!.replaceRange(6, pro.getSdkImpl.getKeyring.current.address!.length - 6, "......."),//"seF4221ffg.......d2213f4fsad",
                       fontWeight: FontWeight.w600,
                       textAlign: TextAlign.center,
                       color2: hexaCodeToColor(AppColors.midNightBlue),

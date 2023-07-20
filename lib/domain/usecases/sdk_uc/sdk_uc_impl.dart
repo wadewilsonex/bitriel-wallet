@@ -22,6 +22,10 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   Web3Client get getBscClient => _web3repoImpl.getBscClient;
   Web3Client get getEthClient => _web3repoImpl.getEthClient;
 
+  DeployedContract? bscDeployedContract;
+  DeployedContract? etherDeployedContract;
+  
+
   // Map<String, List<String>> lstSelendraNetwork = {};
 
   int networkIndex = 0;
@@ -333,9 +337,13 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     return await client.getBalance(addr);
   }
   
-  Future<BigInt> callWeb3ContractFunc(Web3Client client, DeployedContract contract, ContractFunction function, { List params = const [] }) async {
+  /// e.g contract = contract.function('balanceOf')
+  Future<BigInt> callWeb3ContractFunc(Web3Client client, DeployedContract contract, String function, { List params = const [] }) async {
     try {
-      return await _web3repoImpl.callWeb3ContractFunc(client, contract, function, params: params);
+      return await _web3repoImpl.callWeb3ContractFunc(client, contract, contract.function(function), params: params).then((value) {
+        print("value $value");
+        return value;
+      });
     } catch (e) {
       print("Error callWeb3ContractFunc $e");
     }
@@ -344,5 +352,9 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
   Future<String> fetchSELAddress() async {
     return await sdkRepoImpl.querySELAddress(getSELAddress);
+  }
+
+  Future<bool> validateWeb3Address(String addr) async {
+    return await sdkRepoImpl.validateWeb3Address(addr);
   }
 }

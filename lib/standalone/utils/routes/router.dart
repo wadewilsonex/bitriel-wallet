@@ -1,5 +1,6 @@
 // import 'package:go_router/go_router.dart';
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/widget/navbar_widget.dart';
 
 enum BitrielRouter {
   defaultRoute,
@@ -14,7 +15,8 @@ enum BitrielRouter {
 class AppRouter {
   
   static final Map<String, Widget Function(BuildContext)> router = {
-    "/": (context) => const SplashScreen(),
+    // "/": (context) => const SwapExchange(),
+    "/": (context) => const MainScreen(),
     // "/": (context) => const WalletScreen(),
     "/${BitrielRouter.welcomeRoute}": (context) => const Welcome(),
     "/${BitrielRouter.multiAccRoute}": (context) => const MultiAccountScreen(),

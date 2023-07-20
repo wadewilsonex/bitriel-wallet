@@ -1,14 +1,14 @@
 import 'package:bitriel_wallet/index.dart';
 
 class HomeScreen extends StatelessWidget {
-  
+
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
 
     final coinMarketCap = MarketUCImpl();
-    
+
     coinMarketCap.scrollController.addListener(() {
       coinMarketCap.backToTop.value = coinMarketCap.scrollController.offset > 400 ? true : false;
     });
@@ -27,14 +27,14 @@ class HomeScreen extends StatelessWidget {
           color: hexaCodeToColor(AppColors.white),
           child: Column(
             children: [
-
+      
               TextButton(
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
                 }, 
                 child: const Text("To wallet screen")
               ),
-
+      
               TextButton(
                 onPressed: () async {
                   await Provider.of<SDKProvier>(context, listen: false).disconnect();
@@ -54,11 +54,11 @@ class HomeScreen extends StatelessWidget {
                 }, 
                 child: const Text("Delete account")
               ),
-
+      
               _menuItems(context),
-
-              _top100Tokens(coinMarketCap),
-
+      
+              _top100Tokens(context, coinMarketCap),
+      
             ],
           ),
         ),
@@ -86,105 +86,104 @@ class HomeScreen extends StatelessWidget {
   : const SizedBox();
 
   Widget _menuItems(BuildContext context) {
-    return Consumer<AssetProvider>(
-      builder: (context, pro, wg) {
-        return Container(
-          // padding: const EdgeInsets.all(14),
-          margin: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: hexaCodeToColor("#8ECAE6").withOpacity(0.20),
-            borderRadius: const BorderRadius.all(Radius.circular(20))
-          ),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(top: 14, right: 14, left: 14, bottom: 14 / 2 ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: DashboardMenuItem(
-                              title: "Swap",
-                              asset: "${pro.dirPath}/icons/swap-coin.png",
-                              hexColor: "#219EBC",
-                              action: () async {
-                                
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: DashboardMenuItem(
-                              title: "Staking",
-                              asset: "${pro.dirPath}/icons/stake-coin.png",
-                              hexColor: "#FF9F00",
-                              action: () {
-                                // underContstuctionAnimationDailog(context: context);
-                              },
-                            ),
-                          ),
-                        ],
+    return Container(
+      // padding: const EdgeInsets.all(14),
+      margin: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: hexaCodeToColor(AppColors.cardColor),
+        borderRadius: const BorderRadius.all(Radius.circular(20))
+      ),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(top: 14, right: 14, left: 14, bottom: 14 / 2 ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: DashboardMenuItem(
+                          title: "Swap",
+                          asset: "assets/icons/exchange.png",
+                          hexColor: "#219EBC",
+                          action: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const SwapExchange())
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: DashboardMenuItem(
-                              title: "Buy",
-                              asset: "${pro.dirPath}/icons/buy-coin.png",
-                              hexColor: "#FF0071",
-                              action: () async {
-                                // underContstuctionAnimationDailog(context: context);
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: DashboardMenuItem(
-                              title: "Bitriel NFTs",
-                              asset: "${pro.dirPath}/icons/nft_polygon.png",
-                              hexColor: "#6C15ED",
-                              action: () {
-                                
-                              },
-                            ),
-                          ),
-                        ],
+                      const SizedBox(
+                        width: 10,
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: DashboardMenuItem(
+                          title: "Staking",
+                          asset: "assets/icons/stake.png",
+                          hexColor: "#FF9F00",
+                          action: () {
+                            // underContstuctionAnimationDailog(context: context);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(right: 14, left: 14, bottom: 14 / 2 ),
-                child: Divider(
-                  color: hexaCodeToColor("#78839C").withOpacity(0.25),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: DashboardMenuItem(
+                          title: "Buy",
+                          asset: "assets/icons/wallet.png",
+                          hexColor: "#FF0071",
+                          action: () async {
+                            // underContstuctionAnimationDailog(context: context);
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: DashboardMenuItem(
+                          title: "Bitriel NFTs",
+                          asset: "assets/icons/digital.png",
+                          hexColor: "#6C15ED",
+                          action: () {
+                            
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-
-              SizedBox(
-                height: 30,
-                child: _listScrollMenuItem()
-              ),
-
-              const SizedBox(height: 14,),
-
-            ],
+              ],
+            ),
           ),
-        );
-      }
+
+          Padding(
+            padding: const EdgeInsets.only(right: 14, left: 14, bottom: 14 / 2 ),
+            child: Divider(
+              color: hexaCodeToColor("#78839C").withOpacity(0.25),
+            ),
+          ),
+
+          SizedBox(
+            height: 30,
+            child: _listScrollMenuItem()
+          ),
+
+          const SizedBox(height: 14,),
+
+        ],
+      ),
     );
   }
 
@@ -218,8 +217,8 @@ class HomeScreen extends StatelessWidget {
       },
     );
   }
-
-  Widget _top100Tokens(MarketUCImpl coinMarketCap) {
+  
+  Widget _topGainerTokens(BuildContext context, MarketUCImpl coinMarketCap) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 14),
       child: Column(
@@ -237,7 +236,63 @@ class HomeScreen extends StatelessWidget {
           ValueListenableBuilder(
             valueListenable: coinMarketCap.lstMarket, 
             builder: (context, value, wg){
-              if (value.isEmpty) return const CircularProgressIndicator();
+              if (value.isEmpty) return const ShimmerMarketWidget();
+              return _listMarketView(value);
+            }
+          )
+
+        ],
+      ),
+    ); 
+  }
+
+ Widget _topLoserTokens(BuildContext context, MarketUCImpl coinMarketCap) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 14),
+      child: Column(
+        children: [
+
+          const Align(
+            alignment: Alignment.topLeft,
+            child: MyTextConstant(
+              text: "Top Coins 100",
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+
+          ValueListenableBuilder(
+            valueListenable: coinMarketCap.lstMarket, 
+            builder: (context, value, wg){
+              if (value.isEmpty) return const ShimmerMarketWidget();
+              return _listMarketView(value);
+            }
+          )
+
+        ],
+      ),
+    ); 
+  }
+
+  Widget _top100Tokens(BuildContext context, MarketUCImpl coinMarketCap) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 14),
+      child: Column(
+        children: [
+
+          const Align(
+            alignment: Alignment.topLeft,
+            child: MyTextConstant(
+              text: "Top Coins 100",
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+
+          ValueListenableBuilder(
+            valueListenable: coinMarketCap.lstMarket, 
+            builder: (context, value, wg){
+              if (value.isEmpty) return const ShimmerMarketWidget();
               return _listMarketView(value);
             }
           )

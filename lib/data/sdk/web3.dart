@@ -11,6 +11,7 @@ class Web3Blockchain {
     bscClient = Web3Client("https://bsc-dataseed.binance.org/", client!, socketConnector: (){
       return IOWebSocketChannel.connect("wss://bsc-ws-node.nariox.org:443").cast<String>();
     });
+    
   }
 
   Future<void> initEthClient() async {

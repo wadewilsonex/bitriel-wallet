@@ -18,7 +18,8 @@ class AppUsecasesImpl implements AppUsecases {
 
         Navigator.pushAndRemoveUntil(
           _context!, 
-          MaterialPageRoute(builder: (context) => const HomeScreen()), 
+          // MaterialPageRoute(builder: (context) => const HomeScreen()), 
+          MaterialPageRoute(builder: (context) => const AddAsset()), 
           (route) => false
         );
       });

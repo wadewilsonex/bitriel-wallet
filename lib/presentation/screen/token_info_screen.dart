@@ -112,6 +112,8 @@ class _TokenInfoState extends State<TokenInfo> {
 
         rowTokenInfo(title: "Total Supply", price: double.parse("${widget.market.totalSupply}".replaceAll(",", "")).toStringAsFixed(2)),
 
+        rowTokenInfo(title: "Max Supply", price: double.parse("${widget.market.maxSupply}".replaceAll(",", "")).toStringAsFixed(2)),
+
       ],
     );
   }
@@ -121,7 +123,7 @@ class _TokenInfoState extends State<TokenInfo> {
       children: [
 
         Expanded(
-          child: MyGradientButton(
+          child: MyButton(
             edgeMargin: const EdgeInsets.all(10),
             textButton: "Buy",
             fontWeight: FontWeight.w600,
@@ -135,7 +137,7 @@ class _TokenInfoState extends State<TokenInfo> {
         ),
     
         Expanded(
-          child: MyGradientButton(
+          child: MyButton(
             edgeMargin: const EdgeInsets.all(10),
             textButton: "Sell",
             fontWeight: FontWeight.w600,

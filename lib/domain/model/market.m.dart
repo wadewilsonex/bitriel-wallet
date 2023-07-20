@@ -1,7 +1,6 @@
 class Market {
   final String name;
   final double price;
-  final String exchange;
   final String logo;
   final String symbol;
   final String fullName;
@@ -9,11 +8,11 @@ class Market {
   final dynamic volume24h;
   final dynamic circulatingSupply;
   final dynamic totalSupply;
+  final dynamic maxSupply;
 
   Market(
     this.name,
     this.price,
-    this.exchange,
     this.logo,
     this.symbol,
     this.fullName,
@@ -21,20 +20,21 @@ class Market {
     this.volume24h,
     this.circulatingSupply,
     this.totalSupply,
+    this.maxSupply,
   );
 
   factory Market.fromJson(Map<String,dynamic> json){
     return Market(
       json['name'],
-      json['quotes'][0]['price'],
-      json['quotes'][0]['name'],
+      json['quote']["USD"]['price'],
       "https://s2.coinmarketcap.com/static/img/coins/64x64/${json['id']}.png",
       json['symbol'],
       "${json['name']} - ${json['symbol']}",
-      json['quotes'][0]['marketCap'],
-      json['quotes'][0]['volume24h'],
-      json['circulatingSupply'],
-      json['totalSupply'],
+      json['quote']["USD"]['market_cap'],
+      json['quote']["USD"]['volume_24h'],
+      json['circulating_supply'],
+      json['total_supply'],
+      json['max_supply'],
     );
   }
   Map<String, dynamic> toMap() {

@@ -6,6 +6,7 @@ class WalletUcImpl implements WalletUsecases{
 
   BitrielSDKImpl? _bitrielSDKImpl;
   BuildContext? _context;
+  
 
   set setBuilder(BuildContext ctx){
 
@@ -181,13 +182,12 @@ class WalletUcImpl implements WalletUsecases{
     //   _bitrielSDKImpl = Provider.of<SDKProvier>(_context!, listen: false).getSdkProvider;
     // }
 
-    DeployedContract contract = await _contractfromAssets(abiPath, contractAddr);
-
-    print("_bitrielSDKImpl!.evmAddress! ${_bitrielSDKImpl!.evmAddress!}");
+    _bitrielSDKImpl!.bscDeployedContract ??= await _contractfromAssets(abiPath, contractAddr);
 
     // Get Web3 Balance
-    return await _bitrielSDKImpl!.callWeb3ContractFunc(client, contract, contract.function('balanceOf'), params: [ EthereumAddress.fromHex(_bitrielSDKImpl!.evmAddress!) ]);
+    return await _bitrielSDKImpl!.callWeb3ContractFunc(client, _bitrielSDKImpl!.bscDeployedContract!, 'balanceOf', params: [ EthereumAddress.fromHex(_bitrielSDKImpl!.evmAddress!) ]);
     // await SDKProvier
+
   }
 
   Future<DeployedContract> _contractfromAssets(String abiPath, String contractAddr, {String? contractName}) async {
