@@ -7,5 +7,6 @@ abstract class SecureStorageUsecase {
   Future<void> clearByKeySecure(String key);
 
   Future<void> clearAllSecure();
-  
+
+  Future<bool> isKeyAvailable(String key);
 }

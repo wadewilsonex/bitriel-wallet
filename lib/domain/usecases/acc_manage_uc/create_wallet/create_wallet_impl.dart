@@ -192,7 +192,7 @@ class CreateWalletImpl implements CreateWalletUsecase {
 
   @override
   Future<void> generateSeed() async {
-    seed.value = await _sdkProvier!.getSdkProvider.generateSeed();
+    seed.value = await _sdkProvier!.getSdkImpl.generateSeed();
   }
 
   @override

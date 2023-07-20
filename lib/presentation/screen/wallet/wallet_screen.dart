@@ -1,4 +1,3 @@
-import 'package:bitriel_wallet/domain/model/assets_m.dart';
 import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/screen/wallet/payment_screen.dart';
 import 'package:bitriel_wallet/presentation/screen/wallet/receive_screen.dart';
@@ -11,7 +10,6 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
     TextEditingController searchController = TextEditingController();
 
     if (context.mounted){
@@ -20,6 +18,7 @@ class WalletScreen extends StatelessWidget {
       walletPro.setBuildContext = context;
       walletPro.getAsset();
       
+      Provider.of<SDKProvier>(context, listen: false).fetchAllAccount();
     }
 
     return Scaffold(
@@ -29,7 +28,22 @@ class WalletScreen extends StatelessWidget {
           children: [
             _cardPortfolio(context),
 
-            _searchBar(searchController),
+            Row(
+              children: [
+                Expanded(child: _searchBar(searchController)),
+                IconButton(
+                  onPressed: (){
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) => const AddAsset())
+                    );
+                  }, 
+                  icon: const Icon(Icons.add)
+                ),
+
+                const SizedBox(width: 14)
+              ],
+            ),
 
             _listItemAsset(),
 
@@ -122,6 +136,7 @@ Widget _cardPortfolio(BuildContext context) {
     ),
     child: Column(
       children: [
+
         MyTextConstant(
           text: "Avialable balance",
           color2: hexaCodeToColor(AppColors.darkGrey),

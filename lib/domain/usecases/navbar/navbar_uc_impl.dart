@@ -1,4 +1,3 @@
-
 import 'package:bitriel_wallet/index.dart';
 
 class NavbarUsecaseImpl implements NavbarUsecase{

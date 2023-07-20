@@ -3,9 +3,10 @@ import 'package:bitriel_wallet/index.dart';
 abstract class BitrielSDKUseCase {
   
   /* Substrate */
-  Future<void> initBitrielSDK({required String jsFilePath, int nodeIndex = 0});
+  Future<void> initBitrielSDK({required String jsFilePath});
 
-  void dynamicNetwork() ;
+  Future<void> fetchNetwork();
+  void setNetworkParam(String network, int nwIndex, int epIndex, {Function connectionTerminator, Function modalBottomSetState});
 
   Future<bool> validateMnemonic(String seed);
   Future<List<dynamic>> importSeed(String seed, {KeyType keyType = KeyType.mnemonic, String? name = "Username", required String? pin});

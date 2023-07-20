@@ -1,6 +1,8 @@
 // This file hold Calculation And Data Convertion
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'package:bitriel_wallet/index.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -338,6 +340,36 @@ class AppUtils {
     final color = Color.fromRGBO(red, green, blue, 1);
     return color;
   }
+  
+  /// terminator function:
+  /// 
+  /// Param 1: isSuccess
+  /// Param 2: just pass modalBottomState into.
+  static Timer timer(Function func, Function terminator, Function modalBottomSetState) {
+    return Timer.periodic(const Duration(seconds: 1), (timer) async {
+    print("timer ${timer.tick}");
+      
+      // If Time Reached 13 Seconds Means Terminate Process By Call terminator placed inside Sdk Provider
+      if (timer.tick == 13) {
+        timer.cancel();
+
+        terminator(false, modalBottomSetState);
+      
+      }
+
+      // If Connect Success Perform Success Logic by Call terminator placed inside Sdk Provider
+      if (timer.tick == 1){
+        await func();
+        timer.cancel();
+        
+        terminator(true, modalBottomSetState);
+        
+      }
+
+    });
+    
+  }
+  
 }
 
 double offsetToOpacity({

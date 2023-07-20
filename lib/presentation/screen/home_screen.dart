@@ -1,6 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/screen/swap_exchange_screen.dart';
-import 'package:bitriel_wallet/presentation/widget/shimmer_market_widget.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -16,12 +14,9 @@ class HomeScreen extends StatelessWidget {
     });
 
     coinMarketCap.getMarkets();
-    
-    // Setup Evm Address
-    SecureStorage.readData(key: DbKey.privateList).then((value) {
-      Provider.of<SDKProvier>(context, listen: false).setEvmAddress = (json.decode(value!))[0]['eth_address'];
-    });
 
+    Provider.of<SDKProvier>(context, listen: false).setBuildContext = context;
+    Provider.of<SDKProvier>(context, listen: false).fetchAllAccount();
 
     return Scaffold(
       appBar: defaultAppBar(context: context),
@@ -42,7 +37,20 @@ class HomeScreen extends StatelessWidget {
       
               TextButton(
                 onPressed: () async {
-                  await Provider.of<SDKProvier>(context, listen: false).getSdkProvider.deleteAccount(context);
+                  await Provider.of<SDKProvier>(context, listen: false).disconnect();
+                }, 
+                child: const Text("Disconnect")
+              ),
+              TextButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
+                }, 
+                child: const Text("To wallet screen")
+              ),
+
+              TextButton(
+                onPressed: () async {
+                  await Provider.of<SDKProvier>(context, listen: false).getSdkImpl.deleteAccount(context);
                 }, 
                 child: const Text("Delete account")
               ),

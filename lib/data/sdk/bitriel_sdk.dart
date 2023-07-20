@@ -20,6 +20,7 @@ class BitrielSDK {
   Future<NetworkParams?> connectNode({required String jsCode, required List<NetworkParams>? nodes}) async {
     // 2.1. Init Keyring
     return await walletSDK.api.connectNode(keyring, nodes!);
+    
   }
   
 }

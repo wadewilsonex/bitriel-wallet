@@ -11,9 +11,9 @@ class MultiAccountImpl implements MultiAccountUsecases {
     sdkProvier = Provider.of<SDKProvier>(ctx, listen: true);
   }
 
-  KeyPairData get getAccount => sdkProvier!.getSdkProvider.getKeyring.current;
+  KeyPairData get getAccount => sdkProvier!.getSdkImpl.getKeyring.current;
 
-  List<KeyPairData> get getAllAccount => sdkProvier!.getSdkProvider.getKeyring.allAccounts;
+  List<KeyPairData> get getAllAccount => sdkProvier!.getSdkImpl.getKeyring.allAccounts;
 
   @override
   Future<void> accInfoFromLocalStorage() async {
@@ -79,5 +79,13 @@ class MultiAccountImpl implements MultiAccountUsecases {
       }
     );
 
+  }
+
+  Future<void> switchAccount(KeyPairData acc) async {
+    
+    sdkProvier!.getSdkImpl.getKeyring.setCurrent(acc);
+
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    sdkProvier!.notifyListeners();
   }
 }

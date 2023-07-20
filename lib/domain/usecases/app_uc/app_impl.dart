@@ -13,13 +13,13 @@ class AppUsecasesImpl implements AppUsecases {
   @override
   Future<void> checkAccountExist() async {
 
-    print("sdkProvier!.getSdkProvider.getKeyring.allAccounts.isNotEmpty ${sdkProvier!.getSdkProvider.getKeyring.allAccounts.isNotEmpty}");
-    if (sdkProvier!.getSdkProvider.getKeyring.allAccounts.isNotEmpty){
+    if (sdkProvier!.getSdkImpl.getKeyring.allAccounts.isNotEmpty){
       await Future.delayed(const Duration(seconds: 1), (){
 
         Navigator.pushAndRemoveUntil(
           _context!, 
-          MaterialPageRoute(builder: (context) => const HomeScreen()), 
+          // MaterialPageRoute(builder: (context) => const HomeScreen()), 
+          MaterialPageRoute(builder: (context) => const AddAsset()), 
           (route) => false
         );
       });

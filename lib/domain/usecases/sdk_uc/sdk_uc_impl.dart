@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bitriel_wallet/domain/model/network_m.dart';
 import 'package:bitriel_wallet/index.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bip39/bip39.dart' as bip39;
@@ -5,19 +8,38 @@ import 'package:flutter_bitcoin/flutter_bitcoin.dart';
 
 class BitrielSDKImpl implements BitrielSDKUseCase{
   
-  final SdkRepoImpl _sdkRepoImpl = SdkRepoImpl();
+  final SdkRepoImpl sdkRepoImpl = SdkRepoImpl();
 
   final Web3RepoImpl _web3repoImpl = Web3RepoImpl();
 
   final HttpRequestImpl _httpRequestImpl = HttpRequestImpl();
 
-  String get getSELAddress => _sdkRepoImpl.getKeyring.current.address!;
+  String get getSELAddress => sdkRepoImpl.getKeyring.current.address!;
 
-  Keyring get getKeyring => _sdkRepoImpl.getKeyring;
-  WalletSDK get getWalletSdk => _sdkRepoImpl.getWalletSdk;
+  Keyring get getKeyring => sdkRepoImpl.getKeyring;
+  WalletSDK get getWalletSdk => sdkRepoImpl.getWalletSdk;
 
   Web3Client get getBscClient => _web3repoImpl.getBscClient;
   Web3Client get getEthClient => _web3repoImpl.getEthClient;
+
+  DeployedContract? bscDeployedContract;
+  DeployedContract? etherDeployedContract;
+  
+
+  // Map<String, List<String>> lstSelendraNetwork = {};
+
+  int networkIndex = 0;
+  int connectedIndex = 0;
+
+  List<NetworkModel> lstSelendraNetwork = [];
+  
+  final SecureStorageImpl _storageImpl = SecureStorageImpl();
+
+  String? jsFile;
+
+  BuildContext? context;
+
+  set setBuildContext(BuildContext ctx) => context = ctx;
 
   //
   //
@@ -26,43 +48,89 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   // ///////////////////////////////////////////////////////////////////////////
   //
   //
+
+  /// 1.
+  @override
+  Future<void> fetchNetwork() async {
+
+    try {
+
+      lstSelendraNetwork.clear();
+
+      /// 1.1 Check Selendra Network
+      await _storageImpl.isKeyAvailable(DbKey.sldNetwork).then((value) async {
+
+        if (value == true){
+
+          lstSelendraNetwork = NetworkModel().fromJson( Map<String, List<dynamic>>.from(json.decode( (await _storageImpl.readSecure(DbKey.sldNetwork))!) ));
+        
+        } else {
+
+          await HttpRequestImpl().fetchSelendraEndpoint().then((value) async {
+            
+            lstSelendraNetwork = NetworkModel().fromJson( value );
+
+            await _storageImpl.writeSecure(DbKey.sldNetwork, json.encode(value));
+
+          });
+
+        }
+      });
+
+      /// 1.2 Check Connected Network
+      await _storageImpl.readSecure(DbKey.connectedIndex)!.then((value) {
+        if (value.isNotEmpty){
+          connectedIndex = json.decode(value);
+        }
+      });
+
+    } catch (e){
+      print("Error fetchNetwork $e");
+    }
+    
+  }
   
   //  = 'assets/js/main.js'
   /// 2 
   @override
-  Future<void> initBitrielSDK({required String jsFilePath, int nodeIndex = 0}) async {
+  Future<void> initBitrielSDK({required String jsFilePath}) async {
+
+    await setNetworkParam(lstSelendraNetwork[networkIndex].lstNetwork![connectedIndex], networkIndex, connectedIndex);
 
     await rootBundle.loadString(jsFilePath).then((js) async {
+
+      jsFile = js;
       // 2.1. Init Keyring
-      await _sdkRepoImpl.initBitrielSDK(jsCode: js);
+      await sdkRepoImpl.initBitrielSDK(jsCode: js);
     });
     
     await _web3repoImpl.web3Init();
     
   }
 
+  /// Change Network Perform From Sdk Provider
   @override
-  void dynamicNetwork() async {
-    // Asign Network
-    // await StorageServices.fetchData(DbKey.sldNetwork).then((nw) async {
-    //   /// Get Endpoint form Local DB
-    //   /// 
-    //   if (nw != null){
+  Future<void> setNetworkParam(String network, int nwIndex, int epIndex, {Function? connectionTerminator, Function? modalBottomSetState}) async {
 
-    //     selNetwork = nw;
-    //   } else {
-    //     selNetwork = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
+    print("setNetworkParam");
+    // Set Network Param with New Network Selected
+    sdkRepoImpl.setNetworkParam(network: lstSelendraNetwork[nwIndex].lstNetwork![epIndex]);
+    
+    // Check If Current Index Selected
+    if ( (connectedIndex != epIndex && networkIndex == nwIndex) || connectedIndex != nwIndex ){
 
-    //   }
+      /// Call Timer To Handle Connection
+      AppUtils.timer( () async { await sdkRepoImpl.connectNode(jsCode: jsFile!); }, connectionTerminator!, modalBottomSetState!);
 
-    //   await StorageServices.storeData(selNetwork, DbKey.sldNetwork);
-      
-    // });
+      // if (networkIndex != nwIndex ) networkIndex = nwIndex;
+
+    }
+
   }
 
   @override
   Future<bool> validateMnemonic(String seed) async { 
-    return await _sdkRepoImpl.getWalletSdk.api.keyring.checkMnemonicValid(seed);
+    return await sdkRepoImpl.getWalletSdk.api.keyring.checkMnemonicValid(seed);
   }
 
   /// 3. Import and Add Account
@@ -76,8 +144,8 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   Future<List<dynamic>> importSeed(String seed, {KeyType keyType = KeyType.mnemonic, String? name = "Username", required String? pin}) async {
 
     // 3.1
-    final jsn = await _sdkRepoImpl.getWalletSdk.api.keyring.importAccount(
-      _sdkRepoImpl.getKeyring, 
+    final jsn = await sdkRepoImpl.getWalletSdk.api.keyring.importAccount(
+      sdkRepoImpl.getKeyring, 
       keyType: keyType, 
       key: seed, 
       name: name!, 
@@ -85,8 +153,8 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     );
 
     // 3.2
-    final keyPair = await _sdkRepoImpl.getWalletSdk.api.keyring.addAccount(
-      _sdkRepoImpl.getKeyring, 
+    final keyPair = await sdkRepoImpl.getWalletSdk.api.keyring.addAccount(
+      sdkRepoImpl.getKeyring, 
       keyType: keyType, 
       acc: jsn!, 
       password: pin
@@ -101,9 +169,9 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// 
   /// 4.1 We use private to backup seeds.
   Future<SeedBackupData?> getPrivateKeyFromSeeds(KeyPairData keyPair, String pin) async {
-    return await _sdkRepoImpl.getWalletSdk.api.keyring.getDecryptedSeed(
-      _sdkRepoImpl.getKeyring, 
-      _sdkRepoImpl.getKeyring.current, 
+    return await sdkRepoImpl.getWalletSdk.api.keyring.getDecryptedSeed(
+      sdkRepoImpl.getKeyring, 
+      sdkRepoImpl.getKeyring.current, 
       pin
     );
   }
@@ -120,7 +188,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   
   @override
   Future<String> generateSeed() async {
-    return ( await _sdkRepoImpl.getWalletSdk.api.keyring.generateMnemonic(_sdkRepoImpl.getKeyring.ss58!) ).mnemonic!;
+    return ( await sdkRepoImpl.getWalletSdk.api.keyring.generateMnemonic(sdkRepoImpl.getKeyring.ss58!) ).mnemonic!;
   }
 
   Future<void> deleteAccount(BuildContext? context) async {
@@ -131,9 +199,9 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     
     try {
 
-      for( KeyPairData e in _sdkRepoImpl.getKeyring.allAccounts){
-        await _sdkRepoImpl.getWalletSdk.api.keyring.deleteAccount(
-          _sdkRepoImpl.getKeyring,
+      for( KeyPairData e in sdkRepoImpl.getKeyring.allAccounts){
+        await sdkRepoImpl.getWalletSdk.api.keyring.deleteAccount(
+          sdkRepoImpl.getKeyring,
           e,
         );
       }
@@ -229,7 +297,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     }
   }
 
-  Future<void> getBtcBalance() async {
+  Future<String> getBtcBalance() async {
 
     int totalSatoshi = 0;
     Response res = await _httpRequestImpl.fetchAddrUxtoBTC(btcAddress!);
@@ -247,6 +315,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
       // contract.listContract[btcIndex].balance = (totalSatoshi / bitcoinSatFmt).toString();
     }
+    return totalSatoshi.toString();
   }
   
   Future<String?> _encryptPrivateKey(String privateKey, String pin) async {
@@ -255,13 +324,11 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   }
 
   Future<EtherAmount> getBep20Balance(Web3Client client, EthereumAddress addr) async {
-    print("getWeb3Balance addr ${addr.hex}");
     return await client.getBalance(addr);
     // return EtherAmount.zero();
   }
 
   Future<EtherAmount> getErc20Balance(Web3Client client, EthereumAddress addr) async {
-    print("getWeb3Balance addr ${addr.hex}");
     return await client.getBalance(addr);
     // return EtherAmount.zero();
   }
@@ -270,4 +337,24 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     return await client.getBalance(addr);
   }
   
+  /// e.g contract = contract.function('balanceOf')
+  Future<BigInt> callWeb3ContractFunc(Web3Client client, DeployedContract contract, String function, { List params = const [] }) async {
+    try {
+      return await _web3repoImpl.callWeb3ContractFunc(client, contract, contract.function(function), params: params).then((value) {
+        print("value $value");
+        return value;
+      });
+    } catch (e) {
+      print("Error callWeb3ContractFunc $e");
+    }
+    return BigInt.zero;
+  }
+
+  Future<String> fetchSELAddress() async {
+    return await sdkRepoImpl.querySELAddress(getSELAddress);
+  }
+
+  Future<bool> validateWeb3Address(String addr) async {
+    return await sdkRepoImpl.validateWeb3Address(addr);
+  }
 }
