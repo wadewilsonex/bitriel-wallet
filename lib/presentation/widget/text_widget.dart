@@ -79,7 +79,7 @@ class MyTextConstant extends StatelessWidget {
       this.text = '',
       this.color2 = Colors.black,
       this.fontSize = 15,
-      this.fontWeight = FontWeight.normal,
+      this.fontWeight = FontWeight.w400,
       this.textAlign = TextAlign.center,
       this.overflow = TextOverflow.visible});
 

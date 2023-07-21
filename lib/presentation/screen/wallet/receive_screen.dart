@@ -1,5 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:qr_flutter/qr_flutter.dart'; 
 
 class ReceiveWallet extends StatelessWidget {
   const ReceiveWallet({Key? key, 

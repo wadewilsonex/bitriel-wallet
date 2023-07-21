@@ -124,6 +124,7 @@ class SDKProvier with ChangeNotifier {
   /// To Identify status verify at Wallet screen.
   /// And Setup Evm and BTC Address 
   Future<void> fetchAllAccount() async {
+    
     await _accountManagementImpl.fetchAccount();
 
     setEvmAddress = getUnverifyAcc[0].ethAddress!;
