@@ -9,8 +9,6 @@ class App extends StatelessWidget {
 
     Provider.of<AssetProvider>(context, listen: false).downloadFirstAsset();
 
-    Provider.of<AssetProvider>(context, listen: false).downloadSecondAsset();
-
     // Provider.of<SDKProvier>(context, listen: false).fetchNetworkFromGithub().then((value) {
     // });
     Provider.of<SDKProvider>(context, listen: false).connectNetwork();

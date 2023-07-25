@@ -128,6 +128,30 @@ class AddAsset extends StatelessWidget {
             ),
           ),
 
+          ValueListenableBuilder(
+            valueListenable: addAssetUcImpl.searched, 
+            builder: (context, value, wg){
+              
+              // ignore: unnecessary_null_comparison
+              if (value.isNotEmpty){
+                 return ListView.builder(
+                   shrinkWrap: true,
+                   itemCount: 10,
+                   itemBuilder: (context, index) {
+                     return InkWell(
+                      onTap: (){
+                        print("addAssetUcImpl.searched.value[index] ${addAssetUcImpl.searched.value[index]}");
+                      },
+                      child: Text(addAssetUcImpl.searched.value[index]!['platforms'].toString())
+                    );
+                   },
+                 );
+              }
+              return const SizedBox();
+            }
+          ),
+          
+
           // Show Loading
           ValueListenableBuilder(
             valueListenable: addAssetUcImpl.isSearching, 

@@ -12,19 +12,27 @@ class AssetProvider with ChangeNotifier{
     
     await assetUCImlp!.initPath();
 
-    if (await assetUCImlp!.checkAlreadyInLocalStorage() == false){
-      // Add your logic here if needed
-      await assetUCImlp!.downloadFirstAsset();
+    if ( await Directory("$dirPath/${"icons"}").exists() == false ){
+
+      if (await assetUCImlp!.checkAlreadyInLocalStorage() == false){
+        // Add your logic here if needed
+        await assetUCImlp!.downloadFirstAsset();
+      }
+
+      isDownloadedAsset = true;
+      // Notify listeners if needed
+      notifyListeners();
+
     }
-
-    isDownloadedAsset = true;
-    // Notify listeners if needed
-    notifyListeners();
-
+    
+    await downloadSecondAsset();
   }
 
   Future<void> downloadSecondAsset() async {
-    await assetUCImlp!.downloadSecondAsset();
+    if ( await Directory("$dirPath/${"icons"}").exists() == false ){
+
+      await assetUCImlp!.downloadSecondAsset();
+    }
   }
 
 }

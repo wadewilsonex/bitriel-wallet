@@ -22,7 +22,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
   /// Json From Github
   ValueNotifier<List<Map<String, dynamic>>> lstContractJson = ValueNotifier([]);
 
-  ValueNotifier<List<Map<String, dynamic>>> searched = ValueNotifier([]);
+  ValueNotifier<List<Map<String, dynamic>?>> searched = ValueNotifier([]);
 
   ValueNotifier<bool> isSearching = ValueNotifier(false);
 
@@ -49,50 +49,66 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
   void searchContract(String searchValue) async {
 
-    EasyDebounce.debounce(
-      'my-debouncer',                 // <-- An ID for this particular debouncer
-      const Duration(seconds: 100),    // <-- The debounce duration
-      () {
-        
-        print("searchValue $searchValue");
-        
-        // searched.value.clear();
-        
-        if (isSearching.value == false){
+    if (searchValue.isNotEmpty) {
 
-          // Enable Dialog Searching
-          isSearching.value = true;
-          
-          lstContractJson.value.map((value) {
+      // Enable Dialog Searching
+      resetState(isSearch: true);
 
-            print("searchValue.contains('0x') ${searchValue.contains('0x')}");
+      EasyDebounce.debounce(
+        'my-debouncer',                 // <-- An ID for this particular debouncer
+        const Duration(seconds: 1),    // <-- The debounce duration
+        () {
+            
+          searched.value = lstContractJson.value.where((value) {
 
-          //   // Check User Input Address
-          //   if ( searchValue.contains('0x') ){
+            // Check User Input Address
+            if ( searchValue.contains('0x') ){
 
-          //     // Close Dialog Searching
-          //     isSearching.value = false;
+              // Check Which Network Choosen User
+              if (networkIndex.value == 0){
+                return true;
+              } else {
+                return true;
+              }
 
-          //     // Check Which Network Choosen User
-          //     if (networkIndex.value == 0){
-          //       print("search value $value");
-          //       return value;
-          //     } else {
-          //       return value;
-          //     }
-
-          //   }
+            }
+            return false;
 
           }).toList();
 
-          // Close Dialog Searching
-          isSearching.value = false;
-          
-        }
-        
-      }                // <-- The target method
-    );
+          // Enable Dialog Searching
+          if(isSearching.value == true) {
 
+            isSearching.value = false;
+            
+            // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+            searched.notifyListeners();
+          }
+        }                // <-- The target method
+      );
+
+    } else {
+      resetState(isSearch: false, isNotify: true);
+    }
+
+  }
+
+  void resetState({bool? isSearch, bool? isNotify = false}){
+
+    if (isSearch != isSearching.value){
+
+      isSearching.value = isSearch!;
+    }
+
+    if (searched.value.isNotEmpty) {
+
+      searched.value.clear();
+
+      if (isNotify == true){
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+        searched.notifyListeners();
+      }
+    }
   }
 
   @override
