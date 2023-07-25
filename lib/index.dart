@@ -57,7 +57,7 @@ export 'package:bitriel_wallet/data/repository/asset_repo/asset_repo_impl.dart';
 export 'package:bitriel_wallet/data/repository/sdk_repo/sdk_repo_impl.dart';
 export 'package:bitriel_wallet/data/repository/sdk_repo/web3_rep.dart';
 export 'package:bitriel_wallet/data/repository/sdk_repo/web3_impl.dart';
-export 'package:bitriel_wallet/data/repository/http_request_impl.dart';
+export 'package:bitriel_wallet/data/repository/http_request_repo/http_request_impl.dart';
 export 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
 export 'package:bitriel_wallet/data/repository/market_repo/market_repo_impl.dart';
 
@@ -99,6 +99,7 @@ export 'package:bitriel_wallet/domain/usecases/market_uc/market_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/navbar/navbar_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/navbar/navbar_uc_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/add_asset_uc/add_asset_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/add_asset_uc/add_asset_impl.dart';
 
 /*---------- Presentation Layer ----------*/
 

@@ -15,7 +15,7 @@ class Verify {
 
 class CreateWalletImpl implements CreateWalletUsecase {
   
-  SDKProvier? _sdkProvier;
+  SDKProvider? _sdkProvier;
   BuildContext? _context;
 
   String? pin;
@@ -52,7 +52,7 @@ class CreateWalletImpl implements CreateWalletUsecase {
   @override
   set setBuildContext(BuildContext ctx){
     _context = ctx;
-    _sdkProvier = Provider.of<SDKProvier>(ctx, listen: false);
+    _sdkProvier = Provider.of<SDKProvider>(ctx, listen: false);
   }
   
   @override

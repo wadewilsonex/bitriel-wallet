@@ -157,7 +157,7 @@ class WalletUcImpl implements WalletUsecases{
   }
 
   Future<String> queryBtcBalance() async {
-    _bitrielSDKImpl ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkImpl;
+    _bitrielSDKImpl ??= Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
     // return await _httpRequestImpl.fetchAddrUxtoBTC(_bitrielSDKImpl!.btcAddress!).then((value) {
 
     // });
@@ -167,7 +167,7 @@ class WalletUcImpl implements WalletUsecases{
   /// Fallback assignment operator: ??=
   /// it assigns a value if the variable is null.
   @override
-  Future<EtherAmount> getCoinsBalance(SDKProvier sdkProvier, List<SmartContractModel> lstCoins) async {
+  Future<EtherAmount> getCoinsBalance(SDKProvider sdkProvier, List<SmartContractModel> lstCoins) async {
     
     print("queryCoinsBalance wallet uc");
     return await sdkProvier.getSdkImpl.getEvmBalance(sdkProvier.getSdkImpl.getEthClient, EthereumAddress.fromHex(sdkProvier.getSdkImpl.evmAddress!));
@@ -175,27 +175,19 @@ class WalletUcImpl implements WalletUsecases{
   }
 
   /// BEP20 & ERC-20
-  Future<BigInt> getContractBalance(Web3Client client, String abiPath, String contractAddr, {String? contractName}) async {
+  Future<List<dynamic>> getContractBalance(Web3Client client, String abiPath, String contractAddr, {String? contractName}) async {
     
-    _bitrielSDKImpl ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkImpl;
+    _bitrielSDKImpl ??= Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
     // if (_bitrielSDKImpl == null){
     //   _bitrielSDKImpl = Provider.of<SDKProvier>(_context!, listen: false).getSdkProvider;
     // }
 
-    _bitrielSDKImpl!.bscDeployedContract ??= await _contractfromAssets(abiPath, contractAddr);
+    _bitrielSDKImpl!.bscDeployedContract ??= await _bitrielSDKImpl!.deployContract(abiPath, contractAddr);
 
     // Get Web3 Balance
     return await _bitrielSDKImpl!.callWeb3ContractFunc(client, _bitrielSDKImpl!.bscDeployedContract!, 'balanceOf', params: [ EthereumAddress.fromHex(_bitrielSDKImpl!.evmAddress!) ]);
     // await SDKProvier
 
-  }
-
-  Future<DeployedContract> _contractfromAssets(String abiPath, String contractAddr, {String? contractName}) async {
-    final String contractJson = await rootBundle.loadString(abiPath);
-    return DeployedContract(
-      ContractAbi.fromJson(contractJson, contractName ?? 'contract'),
-      EthereumAddress.fromHex(contractAddr),
-    );
   }
   
 }

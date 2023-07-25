@@ -8,8 +8,8 @@ void main() async {
         ChangeNotifierProvider<AssetProvider>(
           create: (context) => AssetProvider(),
         ),
-        ChangeNotifierProvider<SDKProvier>(
-          create: (context) => SDKProvier(),
+        ChangeNotifierProvider<SDKProvider>(
+          create: (context) => SDKProvider(),
         ),
         ChangeNotifierProvider<WalletProvider>(
           create: (context) => WalletProvider(),

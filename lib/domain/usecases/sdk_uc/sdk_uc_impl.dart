@@ -316,30 +316,48 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       // contract.listContract[btcIndex].balance = (totalSatoshi / bitcoinSatFmt).toString();
     }
     return totalSatoshi.toString();
+
   }
   
   Future<String?> _encryptPrivateKey(String privateKey, String pin) async {
     final key = Encrypt.passwordToEncryptKey(pin);
     return await FlutterAesEcbPkcs5.encryptString(privateKey, key);
+
   }
 
   Future<EtherAmount> getBep20Balance(Web3Client client, EthereumAddress addr) async {
     return await client.getBalance(addr);
     // return EtherAmount.zero();
+
   }
 
   Future<EtherAmount> getErc20Balance(Web3Client client, EthereumAddress addr) async {
     return await client.getBalance(addr);
     // return EtherAmount.zero();
+
   }
 
   Future<EtherAmount> getEvmBalance(Web3Client client, EthereumAddress addr) async {
     return await client.getBalance(addr);
+
+  }
+
+  /// 1.
+  Future<DeployedContract> deployContract(String abiPath, String contractAddr, {String? contractName}) async {
+    final String contractJson = await rootBundle.loadString(abiPath);
+    return DeployedContract(
+      ContractAbi.fromJson(contractJson, contractName ?? 'contract'),
+      EthereumAddress.fromHex(contractAddr),
+    );
+
   }
   
+  /// 2.
   /// e.g contract = contract.function('balanceOf')
-  Future<BigInt> callWeb3ContractFunc(Web3Client client, DeployedContract contract, String function, { List params = const [] }) async {
+  Future<List<dynamic>> callWeb3ContractFunc(Web3Client client, DeployedContract contract, String function, { List params = const [] }) async {
+    print("function name $function");
     try {
+      print("contract.address ${contract.address}");
       return await _web3repoImpl.callWeb3ContractFunc(client, contract, contract.function(function), params: params).then((value) {
         print("value $value");
         return value;
@@ -347,14 +365,16 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     } catch (e) {
       print("Error callWeb3ContractFunc $e");
     }
-    return BigInt.zero;
+    return [];
   }
 
   Future<String> fetchSELAddress() async {
     return await sdkRepoImpl.querySELAddress(getSELAddress);
+
   }
 
   Future<bool> validateWeb3Address(String addr) async {
     return await sdkRepoImpl.validateWeb3Address(addr);
+
   }
 }

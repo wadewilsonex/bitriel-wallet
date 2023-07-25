@@ -77,7 +77,7 @@ class WalletProvider with ChangeNotifier {
 
   Future<void> queryNativeBalance() async {
     print("queryNativeBalance");
-    sdkProvier ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkImpl;
+    sdkProvier ??= Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
     print("listNative ${listNative!.length}");
     // Filter EVM Coins
     for(var element in listNative!){
@@ -102,7 +102,7 @@ class WalletProvider with ChangeNotifier {
   Future<void> queryEvmBalance() async {
     
     print("queryEvmBalance");
-    sdkProvier ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkImpl;
+    sdkProvier ??= Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
     // Filter EVM Coins
     for(var element in listEvmNative!){
       print("sdkProvier!.evmAddress ${sdkProvier!.evmAddress}");
@@ -120,7 +120,7 @@ class WalletProvider with ChangeNotifier {
   Future<void> queryBep20Balance() async {
 
     print("queryBep20Balance");
-    sdkProvier ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkImpl;
+    sdkProvier ??= Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
 
     for( var bep20 in listBep20!){
       
@@ -159,7 +159,7 @@ class WalletProvider with ChangeNotifier {
   Future<void> queryErc20Balance() async {
 
     print("queryErc20Balance");
-    sdkProvier ??= Provider.of<SDKProvier>(_context!, listen: false).getSdkImpl;
+    sdkProvier ??= Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
 
     for( var erc20 in listErc20!){
 

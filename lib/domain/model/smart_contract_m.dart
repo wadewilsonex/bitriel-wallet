@@ -63,11 +63,11 @@ class SmartContractModel {
     this.contractTest,
     // this.chart,
     this.isAdded = false,
-    this.isEther,
-    this.isBSC,
-    this.isNative,
-    this.isBep20,
-    this.isErc20,
+    this.isEther = false,
+    this.isBSC = false,
+    this.isNative = false,
+    this.isBep20 = false,
+    this.isErc20 = false,
     this.platform
   });
 

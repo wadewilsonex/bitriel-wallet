@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:bitriel_wallet/domain/model/network_m.dart';
 import 'package:bitriel_wallet/index.dart';
 
-class SDKProvier with ChangeNotifier {
+class SDKProvider with ChangeNotifier {
 
   final BitrielSDKImpl _sdkImpl = BitrielSDKImpl();
 
@@ -15,9 +14,17 @@ class SDKProvier with ChangeNotifier {
 
   final AccountManagementImpl _accountManagementImpl = AccountManagementImpl();
 
+  String? dirPath;
+
   List<UnverifySeed> get getUnverifyAcc => _accountManagementImpl.unVerifyAccount;
 
-  set setBuildContext(BuildContext ctx) => _sdkImpl.setBuildContext = ctx;
+  set setBuildContext(BuildContext ctx) {
+    _sdkImpl.setBuildContext = ctx;
+    getApplicationDocumentsDirectory().then((value) {
+      dirPath = value.path;
+      notifyListeners();
+    });
+  }
 
   set setEvmAddress(String value){
     _sdkImpl.evmAddress = value;

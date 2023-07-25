@@ -7,6 +7,6 @@ abstract class WalletUsecases {
   Future<void> fetchCoinFromAssets();
   Future<void> sortCoins(List<SmartContractModel> lst);
 
-  Future<void> getCoinsBalance(SDKProvier sdkProvier, List<SmartContractModel> lstCoins);
+  Future<void> getCoinsBalance(SDKProvider sdkProvier, List<SmartContractModel> lstCoins);
 
 }

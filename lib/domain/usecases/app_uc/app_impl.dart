@@ -3,11 +3,11 @@ import 'package:bitriel_wallet/index.dart';
 class AppUsecasesImpl implements AppUsecases {
   
   BuildContext? _context;
-  SDKProvier? sdkProvier;
+  SDKProvider? sdkProvier;
 
   set setBuildContext(BuildContext ctx){
     _context = ctx;
-    sdkProvier = Provider.of<SDKProvier>(ctx, listen: true);
+    sdkProvier = Provider.of<SDKProvider>(ctx, listen: true);
   }
   
   @override

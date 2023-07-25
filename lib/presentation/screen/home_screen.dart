@@ -15,8 +15,8 @@ class HomeScreen extends StatelessWidget {
 
     coinMarketCap.getMarkets();
 
-    Provider.of<SDKProvier>(context, listen: false).setBuildContext = context;
-    Provider.of<SDKProvier>(context, listen: false).fetchAllAccount();
+    Provider.of<SDKProvider>(context, listen: false).setBuildContext = context;
+    Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
 
     return Scaffold(
       appBar: defaultAppBar(context: context),
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
       
               TextButton(
                 onPressed: () async {
-                  await Provider.of<SDKProvier>(context, listen: false).disconnect();
+                  await Provider.of<SDKProvider>(context, listen: false).disconnect();
                 }, 
                 child: const Text("Disconnect")
               ),
@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
 
               TextButton(
                 onPressed: () async {
-                  await Provider.of<SDKProvier>(context, listen: false).getSdkImpl.deleteAccount(context);
+                  await Provider.of<SDKProvider>(context, listen: false).getSdkImpl.deleteAccount(context);
                 }, 
                 child: const Text("Delete account")
               ),

@@ -4,11 +4,11 @@ class MultiAccountImpl implements MultiAccountUsecases {
 
   BuildContext? _context;
 
-  SDKProvier? sdkProvier;
+  SDKProvider? sdkProvier;
 
   set setContext(BuildContext ctx){
     _context = ctx;
-    sdkProvier = Provider.of<SDKProvier>(ctx, listen: true);
+    sdkProvier = Provider.of<SDKProvider>(ctx, listen: true);
   }
 
   KeyPairData get getAccount => sdkProvier!.getSdkImpl.getKeyring.current;

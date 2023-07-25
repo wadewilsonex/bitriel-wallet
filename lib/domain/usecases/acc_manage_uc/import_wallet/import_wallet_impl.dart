@@ -9,7 +9,7 @@ class ImportWalletImpl implements ImportWalletUsecases {
   /// For Import Wallet
   ValueNotifier<bool> isSeedValid = ValueNotifier(false);
 
-  SDKProvier? sdkProvider;
+  SDKProvider? sdkProvider;
   
   final AccountManagementImpl _accountManagementImpl = AccountManagementImpl();
 
@@ -17,7 +17,7 @@ class ImportWalletImpl implements ImportWalletUsecases {
 
   set setContext(BuildContext ctx) {
     _context = ctx;
-    sdkProvider = Provider.of<SDKProvier>(ctx, listen: false);
+    sdkProvider = Provider.of<SDKProvider>(ctx, listen: false);
   }
   
   /* ----------Import Account Functional---------- */

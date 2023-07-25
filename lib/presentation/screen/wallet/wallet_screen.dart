@@ -15,7 +15,7 @@ class WalletScreen extends StatelessWidget {
       walletPro.setBuildContext = context;
       walletPro.getAsset();
       
-      Provider.of<SDKProvier>(context, listen: false).fetchAllAccount();
+      Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
     }
 
     return Scaffold(
@@ -23,17 +23,21 @@ class WalletScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            
             _cardPortfolio(context),
 
             Row(
               children: [
+
                 Expanded(child: _searchBar(searchController)),
+                
                 IconButton(
-                  onPressed: (){
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute(builder: (context) => const AddAsset())
-                    );
+                  onPressed: () async {
+                    await pushNewScreen(context, screen: const AddAsset(), withNavBar: false);
+                    // Navigator.push(
+                    //   context, 
+                    //   MaterialPageRoute(builder: (context) => const AddAsset())
+                    // );
                   }, 
                   icon: const Icon(Icons.add)
                 ),
@@ -43,6 +47,7 @@ class WalletScreen extends StatelessWidget {
             ),
 
             _listItemAsset(),
+
           ],
         ),
       ),

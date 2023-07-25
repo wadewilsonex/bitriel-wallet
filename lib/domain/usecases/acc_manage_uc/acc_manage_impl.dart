@@ -15,7 +15,7 @@ class AccountManagementImpl extends AccountMangementUC {
 
   @override
   // ignore: avoid_renaming_method_parameters
-  Future<void> addAndImport(SDKProvier sdkProvider, BuildContext context, String seed, String pin) async {
+  Future<void> addAndImport(SDKProvider sdkProvider, BuildContext context, String seed, String pin) async {
 
     dialogLoading(context);
 
@@ -40,7 +40,7 @@ class AccountManagementImpl extends AccountMangementUC {
   }
 
   @override
-  Future<void> verifyLaterData(SDKProvier? sdkProvider, bool status) async {
+  Future<void> verifyLaterData(SDKProvider? sdkProvider, bool status) async {
 
     await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) async {
 

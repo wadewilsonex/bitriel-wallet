@@ -1,6 +1,7 @@
 import '../../index.dart';
 
 class MainScreen extends StatelessWidget {
+
   const MainScreen({Key? key}) : super(key: key);
 
   @override
@@ -23,6 +24,9 @@ class MainScreen extends StatelessWidget {
         hideNavigationBarWhenKeyboardShows: true,
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
+        onWillPop: (context) async {
+          return true;
+        },
         itemAnimationProperties: const ItemAnimationProperties(
           duration: Duration(milliseconds: 200),
           curve: Curves.ease,

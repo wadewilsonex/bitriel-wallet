@@ -67,7 +67,7 @@ PreferredSizeWidget defaultAppBar({
               child: SizedBox(
                 height: 40,
                 width: 40,
-                child: Consumer<SDKProvier>(
+                child: Consumer<SDKProvider>(
                 builder: (context, pro, wg) {
                     if (pro.isConnected == false) return const SizedBox();
                     return RandomAvatar( pro.getSdkImpl.getKeyring.current.icon!);
@@ -89,7 +89,7 @@ PreferredSizeWidget defaultAppBar({
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
-              Consumer<SDKProvier>(
+              Consumer<SDKProvider>(
                 builder: (context, pro, wg) {
                   return Container(
                     margin: const EdgeInsets.only(top: 10, bottom: 5),
@@ -200,7 +200,7 @@ void bottomSheetCgNetwork(BuildContext context) async{
                 // Network RPC 0
 
                 Flexible(
-                  child: Consumer<SDKProvier>(
+                  child: Consumer<SDKProvider>(
                     builder: (context, pro, wg){
                       return ListView.builder(
                         itemCount: pro.getLstSelNetwork.length,
@@ -248,7 +248,7 @@ void bottomSheetCgNetwork(BuildContext context) async{
 
 Widget _networkItem(BuildContext context, String nw, int nwIndex, int epIndex, Function stateFunc) {
   
-  final sdk = Provider.of<SDKProvier>(context, listen: false);
+  final sdk = Provider.of<SDKProvider>(context, listen: false);
   return InkWell(
     onTap: () async {
 
