@@ -1,3 +1,5 @@
+import 'package:bitriel_wallet/index.dart';
+
 class Market {
   final String name;
   final double price;
@@ -9,6 +11,7 @@ class Market {
   final dynamic circulatingSupply;
   final dynamic totalSupply;
   final dynamic maxSupply;
+  List<FlSpot>? chart;
 
   Market(
     this.name,

@@ -36,6 +36,7 @@ class SmartContractModel {
   LineChartModel? lineChartModel = LineChartModel();
   double? money;
   List<Map<String, dynamic>>? platform;
+  Market? marketData;
 
   SmartContractModel({
     this.index,
@@ -68,7 +69,8 @@ class SmartContractModel {
     this.isNative,
     this.isBep20,
     this.isErc20,
-    this.platform
+    this.platform,
+    this.marketData,
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {
@@ -102,7 +104,8 @@ class SmartContractModel {
       maxSupply: json['max_supply'],
       description: json['description'],
       isAdded: json['isAdded'] ?? false,
-      platform: json['platform']
+      platform: json['platform'],
+      marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
     );
   }
 
@@ -115,7 +118,7 @@ class SmartContractModel {
     'logo': asset.logo,
     'org': asset.org,
     'org_test': asset.orgTest,
-    'market': null,//asset.marketData,
+    'market': asset.marketData,
     'lineChartData': asset.lineChartList,
     'change24h': asset.change24h,
     'marketPrice': asset.marketPrice,
@@ -134,7 +137,7 @@ class SmartContractModel {
     'is_native': asset.isNative,
     'is_bep20': asset.isBep20,
     'is_erc20': asset.isErc20,
-    'platform': asset.platform
+    'platform': asset.platform,
   };
 
   static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {

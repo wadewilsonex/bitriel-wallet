@@ -16,14 +16,14 @@ class AppRouter {
   
   static final Map<String, Widget Function(BuildContext)> router = {
     // "/": (context) => const SwapExchange(),
-    "/": (context) => const MainScreen(),
+    "/": (context) => const Welcome(),
     // "/": (context) => const WalletScreen(),
     "/${BitrielRouter.welcomeRoute}": (context) => const Welcome(),
     "/${BitrielRouter.multiAccRoute}": (context) => const MultiAccountScreen(),
     "/${BitrielRouter.createWalletRoute}": (context) => const CreateWalletScreen(),
     "/${BitrielRouter.importWalletRoute}": (context) => const ImportWalletScreen(),
     "/${BitrielRouter.walletRoute}": (context) => const WalletScreen(),
-    "/${BitrielRouter.homeRoute}": (context) => const HomeScreen(),
+    "/${BitrielRouter.homeRoute}": (context) => const MainScreen(),
 
   };
   //  = GoRouter(

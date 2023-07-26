@@ -75,7 +75,6 @@ export 'package:bitriel_wallet/domain/model/smart_contract_m.dart';
 export 'package:bitriel_wallet/domain/model/line_chart_model.dart';
 export 'package:bitriel_wallet/domain/model/market.m.dart';
 export 'package:bitriel_wallet/domain/model/navbar_m.dart';
-export 'package:bitriel_wallet/domain/model/assets_m.dart';
 
 // Usecases
 export 'package:bitriel_wallet/domain/usecases/asset_uc/asset_uc_impl.dart';

@@ -18,6 +18,8 @@ class WalletProvider with ChangeNotifier {
 
   BitrielSDKImpl? sdkProvier;
 
+  MarketUCImpl marketUCImpl = MarketUCImpl();
+
   set setBuildContext(BuildContext ctx) {
     _context = ctx;
     _walletUsecases.setBuilder = ctx;
@@ -34,6 +36,7 @@ class WalletProvider with ChangeNotifier {
     });
 
     print("defaultListContract $defaultListContract");
+    print("walletPro.sortListContract!.length ${sortListContract!.length}");
 
     await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
 
@@ -191,6 +194,10 @@ class WalletProvider with ChangeNotifier {
     //   }
     // }
 
+  }
+
+  void btcMarket() {
+    listNative![2].marketData = marketUCImpl.lstMarket.value[0];
   }
 
 }

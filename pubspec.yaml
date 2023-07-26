@@ -43,6 +43,7 @@ dependencies:
   rename: ^2.1.1
   logger: ^1.4.0
   cached_network_image: ^3.2.3
+  get: ^4.6.5
   
   # Dependencies for the domain layer
   flutter_secure_storage: ^8.0.0
