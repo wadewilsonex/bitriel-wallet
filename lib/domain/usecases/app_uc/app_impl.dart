@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/widget/navbar_widget.dart';
 
 class AppUsecasesImpl implements AppUsecases {
   
@@ -18,8 +19,8 @@ class AppUsecasesImpl implements AppUsecases {
 
         Navigator.pushAndRemoveUntil(
           _context!, 
-          // MaterialPageRoute(builder: (context) => const HomeScreen()), 
-          MaterialPageRoute(builder: (context) => const AddAsset()), 
+          MaterialPageRoute(builder: (context) => const MainScreen()), 
+          // MaterialPageRoute(builder: (context) => const AddAsset()), 
           (route) => false
         );
       });

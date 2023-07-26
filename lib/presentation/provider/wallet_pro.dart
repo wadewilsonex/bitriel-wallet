@@ -1,3 +1,4 @@
+import 'package:bitriel_wallet/data/api/api_chart.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class WalletProvider with ChangeNotifier {
@@ -19,6 +20,7 @@ class WalletProvider with ChangeNotifier {
   BitrielSDKImpl? sdkProvier;
 
   MarketUCImpl marketUCImpl = MarketUCImpl();
+  
 
   set setBuildContext(BuildContext ctx) {
     _context = ctx;
@@ -192,7 +194,27 @@ class WalletProvider with ChangeNotifier {
     // sortListContract = 
     await _walletUsecases.sortCoins(sortListContract!);
 
-    // notifyListeners();
+    notifyListeners();
+  }
+
+  void queryAssetChart(List<SmartContractModel> assetsModel, int index) async {
+
+    if (assetsModel[index].chart == null){
+      
+      await ApiCalls().getChart(
+        assetsModel[index].symbol!, 
+        'usd', '1DAY', 
+        DateTime.now().subtract(const Duration(days: 6)), 
+        DateTime.now()
+      ).then((value) {
+
+        assetsModel[index].chart = value;
+
+        notifyListeners();
+
+      });
+    }
+
   }
 
 }

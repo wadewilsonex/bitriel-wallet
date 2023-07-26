@@ -32,7 +32,7 @@ class SmartContractModel {
   String? description;
   // List<TransactionInfo>? listActivity = [];
   List<List<double>>? lineChartList = [];
-  // List<FlSpot>? chart;
+  List<FlSpot>? chart;
   LineChartModel? lineChartModel = LineChartModel();
   double? money;
   List<Map<String, dynamic>>? platform;
@@ -62,7 +62,7 @@ class SmartContractModel {
     // this.lineChartModel,
     this.contract,
     this.contractTest,
-    // this.chart,
+    this.chart,
     this.isAdded = false,
     this.isEther = false,
     this.isBSC = false,

@@ -19,8 +19,6 @@ class WalletScreen extends StatelessWidget {
       
       if (walletPro.defaultListContract!.isEmpty) {
         walletPro.getAsset();
-      
-        Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
       }
     }
 
@@ -251,17 +249,6 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Card getCardByIndex(int index, List<dynamic> member) {
-    return Card(
-      child: ListTile(
-        leading: const CircleAvatar(),
-        title: Text(member[index]["name"]),
-        subtitle: Text(member[index]["noHp"]),
-        onTap: () {},
-      )
-    );
-  }
-
   Widget _getGroupSeparator(String label) {
     return SizedBox(
       height: 50,
@@ -333,30 +320,11 @@ class WalletScreen extends StatelessWidget {
         onTap: () {
           Navigator.push(
             ctx,
-            MaterialPageRoute(builder: (context) => WalletInfo(scModel: element,))
+            MaterialPageRoute(builder: (context) => WalletInfo(scModel: element, lstScModel: assetsModel,))
           );
         },
       ),
     );
   }
-
-  // Widget _listItemAsset(WalletProvider walletPro) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(vertical: 15),
-  //     child: StickyGroupedListView<AssetsModel, String>(
-  //       shrinkWrap: true,
-  //       elements: walletPro.elements,
-  //       order: StickyGroupedListOrder.ASC,
-  //       groupBy: (AssetsModel element) => element.chain,
-  //       groupComparator: (String value1, String value2) => value2.compareTo(value1),
-  //       itemComparator: (AssetsModel element1, AssetsModel element2) => element1.chain.compareTo(element2.chain),
-  //       floatingHeader: true,
-  //       groupSeparatorBuilder: _getGroupSeparator,
-  //       itemBuilder: (context, element){
-  //         return _getItem(context, element.coins);
-  //       },
-  //     ),
-  //   );
-  // }
 
 }

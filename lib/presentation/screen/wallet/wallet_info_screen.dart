@@ -1,16 +1,22 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/widget/chart/chart_m.dart';
 
 class WalletInfo extends StatelessWidget {
 
   final SmartContractModel scModel;
+  final List<SmartContractModel> lstScModel;
 
   const WalletInfo({
     required this.scModel,
+    required this.lstScModel,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+
+    Provider.of<WalletProvider>(context, listen: false).queryAssetChart(lstScModel, lstScModel.indexOf(scModel));
+
     return DefaultTabController(  
       length: 2,
       child: Scaffold(
@@ -45,19 +51,21 @@ class WalletInfo extends StatelessWidget {
         ),
         body: TabBarView(children: [
 
-          _infoTap(),
+          _infoTap(context),
 
-          // _activityTap()
+          _infoTap(context),
 
         ]),
       ),
     );
   }
 
-  Widget _infoTap() {
+  Widget _infoTap(BuildContext context) {
     return Column(
       children: [
         _tokenIconHeader(price: double.parse("${scModel.balance}".replaceAll(",", "")).toStringAsFixed(2)),
+
+        _chartAsset(context),
     
         _tokenInfomation(),
       ],
@@ -119,7 +127,37 @@ class WalletInfo extends StatelessWidget {
         ],
       ),
     );
+  }
 
+  Widget _chartAsset(BuildContext context) {
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 14),
+      child: Consumer<WalletProvider>(
+        builder: (context, pro, wg) {
+          return Column(
+            children: [
+
+              if ( pro.defaultListContract![pro.defaultListContract!.indexOf(scModel)].chart == null)
+              const CircularProgressIndicator()
+
+              else if (pro.defaultListContract![pro.defaultListContract!.indexOf(scModel)].chart!.isEmpty)
+              const SizedBox()
+              
+              else Container(
+                child: chartAsset(
+                  lstScModel[lstScModel.indexOf(scModel)].name!,
+                  lstScModel[lstScModel.indexOf(scModel)].symbol!,
+                  'USD',
+                  double.parse("${lstScModel[lstScModel.indexOf(scModel)].marketPrice}".replaceAll(",", "")).toStringAsFixed(5),
+                  lstScModel[lstScModel.indexOf(scModel)].chart!,
+                ),
+              ),
+            ],
+          );
+        }
+      ),
+    );
   }
 
   Widget _tokenInfomation() {
