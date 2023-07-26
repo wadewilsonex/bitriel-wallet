@@ -7,13 +7,13 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final coinMarketCap = MarketUCImpl();
+    final walletProvider = Provider.of<WalletProvider>(context, listen: false);
 
-    coinMarketCap.scrollController.addListener(() {
-      coinMarketCap.backToTop.value = coinMarketCap.scrollController.offset > 400 ? true : false;
+    walletProvider.marketUCImpl.scrollController.addListener(() {
+      walletProvider.marketUCImpl.backToTop.value = walletProvider.marketUCImpl.scrollController.offset > 400 ? true : false;
     });
 
-    coinMarketCap.getMarkets();
+    walletProvider.marketUCImpl.getMarkets();
 
     Provider.of<SDKProvider>(context, listen: false).setBuildContext = context;
     Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: defaultAppBar(context: context),
       body: SingleChildScrollView(
-        controller: coinMarketCap.scrollController,
+        controller: walletProvider.marketUCImpl.scrollController,
         physics: const BouncingScrollPhysics(),
         child: Container(
           color: hexaCodeToColor(AppColors.white),
@@ -57,16 +57,16 @@ class HomeScreen extends StatelessWidget {
       
               _menuItems(context),
       
-              _top100Tokens(context, coinMarketCap),
+              _top100Tokens(context, walletProvider.marketUCImpl),
       
             ],
           ),
         ),
       ),
       floatingActionButton: ValueListenableBuilder(
-        valueListenable: coinMarketCap.backToTop,
+        valueListenable: walletProvider.marketUCImpl.backToTop,
         builder: (context, value, wg){
-          return floatButton(coinMarketCap.scrollController, value);
+          return floatButton(walletProvider.marketUCImpl.scrollController, value);
         }
       )
     );
@@ -264,7 +264,7 @@ class HomeScreen extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TokenInfo(tokenName: current.name, market: current,))
+              MaterialPageRoute(builder: (context) => TokenInfo(tokenName: current.name, market: markets, index: index,))
             );
           },
           child: Padding(

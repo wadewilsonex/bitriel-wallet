@@ -2,7 +2,10 @@ import 'package:bitriel_wallet/index.dart';
 
 class WalletInfo extends StatelessWidget {
 
+  final SmartContractModel scModel;
+
   const WalletInfo({
+    required this.scModel,
     super.key,
   });
 
@@ -16,7 +19,7 @@ class WalletInfo extends StatelessWidget {
           centerTitle: true,
           backgroundColor: hexaCodeToColor(AppColors.background),
           title: MyTextConstant(
-            text: "Bitcoin (BTC)",
+            text: "${scModel.name} (${scModel.symbol})",
             fontSize: 26,
             color2: hexaCodeToColor(AppColors.midNightBlue),
             fontWeight: FontWeight.w600,
@@ -44,7 +47,7 @@ class WalletInfo extends StatelessWidget {
 
           _infoTap(),
 
-          _activityTap()
+          // _activityTap()
 
         ]),
       ),
@@ -54,14 +57,14 @@ class WalletInfo extends StatelessWidget {
   Widget _infoTap() {
     return Column(
       children: [
-        tokenIconHeader(price: double.parse("0.11".replaceAll(",", "")).toStringAsFixed(2)),
+        _tokenIconHeader(price: double.parse("${scModel.balance}".replaceAll(",", "")).toStringAsFixed(2)),
     
-        tokenInfomation(),
+        _tokenInfomation(),
       ],
     );
   }
 
-  Widget tokenIconHeader({required String price}) {
+  Widget _tokenIconHeader({required String price}) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -70,10 +73,10 @@ class WalletInfo extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
             child: Container(
               color: Colors.white, 
-              child: const SizedBox(
+              child: SizedBox(
                 height: 80,
                 width: 80,
-                child: Placeholder(),
+                child: Image.asset("assets/logo/bitriel-logo.png", height: 80, width: 80,),
               ),
               // child: Image.network(
               //   market.logo, width: 80, height: 80, fit: BoxFit.fill,
@@ -83,7 +86,7 @@ class WalletInfo extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: MyTextConstant(
-              text: "${price.replaceAllMapped(Fmt().reg, Fmt().mathFunc)} BTC",
+              text: "${price.replaceAllMapped(Fmt().reg, Fmt().mathFunc)} ${scModel.symbol}",
               fontSize: 25,
               fontWeight: FontWeight.w600,
             ),
@@ -94,7 +97,7 @@ class WalletInfo extends StatelessWidget {
     );
   }
 
-  Widget rowTokenInfo({required String title, required String price}) {
+  Widget _rowTokenInfo({required String title, required String price}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
@@ -119,95 +122,53 @@ class WalletInfo extends StatelessWidget {
 
   }
 
-  Widget tokenInfomation() {
+  Widget _tokenInfomation() {
+    // print("scModel.marketData!.marketCap ${scModel.marketData!.marketCap}");
     return Padding(
       padding: const EdgeInsets.all(paddingSize),
       child: Column(
         children: [
     
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 4,),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4,),
             child: Align(
               alignment: Alignment.topLeft,
               child: MyTextConstant(
-                text: "About Bitcoin",
+                text: "About ${scModel.name}",
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
             ),
           ),
     
-          rowTokenInfo(title: "Market Cap", price: "408,910,725,000.00"),
-    
-          rowTokenInfo(title: "Volume (24h)", price: "408,910,725,000.00"),
-    
-          rowTokenInfo(title: "Circulating Supply", price: "408,910,725,000.00"),
-    
-          rowTokenInfo(title: "Total Supply", price: "408,910,725,000.00"),
-    
-          rowTokenInfo(title: "Max Supply", price: "408,910,725,000.00"),
+        scModel.marketData != null ? 
+        _rowTokenInfo(title: "Market Cap", price: double.parse("${scModel.marketData!.marketCap}".replaceAll(",", "")).toStringAsFixed(2))
+        : Container(),
+
+        // scModel.market![index].volume24h != null ?
+        // _rowTokenInfo(title: "Volume (24h)", price: double.parse("${scModel.market![index].volume24h}".replaceAll(",", "")).toStringAsFixed(2))
+        // : Container(),
+
+        // scModel.market![index].circulatingSupply != null ?
+        // _rowTokenInfo(title: "Circulating Supply", price: double.parse("${scModel.market![index].circulatingSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        // : Container(),
+
+        // scModel.market![index].totalSupply != null ?
+        // _rowTokenInfo(title: "Total Supply", price: double.parse("${scModel.market![index].totalSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        // : Container(),
+        
+        // scModel.market![index].maxSupply != null ?
+        // _rowTokenInfo(title: "Max Supply", price: double.parse("${scModel.market![index].maxSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        // : Container(),
+
     
         ],
       ),
     );
   }
 
-Widget _getGroupSeparator(AssetsModel assetsModel) {
-  return SizedBox(
-    height: 50,
-    child: Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: hexaCodeToColor("#F4F4F4"),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: MyTextConstant(
-            text: assetsModel.chain,
-            color2: hexaCodeToColor("#979797"),
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            textAlign: TextAlign.start,
-          ),
-        ),
-      ),
-    ),
-  );
-}
 
-Widget _getItem(BuildContext ctx, AssetsModel assetsModel) {
-  return SizedBox(
-    child: ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      leading: Icon(assetsModel.icon),
-      title: Text(assetsModel.name),
-      onTap: () {
-        Navigator.push(
-          ctx,
-          MaterialPageRoute(builder: (context) => TransactionDetail())
-        );
-      },
-    ),
-  );
-}
-
-Widget _activityTap() {
-  return StickyGroupedListView<AssetsModel, String>(
-    shrinkWrap: true,
-    elements: elements,
-    order: StickyGroupedListOrder.ASC,
-    groupBy: (AssetsModel element) => element.chain,
-    groupComparator: (String value1, String value2) => value2.compareTo(value1),
-    itemComparator: (AssetsModel element1, AssetsModel element2) => element1.chain.compareTo(element2.chain),
-    floatingHeader: true,
-    groupSeparatorBuilder: _getGroupSeparator,
-    itemBuilder: _getItem,
-  );
-}
-
-  Widget buyAndsellBtn() {
+  Widget _buyAndsellBtn() {
     return Row(
       children: [
 
@@ -240,4 +201,5 @@ Widget _activityTap() {
       ],
     );
   }
+  
 }
