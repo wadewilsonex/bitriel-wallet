@@ -67,11 +67,13 @@ dependencies:
   sticky_grouped_list: ^3.1.0
   shimmer: ^3.0.0
   flutter_svg: ^2.0.7
+  qr_flutter: ^4.1.0
+  quickalert: ^1.0.1
   babstrap_settings_screen:
     git:
       url: https://github.com/MrBoOodY/babstrap_settings_screen.git
       ref: main
-  dropdown_button2: ^2.3.6
+  dropdown_button2:
   easy_debounce: ^2.0.3
 
 dependency_overrides:

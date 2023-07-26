@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/screen/wallet/wallet_info_screen.dart';
 
 class WalletScreen extends StatelessWidget {
 
@@ -161,7 +162,11 @@ Widget _cardPortfolio(BuildContext context) {
                 fontWeight: FontWeight.w600,
                 buttonColor: AppColors.green,
                 action: () async {
-
+                  await pushNewScreen(context, screen: const TokenPayment(), withNavBar: false);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const TokenPayment())
+                  // );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -188,7 +193,12 @@ Widget _cardPortfolio(BuildContext context) {
                 fontWeight: FontWeight.w600,
                 buttonColor: "161414",
                 action: () async {
-
+                  
+                  await pushNewScreen(context, screen: const ReceiveWallet(), withNavBar: false);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const ReceiveWallet())
+                  // );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -246,70 +256,75 @@ Widget _searchBar(TextEditingController searchController) {
   );
 }
 
-  Card getCardByIndex(int index, List<dynamic> member) {
-    return Card(
-      child: ListTile(
-        leading: const CircleAvatar(),
-        title: Text(member[index]["name"]),
-        subtitle: Text(member[index]["noHp"]),
-        onTap: () {},
-      )
-    );
-  }
+Card getCardByIndex(int index, List<dynamic> member) {
+  return Card(
+    child: ListTile(
+      leading: const CircleAvatar(),
+      title: Text(member[index]["name"]),
+      subtitle: Text(member[index]["noHp"]),
+      onTap: () {},
+    )
+  );
+}
 
-    Widget _getGroupSeparator(AssetsModel assetsModel) {
-    return SizedBox(
-      height: 50,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: hexaCodeToColor("#F4F4F4"),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(14),
-            child: MyTextConstant(
-              text: assetsModel.chain,
-              color2: hexaCodeToColor("#979797"),
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              textAlign: TextAlign.start,
-            ),
+  Widget _getGroupSeparator(AssetsModel assetsModel) {
+  return SizedBox(
+    height: 50,
+    child: Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: hexaCodeToColor("#F4F4F4"),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: MyTextConstant(
+            text: assetsModel.chain,
+            color2: hexaCodeToColor("#979797"),
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            textAlign: TextAlign.start,
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
-  Widget _getItem(BuildContext ctx, AssetsModel assetsModel) {
-    return SizedBox(
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        leading: Icon(assetsModel.icon),
-        title: Text(assetsModel.name),
-      ),
-    );
-  }
+Widget _getItem(BuildContext ctx, AssetsModel assetsModel) {
+  return SizedBox(
+    child: ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      leading: Icon(assetsModel.icon),
+      title: Text(assetsModel.name),
+      onTap: () {
+        Navigator.push(
+          ctx,
+          MaterialPageRoute(builder: (context) => WalletInfo())
+        );
+      },
+    ),
+  );
+}
 
-  Widget _listItemAsset() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      child: StickyGroupedListView<AssetsModel, String>(
-        shrinkWrap: true,
-        elements: elements,
-        order: StickyGroupedListOrder.ASC,
-        groupBy: (AssetsModel element) => element.chain,
-        groupComparator: (String value1, String value2) =>
-            value2.compareTo(value1),
-        itemComparator: (AssetsModel element1, AssetsModel element2) =>
-            element1.chain.compareTo(element2.chain),
-        floatingHeader: true,
-        groupSeparatorBuilder: _getGroupSeparator,
-        itemBuilder: _getItem,
-      ),
-    );
-  }
+Widget _listItemAsset() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 15),
+    child: StickyGroupedListView<AssetsModel, String>(
+      shrinkWrap: true,
+      elements: elements,
+      order: StickyGroupedListOrder.ASC,
+      groupBy: (AssetsModel element) => element.chain,
+      groupComparator: (String value1, String value2) => value2.compareTo(value1),
+      itemComparator: (AssetsModel element1, AssetsModel element2) => element1.chain.compareTo(element2.chain),
+      floatingHeader: true,
+      groupSeparatorBuilder: _getGroupSeparator,
+      itemBuilder: _getItem,
+    ),
+  );
+}
+
 
 //  Widget _listAsset(BuildContext context, IndexPath index, Map<String, List> elements) {
 

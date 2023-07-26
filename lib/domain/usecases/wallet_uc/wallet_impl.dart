@@ -101,13 +101,17 @@ class WalletUcImpl implements WalletUsecases{
 
       // mainBalance = 0;
       // sortListContract.clear();
-      
+
       // 1. Add Default Asset First
       for (var element in lst) {
         if (element.show! && element.id != "polkadot" && element.id != "kiwigo"){
-          
+          print("element.symbol! ${element.symbol!}");
+          print("element.balance! ${element.balance!}");
+          print("element.marketPrice! ${element.marketPrice!}");
+          print("element.marketPrice!.isNotEmpty ${element.marketPrice!.isNotEmpty}");
           if (element.marketPrice!.isNotEmpty) {
-            element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
+            print("True True ${element.symbol}");
+            element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice ?? '0.0');
           } else {
             element.money = 0.0;
           }
@@ -143,9 +147,11 @@ class WalletUcImpl implements WalletUsecases{
           }
         }
       }
+
+      print("lst ${lst}");
       
     } catch (e) {
-      
+      print("error sortCoins $e");
       if (kDebugMode) {
         
       }

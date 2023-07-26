@@ -218,62 +218,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
   
-  Widget _topGainerTokens(BuildContext context, MarketUCImpl coinMarketCap) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 14),
-      child: Column(
-        children: [
-
-          const Align(
-            alignment: Alignment.topLeft,
-            child: MyTextConstant(
-              text: "Top Coins 100",
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-
-          ValueListenableBuilder(
-            valueListenable: coinMarketCap.lstMarket, 
-            builder: (context, value, wg){
-              if (value.isEmpty) return const ShimmerMarketWidget();
-              return _listMarketView(value);
-            }
-          )
-
-        ],
-      ),
-    ); 
-  }
-
- Widget _topLoserTokens(BuildContext context, MarketUCImpl coinMarketCap) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 14),
-      child: Column(
-        children: [
-
-          const Align(
-            alignment: Alignment.topLeft,
-            child: MyTextConstant(
-              text: "Top Coins 100",
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-
-          ValueListenableBuilder(
-            valueListenable: coinMarketCap.lstMarket, 
-            builder: (context, value, wg){
-              if (value.isEmpty) return const ShimmerMarketWidget();
-              return _listMarketView(value);
-            }
-          )
-
-        ],
-      ),
-    ); 
-  }
-
   Widget _top100Tokens(BuildContext context, MarketUCImpl coinMarketCap) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 14),
