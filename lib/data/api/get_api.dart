@@ -95,17 +95,17 @@ class GetRequest {
     });
   }
 
-    dynamic getTopGainerData() async {
-    return await http.get(
-      Uri.parse("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=10&sortBy=percent_change_24h&sortType=asc&convert=USD&cryptoType=all&tagType=all&audited=false&aux=ath,atl,high24h,low24h,num_market_pairs,cmc_rank,date_added,max_supply,circulating_supply,total_supply,volume_7d,volume_30d,self_reported_circulating_supply,self_reported_market_cap"),
-      headers: conceteHeader(),
-    );
-  }
+  static Future<http.Response> getMarketsAsset(String? id) async {
 
-  dynamic getTopLosersData() async {
+    final String ua = await userAgent();
+
+    var url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=$id&order=market_cap_desc&per_page=1&page=1&sparkline=false&locale=en";
     return await http.get(
-      Uri.parse("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=10&sortBy=percent_change_24h&sortType=desc&convert=USD&cryptoType=all&tagType=all&audited=false&aux=ath,atl,high24h,low24h,num_market_pairs,cmc_rank,date_added,max_supply,circulating_supply,total_supply,volume_7d,volume_30d,self_reported_circulating_supply,self_reported_market_cap"),
-      headers: conceteHeader(),
+      Uri.parse(url),
+      headers: conceteHeader(
+        key: "User-Agent",
+        value: ua
+      ),
     );
   }
 

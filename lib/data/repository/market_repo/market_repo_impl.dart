@@ -20,4 +20,26 @@ class MarketRepoImpl implements MarketRepository {
     return markets;
 
   }
+
+  @override
+  Future<List<ListMetketCoinGecko>> getMarketsCoinGecko(String? id) async{
+    
+    List<ListMetketCoinGecko> markets = [];
+    await GetRequest.getMarketsAsset(id).then((value) async {
+      if (value.statusCode == 200) {
+        var json = jsonDecode(value.body);
+
+        print("json data $json");
+        
+        for (var jsonMarket in json){
+          var market = ListMetketCoinGecko.fromJson(jsonMarket);
+          markets.add(market);
+        }
+      }
+    });
+
+    return markets;
+
+  }
+
 }

@@ -11,7 +11,7 @@ class WalletScreen extends StatelessWidget {
     TextEditingController searchController = TextEditingController();
 
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
-    print(walletPro.marketUCImpl.lstMarket.value);
+    // print(walletPro.marketUCImpl.lstMarket.value);
 
     if (context.mounted){
 
@@ -59,7 +59,7 @@ class WalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: pro.listNative!.map((e) {
 
-                    return _getItem(ctx: context, element: e, assetsModel: pro.listNative!);
+                    return _getItem(ctx: context, walletPro: walletPro, element: e, assetsModel: pro.listNative!);
 
                   }).toList(),
                 );
@@ -75,7 +75,7 @@ class WalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: pro.listEvmNative!.map((e) {
                     
-                    return _getItem(ctx: context, element: e, assetsModel: pro.listEvmNative!);
+                    return _getItem(ctx: context, walletPro: walletPro, element: e, assetsModel: pro.listEvmNative!);
                     // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
                   }).toList(),
@@ -92,7 +92,7 @@ class WalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: pro.listBep20!.map((e) {
                     
-                    return _getItem(ctx: context, element: e, assetsModel: pro.listBep20!);
+                    return _getItem(ctx: context, walletPro: walletPro, element: e, assetsModel: pro.listBep20!);
                     // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
                   }).toList(),
@@ -109,7 +109,7 @@ class WalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: pro.listErc20!.map((e) {
                     
-                    return _getItem(ctx: context, element: e, assetsModel: pro.listErc20!);
+                    return _getItem(ctx: context, walletPro: walletPro, element: e, assetsModel: pro.listErc20!);
                     // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
                   }).toList(),
@@ -274,55 +274,65 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _getItem({required BuildContext ctx, required SmartContractModel element, required List<SmartContractModel> assetsModel}) {
+  Widget _getItem({required BuildContext ctx, required WalletProvider walletPro, required SmartContractModel element, required List<SmartContractModel> assetsModel}) {
+
+
     return SizedBox(
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
-        leading: SizedBox(
-          height: 25, 
-          width: 25, 
-          child: Image.asset(
-            "assets/logo/bitriel-logo.png",
-            fit: BoxFit.contain,
-            height: 50,
-            width: 50,
-          ),
-        ),
-        title: MyTextConstant(
-          text: assetsModel[assetsModel.indexOf(element)].name!,
-          fontWeight: FontWeight.w600,
-          textAlign: TextAlign.start,
-        ),
-        subtitle: MyTextConstant(
-          text: assetsModel[assetsModel.indexOf(element)].symbol!,
-          color2: hexaCodeToColor(AppColors.grey),
-          fontSize: 12,
-          textAlign: TextAlign.start,
-        ),
-        trailing: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MyTextConstant(
-              text: assetsModel[assetsModel.indexOf(element)].balance!,
+      child: ValueListenableBuilder(
+        valueListenable: walletPro.marketUCImpl.lstMarketCoinGecko,
+        builder: (context, value, wg) {
+          return ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+            leading: SizedBox(
+              height: 25, 
+              width: 25, 
+              child: Image.asset(
+                "assets/logo/bitriel-logo.png",
+                fit: BoxFit.contain,
+                height: 50,
+                width: 50,
+              ),
+            ),
+            title: MyTextConstant(
+              text: assetsModel[assetsModel.indexOf(element)].name!,
               fontWeight: FontWeight.w600,
               textAlign: TextAlign.start,
             ),
-
-            MyTextConstant(
-              text: "\$0.00",
+            subtitle: MyTextConstant(
+              text: assetsModel[assetsModel.indexOf(element)].symbol!,
               color2: hexaCodeToColor(AppColors.grey),
               fontSize: 12,
               textAlign: TextAlign.start,
             ),
-          ],
-        ),
-        onTap: () {
-          Navigator.push(
-            ctx,
-            MaterialPageRoute(builder: (context) => WalletInfo(scModel: element, lstScModel: assetsModel,))
+            trailing: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MyTextConstant(
+                  text: assetsModel[assetsModel.indexOf(element)].balance!,
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.start,
+                ),
+
+                MyTextConstant(
+                  text: "\$0.00",
+                  color2: hexaCodeToColor(AppColors.grey),
+                  fontSize: 12,
+                  textAlign: TextAlign.start,
+                ),
+              ],
+            ),
+            onTap: () {
+
+              walletPro.marketUCImpl.getMarketsCoinGecko(assetsModel[assetsModel.indexOf(element)].name!.toLowerCase());
+
+              Navigator.push(
+                ctx,
+                MaterialPageRoute(builder: (context) => WalletInfo(scModel: element, lstScModel: assetsModel, lstMarketCoinGecko: value,))
+              );
+            },
           );
-        },
+        }
       ),
     );
   }
