@@ -23,6 +23,11 @@ class AssetProvider with ChangeNotifier{
       // Notify listeners if needed
       notifyListeners();
 
+    } else {
+
+      isDownloadedAsset = true;
+      // Notify listeners if needed
+      notifyListeners();
     }
     
     await downloadSecondAsset();

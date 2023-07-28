@@ -19,6 +19,13 @@ class AddAsset extends StatelessWidget {
         children: [
 
           ValueListenableBuilder(
+            valueListenable: Provider.of<SDKProvider>(context, listen: false).isMainnet, 
+            builder: (context, value, wg){
+              return Text( value == true ? "Mainnet" : "Testnet" );
+            }
+          ),
+
+          ValueListenableBuilder(
             valueListenable: addAssetUcImpl.networkIndex, 
             builder: (context, value, wg){
               return Text(addAssetUcImpl.networkSymbol![value]['symbol']);

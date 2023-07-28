@@ -11,6 +11,10 @@ class SdkRepoImpl implements SDKRepository {
   List<NetworkParams> nodes = [];
 
   final NetworkParams _params = NetworkParams();
+  
+  set setIsMainnet(bool value){
+    _bitrielSDK.setIsMainnet = value;
+  }
 
   /// 1.
   /// 

@@ -38,13 +38,21 @@ class ImportWalletImpl implements ImportWalletUsecases {
 
   @override
   Future<void> addAndImport(String pin) async {
+    try {
 
-    await _accountManagementImpl.addAndImport(sdkProvider!, _context!, seedController.text, pin);
+      await _accountManagementImpl.addAndImport(sdkProvider!, _context!, seedController.text, pin);
 
-    await _accountManagementImpl.verifyLaterData(sdkProvider, true);
+      await _accountManagementImpl.verifyLaterData(sdkProvider, true);
 
-    if (isMultiAcc == true) {
-      Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute.toString()}", (route) => false);
+      if (isMultiAcc == true) {
+        Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute.toString()}", (route) => false);
+      }
+      else {
+        Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.homeRoute}", (route) => false);
+      }
+
+    } catch (e) {
+      print("Error addAndImport $e");
     }
 
   }

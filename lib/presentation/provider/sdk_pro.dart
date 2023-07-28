@@ -18,22 +18,39 @@ class SDKProvider with ChangeNotifier {
 
   List<UnverifySeed> get getUnverifyAcc => _accountManagementImpl.unVerifyAccount;
 
+  ValueNotifier<bool> isMainnet = ValueNotifier(false);
+
+  // get bool getIsMainNet => _sdkImpl.
+
   set setBuildContext(BuildContext ctx) {
+
     _sdkImpl.setBuildContext = ctx;
+
     getApplicationDocumentsDirectory().then((value) {
       dirPath = value.path;
       notifyListeners();
     });
   }
 
+  set setIsMainnet(bool value){
+
+    isMainnet.value = value;
+    _sdkImpl.setIsMainnet = value;
+
+  }
+
   set setEvmAddress(String value){
+
     _sdkImpl.evmAddress = value;
     notifyListeners();
+
   }
 
   set setBtcAddress(String value){
+
     _sdkImpl.btcAddress = value;
     notifyListeners();
+    
   }
 
   List<NetworkModel> get getLstSelNetwork => _sdkImpl.lstSelendraNetwork;
@@ -56,7 +73,7 @@ class SDKProvider with ChangeNotifier {
 
   /// Change Network
   Future<void> setNetworkParamState(NetworkModel nwModel, int nwIndex, int epIndex, Function modalBottomSetState) async {
-    print("State setNetworkParamState");
+
     if ( (_sdkImpl.networkIndex == nwIndex && _sdkImpl.connectedIndex != epIndex) || _sdkImpl.networkIndex != nwIndex ){
 
       dialogLoading(_sdkImpl.context!);
@@ -80,7 +97,7 @@ class SDKProvider with ChangeNotifier {
     Navigator.pop(_sdkImpl.context!);
     
     if (isSuccess == true) {
-      print("Never success isSuccess");
+      
       changeModalBottomState(() {});
 
       _sdkImpl.networkIndex = _sdkImpl.networkIndex == 0 ? 1 : 0;
@@ -100,10 +117,6 @@ class SDKProvider with ChangeNotifier {
 
     // Connection Failed
     else {
-
-      print("connect failed");
-
-      print(_sdkImpl.networkIndex);
 
       // In this connect failed:
       // Reset Set Param To previous Network sdk_uc_impl.dart file line 83
@@ -135,6 +148,7 @@ class SDKProvider with ChangeNotifier {
     await _accountManagementImpl.fetchAccount();
 
     setEvmAddress = getUnverifyAcc[0].ethAddress!;
+    
     setBtcAddress = getUnverifyAcc[0].btcAddress!;
   }
 

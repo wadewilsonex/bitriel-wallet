@@ -41,6 +41,15 @@ export 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 export 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 // ignore: depend_on_referenced_packages
 export 'package:polkawallet_sdk/utils/index.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/api/types/txInfoData.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/api/apiTx.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/service/tx.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/api/api.dart';
+
 export 'package:bitriel_wallet/data/storage.dart';
 
 /*---------- Data Layer ----------*/
@@ -141,6 +150,7 @@ export 'package:bitriel_wallet/presentation/widget/wallet/wallet_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/text_c.dart';
 export 'package:bitriel_wallet/presentation/widget/shimmer_market_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/dropdown_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/navbar_widget.dart';
 
 // Provider
 export 'package:bitriel_wallet/presentation/provider/asset_pro.dart';

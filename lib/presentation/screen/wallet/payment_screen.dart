@@ -19,9 +19,13 @@ class TokenPayment extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
 
-          dropDown(paymentUcImpl.walletProvider!.sortListContract!, paymentUcImpl.index),
+          Consumer<WalletProvider>(
+            builder: (context, pro, wg){
+              return dropDown(pro.sortListContract!, paymentUcImpl.index);
+            },
+          ),
 
-          _getEnterAddrSection(paymentUcImpl.addrController, paymentUcImpl.onChanged),
+          _getEnterAddrSection(paymentUcImpl.recipientController, paymentUcImpl.onChanged),
           
           _getEnterAmountSection(paymentUcImpl.amountController),
 
@@ -39,11 +43,7 @@ class TokenPayment extends StatelessWidget {
                     opacity: 0.9,
                     action: () async {
                       
-                      QuickAlert.show(
-                        context: context,
-                        type: QuickAlertType.success,
-                        text: 'Transaction Completed Successfully!',
-                      );
+                      await paymentUcImpl.submitTrx();
 
                     },
                   ),

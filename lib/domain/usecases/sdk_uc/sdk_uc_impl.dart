@@ -5,14 +5,13 @@ import 'package:bitriel_wallet/index.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:flutter_bitcoin/flutter_bitcoin.dart';
+import 'package:get/utils.dart';
 
 class BitrielSDKImpl implements BitrielSDKUseCase{
   
   final SdkRepoImpl sdkRepoImpl = SdkRepoImpl();
 
   final Web3RepoImpl _web3repoImpl = Web3RepoImpl();
-
-  final HttpRequestImpl _httpRequestImpl = HttpRequestImpl();
 
   String get getSELAddress => sdkRepoImpl.getKeyring.current.address!;
 
@@ -24,7 +23,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
   DeployedContract? bscDeployedContract;
   DeployedContract? etherDeployedContract;
-  
 
   // Map<String, List<String>> lstSelendraNetwork = {};
 
@@ -40,6 +38,11 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   BuildContext? context;
 
   set setBuildContext(BuildContext ctx) => context = ctx;
+
+  set setIsMainnet(bool value){
+    sdkRepoImpl.setIsMainnet = value;
+    _web3repoImpl.setIsMainnet = value;
+  }
 
   //
   //
@@ -90,7 +93,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     
   }
   
-  //  = 'assets/js/main.js'
   /// 2 
   @override
   Future<void> initBitrielSDK({required String jsFilePath}) async {
@@ -112,7 +114,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   @override
   Future<void> setNetworkParam(String network, int nwIndex, int epIndex, {Function? connectionTerminator, Function? modalBottomSetState}) async {
 
-    print("setNetworkParam");
     // Set Network Param with New Network Selected
     sdkRepoImpl.setNetworkParam(network: lstSelendraNetwork[nwIndex].lstNetwork![epIndex]);
     
@@ -240,6 +241,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     } catch (e) {
 
       if (kDebugMode) {
+        print("Error delete account $e");
       }
       // await dialog(context, e.toString(), 'Opps');
     }
@@ -296,28 +298,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       // await customDialog(context, 'Oops', e.toString());
     }
   }
-
-  Future<String> getBtcBalance() async {
-
-    int totalSatoshi = 0;
-    Response res = await _httpRequestImpl.fetchAddrUxtoBTC(btcAddress!);
-    
-    List<dynamic> decode = json.decode(res.body);
-
-    if (decode.isEmpty) {
-        // contract.listContract[btcIndex].balance = '0';
-    } else {
-      for (final i in decode) {
-        if (i['status']['confirmed'] == true) {
-          totalSatoshi += int.parse(i['value'].toString());
-        }
-      }
-
-      // contract.listContract[btcIndex].balance = (totalSatoshi / bitcoinSatFmt).toString();
-    }
-    return totalSatoshi.toString();
-
-  }
   
   Future<String?> _encryptPrivateKey(String privateKey, String pin) async {
     final key = Encrypt.passwordToEncryptKey(pin);
@@ -338,7 +318,11 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   }
 
   Future<EtherAmount> getEvmBalance(Web3Client client, EthereumAddress addr) async {
-    return await client.getBalance(addr);
+    client.socketConnector.printInfo();
+    return await client.getBalance(addr).then((value) {
+      print("value ${value}");
+      return value;
+    });
 
   }
 
@@ -368,13 +352,12 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     return [];
   }
 
-  Future<String> fetchSELAddress() async {
-    return await sdkRepoImpl.querySELAddress(getSELAddress);
-
-  }
-
   Future<bool> validateWeb3Address(String addr) async {
     return await sdkRepoImpl.validateWeb3Address(addr);
 
+  }
+
+  EthPrivateKey getPrivateKey(String hex) {
+    return EthPrivateKey.fromHex(hex);
   }
 }

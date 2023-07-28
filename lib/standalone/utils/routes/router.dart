@@ -16,7 +16,7 @@ class AppRouter {
   
   static final Map<String, Widget Function(BuildContext)> router = {
     // "/": (context) => const SwapExchange(),
-    "/": (context) => const Welcome(),
+    "/": (context) => const SplashScreen(),
     // "/": (context) => const WalletScreen(),
     "/${BitrielRouter.welcomeRoute}": (context) => const Welcome(),
     "/${BitrielRouter.multiAccRoute}": (context) => const MultiAccountScreen(),
@@ -24,7 +24,6 @@ class AppRouter {
     "/${BitrielRouter.importWalletRoute}": (context) => const ImportWalletScreen(),
     "/${BitrielRouter.walletRoute}": (context) => const WalletScreen(),
     "/${BitrielRouter.homeRoute}": (context) => const MainScreen(),
-
   };
   //  = GoRouter(
   //   routes: [

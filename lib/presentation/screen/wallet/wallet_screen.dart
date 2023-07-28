@@ -11,16 +11,15 @@ class WalletScreen extends StatelessWidget {
     TextEditingController searchController = TextEditingController();
 
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
-    print(walletPro.marketUCImpl.lstMarket.value);
 
     if (context.mounted){
 
       walletPro.setBuildContext = context;
       
-      if (walletPro.defaultListContract!.isEmpty) {
+      if (walletPro.defaultListContract == null) {
         walletPro.getAsset();
       
-        Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
+        // Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
       }
     }
 
@@ -29,6 +28,18 @@ class WalletScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            
+            ValueListenableBuilder(
+              valueListenable: Provider.of<SDKProvider>(context, listen: false).isMainnet, 
+              builder: (context, value, wg){
+                return Switch(
+                  value: value,
+                  onChanged: (value) {
+                    walletPro.switchChange(value);
+                  },
+                );
+              }
+            ),
             
             _cardPortfolio(context),
 
@@ -55,7 +66,14 @@ class WalletScreen extends StatelessWidget {
             _getGroupSeparator("Native"),
             Consumer<WalletProvider>(
               builder: (context, pro, wg) {
-                if (pro.defaultListContract!.isEmpty) return const CircularProgressIndicator();
+                
+                if (pro.listNative == null) {
+                  return const CircularProgressIndicator();
+                }
+                else if (pro.listNative!.isEmpty) {
+                  return const Text("No token");
+                }
+
                 return ListView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -71,7 +89,14 @@ class WalletScreen extends StatelessWidget {
             _getGroupSeparator("EVM"),
             Consumer<WalletProvider>(
               builder: (context, pro, wg) {
-                if (pro.defaultListContract!.isEmpty) return const CircularProgressIndicator();
+
+                if (pro.listEvmNative == null) {
+                  return const CircularProgressIndicator();
+                }
+                else if (pro.listEvmNative!.isEmpty) {
+                  return const Text("No token");
+                }
+
                 return ListView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -88,7 +113,14 @@ class WalletScreen extends StatelessWidget {
             _getGroupSeparator("BEP20"),
             Consumer<WalletProvider>(
               builder: (context, pro, wg) {
-                if (pro.defaultListContract!.isEmpty) return const CircularProgressIndicator();
+
+                if (pro.listBep20 == null) {
+                  return const CircularProgressIndicator();
+                }
+                else if (pro.listBep20!.isEmpty) {
+                  return const Text("No token");
+                }
+
                 return ListView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -105,7 +137,14 @@ class WalletScreen extends StatelessWidget {
             _getGroupSeparator("ERC20"),
             Consumer<WalletProvider>(
               builder: (context, pro, wg) {
-                if (pro.defaultListContract!.isEmpty) return const CircularProgressIndicator();
+                
+                if (pro.listErc20 == null) {
+                  return const CircularProgressIndicator();
+                }
+                else if (pro.listErc20!.isEmpty) {
+                  return const Text("No token");
+                }
+
                 return ListView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),

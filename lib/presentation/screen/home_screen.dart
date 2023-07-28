@@ -16,6 +16,7 @@ class HomeScreen extends StatelessWidget {
     walletProvider.marketUCImpl.getMarkets();
 
     Provider.of<SDKProvider>(context, listen: false).setBuildContext = context;
+    
     Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
 
     return Scaffold(

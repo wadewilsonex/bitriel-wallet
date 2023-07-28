@@ -6,14 +6,12 @@ class SmartContractModel {
   String? id;
   String? address;
   String? contract;
-  String? contractTest;
   String? symbol;
   String? name;
   String? balance;
   String? logo;
   String? type;
   String? org;
-  String? orgTest;
 
   bool? isEther;
   bool? isBSC;
@@ -25,7 +23,6 @@ class SmartContractModel {
   String? marketPrice;
   String? change24h;
   int? chainDecimal;
-  bool? isContain;
   bool? show;
   bool? isAdded;
   String? maxSupply;
@@ -49,11 +46,9 @@ class SmartContractModel {
     this.logo,
     this.type,
     this.org = '',
-    this.orgTest = '',
     // this.marketData,
     this.marketPrice = '0',
     this.change24h = '',
-    this.isContain, 
     this.show,
     this.maxSupply,
     this.description,
@@ -61,7 +56,6 @@ class SmartContractModel {
     this.lineChartList,
     // this.lineChartModel,
     this.contract,
-    this.contractTest,
     // this.chart,
     this.isAdded = false,
     this.isEther = false,
@@ -83,14 +77,12 @@ class SmartContractModel {
       type: json['type'],
       logo: json['logo'],
       org: json['org'],
-      orgTest: json['org_test'],
       isEther: json["is_ether"] ?? false,
       isBSC: json["is_bsc"] ?? false,
       isNative: json["is_native"] ?? false,
       isBep20: json["is_bep20"] ?? false,
       isErc20: json["is_erc20"] ?? false,
       contract: json['contract'],
-      contractTest: json['contract_test'],
       chainDecimal: json['chainDecimal'],
       // marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
       // lineChartList: json['lineChartData'] != null
@@ -117,7 +109,6 @@ class SmartContractModel {
     'type': asset.type,
     'logo': asset.logo,
     'org': asset.org,
-    'org_test': asset.orgTest,
     'market': asset.marketData,
     'lineChartData': asset.lineChartList,
     'change24h': asset.change24h,
@@ -125,7 +116,6 @@ class SmartContractModel {
     'name': asset.name,
     "chainDecimal": asset.chainDecimal,
     "contract": asset.contract,
-    "contract_test": asset.contractTest,
     // 'lineChartModel': LineChartModel.toJson(asset.lineChartModel!),
     'show': asset.show,
     'max_supply': asset.maxSupply,
