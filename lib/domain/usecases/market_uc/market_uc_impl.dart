@@ -19,10 +19,4 @@ class MarketUCImpl implements MarketUseCases {
     lstMarket.value = await marketRepoImpl.getMarkets();
   }
 
-  @override
-  Future<void> getMarketsCoinGecko(String? id) async {
-
-    lstMarketCoinGecko.value = [];
-    lstMarketCoinGecko.value = await marketRepoImpl.getMarketsCoinGecko(id);
-  }
 }

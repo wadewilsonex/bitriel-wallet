@@ -5,19 +5,29 @@ class WalletInfo extends StatelessWidget {
 
   final SmartContractModel scModel;
   final List<SmartContractModel> lstScModel;
-  final List<ListMetketCoinGecko> lstMarketCoinGecko;
+  final List<Market> market;
 
   const WalletInfo({
     required this.scModel,
     required this.lstScModel,
-    required this.lstMarketCoinGecko,
+    required this.market,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<WalletProvider>(context, listen: false).queryAssetChart(lstScModel, lstScModel.indexOf(scModel));
+    final walletPro = Provider.of<WalletProvider>(context, listen: false);
+
+    walletPro.queryAssetChart(lstScModel, lstScModel.indexOf(scModel));
+
+    // walletPro.marketUCImpl.getMarkets();
+
+    // print("market[walletPro.defaultListContract!.indexOf(scModel)].name ${market[walletPro.defaultListContract!.indexOf(scModel)].name}");
+
+    // if (kDebugMode) {
+    //   print("find index: ${market[walletPro.defaultListContract!.where((element) => element.id == "bitcoin")].name}");
+    // }
 
     return DefaultTabController(  
       length: 2,
@@ -53,23 +63,23 @@ class WalletInfo extends StatelessWidget {
         ),
         body: TabBarView(children: [
 
-          _infoTap(context),
+          _infoTap(context, walletPro),
 
-          _infoTap(context),
+          _infoTap(context, walletPro),
 
         ]),
       ),
     );
   }
 
-  Widget _infoTap(BuildContext context) {
+  Widget _infoTap(BuildContext context, WalletProvider walletPro) {
     return Column(
       children: [
         _tokenIconHeader(price: double.parse("${scModel.balance}".replaceAll(",", "")).toStringAsFixed(2)),
 
         _chartAsset(context),
     
-        lstMarketCoinGecko.isNotEmpty ? _tokenInfomation() : const SizedBox(),
+        // lstScModel.isNotEmpty ? _tokenInfomation(walletPro) : const SizedBox(),
       ],
     );
   }
@@ -151,7 +161,7 @@ class WalletInfo extends StatelessWidget {
                   lstScModel[lstScModel.indexOf(scModel)].name!,
                   lstScModel[lstScModel.indexOf(scModel)].symbol!,
                   'USD',
-                  pro.marketUCImpl.lstMarketCoinGecko.value.isNotEmpty ? double.parse("${pro.marketUCImpl.lstMarketCoinGecko.value[0].currentPrice}".replaceAll(",", "")).toStringAsFixed(2) : "",
+                  double.parse("${market[lstScModel.indexOf(scModel)].price}".replaceAll(",", "")).toStringAsFixed(2),
                   lstScModel[lstScModel.indexOf(scModel)].chart!,
                 ),
               ),
@@ -162,7 +172,7 @@ class WalletInfo extends StatelessWidget {
     );
   }
 
-  Widget _tokenInfomation() {
+  Widget _tokenInfomation(WalletProvider walletProvider) {
     // print("scModel.marketData!.marketCap ${scModel.marketData!.marketCap}");
     return Padding(
       padding: const EdgeInsets.all(paddingSize),
@@ -181,29 +191,25 @@ class WalletInfo extends StatelessWidget {
             ),
           ),
 
-        if(lstMarketCoinGecko.isNotEmpty)    
-        lstMarketCoinGecko[0].marketCap != null ? 
-        _rowTokenInfo(title: "Market Cap", price: double.parse("${lstMarketCoinGecko[0].marketCap}".replaceAll(",", "")).toStringAsFixed(2))
-        : Container()
-        else Container(),
+        market[walletProvider.defaultListContract!.indexOf(scModel)].marketCap != null ? 
+        _rowTokenInfo(title: "Market Cap", price: double.parse("${market[walletProvider.defaultListContract!.indexOf(scModel)].marketCap}".replaceAll(",", "")).toStringAsFixed(2))
+        : Container(),
 
-        if(lstMarketCoinGecko.isNotEmpty)    
-        lstMarketCoinGecko[0].circulatingSupply != null ?
-        _rowTokenInfo(title: "Circulating Supply", price: double.parse("${lstMarketCoinGecko[0].circulatingSupply}".replaceAll(",", "")).toStringAsFixed(2))
-        : Container()
-        else Container(),
+        // market[lstScModel.indexOf(scModel)].volume24h != null ?
+        // _rowTokenInfo(title: "Volume (24h)", price: double.parse("${market[lstScModel.indexOf(scModel)].volume24h}".replaceAll(",", "")).toStringAsFixed(2))
+        // : Container(),
 
-        if(lstMarketCoinGecko.isNotEmpty)    
-        lstMarketCoinGecko[0].totalSupply != null ?
-        _rowTokenInfo(title: "Total Supply", price: double.parse("${lstMarketCoinGecko[0].totalSupply}".replaceAll(",", "")).toStringAsFixed(2))
-        : Container()
-        else Container(),
+        // market[lstScModel.indexOf(scModel)].circulatingSupply != null ?
+        // _rowTokenInfo(title: "Circulating Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].circulatingSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        // : Container(),
 
-        if(lstMarketCoinGecko.isNotEmpty)    
-        lstMarketCoinGecko[0].maxSupply != null ?
-        _rowTokenInfo(title: "Max Supply", price: double.parse("${lstMarketCoinGecko[0].maxSupply}".replaceAll(",", "")).toStringAsFixed(2))
-        : Container()
-        else Container()
+        // market[lstScModel.indexOf(scModel)].totalSupply != null ?
+        // _rowTokenInfo(title: "Total Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].totalSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        // : Container(),
+        
+        // market[lstScModel.indexOf(scModel)].maxSupply != null ?
+        // _rowTokenInfo(title: "Max Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].maxSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        // : Container(),
 
     
         ],

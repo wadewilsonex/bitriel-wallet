@@ -30,24 +30,25 @@ class WalletScreen extends StatelessWidget {
             
             _cardPortfolio(context),
 
-            Row(
-              children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15, right: 15, left: 15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+            
+                  Expanded(child: _searchBar(searchController)),
 
-                Expanded(child: _searchBar(searchController)),
-                
-                IconButton(
-                  onPressed: () async {
-                    await pushNewScreen(context, screen: const AddAsset(), withNavBar: false);
-                    // Navigator.push(
-                    //   context, 
-                    //   MaterialPageRoute(builder: (context) => const AddAsset())
-                    // );
-                  }, 
-                  icon: const Icon(Icons.add)
-                ),
-
-                const SizedBox(width: 14)
-              ],
+                  IconButton(
+                    onPressed: () async {
+                      await pushNewScreen(context, screen: const AddAsset(), withNavBar: false);
+                    }, 
+                    icon: const Icon(Iconsax.add_circle)
+                  ),
+            
+                  
+                ],
+              ),
             ),
 
             _getGroupSeparator("Native"),
@@ -59,7 +60,7 @@ class WalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: pro.listNative!.map((e) {
 
-                    return _getItem(ctx: context, walletPro: walletPro, element: e, assetsModel: pro.listNative!);
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listNative!);
 
                   }).toList(),
                 );
@@ -75,7 +76,7 @@ class WalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: pro.listEvmNative!.map((e) {
                     
-                    return _getItem(ctx: context, walletPro: walletPro, element: e, assetsModel: pro.listEvmNative!);
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listEvmNative!);
                     // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
                   }).toList(),
@@ -92,7 +93,7 @@ class WalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: pro.listBep20!.map((e) {
                     
-                    return _getItem(ctx: context, walletPro: walletPro, element: e, assetsModel: pro.listBep20!);
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listBep20!);
                     // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
                   }).toList(),
@@ -109,7 +110,7 @@ class WalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: pro.listErc20!.map((e) {
                     
-                    return _getItem(ctx: context, walletPro: walletPro, element: e, assetsModel: pro.listErc20!);
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listErc20!);
                     // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
                   }).toList(),
@@ -274,12 +275,12 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _getItem({required BuildContext ctx, required WalletProvider walletPro, required SmartContractModel element, required List<SmartContractModel> assetsModel}) {
+  Widget _getItem({required BuildContext ctx, required MarketUCImpl coinMarketCap, required SmartContractModel element, required List<SmartContractModel> assetsModel}) {
 
 
     return SizedBox(
       child: ValueListenableBuilder(
-        valueListenable: walletPro.marketUCImpl.lstMarketCoinGecko,
+        valueListenable: coinMarketCap.lstMarket,
         builder: (context, value, wg) {
           return ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -323,12 +324,9 @@ class WalletScreen extends StatelessWidget {
               ],
             ),
             onTap: () {
-
-              walletPro.marketUCImpl.getMarketsCoinGecko(assetsModel[assetsModel.indexOf(element)].name!.toLowerCase());
-
               Navigator.push(
                 ctx,
-                MaterialPageRoute(builder: (context) => WalletInfo(scModel: element, lstScModel: assetsModel, lstMarketCoinGecko: value,))
+                MaterialPageRoute(builder: (context) => WalletInfo(scModel: element, lstScModel: assetsModel, market: value,))
               );
             },
           );

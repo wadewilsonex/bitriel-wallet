@@ -95,18 +95,4 @@ class GetRequest {
     });
   }
 
-  static Future<http.Response> getMarketsAsset(String? id) async {
-
-    final String ua = await userAgent();
-
-    var url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=$id&order=market_cap_desc&per_page=1&page=1&sparkline=false&locale=en";
-    return await http.get(
-      Uri.parse(url),
-      headers: conceteHeader(
-        key: "User-Agent",
-        value: ua
-      ),
-    );
-  }
-
 }
