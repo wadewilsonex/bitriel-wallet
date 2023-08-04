@@ -109,8 +109,8 @@ class HomeScreen extends StatelessWidget {
                           title: "Swap",
                           asset: "assets/icons/exchange.png",
                           hexColor: "#219EBC",
-                          action: () async {
-                            await pushNewScreen(context, screen: const SwapExchange(), withNavBar: false);
+                          action: () {
+                            pushNewScreen(context, screen: const SwapExchange(), withNavBar: false);
                           },
                         ),
                       ),

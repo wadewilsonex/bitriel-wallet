@@ -95,4 +95,12 @@ class GetRequest {
     });
   }
 
+  static Future<http.Response> getLetsExchangeCoin() async {
+    var url = "https://api.letsexchange.io/api/v2/coins";
+    var token = dotenv.get('LETS_EXCHANGE_TOKEN');
+    return await http.get(Uri.parse(url),headers: {
+      "Authorization" : "Bearer $token"
+    });
+  }
+
 }

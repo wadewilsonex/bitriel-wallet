@@ -40,8 +40,8 @@ class WalletScreen extends StatelessWidget {
                   Expanded(child: _searchBar(searchController)),
 
                   IconButton(
-                    onPressed: () async {
-                      await pushNewScreen(context, screen: const AddAsset(), withNavBar: false);
+                    onPressed: () {
+                      pushNewScreen(context, screen: const AddAsset(), withNavBar: false);
                     }, 
                     icon: const Icon(Iconsax.add_circle)
                   ),
@@ -160,8 +160,8 @@ class WalletScreen extends StatelessWidget {
                 edgeMargin: const EdgeInsets.all(10),
                 fontWeight: FontWeight.w600,
                 buttonColor: AppColors.green,
-                action: () async {
-                  await pushNewScreen(context, screen: const TokenPayment(), withNavBar: false);
+                action: () {
+                  pushNewScreen(context, screen: const TokenPayment(), withNavBar: false);
                   // Navigator.push(
                   //   context,
                   //   MaterialPageRoute(builder: (context) => const TokenPayment())
@@ -191,9 +191,9 @@ class WalletScreen extends StatelessWidget {
                 edgeMargin: const EdgeInsets.all(10),
                 fontWeight: FontWeight.w600,
                 buttonColor: "161414",
-                action: () async {
+                action: () {
                   
-                  await pushNewScreen(context, screen: const ReceiveWallet(), withNavBar: false);
+                  pushNewScreen(context, screen: const ReceiveWallet(), withNavBar: false);
                   // Navigator.push(
                   //   context,
                   //   MaterialPageRoute(builder: (context) => const ReceiveWallet())

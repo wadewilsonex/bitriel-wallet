@@ -1,5 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/widget/swap_numpad_c.dart';
 
 class SwapExchange extends StatelessWidget {
   const SwapExchange({super.key});
@@ -7,7 +6,11 @@ class SwapExchange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    TextEditingController? myController = TextEditingController();
+    LetsExchangeUCImpl letsExchangeUCImpl = LetsExchangeUCImpl();
+
+    TextEditingController myController = TextEditingController();
+
+    letsExchangeUCImpl.getLetsExchangeCoin();
 
     return Scaffold(
       appBar: appBar(context, title: "Swap"),
@@ -27,7 +30,7 @@ class SwapExchange extends StatelessWidget {
                 child: Column(
                   children: [
 
-                    _payInput(context, myController),
+                    _payInput(context, myController, letsExchangeUCImpl),
 
                     Align(
                       alignment: Alignment.centerRight,
@@ -40,7 +43,7 @@ class SwapExchange extends StatelessWidget {
                     ),
                   
 
-                    _getDisplay(context),
+                    _getDisplay(context, letsExchangeUCImpl),
                   ],
                 ),
               ),
@@ -68,7 +71,7 @@ class SwapExchange extends StatelessWidget {
     );
   }
 
-    Widget _payInput(BuildContext context, TextEditingController myController) {
+  Widget _payInput(BuildContext context, TextEditingController myController, LetsExchangeUCImpl leUCImpl) {
     return Padding(
       padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
       child: Column(
@@ -134,12 +137,19 @@ class SwapExchange extends StatelessWidget {
 
               Expanded(child: Container()),
 
-              _ddTokenButton(
-                context: context, 
-                i: 0,
-                onPressed: () async {
+              ValueListenableBuilder(
+                valueListenable: leUCImpl.lstLECoin,
+                builder: (context, value, wg) {
+                  return value.isNotEmpty ? _ddTokenButton(
+                    context: context, 
+                    i: 0,
+                    onPressed: () {
 
-                 
+                      pushNewScreen(context, screen: SelectSwapToken(itemLE: value), withNavBar: false);
+
+                    },
+                    letsExchangeRepoImpl: leUCImpl
+                  ) : const CircularProgressIndicator();
                 }
               ),
 
@@ -151,7 +161,7 @@ class SwapExchange extends StatelessWidget {
     );
   }
   
-  Widget _getDisplay(BuildContext context){
+  Widget _getDisplay(BuildContext context, LetsExchangeUCImpl leUCImpl){
     return Padding(
       padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
       child: Column(
@@ -195,12 +205,19 @@ class SwapExchange extends StatelessWidget {
 
               Expanded(child: Container()),
             
-              _ddTokenButton(
-                context: context, 
-                i: 1,
-                onPressed: () async {
+              ValueListenableBuilder(
+                valueListenable: leUCImpl.lstLECoin,
+                builder: (context, value, wg) {
+                  return value.isNotEmpty ? _ddTokenButton(
+                    context: context, 
+                    i: 1,
+                    onPressed: () {
 
-                
+                      pushNewScreen(context, screen: SelectSwapToken(itemLE: value), withNavBar: false);
+
+                    },
+                    letsExchangeRepoImpl: leUCImpl
+                  ) : const CircularProgressIndicator();
                 }
               ),
               
@@ -212,7 +229,7 @@ class SwapExchange extends StatelessWidget {
   }
 
   /// dd stand for dropdown
-  Widget _ddTokenButton({BuildContext? context, Function()? onPressed, required int? i}){
+  Widget _ddTokenButton({BuildContext? context, Function()? onPressed, required int? i, required LetsExchangeUCImpl letsExchangeRepoImpl}){
     
     return GestureDetector(
       onTap: onPressed!,
@@ -226,7 +243,7 @@ class SwapExchange extends StatelessWidget {
             width: 30,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: const Placeholder(),
+              child: SvgPicture.network(i == 0 ? letsExchangeRepoImpl.lstLECoin.value[0].icon!.replaceAll("\\/", "/") : letsExchangeRepoImpl.lstLECoin.value[1].icon!.replaceAll("\\/", "/")) ,
             ),
           ),
 
@@ -234,7 +251,7 @@ class SwapExchange extends StatelessWidget {
           
           MyTextConstant(
             textAlign: TextAlign.start,
-            text: "SEL",
+            text: i == 0 ? letsExchangeRepoImpl.lstLECoin.value[0].code : letsExchangeRepoImpl.lstLECoin.value[1].code,
             fontSize: 18,
             color2: hexaCodeToColor("#949393"),
           ),
