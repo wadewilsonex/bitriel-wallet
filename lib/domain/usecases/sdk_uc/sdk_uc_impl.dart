@@ -12,8 +12,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
   final Web3RepoImpl _web3repoImpl = Web3RepoImpl();
 
-  final HttpRequestImpl _httpRequestImpl = HttpRequestImpl();
-
   String get getSELAddress => sdkRepoImpl.getKeyring.current.address!;
 
   Keyring get getKeyring => sdkRepoImpl.getKeyring;
@@ -24,7 +22,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
   DeployedContract? bscDeployedContract;
   DeployedContract? etherDeployedContract;
-  
 
   // Map<String, List<String>> lstSelendraNetwork = {};
 
@@ -40,6 +37,11 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   BuildContext? context;
 
   set setBuildContext(BuildContext ctx) => context = ctx;
+
+  set setIsMainnet(bool value){
+    sdkRepoImpl.setIsMainnet = value;
+    _web3repoImpl.setIsMainnet = value;
+  }
 
   //
   //
@@ -90,7 +92,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     
   }
   
-  //  = 'assets/js/main.js'
   /// 2 
   @override
   Future<void> initBitrielSDK({required String jsFilePath}) async {
@@ -112,7 +113,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   @override
   Future<void> setNetworkParam(String network, int nwIndex, int epIndex, {Function? connectionTerminator, Function? modalBottomSetState}) async {
 
-    print("setNetworkParam");
     // Set Network Param with New Network Selected
     sdkRepoImpl.setNetworkParam(network: lstSelendraNetwork[nwIndex].lstNetwork![epIndex]);
     
@@ -168,7 +168,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// 4. Get Private Key
   /// 
   /// 4.1 We use private to backup seeds.
-  Future<SeedBackupData?> getPrivateKeyFromSeeds(KeyPairData keyPair, String pin) async {
+  Future<SeedBackupData?> getDecrypedSeed(KeyPairData keyPair, String pin) async {
     return await sdkRepoImpl.getWalletSdk.api.keyring.getDecryptedSeed(
       sdkRepoImpl.getKeyring, 
       sdkRepoImpl.getKeyring.current, 
@@ -240,6 +240,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     } catch (e) {
 
       if (kDebugMode) {
+        print("Error delete account $e");
       }
       // await dialog(context, e.toString(), 'Opps');
     }
@@ -259,8 +260,10 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// Extract Evm Address 0xa..
   @override
   Future<void> extractEvmAddress(String pk) async {
-    final EthPrivateKey privateKey = EthPrivateKey(Uint8List.fromList(pk.codeUnits));
+    print("extractEvmAddress $pk");
+    final EthPrivateKey privateKey = EthPrivateKey.fromHex(pk);
     evmAddress = privateKey.address.toString();
+    print("extractEvmAddress $evmAddress");
   }
   
 
@@ -276,10 +279,11 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
       final bech32Address = P2WPKH(data: PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
+      
       await SecureStorage.writeData(key: DbKey.bech32, encodeValue: bech32Address);
       await SecureStorage.writeData(key: DbKey.hdWallet, encodeValue: hdWallet.address);
 
-      final res = await _encryptPrivateKey(hdWallet.wif!, pin);
+      final res = await encryptPrivateKey(hdWallet.wif!, pin);
 
       await SecureStorage.writeData(key: DbKey.btcwif, encodeValue: res);
 
@@ -295,34 +299,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       debugPrint("error queryBtcData $e");
       // await customDialog(context, 'Oops', e.toString());
     }
-  }
-
-  Future<String> getBtcBalance() async {
-
-    int totalSatoshi = 0;
-    Response res = await _httpRequestImpl.fetchAddrUxtoBTC(btcAddress!);
-    
-    List<dynamic> decode = json.decode(res.body);
-
-    if (decode.isEmpty) {
-        // contract.listContract[btcIndex].balance = '0';
-    } else {
-      for (final i in decode) {
-        if (i['status']['confirmed'] == true) {
-          totalSatoshi += int.parse(i['value'].toString());
-        }
-      }
-
-      // contract.listContract[btcIndex].balance = (totalSatoshi / bitcoinSatFmt).toString();
-    }
-    return totalSatoshi.toString();
-
-  }
-  
-  Future<String?> _encryptPrivateKey(String privateKey, String pin) async {
-    final key = Encrypt.passwordToEncryptKey(pin);
-    return await FlutterAesEcbPkcs5.encryptString(privateKey, key);
-
   }
 
   Future<EtherAmount> getBep20Balance(Web3Client client, EthereumAddress addr) async {
@@ -343,6 +319,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   }
 
   /// 1.
+  /// For EVM no need to set contract Name
   Future<DeployedContract> deployContract(String abiPath, String contractAddr, {String? contractName}) async {
     final String contractJson = await rootBundle.loadString(abiPath);
     return DeployedContract(
@@ -368,13 +345,18 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     return [];
   }
 
-  Future<String> fetchSELAddress() async {
-    return await sdkRepoImpl.querySELAddress(getSELAddress);
+  Future<bool> validateWeb3Address(String addr) async {
+    return await sdkRepoImpl.validateWeb3Address(addr);
 
   }
 
-  Future<bool> validateWeb3Address(String addr) async {
-    return await sdkRepoImpl.validateWeb3Address(addr);
+  EthPrivateKey getPrivateKey(String hex) {
+    return EthPrivateKey.fromHex(hex);
+  }
+
+  Future<String?> encryptPrivateKey(String privateKey, String pin) async {
+    final key = Encrypt.passwordToEncryptKey(pin);
+    return await FlutterAesEcbPkcs5.encryptString(privateKey, key);
 
   }
 }

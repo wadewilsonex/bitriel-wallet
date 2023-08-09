@@ -13,17 +13,28 @@ class AppUsecasesImpl implements AppUsecases {
   
   @override
   Future<void> checkAccountExist() async {
-
+    
     if (sdkProvier!.getSdkImpl.getKeyring.allAccounts.isNotEmpty){
-      await Future.delayed(const Duration(seconds: 1), (){
-
+      await Future.delayed(const Duration(milliseconds: 200), (){
         Navigator.pushAndRemoveUntil(
           _context!, 
           MaterialPageRoute(builder: (context) => const MainScreen()), 
           // MaterialPageRoute(builder: (context) => const AddAsset()), 
           (route) => false
         );
+
       });
+    } else {
+      await Future.delayed(const Duration(milliseconds: 200), (){
+        Navigator.pushAndRemoveUntil(
+          _context!, 
+          MaterialPageRoute(builder: (context) => const Welcome()), 
+          // MaterialPageRoute(builder: (context) => const AddAsset()), 
+          (route) => false
+        );
+
+      });
+
     }
     
   }

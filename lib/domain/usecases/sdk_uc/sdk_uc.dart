@@ -11,7 +11,7 @@ abstract class BitrielSDKUseCase {
   Future<bool> validateMnemonic(String seed);
   Future<List<dynamic>> importSeed(String seed, {KeyType keyType = KeyType.mnemonic, String? name = "Username", required String? pin});
 
-  Future<SeedBackupData?> getPrivateKeyFromSeeds(KeyPairData keypair, String pin);
+  Future<SeedBackupData?> getDecrypedSeed(KeyPairData keypair, String pin);
 
   Future<String> generateSeed();
 

@@ -17,7 +17,7 @@ class ReceiveWallet extends StatelessWidget {
 
           _warnMsg(),
 
-          _optionBtn(),
+          _optionBtn(context),
 
         ],
       ),
@@ -103,7 +103,7 @@ Widget _warnMsg() {
   );
 }
 
-Widget _optionBtn() {
+Widget _optionBtn(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Row(
@@ -111,10 +111,13 @@ Widget _optionBtn() {
       children: [
         Column(
           children: [
+
             FloatingActionButton(
               heroTag: "btnCopy",
               backgroundColor: Colors.white,
-              onPressed: () {},
+              onPressed: () {
+                print(Provider.of<SDKProvider>(context, listen: false).getSdkImpl.evmAddress);
+              },
               child: Icon(
                 Iconsax.copy,
                 size: 35,

@@ -5,7 +5,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
   
   BuildContext? _context;
 
-  SDKProvider? sdkProvier;
+  SDKProvider? sdkProvider;
 
   WalletProvider? walletProvider;
   
@@ -25,16 +25,18 @@ class AddAssetUcImpl implements AddAssetUsecase{
   ValueNotifier<List<Map<String, dynamic>?>> searched = ValueNotifier([]);
 
   ValueNotifier<bool> isSearching = ValueNotifier(false);
+  
+  final SecureStorageImpl _secureStorageImpl = SecureStorageImpl();
 
   set setBuildContext(BuildContext ctx){
     
     _context = ctx;
-    sdkProvier = Provider.of<SDKProvider>(_context!, listen: false);
+    sdkProvider = Provider.of<SDKProvider>(_context!, listen: false);
     walletProvider = Provider.of<WalletProvider>(_context!, listen: false);
     
     networkSymbol = [
-      {"symbol": "BSC", "index": 0, "logo": "${sdkProvier!.dirPath}/token_logo/bnb.png"},
-      {"symbol": "Ethereum", "index": 1, "logo": "${sdkProvier!.dirPath}/token_logo/eth.png"}
+      {"symbol": "BSC", "index": 0, "logo": "${sdkProvider!.dirPath}/token_logo/bnb.png"},
+      {"symbol": "Ethereum", "index": 1, "logo": "${sdkProvider!.dirPath}/token_logo/eth.png"}
     ];
 
   }
@@ -116,7 +118,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
     try {
 
-      await sdkProvier!.getSdkImpl.validateWeb3Address(controller.text).then((value) {
+      await sdkProvider!.getSdkImpl.validateWeb3Address(controller.text).then((value) {
         if (value == true) {
           isEnable.value = true;
         } else if (isEnable.value == true) {
@@ -145,12 +147,13 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
     if (networkIndex.value == 0) {
 
-      sdkProvier!.getSdkImpl.bscDeployedContract = await sdkProvier!.getSdkImpl.deployContract("assets/json/abi/bep20.json", controller.text);
-      await _addToken(dpContract: sdkProvier!.getSdkImpl.bscDeployedContract);
+      sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", controller.text);
+      await _addToken(dpContract: sdkProvider!.getSdkImpl.bscDeployedContract);
+
     } else {
 
-      sdkProvier!.getSdkImpl.etherDeployedContract = await sdkProvier!.getSdkImpl.deployContract("assets/json/abi/erc20.json", controller.text);
-      await _addToken(dpContract: sdkProvier!.getSdkImpl.bscDeployedContract);
+      sdkProvider!.getSdkImpl.etherDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", controller.text);
+      await _addToken(dpContract: sdkProvider!.getSdkImpl.bscDeployedContract);
     }
         
   }
@@ -162,36 +165,38 @@ class AddAssetUcImpl implements AddAssetUsecase{
   }
 
   Future<void> _addToken({required DeployedContract? dpContract}) async {
-
+    print("_addToken");
     try {
 
-      String name = (await sdkProvier!.getSdkImpl.callWeb3ContractFunc(
-        sdkProvier!.getSdkImpl.getBscClient, 
-        sdkProvier!.getSdkImpl.bscDeployedContract!, 
+      String name = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
+        sdkProvider!.getSdkImpl.getBscClient, 
+        sdkProvider!.getSdkImpl.bscDeployedContract!, 
         'name', 
         // params: [EthereumAddress.fromHex(controller.text)]
       ))[0];
 
-      // String decimal = (await sdkProvier!.getSdkImpl.callWeb3ContractFunc(
-      //   sdkProvier!.getSdkImpl.getBscClient, 
-      //   sdkProvier!.getSdkImpl.bscDeployedContract!, 
+      // String decimal = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
+      //   sdkProvider!.getSdkImpl.getBscClient, 
+      //   sdkProvider!.getSdkImpl.bscDeployedContract!, 
       //   'decimals', 
       //   // params: [EthereumAddress.fromHex(controller.text)]
       // )).toString();
 
-      String symbol = (await sdkProvier!.getSdkImpl.callWeb3ContractFunc(
-        sdkProvier!.getSdkImpl.getBscClient, 
-        sdkProvier!.getSdkImpl.bscDeployedContract!, 
+      String symbol = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
+        sdkProvider!.getSdkImpl.getBscClient, 
+        sdkProvider!.getSdkImpl.bscDeployedContract!, 
         'symbol', 
         // params: [EthereumAddress.fromHex(controller.text)]
       ))[0];
 
-      BigInt balance = (await sdkProvier!.getSdkImpl.callWeb3ContractFunc(
-        sdkProvier!.getSdkImpl.getBscClient, 
-        sdkProvier!.getSdkImpl.bscDeployedContract!, 
+      BigInt balance = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
+        sdkProvider!.getSdkImpl.getBscClient, 
+        sdkProvider!.getSdkImpl.bscDeployedContract!, 
         'balanceOf', 
         params: [EthereumAddress.fromHex(controller.text)]
       ))[0];
+
+      print("balance $balance");
       
       SmartContractModel newToken = SmartContractModel(
         // id: _marketProvider!.lsCoin!.isEmpty ? name[0] : _marketProvider!.queried!['id'],
@@ -204,25 +209,35 @@ class AddAssetUcImpl implements AddAssetUsecase{
           18,
           // int.parse(18.toString()),
         ).toString(),
-        address: sdkProvier!.getSdkImpl.evmAddress,
-        isContain: true,
+        address: sdkProvider!.getSdkImpl.evmAddress,
         // logo: _marketProvider!.lsCoin!.isEmpty ? '${AppConfig.assetsPath}circle.png' : _marketProvider!.queried!['image'],// AppConfig.assetsPath+'circle.png',
         // listActivity: [],
         // lineChartModel: LineChartModel(),
         type: '',
         org: networkIndex.value == 1 ? 'ERC-20' : 'BEP-20',
-        orgTest: networkIndex.value == 1 ? 'ERC-20' : 'BEP-20',
-        isBep20: true,
         // marketData: Market(),
         lineChartList: [],
         // change24h: _marketProvider!.lsCoin!.isEmpty ? '0' : _marketProvider!.queried!['price_change_percentage_24h'].toString(),
         // marketPrice: _marketProvider!.lsCoin!.isEmpty ? '' : _marketProvider!.queried!['current_price'].toString(),
-        // contract: apiProvider.isMainnet ? contractAddr: '',
-        // contractTest: apiProvider.isMainnet ? '' : contractAddr,
-        isAdded: true
+        contract: controller.text,
+        show: true
       );
-      
-      walletProvider!.addedContract!.add(newToken);
+
+      if (networkIndex.value == 0) {
+        newToken.isBep20 = true;
+        walletProvider!.listBep20!.add(newToken);
+      }
+      else {
+        newToken.isErc20 = true;
+        walletProvider!.listErc20!.add(newToken);
+      }
+
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      // walletProvider!.notifyListeners();
+
+      await storeAddedAsset(newToken);
+
+      walletProvider!.sortAsset();
 
       // Close Dialog
       Navigator.pop(_context!);
@@ -237,5 +252,16 @@ class AddAssetUcImpl implements AddAssetUsecase{
       print("Error addBscToken $e");
     }
 
+  }
+
+  Future<void> storeAddedAsset(SmartContractModel newToken) async {
+
+    walletProvider!.addedContract!.clear();
+    walletProvider!.addedContract!.add(newToken);
+
+    await _secureStorageImpl.writeSecure(DbKey.addedContract, json.encode(SmartContractModel.encode( walletProvider!.addedContract!)));
+    await SecureStorage.readData(key: DbKey.addedContract).then((value) {
+      print("read after write $value");
+    });
   }
 }

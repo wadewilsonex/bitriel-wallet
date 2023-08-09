@@ -34,7 +34,6 @@ class AppRouter {
     "/${BitrielRouter.importWalletRoute}": (context) => const ImportWalletScreen(),
     "/${BitrielRouter.walletRoute}": (context) => const WalletScreen(),
     "/${BitrielRouter.homeRoute}": (context) => const MainScreen(),
-
   };
 
 }

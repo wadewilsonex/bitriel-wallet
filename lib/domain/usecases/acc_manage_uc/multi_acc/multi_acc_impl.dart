@@ -17,9 +17,7 @@ class MultiAccountImpl implements MultiAccountUsecases {
 
   @override
   Future<void> accInfoFromLocalStorage() async {
-    await SecureStorage.readData(key: DbKey.privateList).then((value) {
-      print("value ${value}");
-    });
+    await SecureStorage.readData(key: DbKey.privateList);
   }
 
   @override

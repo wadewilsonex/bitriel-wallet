@@ -11,7 +11,14 @@ class BitrielSDK {
 
   // List<NetworkParams>  = [];
 
+  bool isMainnet = false;
+
+  set setIsMainnet(bool value) {
+    isMainnet = value;
+  }
+
   Future<void> initBitrielSDK({required String jsCode, int nodeIndex = 0, required List<NetworkParams>? nodes}) async {
+    print("isMainnet $isMainnet");
     // 2.1. Init Keyring
     await keyring.init([nodes![nodeIndex].ss58!]);
     await walletSDK.init(keyring, jsCode: jsCode);

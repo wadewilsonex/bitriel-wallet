@@ -118,20 +118,18 @@ class CreateWalletImpl implements CreateWalletUsecase {
     // }
     
     verify.seedWord = (seed.value.split(" ")[verify.tmpThreeSeedIndex![rmIndex]]);
-    print("verify.seedWord ${verify.seedWord}");
+    
     for (var element in verify.verifySeeds!) {
       if (element.isEmpty){
         verify.verifySeeds![verify.verifySeeds!.indexOf(element)] = verify.seedWord!;
         break;
       }
     }
-    print("verify.verifySeeds! ${verify.verifySeeds!}");
+    
     verifySeeds.value = verify.verifySeeds!;
 
     verify.tmpThreeSeedIndex!.removeAt(rmIndex);
     tmpThreeSeedIndex.value = verify.tmpThreeSeedIndex!;
-
-    print("tmpThreeSeedIndex.value ${tmpThreeSeedIndex.value}");
 
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     verifySeeds.notifyListeners();

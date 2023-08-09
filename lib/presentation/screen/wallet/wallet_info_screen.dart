@@ -19,8 +19,6 @@ class WalletInfo extends StatelessWidget {
 
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
 
-    walletPro.queryAssetChart(lstScModel, lstScModel.indexOf(scModel));
-
     // walletPro.marketUCImpl.getMarkets();
 
     // print("market[walletPro.defaultListContract!.indexOf(scModel)].name ${market[walletPro.defaultListContract!.indexOf(scModel)].name}");

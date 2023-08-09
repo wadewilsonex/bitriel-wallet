@@ -41,7 +41,7 @@ class VerifySeedScreen extends StatelessWidget {
                       ValueListenableBuilder(
                         valueListenable: createWalletImpl!.verifySeeds,
                         builder: (context, value, wg) {
-                          // print("createWalletImpl!.verifySeeds ${createWalletImpl!.verifySeeds}");
+                          
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -68,7 +68,7 @@ class VerifySeedScreen extends StatelessWidget {
                 ValueListenableBuilder(
                   valueListenable: createWalletImpl!.tmpThreeSeedIndex, 
                   builder: (context, value, wg){
-                    print("createWalletImpl!.tmpThreeSeedIndex ${createWalletImpl!.tmpThreeSeedIndex}");
+                    
                     // if (createWalletImpl!.tmpThreeSeedIndex.value.isNotEmpty) 
                     return Padding(
                       padding: const EdgeInsets.only(top: 20),
