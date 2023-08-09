@@ -42,7 +42,7 @@ class SmartContractModel {
     this.chainDecimal,
     this.symbol,
     this.name,
-    this.balance,
+    this.balance = "0",
     this.logo,
     this.type,
     this.org = '',
@@ -73,7 +73,6 @@ class SmartContractModel {
       id: json['id'],
       address: json['address'],
       symbol: json['symbol'],
-      balance: json['balance'],
       type: json['type'],
       logo: json['logo'],
       org: json['org'],
@@ -97,6 +96,7 @@ class SmartContractModel {
       description: json['description'],
       isAdded: json['isAdded'] ?? false,
       platform: json['platform'],
+      balance: "0",
       marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
     );
   }
@@ -105,7 +105,6 @@ class SmartContractModel {
     'id': asset.id,
     'address': asset.address,
     'symbol': asset.symbol,
-    'balance': asset.balance,
     'type': asset.type,
     'logo': asset.logo,
     'org': asset.org,
@@ -121,7 +120,6 @@ class SmartContractModel {
     'max_supply': asset.maxSupply,
     'description': asset.description,
     'isAdded': asset.isAdded,
-
     'is_bsc': asset.isEther,
     'is_ether': asset.isBSC,
     'is_native': asset.isNative,

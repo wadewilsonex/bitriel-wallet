@@ -28,6 +28,13 @@ class TokenPayment extends StatelessWidget {
           _getEnterAddrSection(paymentUcImpl.recipientController, paymentUcImpl.onChanged),
           
           _getEnterAmountSection(paymentUcImpl.amountController),
+          
+          ValueListenableBuilder(
+            valueListenable: paymentUcImpl.trxMessage, 
+            builder: (context, value, wg){
+              return Text(value, style: const TextStyle(color: Colors.red),);
+            }
+          ),
 
           Expanded(child: Container()),
           Padding(

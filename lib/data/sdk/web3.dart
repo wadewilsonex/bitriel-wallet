@@ -19,6 +19,9 @@ class Web3Blockchain {
   String bscwsMainnet = "wss://bsc-ws-node.nariox.org:443";
   String bscwsTestnet = "wss://bsc-ws-node.nariox.org:443";
 
+  /// Link Of rpc testnet 
+  // https://developer.arbitrum.io/node-running/node-providers#rpc-endpoints
+
   /// Ethereum
   String ethUrlMainnet = "https://arb1.arbitrum.io/rpc";
   String ethUrlTestnet = "https://goerli-rollup.arbitrum.io/rpc";

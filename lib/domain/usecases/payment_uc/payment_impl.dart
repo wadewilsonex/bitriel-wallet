@@ -1,6 +1,6 @@
 import 'dart:math';
-
 import 'package:bitriel_wallet/index.dart';
+import 'package:get/utils.dart';
 
 class PaymentUcImpl implements PaymentUsecases {
 
@@ -18,6 +18,8 @@ class PaymentUcImpl implements PaymentUsecases {
   ServiceTx get serviceTx => _sdkProvider!.getSdkImpl.getWalletSdk.api.service.tx;
 
   List<SmartContractModel> get lstContractDropDown => walletProvider!.sortListContract!;
+  
+  ValueNotifier<String> trxMessage = ValueNotifier("");
 
   set setBuildContext(BuildContext ctx){
     context = ctx;
@@ -35,34 +37,48 @@ class PaymentUcImpl implements PaymentUsecases {
 
   Future<void> submitTrx() async {
 
-    dialogLoading(context!);
 
     try {
+      
+      // Check Input Not Equal 0
+      // Check Input Not Less than Existing coin's balance
+      if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
+        
+        dialogLoading(context!);
 
-      if (walletProvider!.sortListContract![index.value].isBep20 == true) {
-        await sendBep20();
-      }
-      else if (walletProvider!.sortListContract![index.value].isErc20 == true){
-        await sendErc20();
-      }
-      else if (walletProvider!.sortListContract![index.value].isBSC == true){
-        await sendBsc();
-      }
-      else if (walletProvider!.sortListContract![index.value].isEther == true){
-        await sendEther();
-      }
-      else {
-        await sendNative();
-      }
+        if (walletProvider!.sortListContract![index.value].isBep20 == true) {
+          if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
 
-      // Close Dialog Loading
-      Navigator.pop(context!);
+            await sendBep20();
+          }
+        }
+        else if (walletProvider!.sortListContract![index.value].isErc20 == true){
+          if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
 
-      await QuickAlert.show(
-        context: context!,
-        type: QuickAlertType.success,
-        text: 'Transaction Completed Successfully!',
-      );
+            await sendErc20();
+          }
+        }
+        else if (walletProvider!.sortListContract![index.value].isBSC == true){
+          await sendBsc();
+        }
+        else if (walletProvider!.sortListContract![index.value].isEther == true){
+          await sendEther();
+        }
+        else {
+          await sendNative();
+        }
+
+        // Close Dialog Loading
+        Navigator.pop(context!);
+
+        await QuickAlert.show(
+          context: context!,
+          type: QuickAlertType.success,
+          text: 'Transaction Completed Successfully!',
+        );
+      } else if (trxMessage.value.isEmpty) {
+        trxMessage.value = "Balance must greater than 0";
+      }
 
     } catch (e) {
 
@@ -93,16 +109,16 @@ class PaymentUcImpl implements PaymentUsecases {
       final txInfo = TxInfoData('balances', 'transfer', sender);
 
       // 2. Estimate Gas Fee
-      final fee = await serviceTx.estimateFees(
-        txInfo.toJson(),
-        jsonEncode([
-          recipientController.text,
-          Fmt.tokenInt(
-            amountController.text,
-            18,
-          ).toString(),
-        ]),
-      );
+      // final fee = await serviceTx.estimateFees(
+      //   txInfo.toJson(),
+      //   jsonEncode([
+      //     recipientController.text,
+      //     Fmt.tokenInt(
+      //       amountController.text,
+      //       18,
+      //     ).toString(),
+      //   ]),
+      // );
 
       // 3. Start Sign And Send Transaction
       await serviceTx.signAndSend(
@@ -124,47 +140,56 @@ class PaymentUcImpl implements PaymentUsecases {
     }
   }
 
+  bool checkFeeAndTrxAmount(double networkFee, {String network = ""}) {
+    if (
+      networkFee.isGreaterThan(0.0005)
+    ){
+      if ( double.parse(amountController.text) > double.parse(lstContractDropDown[index.value].balance!) ){
+        trxMessage.value = "Input amount greater than your existing balance";
+      }
+      trxMessage.value = "Low gas fee of $network to make transaction";
+      return false;
+    }
+    return true;
+  }
+
   /// Sen Any Bep20 contract
   Future<void> sendBep20() async {
-    
+    print('sendBep20');
     try {
+      
       // 1
-      _sdkProvider!.getSdkImpl.bscDeployedContract ??=  await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", lstContractDropDown[index.value].contract!);
-
       
       String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
       EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
 
+      DeployedContract bscDeployedContract = await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", lstContractDropDown[index.value].contract!);
+
+      // transaction fee 5 gwei, which is about $0.0005
       // 2
       BigInt networkGas = (await _sdkProvider!.getSdkImpl.getBscClient.estimateGas(
-        sender: pkKey.address,
-        to: _sdkProvider!.getSdkImpl.bscDeployedContract!.address,
-        data: _sdkProvider!.getSdkImpl.bscDeployedContract!.function('transfer').encodeCall(
+        sender: pkKey.address, //EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.evmAddress!),
+        // to: EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.bscDeployedContract.address!),
+        to: EthereumAddress.fromHex(lstContractDropDown[index.value].contract!),
+        data: bscDeployedContract.function('transfer').encodeCall(
           [
             EthereumAddress.fromHex(recipientController.text),
-            BigInt.from( double.parse(amountController.text) * pow(10, 18 ) )
+            BigInt.from( double.parse(amountController.text) * pow(10, 18) )
           ],
         ),
       ));
 
-      print("networkGas $networkGas");
-
-      // 3. Estimate Market Price with amount of send
-      // BigInt networkGas = (await _sdkProvider!.getSdkImpl.getBscClient.estimateGas());
-
-      // 4.
-      // dynamic maxGas;// = (await _sdkProvider!.getSdkImpl.getBscClient.getM);
-
       await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
         pkKey,
         Transaction.callContract(
-          contract: _sdkProvider!.getSdkImpl.bscDeployedContract!,
+          contract: bscDeployedContract,
+          // gasPrice: gasPrice,
           maxGas: networkGas.toInt(),
-          function: _sdkProvider!.getSdkImpl.bscDeployedContract!.function('transfer'), 
+          function: bscDeployedContract.function('transfer'), 
           parameters: [
-            recipientController.text,
-            BigInt.from( double.parse(amountController.text) * pow(10, 18 ) )
+            EthereumAddress.fromHex(recipientController.text),
+            BigInt.from( double.parse(amountController.text) * pow(10, 18) )
           ],
         ),
         chainId: null,
@@ -176,6 +201,36 @@ class PaymentUcImpl implements PaymentUsecases {
       print("error sendBep20 ${e}");
     }
   }
+
+  // 2
+  // BigInt networkGas = (await _sdkProvider!.getSdkImpl.getBscClient.estimateGas(
+  //   sender: pkKey.address, //EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.evmAddress!),
+  //   to: _sdkProvider!.getSdkImpl.bscDeployedContract!.address,// Coin's Contract
+  //   data: _sdkProvider!.getSdkImpl.bscDeployedContract!.function('transfer').encodeCall(
+  //     [
+  //       EthereumAddress.fromHex(recipientController.text),
+  //       BigInt.from( double.parse(amountController.text) * pow(10, 18) )
+  //     ],
+  //   ),
+  // ));
+
+  // print("networkGas $networkGas");
+
+  // hash = await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
+  //   pkKey,
+  //   Transaction.callContract(
+  //     contract: _sdkProvider!.getSdkImpl.bscDeployedContract!,
+  //     // gasPrice: gasPrice,
+  //     maxGas: networkGas.toInt(),
+  //     function: _sdkProvider!.getSdkImpl.bscDeployedContract!.function('transfer'), 
+  //     parameters: [
+  //       EthereumAddress.fromHex(recipientController.text),
+  //       BigInt.from( double.parse(amountController.text) * pow(10, 18) )
+  //     ],
+  //   ),
+  //   chainId: null,
+  //   fetchChainIdFromNetworkId: true,
+  // );
 
   /// Send Any Erc20 contract
   Future<void> sendErc20() async {

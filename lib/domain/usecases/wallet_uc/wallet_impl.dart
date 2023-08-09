@@ -9,7 +9,7 @@ class WalletUcImpl implements WalletUsecases{
 
   set setBuilder(BuildContext ctx){
 
-    _context ??= ctx;
+    _context = ctx;
 
     _bitrielSDKImpl = Provider.of<SDKProvider>(ctx, listen: false).getSdkImpl;
   }
@@ -21,16 +21,32 @@ class WalletUcImpl implements WalletUsecases{
   /// Return Index 1 for Added Assets
   @override
   Future<List<List<SmartContractModel>>> fetchCoinsFromLocalStorage() async {
-    if ( (await SecureStorage.isContain(DbKey.listContract) || (await SecureStorage.isContain(DbKey.addedContract)) ) ){
+    // if ( (await SecureStorage.isContain(DbKey.listContract) || (await SecureStorage.isContain(DbKey.addedContract)) ) ){
+    //   print("Return storage");
+    //   return [
+    //     await SecureStorage.readData(key: DbKey.listContract).then((value) {
+    //       if (value != null) {
+    //         return mapModel( List<Map<String, dynamic>>.from(json.decode(value)) );
+    //       }
+    //       return [];
+    //     }),
+
+    //     await SecureStorage.readData(key: DbKey.addedContract).then((value) {
+    //       print("addedContract shit $value");
+    //       if (value != null) {
+    //         return mapModel( List<Map<String, dynamic>>.from(json.decode(value)) );
+    //       }
+    //       return [];
+    //     })
+    //   ];
+
+    // } else {
+
+    //   print("Return from asset");
 
       return [
-        await SecureStorage.readData(key: DbKey.listContract).then((value) {
-          if (value != null) {
-            return mapModel( List<Map<String, dynamic>>.from(json.decode(value)) );
-          }
-          return [];
-        }),
-
+        await fetchCoinFromAssets(),
+        // []
         await SecureStorage.readData(key: DbKey.addedContract).then((value) {
           print("addedContract shit $value");
           if (value != null) {
@@ -39,24 +55,20 @@ class WalletUcImpl implements WalletUsecases{
           return [];
         })
       ];
-
-    } else {
-
-      return [
-        await fetchCoinFromAssets(),
-        []
-      ];
-    }
+    // }
 
   }
 
   /// 2.
   @override
   Future<List<SmartContractModel>> fetchCoinFromAssets() async {
-
+    
+    print("fetchCoinFromAssets");
     _dir = (await getApplicationDocumentsDirectory()).path;
 
     final jsn = await rootBundle.loadString("assets/json/supported_contract.json");
+
+    print("jsn $jsn");
 
     return mapModel(List<Map<String, dynamic>>.from(jsonDecode(jsn)));
  
@@ -95,11 +107,14 @@ class WalletUcImpl implements WalletUsecases{
 
   @override
   Future<List<SmartContractModel>> sortCoins(List<SmartContractModel> lst, {List<SmartContractModel>? addedCoin}) async {
+    
+    print("sortCoins");
+    
     try {
 
       // mainBalance = 0;
       // sortListContract.clear();
-
+      print("Before");
       // 1. Add Default Asset First
       for (var element in lst) {
         if (element.show! && element.id != "polkadot" && element.id != "kiwigo"){
@@ -109,6 +124,7 @@ class WalletUcImpl implements WalletUsecases{
           } else {
             element.money = 0.0;
           }
+          print(element.symbol);
 
           // mainBalance = mainBalance + element.money!;//double.parse(element.balance!.replaceAll(",", ""));
           // sortListContract.addAll({element});
@@ -116,30 +132,38 @@ class WalletUcImpl implements WalletUsecases{
       }
 
       // 2. Add Imported Asset
-      for (var element in addedCoin!) {
-        if (element.marketPrice!.isNotEmpty) {
-          element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
-        } else {
-          element.money = 0.0;
-        }
-        // mainBalance = mainBalance + element.money!;
-        // sortListContract.addAll({element});
-        lst.add(element);
-      }
+      // for (var element in addedCoin!) {
+      //   print("addedCoin ${element.symbol}");
+      //   if (element.marketPrice!.isNotEmpty) {
+      //     element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
+      //   } else {
+      //     element.money = 0.0;
+      //   }
+      //   // mainBalance = mainBalance + element.money!;
+      //   // sortListContract.addAll({element});
+      //   lst.add(element);
+      // }
+    
+      print("lst.length ${lst.length} ");
 
       // Sort Descending
 
       SmartContractModel tmp = SmartContractModel();
       
-      for (int i = 1; i < lst.length; i++) {
+      // for (int i = 1; i < lst.length; i++) {
 
-        for (int j = i + 1; j < lst.length; j++) {
-          tmp = lst[i];
-          if ( (double.parse(lst[j].balance!.replaceAll(",", ""))) > (double.parse(lst[i].balance!.replaceAll(",", ""))) ) {
-            lst[i] = lst[j];
-            lst[j] = tmp;
-          }
-        }
+      //   for (int j = i + 1; j < lst.length; j++) {
+      //     tmp = lst[i];
+      //     if ( (double.parse(lst[j].balance!.replaceAll(",", ""))) > (double.parse(lst[i].balance!.replaceAll(",", ""))) ) {
+      //       lst[i] = lst[j];
+      //       lst[j] = tmp;
+      //     }
+      //   }
+      // }
+
+      print("After short sort ");
+      for (var element in lst) {
+        print("addedCoin ${element.symbol}");
       }
       
     } catch (e) {
@@ -162,7 +186,7 @@ class WalletUcImpl implements WalletUsecases{
   }
 
   Future<String> queryBtcBalance() async {
-    _bitrielSDKImpl ??= Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
+    _bitrielSDKImpl = Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
     // return await _httpRequestImpl.fetchAddrUxtoBTC(_bitrielSDKImpl!.btcAddress!).then((value) {
 
     // });
@@ -201,17 +225,19 @@ class WalletUcImpl implements WalletUsecases{
   }
 
   /// BEP20 & ERC-20
-  Future<List<dynamic>> getContractBalance(Web3Client client, String abiPath, String contractAddr, {String? contractName}) async {
+  Future<List<dynamic>> getContractBalance(Web3Client client, DeployedContract deployedContract) async {
     
-    _bitrielSDKImpl ??= Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
+    // _bitrielSDKImpl = Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
+
+    print("finish");
     // if (_bitrielSDKImpl == null){
     //   _bitrielSDKImpl = Provider.of<SDKProvier>(_context!, listen: false).getSdkProvider;
-    // }
 
-    _bitrielSDKImpl!.bscDeployedContract ??= await _bitrielSDKImpl!.deployContract(abiPath, contractAddr);
+    // _bitrielSDKImpl!.bscDeployedContract ??= await _bitrielSDKImpl!.deployContract(abiPath, contractAddr);
 
     // Get Web3 Balance
-    return await _bitrielSDKImpl!.callWeb3ContractFunc(client, _bitrielSDKImpl!.bscDeployedContract!, 'balanceOf', params: [ EthereumAddress.fromHex(_bitrielSDKImpl!.evmAddress!) ]);
+    return await _bitrielSDKImpl!.callWeb3ContractFunc(client, deployedContract, 'balanceOf', params: [ deployedContract.address ]);
+    // return await _bitrielSDKImpl!.callWeb3ContractFunc(client, deployedContract, 'balanceOf', params: [ EthereumAddress.fromHex(_bitrielSDKImpl!.evmAddress!) ]);
     // await SDKProvier
 
   }

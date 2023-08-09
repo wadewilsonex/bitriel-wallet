@@ -5,7 +5,6 @@ import 'package:bitriel_wallet/index.dart';
 // ignore: depend_on_referenced_packages
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:flutter_bitcoin/flutter_bitcoin.dart';
-import 'package:get/utils.dart';
 
 class BitrielSDKImpl implements BitrielSDKUseCase{
   
@@ -169,7 +168,7 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// 4. Get Private Key
   /// 
   /// 4.1 We use private to backup seeds.
-  Future<SeedBackupData?> getPrivateKeyFromSeeds(KeyPairData keyPair, String pin) async {
+  Future<SeedBackupData?> getDecrypedSeed(KeyPairData keyPair, String pin) async {
     return await sdkRepoImpl.getWalletSdk.api.keyring.getDecryptedSeed(
       sdkRepoImpl.getKeyring, 
       sdkRepoImpl.getKeyring.current, 
@@ -261,8 +260,10 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// Extract Evm Address 0xa..
   @override
   Future<void> extractEvmAddress(String pk) async {
-    final EthPrivateKey privateKey = EthPrivateKey(Uint8List.fromList(pk.codeUnits));
+    print("extractEvmAddress $pk");
+    final EthPrivateKey privateKey = EthPrivateKey.fromHex(pk);
     evmAddress = privateKey.address.toString();
+    print("extractEvmAddress $evmAddress");
   }
   
 
@@ -278,10 +279,11 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
       final bech32Address = P2WPKH(data: PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
+      
       await SecureStorage.writeData(key: DbKey.bech32, encodeValue: bech32Address);
       await SecureStorage.writeData(key: DbKey.hdWallet, encodeValue: hdWallet.address);
 
-      final res = await _encryptPrivateKey(hdWallet.wif!, pin);
+      final res = await encryptPrivateKey(hdWallet.wif!, pin);
 
       await SecureStorage.writeData(key: DbKey.btcwif, encodeValue: res);
 
@@ -298,12 +300,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       // await customDialog(context, 'Oops', e.toString());
     }
   }
-  
-  Future<String?> _encryptPrivateKey(String privateKey, String pin) async {
-    final key = Encrypt.passwordToEncryptKey(pin);
-    return await FlutterAesEcbPkcs5.encryptString(privateKey, key);
-
-  }
 
   Future<EtherAmount> getBep20Balance(Web3Client client, EthereumAddress addr) async {
     return await client.getBalance(addr);
@@ -318,15 +314,12 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   }
 
   Future<EtherAmount> getEvmBalance(Web3Client client, EthereumAddress addr) async {
-    client.socketConnector.printInfo();
-    return await client.getBalance(addr).then((value) {
-      print("value ${value}");
-      return value;
-    });
+    return await client.getBalance(addr);
 
   }
 
   /// 1.
+  /// For EVM no need to set contract Name
   Future<DeployedContract> deployContract(String abiPath, String contractAddr, {String? contractName}) async {
     final String contractJson = await rootBundle.loadString(abiPath);
     return DeployedContract(
@@ -359,5 +352,11 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
 
   EthPrivateKey getPrivateKey(String hex) {
     return EthPrivateKey.fromHex(hex);
+  }
+
+  Future<String?> encryptPrivateKey(String privateKey, String pin) async {
+    final key = Encrypt.passwordToEncryptKey(pin);
+    return await FlutterAesEcbPkcs5.encryptString(privateKey, key);
+
   }
 }

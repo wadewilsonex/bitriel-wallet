@@ -7,7 +7,7 @@ class AccountManagementImpl extends AccountMangementUC {
   /// Index 1 = KeyPairData
   List<dynamic>? importData;
 
-  SeedBackupData? _pk;
+  String? _pk;
 
   List<UnverifySeed> unverifyList = [];
 
@@ -23,13 +23,25 @@ class AccountManagementImpl extends AccountMangementUC {
 
       // 1. Import And Add Account
       importData = await sdkProvider.importSeed(seed, pin);
-      
+
+      await sdkProvider.getSdkImpl.getWalletSdk.webView!.evalJavascript("wallets.getPrivateKey('$seed')").then((value) async {
+        print("evalJavascript $value");
+        _pk = value;
+        await SecureStorage.writeData(key: DbKey.private, encodeValue: value);
+      });
+       
       // Extract private from seed
-      _pk = await sdkProvider.getSdkImpl.getPrivateKeyFromSeeds(importData![1], pin);
+      // _pk = await sdkProvider.getSdkImpl.getDecrypedSeed(importData![1], pin);
+
+      // print("_pk $_pk");
+
+      // final res = await sdkProvider.getSdkImpl.encryptPrivateKey(_pk!.seed!, pin);
+
+      // await SecureStorage.writeData(key: DbKey.private, encodeValue: res);
 
       // Use Seed to query EVM address
       // And Use PrivateKey to extract BTC native address.
-      await sdkProvider.getSdkImpl.queryAddress(seed, _pk!.seed!, pin);
+      await sdkProvider.getSdkImpl.queryAddress(seed, _pk!, pin);
 
     }catch (e) {
       
@@ -69,5 +81,4 @@ class AccountManagementImpl extends AccountMangementUC {
       unVerifyAccount = unVerifyAccount.reversed.toList();
     });
   }
-  
 }

@@ -5,7 +5,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
   
   BuildContext? _context;
 
-  SDKProvider? sdkProvier;
+  SDKProvider? sdkProvider;
 
   WalletProvider? walletProvider;
   
@@ -31,12 +31,12 @@ class AddAssetUcImpl implements AddAssetUsecase{
   set setBuildContext(BuildContext ctx){
     
     _context = ctx;
-    sdkProvier = Provider.of<SDKProvider>(_context!, listen: false);
+    sdkProvider = Provider.of<SDKProvider>(_context!, listen: false);
     walletProvider = Provider.of<WalletProvider>(_context!, listen: false);
     
     networkSymbol = [
-      {"symbol": "BSC", "index": 0, "logo": "${sdkProvier!.dirPath}/token_logo/bnb.png"},
-      {"symbol": "Ethereum", "index": 1, "logo": "${sdkProvier!.dirPath}/token_logo/eth.png"}
+      {"symbol": "BSC", "index": 0, "logo": "${sdkProvider!.dirPath}/token_logo/bnb.png"},
+      {"symbol": "Ethereum", "index": 1, "logo": "${sdkProvider!.dirPath}/token_logo/eth.png"}
     ];
 
   }
@@ -118,7 +118,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
     try {
 
-      await sdkProvier!.getSdkImpl.validateWeb3Address(controller.text).then((value) {
+      await sdkProvider!.getSdkImpl.validateWeb3Address(controller.text).then((value) {
         if (value == true) {
           isEnable.value = true;
         } else if (isEnable.value == true) {
@@ -147,13 +147,13 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
     if (networkIndex.value == 0) {
 
-      sdkProvier!.getSdkImpl.bscDeployedContract = await sdkProvier!.getSdkImpl.deployContract("assets/json/abi/bep20.json", controller.text);
-      await _addToken(dpContract: sdkProvier!.getSdkImpl.bscDeployedContract);
+      sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", controller.text);
+      await _addToken(dpContract: sdkProvider!.getSdkImpl.bscDeployedContract);
 
     } else {
 
-      sdkProvier!.getSdkImpl.etherDeployedContract = await sdkProvier!.getSdkImpl.deployContract("assets/json/abi/erc20.json", controller.text);
-      await _addToken(dpContract: sdkProvier!.getSdkImpl.bscDeployedContract);
+      sdkProvider!.getSdkImpl.etherDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", controller.text);
+      await _addToken(dpContract: sdkProvider!.getSdkImpl.bscDeployedContract);
     }
         
   }
@@ -168,30 +168,30 @@ class AddAssetUcImpl implements AddAssetUsecase{
     print("_addToken");
     try {
 
-      String name = (await sdkProvier!.getSdkImpl.callWeb3ContractFunc(
-        sdkProvier!.getSdkImpl.getBscClient, 
-        sdkProvier!.getSdkImpl.bscDeployedContract!, 
+      String name = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
+        sdkProvider!.getSdkImpl.getBscClient, 
+        sdkProvider!.getSdkImpl.bscDeployedContract!, 
         'name', 
         // params: [EthereumAddress.fromHex(controller.text)]
       ))[0];
 
-      // String decimal = (await sdkProvier!.getSdkImpl.callWeb3ContractFunc(
-      //   sdkProvier!.getSdkImpl.getBscClient, 
-      //   sdkProvier!.getSdkImpl.bscDeployedContract!, 
+      // String decimal = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
+      //   sdkProvider!.getSdkImpl.getBscClient, 
+      //   sdkProvider!.getSdkImpl.bscDeployedContract!, 
       //   'decimals', 
       //   // params: [EthereumAddress.fromHex(controller.text)]
       // )).toString();
 
-      String symbol = (await sdkProvier!.getSdkImpl.callWeb3ContractFunc(
-        sdkProvier!.getSdkImpl.getBscClient, 
-        sdkProvier!.getSdkImpl.bscDeployedContract!, 
+      String symbol = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
+        sdkProvider!.getSdkImpl.getBscClient, 
+        sdkProvider!.getSdkImpl.bscDeployedContract!, 
         'symbol', 
         // params: [EthereumAddress.fromHex(controller.text)]
       ))[0];
 
-      BigInt balance = (await sdkProvier!.getSdkImpl.callWeb3ContractFunc(
-        sdkProvier!.getSdkImpl.getBscClient, 
-        sdkProvier!.getSdkImpl.bscDeployedContract!, 
+      BigInt balance = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
+        sdkProvider!.getSdkImpl.getBscClient, 
+        sdkProvider!.getSdkImpl.bscDeployedContract!, 
         'balanceOf', 
         params: [EthereumAddress.fromHex(controller.text)]
       ))[0];
@@ -209,7 +209,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
           18,
           // int.parse(18.toString()),
         ).toString(),
-        address: sdkProvier!.getSdkImpl.evmAddress,
+        address: sdkProvider!.getSdkImpl.evmAddress,
         // logo: _marketProvider!.lsCoin!.isEmpty ? '${AppConfig.assetsPath}circle.png' : _marketProvider!.queried!['image'],// AppConfig.assetsPath+'circle.png',
         // listActivity: [],
         // lineChartModel: LineChartModel(),
@@ -234,9 +234,11 @@ class AddAssetUcImpl implements AddAssetUsecase{
       }
 
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      walletProvider!.notifyListeners();
+      // walletProvider!.notifyListeners();
 
       await storeAddedAsset(newToken);
+
+      walletProvider!.sortAsset();
 
       // Close Dialog
       Navigator.pop(_context!);
