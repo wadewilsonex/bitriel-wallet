@@ -124,7 +124,7 @@ class _CustDropDownState extends State<CustDropDown>
                             ),
                             child: Material(
                               elevation: 0,
-                              shadowColor: Colors.grey,
+                              shadowColor: hexaCodeToColor(AppColors.cardColor),
                               child: ListView(
                                 padding: EdgeInsets.zero,
                                 shrinkWrap: true,

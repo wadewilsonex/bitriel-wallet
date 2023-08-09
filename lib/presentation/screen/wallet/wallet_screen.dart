@@ -41,7 +41,12 @@ class WalletScreen extends StatelessWidget {
 
                   IconButton(
                     onPressed: () {
-                      pushNewScreen(context, screen: const AddAsset(), withNavBar: false);
+                      
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AddAsset())
+                      );
+                    
                     }, 
                     icon: const Icon(Iconsax.add_circle)
                   ),
@@ -161,11 +166,10 @@ class WalletScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600,
                 buttonColor: AppColors.green,
                 action: () {
-                  pushNewScreen(context, screen: const TokenPayment(), withNavBar: false);
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const TokenPayment())
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TokenPayment())
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -192,12 +196,10 @@ class WalletScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600,
                 buttonColor: "161414",
                 action: () {
-                  
-                  pushNewScreen(context, screen: const ReceiveWallet(), withNavBar: false);
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const ReceiveWallet())
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ReceiveWallet())
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

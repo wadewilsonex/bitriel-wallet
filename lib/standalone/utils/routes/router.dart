@@ -1,4 +1,3 @@
-// import 'package:go_router/go_router.dart';
 import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/widget/navbar_widget.dart';
 
@@ -10,6 +9,17 @@ enum BitrielRouter {
   createWalletRoute,
   walletRoute,
   homeRoute,
+}
+
+class MyAppRouteConstants {
+  static const String splashRouteName = 'splash';
+  static const String welcomeRouteName = 'welcome';
+  static const String homeRouteName = 'home';
+  static const String walletRouteName = 'wallet';
+  static const String settingRouteName = 'setting';
+  static const String importWalletRouteName = 'importWallet';
+  static const String createRouteName = 'createWallet';
+  static const String multiWalletRouteName = 'multiWallet';
 }
 
 class AppRouter {
@@ -26,52 +36,5 @@ class AppRouter {
     "/${BitrielRouter.homeRoute}": (context) => const MainScreen(),
 
   };
-  //  = GoRouter(
-  //   routes: [
-  //     GoRoute(
-  //       name: "welcome",
-  //       path: "/",
-  //       builder: (context, state) => const Welcome(),
-  //     ),
 
-  //     GoRoute(
-  //       name: "createWallet",
-  //       path: "/create-wallet",
-  //       builder: (context, state) => const CreateWallet(),
-  //     ),
-
-  //     GoRoute(
-  //       name: "importWallet",
-  //       path: "/import-wallet",
-  //       builder: (context, state) => const ImportWallet(),
-  //     ),
-  //   ]
-  // );
-
-  // GoRouter get router => _router;
 }
-// class AppRouter {
-//   static final GoRouter _router = GoRouter(
-//     routes: [
-//       GoRoute(
-//         name: "welcome",
-//         path: "/",
-//         builder: (context, state) => const Welcome(),
-//       ),
-
-//       GoRoute(
-//         name: "createWallet",
-//         path: "/create-wallet",
-//         builder: (context, state) => const CreateWallet(),
-//       ),
-
-//       GoRoute(
-//         name: "importWallet",
-//         path: "/import-wallet",
-//         builder: (context, state) => const ImportWallet(),
-//       ),
-//     ]
-//   );
-
-//   GoRouter get router => _router;
-// }

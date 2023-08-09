@@ -2,14 +2,12 @@ import 'package:bitriel_wallet/index.dart';
 
 class NavbarUsecaseImpl implements NavbarUsecase{
 
-  NavbarModel navbarModel = NavbarModel();
+  final ValueNotifier<int> currentIndex = ValueNotifier(0);
 
   @override
-  void changeIndex({int? index}) async {
+  void changeIndex({required int index}) async {
 
-    navbarModel.controller?.index = index!; // THIS IS CRITICAL!! Don't miss it!
-
-    if (index == 1) {}
+    currentIndex.value = index; // THIS IS CRITICAL!! Don't miss it!
     
   }
   

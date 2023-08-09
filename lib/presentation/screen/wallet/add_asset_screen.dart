@@ -202,7 +202,7 @@ class AddAsset extends StatelessWidget {
               children: [
 
                 Image(
-                  image: AssetImage('assets/logo/bitriel-logo.png'),
+                  image: AssetImage('assets/logo/bnb-logo.png'),
                   height: 25,
                   width: 25,
                 ),
@@ -211,6 +211,7 @@ class AddAsset extends StatelessWidget {
 
                 MyTextConstant(
                   text: "BEP-20",
+                  fontWeight: FontWeight.w600,
                 )
               ],
             )
@@ -221,7 +222,7 @@ class AddAsset extends StatelessWidget {
               children: [
                 
                 Image(
-                  image: AssetImage('assets/logo/bitriel-logo.png'),
+                  image: AssetImage('assets/logo/eth-logo.png'),
                   height: 25,
                   width: 25,
                 ),
@@ -230,6 +231,7 @@ class AddAsset extends StatelessWidget {
 
                 MyTextConstant(
                   text: "ERC-20",
+                  fontWeight: FontWeight.w600,
                 )
               ],
             )

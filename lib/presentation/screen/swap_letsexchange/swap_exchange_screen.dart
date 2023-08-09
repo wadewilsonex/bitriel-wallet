@@ -1,4 +1,6 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/screen/swap_letsexchange/confirm_swap_exchange.dart';
+import 'package:bitriel_wallet/presentation/screen/swap_letsexchange/status_exchange.dart';
 
 class SwapExchange extends StatelessWidget {
   const SwapExchange({super.key});
@@ -6,14 +8,45 @@ class SwapExchange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    LetsExchangeUCImpl letsExchangeUCImpl = LetsExchangeUCImpl();
+    final LetsExchangeUCImpl letsExchangeUCImpl = LetsExchangeUCImpl();
 
-    TextEditingController myController = TextEditingController();
-
-    letsExchangeUCImpl.getLetsExchangeCoin();
+    // letsExchangeUCImpl.getLetsExchangeCoin();
+    print("SwapExchange build");
 
     return Scaffold(
-      appBar: appBar(context, title: "Swap"),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: hexaCodeToColor(AppColors.background),
+        title: MyTextConstant(
+          text: "Swap",
+          fontSize: 26,
+          color2: hexaCodeToColor(AppColors.midNightBlue),
+          fontWeight: FontWeight.w600,
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            size: 30,
+            color: hexaCodeToColor(AppColors.midNightBlue),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (builder) => const StatusExchange())
+              );
+            }, 
+            child: MyTextConstant(
+              text: "Status",
+              color2: hexaCodeToColor(AppColors.primary),
+            ),
+          )
+        ],
+      ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -27,24 +60,29 @@ class SwapExchange extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))
                 ),
-                child: Column(
-                  children: [
+                child: ValueListenableBuilder(
+                  valueListenable: letsExchangeUCImpl.inputAmount,
+                  builder: (context, value, wg) {
+                    return Column(
+                      children: [
 
-                    _payInput(context, myController, letsExchangeUCImpl),
+                        _payInput(context, letsExchangeUCImpl),
 
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: IconButton(
-                        onPressed: (){
-                          
-                        },
-                        icon: Icon(Iconsax.refresh_circle, color: hexaCodeToColor(AppColors.primaryColor), size: 35,)
-                      ),
-                    ),
-                  
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                            onPressed: (){
+                              
+                            },
+                            icon: Icon(Iconsax.refresh_circle, color: hexaCodeToColor(AppColors.primaryColor), size: 35,)
+                          ),
+                        ),
+                      
 
-                    _getDisplay(context, letsExchangeUCImpl),
-                  ],
+                        _getDisplay(context, letsExchangeUCImpl),
+                      ],
+                    );
+                  }
                 ),
               ),
             ),
@@ -54,14 +92,13 @@ class SwapExchange extends StatelessWidget {
             ),
 
             Center(
-              child: _buildNumberPad(context, myController,)
+              child: _buildNumberPad(context, letsExchangeUCImpl.inputAmount.value, letsExchangeUCImpl.onDeleteTxt, letsExchangeUCImpl.formatDouble)
             ),
 
             MyButton(
               edgeMargin: const EdgeInsets.all(paddingSize),
-              textButton: "Review Swap",
+              textButton: "Swap",
               action: () async {
-                
               },
             ),
       
@@ -71,7 +108,7 @@ class SwapExchange extends StatelessWidget {
     );
   }
 
-  Widget _payInput(BuildContext context, TextEditingController myController, LetsExchangeUCImpl leUCImpl) {
+  Widget _payInput(BuildContext context, LetsExchangeUCImpl leUCImpl) {
     return Padding(
       padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
       child: Column(
@@ -101,34 +138,18 @@ class SwapExchange extends StatelessWidget {
 
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
-                    child: Form(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      child: TextFormField(
-                        controller: myController,
-                        style: const TextStyle(
-                          fontSize: 20
-                        ),
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(15),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                            borderSide: const BorderSide(
-                              width: 0, 
-                              style: BorderStyle.none,
-                            ),
-                          ),
-                          filled: true,
-                          hintStyle: TextStyle(color: hexaCodeToColor(AppColors.grey)),
-                          hintText: "0.00",
-                          fillColor: hexaCodeToColor(AppColors.background),
-                        ),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        enableInteractiveSelection: false,
-                        showCursor: false,
-                        // Disable the default soft keybaord
-                        keyboardType: TextInputType.none,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      padding: const EdgeInsets.only(top: paddingSize, left: paddingSize / 2, bottom: paddingSize),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        color: hexaCodeToColor(AppColors.background)
+                      ),
+                      child: MyTextConstant(
+                        textAlign: TextAlign.start,
+                        text: leUCImpl.inputAmount.value.isEmpty ? "0.00" : leUCImpl.inputAmount.value.toString(),
+                        fontSize: 20,
+                        color2: leUCImpl.inputAmount.value.isEmpty ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
                       ),
                     ),
                   ),
@@ -144,8 +165,11 @@ class SwapExchange extends StatelessWidget {
                     context: context, 
                     i: 0,
                     onPressed: () {
-
-                      pushNewScreen(context, screen: SelectSwapToken(itemLE: value), withNavBar: false);
+                      
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SelectSwapToken(itemLE: value))
+                      );
 
                     },
                     letsExchangeRepoImpl: leUCImpl
@@ -213,7 +237,10 @@ class SwapExchange extends StatelessWidget {
                     i: 1,
                     onPressed: () {
 
-                      pushNewScreen(context, screen: SelectSwapToken(itemLE: value), withNavBar: false);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SelectSwapToken(itemLE: value))
+                      );
 
                     },
                     letsExchangeRepoImpl: leUCImpl
@@ -266,11 +293,13 @@ class SwapExchange extends StatelessWidget {
     );
   }
 
-  Widget _buildNumberPad(context, TextEditingController myController) {
+  Widget _buildNumberPad(context, String valInput, Function onDeleteTxt, Function formatCurrency) {
     return SwapNumPad(
       buttonSize: 10,
+      valInput: valInput,
       buttonColor: hexaCodeToColor("#FEFEFE"),
-      controller: myController,
+      delete: onDeleteTxt,
+      formatCurrency: formatCurrency,
     );
   }
 

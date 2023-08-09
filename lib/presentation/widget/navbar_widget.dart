@@ -1,142 +1,55 @@
 import '../../index.dart';
 
 class MainScreen extends StatelessWidget {
-
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
-    final navbarImpl = NavbarUsecaseImpl();
 
-    return Scaffold(
-      body: PersistentTabView(
-        context,
-        controller: navbarImpl.navbarModel.controller,
-        navBarHeight: kSizeBottomNavigationBarHeight,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        confineInSafeArea: true,
-        backgroundColor: kColorBNBBackground,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        hideNavigationBarWhenKeyboardShows: true,
-        popAllScreensOnTapOfSelectedTab: true,
-        popActionScreens: PopActionScreensType.all,
-        onWillPop: (context) async {
-          return true;
-        },
-        itemAnimationProperties: const ItemAnimationProperties(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: const ScreenTransitionAnimation(
-          animateTabTransition: false,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        // decoration: const NavBarDecoration(
-        //   borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))
-        // ),
-        navBarStyle: NavBarStyle.style3,
-        onItemSelected: (final index) {
-          navbarImpl.changeIndex(index: index);
-        },
-      ),
+    final NavbarUsecaseImpl navbarUsecaseImpl = NavbarUsecaseImpl();
+
+    final pages = [
+      const HomeScreen(),
+      const WalletScreen(),
+      const SettingScreen()
+    ];
+
+    return ValueListenableBuilder(
+      valueListenable: navbarUsecaseImpl.currentIndex,
+      builder: (context, value, wg) {
+        return Scaffold(
+          body: pages[value],
+          bottomNavigationBar: _buildBottomBar(index: value, navbarUsecaseImpl: navbarUsecaseImpl)
+        );
+      }
     );
   }
 
-  List<Widget> _buildScreens() {
-    return [
-      const HomeScreen(),
-      const WalletScreen(),
-      const SettingScreen(),
-      // const WalletScreen(),
-    ];
+  Widget _buildBottomBar({required int index, required NavbarUsecaseImpl navbarUsecaseImpl}){
+    return NavigationBar(
+      height: 70,
+      selectedIndex: index,
+      onDestinationSelected: (index) => navbarUsecaseImpl.changeIndex(index: index),
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(Icons.home_outlined,),
+          selectedIcon: Icon(Icons.home),
+          label: "Home",
+        ),
+
+        NavigationDestination(
+          icon: Icon(Icons.account_balance_wallet_outlined),
+          selectedIcon: Icon(Icons.account_balance_wallet),
+          label: "Wallet",
+        ),
+
+        NavigationDestination(
+          icon: Icon(Icons.settings_outlined),
+          selectedIcon: Icon(Icons.settings),
+          label: "Setting",
+        ),
+      ],
+    );
   }
 
-  List<PersistentBottomNavBarItem> _navBarsItems() {
-    return [
-
-      PersistentBottomNavBarItem(
-        icon: Column(
-          children: [
-            SizedBox(
-              height: kSizeBottomNavigationBarIconHeight,
-              child: Image.asset(
-                kIconPathBottomNavigationBarHome,
-              ),
-            ),
-          ],
-        ),
-        inactiveIcon: Column(
-          children: [
-            SizedBox(
-              height: kSizeBottomNavigationBarIconHeight,
-              child: Image.asset(
-                kIconPathBottomNavigationBarHomeDeactive,
-              ),
-            ),
-          ],
-        ),
-        title: ('Home'),
-        activeColorPrimary: kColorBNBActiveTitleColor,
-        inactiveColorPrimary: kColorBNBDeactiveTitleColor,
-      ),
-
-      PersistentBottomNavBarItem(
-        icon: Column(
-          children: [
-            SizedBox(
-              height: kSizeBottomNavigationBarIconHeight,
-              child: Image.asset(
-                kIconPathBottomNavigationBarWallet,
-              ),
-            ),
-          ],
-        ),
-        inactiveIcon: Column(
-          children: [
-            SizedBox(
-              height: kSizeBottomNavigationBarIconHeight,
-              child: Image.asset(
-                kIconPathBottomNavigationBarWalletDeactive,
-              ),
-            ),
-          ],
-        ),
-        title: ('Wallet'),
-        activeColorPrimary: kColorBNBActiveTitleColor,
-        inactiveColorPrimary: kColorBNBDeactiveTitleColor,
-      ),
-
-      PersistentBottomNavBarItem(
-        icon: Column(
-          children: [
-            SizedBox(
-              height: kSizeBottomNavigationBarIconHeight,
-              child: Image.asset(
-                kIconPathBottomNavigationBarSetting,
-              ),
-            ),
-          ],
-        ),
-        inactiveIcon: Column(
-          children: [
-            SizedBox(
-              height: kSizeBottomNavigationBarIconHeight,
-              child: Image.asset(
-                kIconPathBottomNavigationBarSettingDeactive,
-              ),
-            ),
-          ],
-        ),
-        title: ('Setting'),
-        activeColorPrimary: kColorBNBActiveTitleColor,
-        inactiveColorPrimary: kColorBNBDeactiveTitleColor,
-      ),
-      
-    ];
-  }
 }

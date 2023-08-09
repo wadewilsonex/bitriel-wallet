@@ -13,7 +13,6 @@ export 'package:local_auth/local_auth.dart';
 export 'package:web3dart/web3dart.dart';
 export 'package:web_socket_channel/io.dart';
 export 'package:ua_client_hints/ua_client_hints.dart';
-export 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 export 'package:random_avatar/random_avatar.dart';
 export 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 export 'package:quickalert/quickalert.dart';
@@ -82,7 +81,6 @@ export 'package:bitriel_wallet/domain/model/new_acc_m.dart';
 export 'package:bitriel_wallet/domain/model/smart_contract_m.dart';
 export 'package:bitriel_wallet/domain/model/line_chart_model.dart';
 export 'package:bitriel_wallet/domain/model/market.m.dart';
-export 'package:bitriel_wallet/domain/model/navbar_m.dart';
 export 'package:bitriel_wallet/domain/model/lets_exchange_coin_m.dart';
 
 // Usecases

@@ -5,8 +5,6 @@ class MarketUCImpl implements MarketUseCases {
   MarketRepoImpl marketRepoImpl = MarketRepoImpl();
 
   ValueNotifier<List<Market>> lstMarket = ValueNotifier([]);
-
-  ValueNotifier<List<ListMetketCoinGecko>> lstMarketCoinGecko = ValueNotifier([]);
   
   ValueNotifier<bool> backToTop = ValueNotifier(false);
   
@@ -15,8 +13,8 @@ class MarketUCImpl implements MarketUseCases {
   @override
   Future<void> getMarkets() async {
 
-    lstMarket.value = [];
     lstMarket.value = await marketRepoImpl.getMarkets();
+
   }
 
 }

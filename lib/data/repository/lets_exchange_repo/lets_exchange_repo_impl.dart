@@ -1,4 +1,3 @@
-import 'package:bitriel_wallet/domain/model/lets_exchange_coin_m.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class LetsExchangeRepoImpl implements LetsExchangeRepository {
