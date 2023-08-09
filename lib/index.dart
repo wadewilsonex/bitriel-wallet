@@ -17,7 +17,6 @@ export 'package:random_avatar/random_avatar.dart';
 export 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 export 'package:quickalert/quickalert.dart';
 export 'package:qr_flutter/qr_flutter.dart';
-export 'package:dropdown_button2/dropdown_button2.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 

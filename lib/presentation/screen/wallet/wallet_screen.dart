@@ -352,8 +352,9 @@ class WalletScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 MyTextConstant(
-                  text: assetsModel[assetsModel.indexOf(element)].balance!,
+                  text: element.balance ?? '0',//assetsModel[assetsModel.indexOf(element)].balance!,
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.start,
                 ),

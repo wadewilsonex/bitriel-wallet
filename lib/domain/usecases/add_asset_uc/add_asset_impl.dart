@@ -35,8 +35,8 @@ class AddAssetUcImpl implements AddAssetUsecase{
     walletProvider = Provider.of<WalletProvider>(_context!, listen: false);
     
     networkSymbol = [
-      {"symbol": "BSC", "index": 0, "logo": "${sdkProvider!.dirPath}/token_logo/bnb.png"},
-      {"symbol": "Ethereum", "index": 1, "logo": "${sdkProvider!.dirPath}/token_logo/eth.png"}
+      {"symbol": "BSC", "index": 0, "logo": "assets/logo/bnb-logo.png"},
+      {"symbol": "Ethereum", "index": 1, "logo": "assets/logo/eth-logo.png"}
     ];
 
   }
@@ -44,22 +44,26 @@ class AddAssetUcImpl implements AddAssetUsecase{
   /// 1.
   /// Initailize Fetching Contract From Github 
   Future<void> fetchContracts() async {
-    await HttpRequestImpl().fetchContractAddress().then((value) {
-      lstContractJson.value = value;
-    });
+    if (lstContractJson.value.isEmpty){
+      
+      await HttpRequestImpl().fetchContractAddress().then((value) {
+        lstContractJson.value = value;
+      });
+    }
   }
 
   void searchContract(String searchValue) async {
 
     if (searchValue.isNotEmpty) {
 
-      // Enable Dialog Searching
-      resetState(isSearch: true);
-
       EasyDebounce.debounce(
         'my-debouncer',                 // <-- An ID for this particular debouncer
         const Duration(seconds: 1),    // <-- The debounce duration
         () {
+          print("Start func");
+
+          // Enable Dialog Searching
+          resetState(isSearch: true);
             
           searched.value = lstContractJson.value.where((value) {
 
@@ -158,10 +162,8 @@ class AddAssetUcImpl implements AddAssetUsecase{
         
   }
 
-  void onChanged(Map<String, dynamic> value){
-    networkIndex.value = value['index'];
-    Navigator.pop(_context!, networkSymbol![value['index']]);
-
+  void onChanged(int value){
+    networkIndex.value = value;
   }
 
   Future<void> _addToken({required DeployedContract? dpContract}) async {

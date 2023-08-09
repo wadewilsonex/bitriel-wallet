@@ -73,7 +73,8 @@ class WalletInfo extends StatelessWidget {
   Widget _infoTap(BuildContext context, WalletProvider walletPro) {
     return Column(
       children: [
-        _tokenIconHeader(price: double.parse("${scModel.balance}".replaceAll(",", "")).toStringAsFixed(2)),
+        // ignore: unnecessary_string_interpolations
+        _tokenIconHeader(price: double.parse("${scModel.balance ?? '0.0'}".replaceAll(",", "")).toStringAsFixed(2)),
 
         _chartAsset(context),
     
