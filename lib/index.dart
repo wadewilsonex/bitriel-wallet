@@ -130,7 +130,7 @@ export 'package:bitriel_wallet/presentation/screen/wallet/wallet_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/token_info_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/wallet/add_asset_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/swap_exchange_screen.dart';
-export 'package:bitriel_wallet/presentation/screen/wallet/payment_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/wallet/payment/payment_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/wallet/receive_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/wallet/transaction_detail_screen.dart';
 

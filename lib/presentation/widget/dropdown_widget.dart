@@ -1,11 +1,12 @@
 import 'package:bitriel_wallet/index.dart';
 
-Widget dropDown(List<SmartContractModel> lstCoins, ValueNotifier<int> index) {
+Widget dropDown(List<SmartContractModel> lstCoins, PaymentUcImpl paymentUcImpl) {
+  
   return DropdownButtonHideUnderline(
     child: DropdownButton2<String>(
       isExpanded: true,
       hint: ValueListenableBuilder(
-        valueListenable: index,
+        valueListenable: paymentUcImpl.index,
         builder: (context, value, wg){
           return Text(
             lstCoins[value
@@ -26,7 +27,7 @@ Widget dropDown(List<SmartContractModel> lstCoins, ValueNotifier<int> index) {
       }).toList(),
       onChanged: (String? value) {
           // selectedValue = value;
-        index.value = int.parse(value!);
+        paymentUcImpl.assetChanged(int.parse(value!));
       },
       buttonStyleData: const ButtonStyleData(
         padding: EdgeInsets.symmetric(horizontal: 16),

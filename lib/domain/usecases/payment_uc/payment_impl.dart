@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:bitriel_wallet/index.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:get/utils.dart';
 
 class PaymentUcImpl implements PaymentUsecases {
@@ -21,22 +22,99 @@ class PaymentUcImpl implements PaymentUsecases {
   
   ValueNotifier<String> trxMessage = ValueNotifier("");
 
+  ValueNotifier<bool> isReady = ValueNotifier(false);
+  
+  FocusNode addrNode = FocusNode();
+  FocusNode amtNode = FocusNode();
+
   set setBuildContext(BuildContext ctx){
     context = ctx;
     walletProvider = Provider.of<WalletProvider>(ctx, listen: false);
     _sdkProvider = Provider.of<SDKProvider>(ctx, listen: false);
   }
 
+  void assetChanged(int value){
+    index.value = value;
+  }
+
   void onChanged(String? value){
-    if (value!.toLowerCase().contains( (walletProvider!.sortListContract![index.value].symbol!.substring(0, 1).toLowerCase()) )){
-      print("True");
+
+    if (addrNode.hasFocus){
+      addressOnchanged(value);
     } else {
-      print("False");
+      amtOnchanged(value);
+    }
+  }
+  
+  void addressOnchanged(String? value){
+
+    print("onChanged $value");
+    if (value!.isNotEmpty){
+      print("value.toLowerCase().contains(0x) ${value.toLowerCase().contains("0x")}");
+      if (value.toLowerCase().contains("0x")){
+
+        // If Not Yet Set False
+        if (isReady.value == false){
+
+          mainValidator();
+          // EasyDebounce.debounce(
+          //   'my debound', 
+          //   const Duration(milliseconds: 300), 
+          //   () {
+          //   }
+          // );
+        }
+
+      // Prevent Rebuild When remove Text
+      } else if (isReady.value == true) {
+
+        isReady.value = false;
+      }
+
+    } else if (isReady.value == true) {
+
+      isReady.value = false;
     }
   }
 
-  Future<void> submitTrx() async {
+  void amtOnchanged(String? value){
+    if (value!.isNotEmpty){
+      mainValidator();
+    } else if ( isReady.value == true ){
+      isReady.value = false;
+    }
+  }
 
+  String? addressValidator(String? value) {
+
+    if ( !(value!.toLowerCase().contains("0x")) && value.isNotEmpty ){
+
+      // If Not Yet Set False
+      return "Invalid address";
+
+    // Prevent Rebuild When remove Text
+    } else if ( value.isEmpty) {
+
+      return "Field cannot emplty";
+    }
+
+    return null;
+  }
+
+  String? amtValidator(String? value) {
+    
+    if (value!.isEmpty){
+      
+      return "Field cannot emplty";
+    }
+    return null;
+  }
+
+  void mainValidator() {
+    if (amountController.text.isNotEmpty && recipientController.text.isNotEmpty) isReady.value = true;
+  }
+
+  Future<void> submitTrx() async {
 
     try {
       
