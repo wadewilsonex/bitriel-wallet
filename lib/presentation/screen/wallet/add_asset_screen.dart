@@ -38,7 +38,7 @@ class AddAsset extends StatelessWidget {
                 ),
                 filled: true,
                 hintStyle: TextStyle(color: hexaCodeToColor(AppColors.grey)),
-                hintText: "Enter token contract Address",
+                hintText: "Enter token contract 0x....",
                 fillColor: hexaCodeToColor(AppColors.background),
               ),
               controller: addAssetUcImpl.controller,

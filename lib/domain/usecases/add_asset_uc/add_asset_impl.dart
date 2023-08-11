@@ -265,7 +265,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
   Future<void> storeAddedAsset(SmartContractModel searched) async {
 
     walletProvider!.addedContract!.clear();
-    walletProvider!.addedContract!.add(searched!);
+    walletProvider!.addedContract!.add(searched);
 
     await _secureStorageImpl.writeSecure(DbKey.addedContract, json.encode(SmartContractModel.encode( walletProvider!.addedContract!)));
     await SecureStorage.readData(key: DbKey.addedContract).then((value) {
