@@ -1,6 +1,6 @@
 import 'package:bitriel_wallet/index.dart';
 
-PreferredSizeWidget appBar(final BuildContext context, {required final String title}) {
+PreferredSizeWidget appBar(final BuildContext context, {required final String title, Function? dispose}) {
   return AppBar(
     elevation: 0,
     centerTitle: true,
@@ -12,7 +12,10 @@ PreferredSizeWidget appBar(final BuildContext context, {required final String ti
       fontWeight: FontWeight.w600,
     ),
     leading: IconButton(
-      onPressed: () => Navigator.pop(context),
+      onPressed: () {
+        if (dispose != null) dispose();
+        Navigator.pop(context);
+      },
       icon: Icon(
         Iconsax.arrow_left_2,
         size: 30,

@@ -13,9 +13,8 @@ class AddAsset extends StatelessWidget {
 
     addAssetUcImpl.fetchContracts();
 
-
     return Scaffold(
-      appBar: appBar(context, title: "Import Token"),
+      appBar: appBar(context, title: "Import Token", dispose: addAssetUcImpl.dispose),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -43,12 +42,13 @@ class AddAsset extends StatelessWidget {
                 fillColor: hexaCodeToColor(AppColors.background),
               ),
               controller: addAssetUcImpl.controller,
-              onChanged: (String value) {
+              onChanged: addAssetUcImpl.onAddrChanged,
+              // onChanged: (String value) {
                 
-                // addAssetUcImpl.validateWeb3Address();
-                addAssetUcImpl.searchContract(value);
+              //   // addAssetUcImpl.validateWeb3Address();
+              //   // addAssetUcImpl.searchContract();
             
-              },
+              // },
             ),
 
             const Padding(
@@ -56,42 +56,51 @@ class AddAsset extends StatelessWidget {
               child: Divider(),
             ),
 
-            // _resultContract(),
-
-            // Searched
-            ValueListenableBuilder(
-              valueListenable: addAssetUcImpl.searched, 
-              builder: (context, value, wg){
-                
-                // ignore: unnecessary_null_comparison
-                if (value.isNotEmpty){
-                   return ListView.builder(
-                     shrinkWrap: true,
-                     itemCount: 10,
-                     itemBuilder: (context, index) {
-                       return InkWell(
-                        onTap: (){
-                          print("addAssetUcImpl.searched.value[index] ${addAssetUcImpl.searched.value[index]}");
-                        },
-                        child: Text(addAssetUcImpl.searched.value[index]!['platforms'].toString())
-                      );
-                     },
-                   );
-                }
-                return const SizedBox();
-              }
-            ),
-            
-      
-            // Show Loading
             ValueListenableBuilder(
               valueListenable: addAssetUcImpl.isSearching, 
               builder: (context, value, wg){
-                // ignore: unnecessary_null_comparison
-                if (value == true) return const CircularProgressIndicator();
+                if (value == true){
+                  return _resultContract(addAssetUcImpl.searched!, addAssetUcImpl);
+                }
+
                 return const SizedBox();
               }
             ),
+
+            // Searched
+            // ValueListenableBuilder(
+            //   valueListenable: addAssetUcImpl.searched, 
+            //   builder: (context, value, wg){
+                
+            //     // ignore: unnecessary_null_comparison
+            //     if (value.isNotEmpty){
+            //        return ListView.builder(
+            //          shrinkWrap: true,
+            //          itemCount: 10,
+            //          itemBuilder: (context, index) {
+            //            return InkWell(
+            //             onTap: (){
+            //               print("addAssetUcImpl.searched.value[index] ${addAssetUcImpl.searched.value[index]}");
+            //             },
+            //             child: Text(addAssetUcImpl.searched.value[index]!['platforms'].toString())
+            //           );
+            //          },
+            //        );
+            //     }
+            //     return const SizedBox();
+            //   }
+            // ),
+            
+      
+            // Show Loading
+            // ValueListenableBuilder(
+            //   valueListenable: addAssetUcImpl.isSearching, 
+            //   builder: (context, value, wg){
+            //     // ignore: unnecessary_null_comparison
+            //     if (value == true) return const CircularProgressIndicator();
+            //     return const SizedBox();
+            //   }
+            // ),
 
             Expanded(child: Container()),
             ValueListenableBuilder(
@@ -103,7 +112,7 @@ class AddAsset extends StatelessWidget {
                   // value == false ? null : 
                   () async {
       
-                    await addAssetUcImpl.addAsset();
+                    await addAssetUcImpl.submitSeach();
       
                   }
                 );
@@ -123,50 +132,41 @@ class AddAsset extends StatelessWidget {
     final List<Map<String, dynamic>>? listNetwork,
   }
   ){
-    return DraggableScrollableSheet(
-      initialChildSize: 0.9,
-      minChildSize: 0.5,
-      maxChildSize: 0.9,
-      expand: false,
-      builder: (_, scrollController) {
-        return Column(
-          children: [
-            
-            Icon(
-              Icons.remove,
-              color: Colors.grey[600],
-              size: 25,
-            ),
+    return Column(
+      children: [
+        
+        Icon(
+          Icons.remove,
+          color: Colors.grey[600],
+          size: 25,
+        ),
 
-            Expanded(
-              child: ListView.builder(
-                controller: scrollController,
-                itemCount: listNetwork!.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: SizedBox(
-                      height: 27,
-                      width: 27,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Image.asset("${listNetwork[index]["logo"]}", height: 27, width: 27)),
-                    ),
-                    title: MyTextConstant(
-                      text: listNetwork[index]["symbol"], 
-                      fontSize: 18, 
-                      fontWeight: FontWeight.bold,
-                      textAlign: TextAlign.start,
-                    ),
-                    onTap: () {
-                      Navigator.pop(context, index);
-                    },
-                  );
+        Expanded(
+          child: ListView.builder(
+            itemCount: listNetwork!.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: SizedBox(
+                  height: 27,
+                  width: 27,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Image.asset("${listNetwork[index]["logo"]}", height: 27, width: 27)),
+                ),
+                title: MyTextConstant(
+                  text: listNetwork[index]["symbol"], 
+                  fontSize: 18, 
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.start,
+                ),
+                onTap: () {
+                  Navigator.pop(context, index);
                 },
-              ),
-            ),
-          ],
-        );
-      }
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -177,7 +177,7 @@ class AddAsset extends StatelessWidget {
         await showModalBottomSheet(
           context: context,
           isDismissible: true,
-          backgroundColor: hexaCodeToColor(AppColors.cardColor),
+          backgroundColor: Colors.white,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical( 
               top: Radius.circular(25.0),
@@ -248,46 +248,46 @@ class AddAsset extends StatelessWidget {
   }
 
 
-  // Widget _resultContract() {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //       borderRadius: const BorderRadius.all(
-  //         Radius.circular(50),
-  //       ),
-  //       color: hexaCodeToColor(AppColors.background)
-  //     ),
-  //     child: ListTile(
-  //       dense: true,
-  //       leading: const Image(
-  //         image: AssetImage('assets/logo/bitriel-logo.png'),
-  //         height: 35,
-  //         width: 35,
-  //       ),
-  //       title: const MyTextConstant(
-  //       text: "Selendra",
-  //       fontWeight: FontWeight.w600,
-  //       textAlign: TextAlign.start,
-  //     ),
-  //     subtitle: MyTextConstant(
-  //       text: "SEL",
-  //       color2: hexaCodeToColor(AppColors.grey),
-  //       fontSize: 12,
-  //       textAlign: TextAlign.start,
-  //     ),
-  //       trailing: SizedBox(
-  //         width: 80,
-  //         height: 35,
-  //         child: MyButton(
-  //           textButton: 'Import',
-  //           fontSize: 14,
-  //           fontWeight: FontWeight.w600,
-  //           action: () {
-
-  //           },
-  //         ),
-  //       ),
-  //     )
-  //   );
-  // }
+  Widget _resultContract(SmartContractModel model, AddAssetUcImpl addAssetUcImpl) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(50),
+        ),
+        color: hexaCodeToColor(AppColors.background)
+      ),
+      child: ListTile(
+        dense: true,
+        leading: const Image(
+          image: AssetImage('assets/logo/bitriel-logo.png'),
+          height: 35,
+          width: 35,
+        ),
+        title: MyTextConstant(
+        text: model.name,
+        fontWeight: FontWeight.w600,
+        textAlign: TextAlign.start,
+      ),
+      subtitle: MyTextConstant(
+        text: model.symbol,
+        color2: hexaCodeToColor(AppColors.grey),
+        fontSize: 12,
+        textAlign: TextAlign.start,
+      ),
+        trailing: SizedBox(
+          width: 80,
+          height: 35,
+          child: MyButton(
+            textButton: 'Import',
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            action: () async{
+              await addAssetUcImpl.addAsset();
+            },
+          ),
+        ),
+      )
+    );
+  }
 
 }

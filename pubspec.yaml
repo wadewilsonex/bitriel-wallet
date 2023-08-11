@@ -73,6 +73,7 @@ dependencies:
       url: https://github.com/MrBoOodY/babstrap_settings_screen.git
       ref: main
   easy_debounce: ^2.0.3
+  dropdown_button2: ^2.3.7
 
 dependency_overrides:
   polkawallet_sdk:

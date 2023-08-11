@@ -4,6 +4,7 @@ export 'dart:io';
 export 'package:flutter/services.dart';
 export 'package:flutter/foundation.dart';
 export 'dart:convert';
+export 'package:dropdown_button2/dropdown_button2.dart';
 
 // Pub & Packages
 export 'package:bitriel_wallet/app.dart';

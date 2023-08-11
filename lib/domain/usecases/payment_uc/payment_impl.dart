@@ -76,6 +76,7 @@ class PaymentUcImpl implements PaymentUsecases {
           type: QuickAlertType.success,
           text: 'Transaction Completed Successfully!',
         );
+
       } else if (trxMessage.value.isEmpty) {
         trxMessage.value = "Balance must greater than 0";
       }

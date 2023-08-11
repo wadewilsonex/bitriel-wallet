@@ -341,8 +341,8 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       });
     } catch (e) {
       print("Error callWeb3ContractFunc $e");
+      throw Exception(e);
     }
-    return [];
   }
 
   Future<bool> validateWeb3Address(String addr) async {
