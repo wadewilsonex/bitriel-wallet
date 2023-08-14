@@ -43,72 +43,78 @@ class WalletScreen extends StatelessWidget {
             
             _cardPortfolio(context),
 
-            Row(
-              children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15, right: 15, left: 15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+            
+                  Expanded(child: _searchBar(searchController)),
 
-                Expanded(child: _searchBar(searchController)),
-                
-                IconButton(
-                  onPressed: () async {
-                    await pushNewScreen(context, screen: const AddAsset(), withNavBar: false);
-                    // Navigator.push(
-                    //   context, 
-                    //   MaterialPageRoute(builder: (context) => const AddAsset())
-                    // );
-                  }, 
-                  icon: const Icon(Icons.add)
-                ),
-
-                const SizedBox(width: 14)
-              ],
-            ),
-
-            _getGroupSeparator("Native"),
-            Consumer<WalletProvider>(
-              builder: (context, pro, wg) {
-                
-                if (pro.listNative == null) {
-                  return const CircularProgressIndicator();
-                }
-                else if (pro.listNative!.isEmpty) {
-                  return const Text("No token");
-                }
-
-                return ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: pro.listNative!.map((e) {
-
-                    return _getItem(ctx: context, element: e, assetsModel: pro.listNative!);
-
-                  }).toList(),
-                );
-              }
-            ),
-
-            _getGroupSeparator("EVM"),
-            Consumer<WalletProvider>(
-              builder: (context, pro, wg) {
-
-                if (pro.listEvmNative == null) {
-                  return const CircularProgressIndicator();
-                }
-                else if (pro.listEvmNative!.isEmpty) {
-                  return const Text("No token");
-                }
-
-                return ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: pro.listEvmNative!.map((e) {
+                  IconButton(
+                    onPressed: () {
+                      
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AddAsset())
+                      );
                     
-                    return _getItem(ctx: context, element: e, assetsModel: pro.listEvmNative!);
-                    // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
-
-                  }).toList(),
-                );
-              }
+                    }, 
+                    icon: const Icon(Iconsax.add_circle)
+                  ),
+            
+                  
+                ],
+              ),
             ),
+
+            // _getGroupSeparator("Native"),
+            // Consumer<WalletProvider>(
+            //   builder: (context, pro, wg) {
+                
+            //     if (pro.listNative == null) {
+            //       return const CircularProgressIndicator();
+            //     }
+            //     else if (pro.listNative!.isEmpty) {
+            //       return const Text("No token");
+            //     }
+
+            //     return ListView(
+            //       shrinkWrap: true,
+            //       physics: const NeverScrollableScrollPhysics(),
+            //       children: pro.listNative!.map((e) {
+
+            //         return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listNative!);
+
+            //       }).toList(),
+            //     );
+            //   }
+            // ),
+
+            // _getGroupSeparator("EVM"),
+            // Consumer<WalletProvider>(
+            //   builder: (context, pro, wg) {
+
+            //     if (pro.listEvmNative == null) {
+            //       return const CircularProgressIndicator();
+            //     }
+            //     else if (pro.listEvmNative!.isEmpty) {
+            //       return const Text("No token");
+            //     }
+
+            //     return ListView(
+            //       shrinkWrap: true,
+            //       physics: const NeverScrollableScrollPhysics(),
+            //       children: pro.listEvmNative!.map((e) {
+                    
+            //         return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listEvmNative!);
+            //         // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
+
+            //       }).toList(),
+            //     );
+            //   }
+            // ),
 
             _getGroupSeparator("BEP20"),
             Consumer<WalletProvider>(
@@ -126,7 +132,7 @@ class WalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: pro.listBep20!.map((e) {
                     
-                    return _getItem(ctx: context, element: e, assetsModel: pro.listBep20!);
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listBep20!);
                     // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
                   }).toList(),
@@ -134,29 +140,29 @@ class WalletScreen extends StatelessWidget {
               }
             ),
 
-            _getGroupSeparator("ERC20"),
-            Consumer<WalletProvider>(
-              builder: (context, pro, wg) {
+            // _getGroupSeparator("ERC20"),
+            // Consumer<WalletProvider>(
+            //   builder: (context, pro, wg) {
                 
-                if (pro.listErc20 == null) {
-                  return const CircularProgressIndicator();
-                }
-                else if (pro.listErc20!.isEmpty) {
-                  return const Text("No token");
-                }
+            //     if (pro.listErc20 == null) {
+            //       return const CircularProgressIndicator();
+            //     }
+            //     else if (pro.listErc20!.isEmpty) {
+            //       return const Text("No token");
+            //     }
 
-                return ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: pro.listErc20!.map((e) {
+            //     return ListView(
+            //       shrinkWrap: true,
+            //       physics: const NeverScrollableScrollPhysics(),
+            //       children: pro.listErc20!.map((e) {
                     
-                    return _getItem(ctx: context, element: e, assetsModel: pro.listErc20!);
-                    // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
+            //         return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listErc20!);
+            //         // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
-                  }).toList(),
-                );
-              }
-            )
+            //       }).toList(),
+            //     );
+            //   }
+            // )
 
           ],
         ),
@@ -200,12 +206,11 @@ class WalletScreen extends StatelessWidget {
                 edgeMargin: const EdgeInsets.all(10),
                 fontWeight: FontWeight.w600,
                 buttonColor: AppColors.green,
-                action: () async {
-                  await pushNewScreen(context, screen: const TokenPayment(), withNavBar: false);
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const TokenPayment())
-                  // );
+                action: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TokenPayment())
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -231,13 +236,11 @@ class WalletScreen extends StatelessWidget {
                 edgeMargin: const EdgeInsets.all(10),
                 fontWeight: FontWeight.w600,
                 buttonColor: "161414",
-                action: () async {
-                  
-                  await pushNewScreen(context, screen: const ReceiveWallet(), withNavBar: false);
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const ReceiveWallet())
-                  // );
+                action: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ReceiveWallet())
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -290,17 +293,6 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Card getCardByIndex(int index, List<dynamic> member) {
-    return Card(
-      child: ListTile(
-        leading: const CircleAvatar(),
-        title: Text(member[index]["name"]),
-        subtitle: Text(member[index]["noHp"]),
-        onTap: () {},
-      )
-    );
-  }
-
   Widget _getGroupSeparator(String label) {
     return SizedBox(
       height: 50,
@@ -326,76 +318,65 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _getItem({required BuildContext ctx, required SmartContractModel element, required List<SmartContractModel> assetsModel}) {
+  Widget _getItem({required BuildContext ctx, required MarketUCImpl coinMarketCap, required SmartContractModel element, required List<SmartContractModel> assetsModel}) {
+
+
     return SizedBox(
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
-        leading: SizedBox(
-          height: 25, 
-          width: 25, 
-          child: Image.asset(
-            "assets/logo/bitriel-logo.png",
-            fit: BoxFit.contain,
-            height: 50,
-            width: 50,
-          ),
-        ),
-        title: MyTextConstant(
-          text: assetsModel[assetsModel.indexOf(element)].name!,
-          fontWeight: FontWeight.w600,
-          textAlign: TextAlign.start,
-        ),
-        subtitle: MyTextConstant(
-          text: assetsModel[assetsModel.indexOf(element)].symbol!,
-          color2: hexaCodeToColor(AppColors.grey),
-          fontSize: 12,
-          textAlign: TextAlign.start,
-        ),
-        trailing: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MyTextConstant(
-              text: assetsModel[assetsModel.indexOf(element)].balance ?? "0",
+      child: ValueListenableBuilder(
+        valueListenable: coinMarketCap.lstMarket,
+        builder: (context, value, wg) {
+          return ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+            leading: SizedBox(
+              height: 25, 
+              width: 25, 
+              child: Image.asset(
+                "assets/logo/bitriel-logo.png",
+                fit: BoxFit.contain,
+                height: 50,
+                width: 50,
+              ),
+            ),
+            title: MyTextConstant(
+              text: assetsModel[assetsModel.indexOf(element)].name!,
               fontWeight: FontWeight.w600,
               textAlign: TextAlign.start,
             ),
-
-            MyTextConstant(
-              text: "\$0.00",
+            subtitle: MyTextConstant(
+              text: assetsModel[assetsModel.indexOf(element)].symbol!,
               color2: hexaCodeToColor(AppColors.grey),
               fontSize: 12,
               textAlign: TextAlign.start,
             ),
-          ],
-        ),
-        onTap: () {
-          Navigator.push(
-            ctx,
-            MaterialPageRoute(builder: (context) => WalletInfo(scModel: element,))
+            trailing: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                MyTextConstant(
+                  text: element.balance ?? '0',//assetsModel[assetsModel.indexOf(element)].balance!,
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.start,
+                ),
+
+                MyTextConstant(
+                  text: "\$0.00",
+                  color2: hexaCodeToColor(AppColors.grey),
+                  fontSize: 12,
+                  textAlign: TextAlign.start,
+                ),
+              ],
+            ),
+            onTap: () {
+              Navigator.push(
+                ctx,
+                MaterialPageRoute(builder: (context) => WalletInfo(scModel: element, lstScModel: assetsModel, market: value,))
+              );
+            },
           );
-        },
+        }
       ),
     );
   }
-
-  // Widget _listItemAsset(WalletProvider walletPro) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(vertical: 15),
-  //     child: StickyGroupedListView<AssetsModel, String>(
-  //       shrinkWrap: true,
-  //       elements: walletPro.elements,
-  //       order: StickyGroupedListOrder.ASC,
-  //       groupBy: (AssetsModel element) => element.chain,
-  //       groupComparator: (String value1, String value2) => value2.compareTo(value1),
-  //       itemComparator: (AssetsModel element1, AssetsModel element2) => element1.chain.compareTo(element2.chain),
-  //       floatingHeader: true,
-  //       groupSeparatorBuilder: _getGroupSeparator,
-  //       itemBuilder: (context, element){
-  //         return _getItem(context, element.coins);
-  //       },
-  //     ),
-  //   );
-  // }
 
 }

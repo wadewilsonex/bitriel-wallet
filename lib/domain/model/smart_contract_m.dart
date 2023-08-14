@@ -29,7 +29,7 @@ class SmartContractModel {
   String? description;
   // List<TransactionInfo>? listActivity = [];
   List<List<double>>? lineChartList = [];
-  // List<FlSpot>? chart;
+  List<FlSpot>? chart;
   LineChartModel? lineChartModel = LineChartModel();
   double? money;
   List<Map<String, dynamic>>? platform;

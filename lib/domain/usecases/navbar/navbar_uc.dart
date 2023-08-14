@@ -1,5 +1,5 @@
 abstract class NavbarUsecase {
 
-  void changeIndex({int? index});
+  void changeIndex({required int index});
 
 }

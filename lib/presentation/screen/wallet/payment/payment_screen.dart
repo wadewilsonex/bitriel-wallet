@@ -182,7 +182,7 @@ Widget _getEnterAmountSection(PaymentUcImpl paymentUcImpl) {
                       child: TextFormField(
                         controller: paymentUcImpl.amountController,
                         keyboardType: TextInputType.number,
-                        onFieldSubmitted: paymentUcImpl.amtValidator,
+                        validator: paymentUcImpl.amtValidator,
                         focusNode: paymentUcImpl.amtNode,
                         onChanged: paymentUcImpl.onChanged,
                         style: const TextStyle(
@@ -191,9 +191,11 @@ Widget _getEnterAmountSection(PaymentUcImpl paymentUcImpl) {
                           color: Colors.black
                         ),
                         decoration: const InputDecoration(
-                            hintText: 'Amount',
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 30.0)),
+                          hintText: 'Amount',
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30.0
+                          )
+                        ),
                       ),
                     ),
                   )

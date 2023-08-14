@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/widget/navbar_widget.dart';
 
 class AppUsecasesImpl implements AppUsecases {
   

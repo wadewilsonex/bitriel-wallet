@@ -132,7 +132,7 @@ class _TokenInfoState extends State<TokenInfo> {
             widget.market[widget.index!].name,
             widget.market[widget.index!].symbol,
             'USD',
-            double.parse("${widget.market[widget.index!].price}".replaceAll(",", "")).toStringAsFixed(5),
+            double.parse("${widget.market[widget.index!].price}".replaceAll(",", "")).toStringAsFixed(2),
             widget.market[widget.index!].chart!,
           ),
         ),

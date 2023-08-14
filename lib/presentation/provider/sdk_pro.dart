@@ -18,7 +18,7 @@ class SDKProvider with ChangeNotifier {
 
   List<UnverifySeed> get getUnverifyAcc => _accountManagementImpl.unVerifyAccount;
 
-  ValueNotifier<bool> isMainnet = ValueNotifier(false);
+  ValueNotifier<bool> isMainnet = ValueNotifier(true);
 
   // get bool getIsMainNet => _sdkImpl.
 

@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:bitriel_wallet/index.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:get/utils.dart';
 import 'package:pinput/pinput.dart';
 
@@ -49,7 +48,6 @@ class PaymentUcImpl implements PaymentUsecases {
   
   void addressOnchanged(String? value){
 
-    print("onChanged $value");
     if (value!.isNotEmpty && value.length >= 2){
       if (value.toLowerCase().contains("0x") || (value[0] == "s" && value[1] == "e")){
 
@@ -87,18 +85,21 @@ class PaymentUcImpl implements PaymentUsecases {
 
   String? addressValidator(String? value) {
 
-    if ( value!.isEmpty) {
+    if (addrNode.hasFocus){
+      if ( value!.isEmpty) {
 
-      return "Field cannot emplty";
-    }
-    else if ( recipientController.length < 2 ){
-      return "Invalid address";
+        return "Field cannot emplty";
+      }
+      else if ( recipientController.length < 2 ){
+        return "Invalid address";
 
-    }
-    else if ( !(value.toLowerCase().contains("0x")) && (value[0] != "s" && value[1] != "e") ){
-      // If Not Yet Set False
-      return "Invalid address";
+      }
+      else if ( !(value.toLowerCase().contains("0x")) && (value[0] != "s" && value[1] != "e") ){
+        // If Not Yet Set False
+        
+        return "Invalid address";
 
+      }
     }
     // Prevent Rebuild When remove Text
     return null;
@@ -106,9 +107,11 @@ class PaymentUcImpl implements PaymentUsecases {
 
   String? amtValidator(String? value) {
     
-    if (value!.isEmpty){
+    if (amtNode.hasFocus){
+      if (value!.isEmpty){
       
-      return "Field cannot emplty";
+        return "Field cannot emplty";
+      }
     }
     return null;
   }
@@ -157,6 +160,7 @@ class PaymentUcImpl implements PaymentUsecases {
           type: QuickAlertType.success,
           text: 'Transaction Completed Successfully!',
         );
+
       } else if (trxMessage.value.isEmpty) {
         trxMessage.value = "Balance must greater than 0";
       }

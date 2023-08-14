@@ -110,10 +110,10 @@ class HomeScreen extends StatelessWidget {
                           title: "Swap",
                           asset: "assets/icons/exchange.png",
                           hexColor: "#219EBC",
-                          action: () async {
+                          action: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const SwapExchange())
+                              MaterialPageRoute(builder: (builder) => const SwapExchange())
                             );
                           },
                         ),

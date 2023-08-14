@@ -13,7 +13,8 @@ class MarketUCImpl implements MarketUseCases {
   @override
   Future<void> getMarkets() async {
 
-    lstMarket.value = [];
     lstMarket.value = await marketRepoImpl.getMarkets();
+
   }
+
 }

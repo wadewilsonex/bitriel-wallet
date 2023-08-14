@@ -67,7 +67,7 @@
         "is_native": false,
         "is_bep20": true,
         "is_erc20": false,
-        "show": true,
+        "show": false,
         "max_supply": "",
         "description": "KiwiGo is a super-app for frontier markets that provides a wide array of services empowering local businesses and individuals in their daily lives, from e-wallet, ride-hailing, food and grocery delivery, last-mile delivery, news aggregator, classifieds to in-app."
     },
@@ -91,7 +91,7 @@
     },
     {
         "index": "5",
-        "id": "binancecoin",
+        "id": "binance-coin",
         "name": "Binance Coin",
         "contract": "",
         "address": "",

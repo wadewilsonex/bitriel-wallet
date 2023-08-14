@@ -6,7 +6,7 @@ Padding chartAsset(
     String crypto,
     String cryptoCode,
     String exchangeCurrency,
-    String marketPrice,
+    String? marketPrice,
     List<FlSpot> spots,
     ) {
   Rx<double> minY = 0.0.obs;
@@ -52,6 +52,15 @@ Padding chartAsset(
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
+
+                      marketPrice!.isNotEmpty ? Text(
+                        marketPrice,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ) : const SizedBox(),
 
                     ],
                   ),
