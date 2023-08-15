@@ -7,7 +7,7 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.white.withOpacity(.94),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text(
             "Settings",
@@ -19,7 +19,7 @@ class SettingScreen extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(10),
-          child: ListView(
+          child: Column(
             children: [
               SettingsGroup(
                 settingsGroupTitle: "General",
@@ -31,38 +31,58 @@ class SettingScreen extends StatelessWidget {
                   //   title: 'Appearance',
                   //   subtitle: "Make Ziar'App yours",
                   // ),
+                  // SettingsItem(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => const PrivacyScreen())
+                  //     );
+                  //   },
+                  //   icons: Icons.fingerprint_sharp,
+                  //   iconStyle: IconStyle(
+                  //     iconsColor: Colors.white,
+                  //     withBackground: true,
+                  //     backgroundColor: hexaCodeToColor(AppColors.primary),
+                  //   ),
+                  //   title: 'Privacy',
+                  //   subtitle: "Manage Your Privacy Settings",
+                  // ),
                   SettingsItem(
                     onTap: () {},
-                    icons: Icons.fingerprint,
-                    iconStyle: IconStyle(
-                      iconsColor: Colors.white,
-                      withBackground: true,
-                      backgroundColor: hexaCodeToColor(AppColors.primary),
-                    ),
-                    title: 'Privacy',
-                    subtitle: "Manage Your Privacy Settings",
-                  ),
-                  SettingsItem(
-                    onTap: () {},
-                    icons: Icons.dark_mode_rounded,
+                    icons: Icons.fingerprint_sharp,
                     iconStyle: IconStyle(
                       iconsColor: Colors.white,
                       withBackground: true,
                       backgroundColor: Colors.green,
                     ),
-                    title: 'Dark mode',
-                    subtitle: "Automatic",
+                    title: 'Unlock with Biometric',
                     trailing: Switch.adaptive(
                       value: false,
                       onChanged: (value) {},
                     ),
                   ),
-                ],
-              ),
-              SettingsGroup(
-                items: [
+                  // SettingsItem(
+                  //   onTap: () {},
+                  //   icons: Icons.dark_mode_rounded,
+                  //   iconStyle: IconStyle(
+                  //     iconsColor: Colors.white,
+                  //     withBackground: true,
+                  //     backgroundColor: Colors.green,
+                  //   ),
+                  //   title: 'Dark mode',
+                  //   subtitle: "Automatic",
+                  //   trailing: Switch.adaptive(
+                  //     value: false,
+                  //     onChanged: (value) {},
+                  //   ),
+                  // ),
                   SettingsItem(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AboutScreen())
+                      );
+                    },
                     icons: Icons.info_rounded,
                     iconStyle: IconStyle(
                       backgroundColor: Colors.purple,
@@ -72,26 +92,32 @@ class SettingScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
               // You can add a settings title
               SettingsGroup(
                 settingsGroupTitle: "Account",
                 items: [
                   SettingsItem(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MultiAccountScreen()) 
+                      );
+                    },
                     icons: Iconsax.user,
                     title: "Manage Accounts",
                     iconStyle: IconStyle(
                       backgroundColor: hexaCodeToColor(AppColors.defiMenuItem),
                     ),
                   ),
-                  SettingsItem(
-                    onTap: () {},
-                    icons: Iconsax.cloud_change,
-                    title: "Backup Account",
-                    iconStyle: IconStyle(
-                      backgroundColor: hexaCodeToColor(AppColors.midNightBlue),
-                    ),
-                  ),
+                  // SettingsItem(
+                  //   onTap: () {},
+                  //   icons: Iconsax.cloud_change,
+                  //   title: "Backup Account",
+                  //   iconStyle: IconStyle(
+                  //     backgroundColor: hexaCodeToColor(AppColors.midNightBlue),
+                  //   ),
+                  // ),
                   SettingsItem(
                     onTap: () {},
                     icons: Iconsax.trash,

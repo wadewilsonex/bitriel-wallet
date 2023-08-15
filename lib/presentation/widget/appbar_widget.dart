@@ -32,6 +32,12 @@ PreferredSizeWidget defaultAppBar({
 
   const appBarHeight = 80.0;
 
+  final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
+
+  // multiAccountImpl.setContext = context;
+
+  multiAccountImpl.accInfoFromLocalStorage();
+
   return AppBar(
     scrolledUnderElevation: 0,
     elevation: 0,
@@ -59,11 +65,14 @@ PreferredSizeWidget defaultAppBar({
         Container(
           margin: const EdgeInsets.only(left: 10),
           child: GestureDetector(
-            onTap: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MultiAccountScreen()) 
-              );
+            onTap: () async{
+
+              await _selectAccount(context, multiAccountImpl);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const MultiAccountScreen()) 
+              // );
+
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -85,7 +94,7 @@ PreferredSizeWidget defaultAppBar({
         
         GestureDetector(
           onTap: () async {
-            bottomSheetCgNetwork(context);
+            // bottomSheetCgNetwork(context);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,7 +106,7 @@ PreferredSizeWidget defaultAppBar({
                   return Container(
                     margin: const EdgeInsets.only(top: 10, bottom: 5),
                     child: MyTextConstant(
-                      text: pro.isConnected == false ? "" : pro.getSdkImpl.getKeyring.current.address!.replaceRange(6, pro.getSdkImpl.getKeyring.current.address!.length - 6, "......."),//"seF4221ffg.......d2213f4fsad",
+                      text: pro.isConnected == false ? "" : pro.getSdkImpl.getKeyring.current.address!.replaceRange(6, pro.getSdkImpl.getKeyring.current.address!.length - 6, "......."),
                       fontWeight: FontWeight.w600,
                       textAlign: TextAlign.center,
                       color2: hexaCodeToColor(AppColors.midNightBlue),
@@ -112,20 +121,37 @@ PreferredSizeWidget defaultAppBar({
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-                  MyTextConstant(
-                    text: "SELENDRA", 
-                    color2: hexaCodeToColor(AppColors.darkGrey), 
-                    fontSize: 12,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircleAvatar( 
+                        child: ClipOval(
+                          child: Image.asset(
+                            "assets/logo/selendra.png",
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
 
-                    Padding(
-                    padding: const EdgeInsets.only(left: 4),
-                    child: Icon(
-                      Iconsax.arrow_down_1, 
-                      size: 18, 
-                      color: hexaCodeToColor(AppColors.midNightBlue),
-                    ),
-                  )
+                  MyTextConstant(
+                    text: "Selendra Main Network", 
+                    color2: hexaCodeToColor(AppColors.darkGrey), 
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 4),
+                  //   child: Icon(
+                  //     Iconsax.arrow_down_1, 
+                  //     size: 18, 
+                  //     color: hexaCodeToColor(AppColors.midNightBlue),
+                  //   ),
+                  // )
+
                 ],
               ),
 
@@ -155,6 +181,131 @@ PreferredSizeWidget defaultAppBar({
     )
   );
 }
+
+  Future<void> _selectAccount(BuildContext context, MultiAccountImpl multiAccountImpl) async {
+
+
+
+    await showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical( 
+          top: Radius.circular(25.0),
+        ),
+      ),
+    //   builder: (context) {
+    //     return SizedBox(
+    //       width: MediaQuery.of(context).size.width,
+    //       child: Column(
+    //         children: [
+    //           Text("data"),
+    //         ],
+    //       ),
+    //     );
+    //   }
+    // );
+      
+      builder: (context) => ListView.builder(
+          itemCount: multiAccountImpl.getAllAccount.length,
+          itemBuilder:(context, index) {
+
+            print(" multiAccountImpl.getAllAccount.length ${ multiAccountImpl.getAllAccount.length}");
+
+            return InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onTap: () async {
+
+                multiAccountImpl.switchAccount(multiAccountImpl.getAllAccount[index]).then((value) => {
+                  Navigator.pop(context),
+                });
+
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  const SizedBox(height: 5),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                      border: Border.all(color: hexaCodeToColor(AppColors.primary))
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 35,
+                                  height: 35,
+                                  child: RandomAvatar(multiAccountImpl.getAllAccount[index].icon ?? '')
+                                ),
+
+                                const SizedBox(width: 10),
+
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    MyTextConstant(
+                                      text: multiAccountImpl.getAllAccount[index].name ?? '',
+                                      // hexaColor: AppColors.blackColor,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w600,
+                                      textAlign: TextAlign.start,
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: paddingSize / 2),
+                                      child: MyTextConstant(
+                                        text: multiAccountImpl.getAllAccount[index].address!.replaceRange(10, multiAccountImpl.getAllAccount[index].address!.length - 10, "........"),
+                                        // hexaColor: AppColors.greyCode,
+                                        fontSize: 14,
+                                        color2: hexaCodeToColor(AppColors.darkGrey),
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              ]
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 0,
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                            child: const Icon(
+                              Iconsax.arrow_right_3
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+
+                  // Container(color: ,)
+                ],
+              ),
+            );
+          },
+        )
+      );
+    }
 
 
 void bottomSheetCgNetwork(BuildContext context) async{

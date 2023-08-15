@@ -15,7 +15,7 @@ class MultiAccountScreen extends StatelessWidget {
     
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
-      appBar: appBar(context, title: "Wallets"),
+      appBar: appBar(context, title: "Account"),
       body: (multiAccountImpl.sdkProvier!.isConnected == false ) 
       ? const Center(child: CircularProgressIndicator(),)
       : ListView.builder(

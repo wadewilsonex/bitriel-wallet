@@ -1,6 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/screen/swap_letsexchange/confirm_swap_exchange.dart';
-import 'package:bitriel_wallet/presentation/screen/swap_letsexchange/status_exchange.dart';
 
 class SwapExchange extends StatelessWidget {
   const SwapExchange({super.key});
@@ -10,8 +8,7 @@ class SwapExchange extends StatelessWidget {
 
     final LetsExchangeUCImpl letsExchangeUCImpl = LetsExchangeUCImpl();
 
-    // letsExchangeUCImpl.getLetsExchangeCoin();
-    print("SwapExchange build");
+    letsExchangeUCImpl.getLetsExchangeCoin();
 
     return Scaffold(
       appBar: AppBar(
