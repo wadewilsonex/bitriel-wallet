@@ -232,17 +232,13 @@ class CreateWalletImpl implements CreateWalletUsecase {
 
   @override
   Future<void> addAndImport() async {
-
+    print("addAndImport");
     await _accountManagementImpl.addAndImport(_sdkProvier!, _context!, seed.value, pin!);
 
     // If Verify Later Chosen then Param will pass to false, Else Param will pass to true
     await _accountManagementImpl.verifyLaterData(_sdkProvier!, isVerifyLater == true ? false : true);
 
-    if (isMultiAcc == true) {
-      Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute}", (route) => false);
-    } else {
-      Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.homeRoute}", (route) => false);
-    }
+    await _accountManagementImpl.accNavigation(_context!, isMultiAcc!);
     
   }
 

@@ -6,7 +6,7 @@ class StatusExchange extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("StatusExchange build");
+    
     return Scaffold(
       appBar: appBar(context, title: "Exchange Status"),
       body: Column(

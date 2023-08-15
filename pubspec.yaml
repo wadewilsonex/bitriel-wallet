@@ -74,7 +74,9 @@ dependencies:
       ref: main
   easy_debounce: ^2.0.3
   dropdown_button2: ^2.3.7
-
+  flutter_inappwebview: ^5.7.2+3
+  url_launcher: ^6.1.12
+  
 dependency_overrides:
   polkawallet_sdk:
     git:

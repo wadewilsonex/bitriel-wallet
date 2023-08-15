@@ -48,7 +48,7 @@ class WalletUcImpl implements WalletUsecases{
         await fetchCoinFromAssets(),
         // []
         await SecureStorage.readData(key: DbKey.addedContract).then((value) {
-          print("addedContract shit $value");
+          
           if (value != null) {
             return mapModel( List<Map<String, dynamic>>.from(json.decode(value)) );
           }
@@ -105,8 +105,6 @@ class WalletUcImpl implements WalletUsecases{
   @override
   Future<List<SmartContractModel>> sortCoins(List<SmartContractModel> lst, {List<SmartContractModel>? addedCoin}) async {
     
-    print("sortCoins");
-    
     try {
 
       // mainBalance = 0;
@@ -141,7 +139,7 @@ class WalletUcImpl implements WalletUsecases{
 
       // Sort Descending
 
-      SmartContractModel tmp = SmartContractModel();
+      // SmartContractModel tmp = SmartContractModel();
       
       // for (int i = 1; i < lst.length; i++) {
 
@@ -153,11 +151,6 @@ class WalletUcImpl implements WalletUsecases{
       //     }
       //   }
       // }
-
-      print("After short sort ");
-      for (var element in lst) {
-        print("addedCoin ${element.symbol}");
-      }
       
     } catch (e) {
       print("error sortCoins $e");

@@ -11,7 +11,7 @@ class App extends StatelessWidget {
 
     // Provider.of<SDKProvier>(context, listen: false).fetchNetworkFromGithub().then((value) {
     // });
-    Provider.of<SDKProvider>(context, listen: false).setIsMainnet = true;
+    Provider.of<SDKProvider>(context, listen: false).setIsMainnet = false;
 
     Provider.of<SDKProvider>(context, listen: false).connectNetwork();
     

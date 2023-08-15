@@ -11,7 +11,7 @@ class LetsExchangeCoin {
     final int? hasExtra;
     final dynamic extraName;
     final String? name;
-    final double? minAmount;
+    final String? minAmount;
     final List<LetsExchangeCoinNetwork>? networks;
 
     LetsExchangeCoin({
@@ -36,7 +36,7 @@ class LetsExchangeCoin {
         hasExtra: json["has_extra"],
         extraName: json["extra_name"],
         name: json["name"],
-        minAmount: json["min_amount"]?.toDouble(),
+        minAmount: json["min_amount"],
         networks: json["networks"] == null ? [] : List<LetsExchangeCoinNetwork>.from(json["networks"]!.map((x) => LetsExchangeCoinNetwork.fromJson(x))),
     );
 

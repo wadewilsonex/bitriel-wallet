@@ -44,12 +44,14 @@ class ImportWalletImpl implements ImportWalletUsecases {
 
       await _accountManagementImpl.verifyLaterData(sdkProvider, true);
 
-      if (isMultiAcc == true) {
-        Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute.toString()}", (route) => false);
-      }
-      else {
-        Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.homeRoute}", (route) => false);
-      }
+      await _accountManagementImpl.accNavigation(_context!, isMultiAcc!);
+
+      // if (isMultiAcc == true) {
+      //   Navigator.popUntil(_context!, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
+      // }
+      // else {
+      //   Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.homeRoute}", (route) => false);
+      // }
 
     } catch (e) {
       print("Error addAndImport $e");

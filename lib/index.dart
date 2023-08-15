@@ -20,6 +20,7 @@ export 'package:quickalert/quickalert.dart';
 export 'package:qr_flutter/qr_flutter.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:cached_network_image/cached_network_image.dart';
+export 'package:url_launcher/url_launcher.dart';
 
 // ignore: depend_on_referenced_packages
 export 'package:permission_handler/permission_handler.dart';
@@ -141,6 +142,9 @@ export 'package:bitriel_wallet/presentation/screen/wallet/payment/payment_screen
 export 'package:bitriel_wallet/presentation/screen/wallet/receive_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/wallet/transaction_detail_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/swap_letsexchange/select_swap_token_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/about_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/privacy_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/swap_letsexchange/status_exchange.dart';
 
 // Widget
 export 'package:bitriel_wallet/presentation/widget/text_widget.dart';

@@ -81,4 +81,14 @@ class AccountManagementImpl extends AccountMangementUC {
       unVerifyAccount = unVerifyAccount.reversed.toList();
     });
   }
+
+  Future<void> accNavigation(BuildContext context, bool isMultiAcc) async {
+
+    if (isMultiAcc == true) {
+      Navigator.popUntil(context, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
+    }
+    else {
+      Navigator.pushNamedAndRemoveUntil(context, "/${BitrielRouter.homeRoute}", (route) => false);
+    }
+  }
 }

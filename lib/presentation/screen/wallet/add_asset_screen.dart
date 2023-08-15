@@ -38,7 +38,7 @@ class AddAsset extends StatelessWidget {
                 ),
                 filled: true,
                 hintStyle: TextStyle(color: hexaCodeToColor(AppColors.grey)),
-                hintText: "Enter token contract Address",
+                hintText: "Enter token contract 0x....",
                 fillColor: hexaCodeToColor(AppColors.background),
               ),
               controller: addAssetUcImpl.controller,
@@ -66,41 +66,6 @@ class AddAsset extends StatelessWidget {
                 return const SizedBox();
               }
             ),
-
-            // Searched
-            // ValueListenableBuilder(
-            //   valueListenable: addAssetUcImpl.searched, 
-            //   builder: (context, value, wg){
-                
-            //     // ignore: unnecessary_null_comparison
-            //     if (value.isNotEmpty){
-            //        return ListView.builder(
-            //          shrinkWrap: true,
-            //          itemCount: 10,
-            //          itemBuilder: (context, index) {
-            //            return InkWell(
-            //             onTap: (){
-            //               print("addAssetUcImpl.searched.value[index] ${addAssetUcImpl.searched.value[index]}");
-            //             },
-            //             child: Text(addAssetUcImpl.searched.value[index]!['platforms'].toString())
-            //           );
-            //          },
-            //        );
-            //     }
-            //     return const SizedBox();
-            //   }
-            // ),
-            
-      
-            // Show Loading
-            // ValueListenableBuilder(
-            //   valueListenable: addAssetUcImpl.isSearching, 
-            //   builder: (context, value, wg){
-            //     // ignore: unnecessary_null_comparison
-            //     if (value == true) return const CircularProgressIndicator();
-            //     return const SizedBox();
-            //   }
-            // ),
 
             Expanded(child: Container()),
             ValueListenableBuilder(
@@ -257,7 +222,6 @@ class AddAsset extends StatelessWidget {
         color: hexaCodeToColor(AppColors.background)
       ),
       child: ListTile(
-        dense: true,
         leading: const Image(
           image: AssetImage('assets/logo/bitriel-logo.png'),
           height: 35,

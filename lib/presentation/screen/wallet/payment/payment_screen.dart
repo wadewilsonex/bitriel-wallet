@@ -78,7 +78,9 @@ class TokenPayment extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           buttonColor: value == false ? AppColors.grey : AppColors.primary,
                           opacity: 0.9,
-                          action: value == false ? null : () async {
+                          action: 
+                          // value == false ? null : 
+                          () async {
                             
                             await paymentUcImpl.submitTrx();
       
@@ -182,7 +184,7 @@ Widget _getEnterAmountSection(PaymentUcImpl paymentUcImpl) {
                       child: TextFormField(
                         controller: paymentUcImpl.amountController,
                         keyboardType: TextInputType.number,
-                        validator: paymentUcImpl.amtValidator,
+                        // validator: paymentUcImpl.amtValidator,
                         focusNode: paymentUcImpl.amtNode,
                         onChanged: paymentUcImpl.onChanged,
                         style: const TextStyle(

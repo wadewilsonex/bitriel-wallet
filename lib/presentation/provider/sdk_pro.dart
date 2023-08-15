@@ -145,10 +145,7 @@ class SDKProvider with ChangeNotifier {
   /// And Setup Evm and BTC Address 
   Future<void> fetchAllAccount() async {
     
-    print("fetchAllAccount");
     await _accountManagementImpl.fetchAccount();
-
-    print("getUnverifyAcc.length ${getUnverifyAcc.length}");
 
     setEvmAddress = getUnverifyAcc[0].ethAddress!;
     

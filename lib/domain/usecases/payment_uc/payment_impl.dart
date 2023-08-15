@@ -86,20 +86,18 @@ class PaymentUcImpl implements PaymentUsecases {
   String? addressValidator(String? value) {
 
     if (addrNode.hasFocus){
-      if ( value!.isEmpty) {
 
+      if ( value!.isEmpty) {
         return "Field cannot emplty";
       }
       else if ( recipientController.length < 2 ){
         return "Invalid address";
-
       }
       else if ( !(value.toLowerCase().contains("0x")) && (value[0] != "s" && value[1] != "e") ){
         // If Not Yet Set False
-        
         return "Invalid address";
-
       }
+
     }
     // Prevent Rebuild When remove Text
     return null;
@@ -126,7 +124,7 @@ class PaymentUcImpl implements PaymentUsecases {
       
       // Check Input Not Equal 0
       // Check Input Not Less than Existing coin's balance
-      if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
+      // if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
         
         dialogLoading(context!);
 
@@ -161,9 +159,9 @@ class PaymentUcImpl implements PaymentUsecases {
           text: 'Transaction Completed Successfully!',
         );
 
-      } else if (trxMessage.value.isEmpty) {
-        trxMessage.value = "Balance must greater than 0";
-      }
+      // } else if (trxMessage.value.isEmpty) {
+      //   trxMessage.value = "Balance must greater than 0";
+      // }
 
     } catch (e) {
 
@@ -260,7 +258,7 @@ class PaymentUcImpl implements PaymentUsecases {
         data: bscDeployedContract.function('transfer').encodeCall(
           [
             EthereumAddress.fromHex(recipientController.text),
-            BigInt.from( double.parse(amountController.text) * pow(10, 18) )
+            BigInt.from( double.parse(amountController.text) * pow(10, lstContractDropDown[index.value].chainDecimal!) )
           ],
         ),
       ));
@@ -274,14 +272,12 @@ class PaymentUcImpl implements PaymentUsecases {
           function: bscDeployedContract.function('transfer'), 
           parameters: [
             EthereumAddress.fromHex(recipientController.text),
-            BigInt.from( double.parse(amountController.text) * pow(10, 18) )
+            BigInt.from( double.parse(amountController.text) * pow(10, lstContractDropDown[index.value].chainDecimal!) )
           ],
         ),
         chainId: null,
         fetchChainIdFromNetworkId: true,
-      ).then((value) {
-        print("value $value");
-      });
+      );
     } catch (e) {
       print("error sendBep20 ${e}");
     }
@@ -319,16 +315,126 @@ class PaymentUcImpl implements PaymentUsecases {
 
   /// Send Any Erc20 contract
   Future<void> sendErc20() async {
+    print('sendBep20');
+    try {
+      
+      // 1
+      
+      String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
+      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
+
+      DeployedContract bscDeployedContract = await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", lstContractDropDown[index.value].contract!);
+
+      // transaction fee 5 gwei, which is about $0.0005
+      // 2
+      BigInt networkGas = (await _sdkProvider!.getSdkImpl.getEthClient.estimateGas(
+        sender: pkKey.address, //EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.evmAddress!),
+        // to: EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.bscDeployedContract.address!),
+        to: EthereumAddress.fromHex(lstContractDropDown[index.value].contract!),
+        data: bscDeployedContract.function('transfer').encodeCall(
+          [
+            EthereumAddress.fromHex(recipientController.text),
+            BigInt.from( double.parse(amountController.text) * pow(10, lstContractDropDown[index.value].chainDecimal!) )
+          ],
+        ),
+      ));
+
+      await _sdkProvider!.getSdkImpl.getEthClient.sendTransaction(
+        pkKey,
+        Transaction.callContract(
+          contract: bscDeployedContract,
+          // gasPrice: gasPrice,
+          maxGas: networkGas.toInt(),
+          function: bscDeployedContract.function('transfer'), 
+          parameters: [
+            EthereumAddress.fromHex(recipientController.text),
+            BigInt.from( double.parse(amountController.text) * pow(10, lstContractDropDown[index.value].chainDecimal!) )
+          ],
+        ),
+        chainId: null,
+        fetchChainIdFromNetworkId: true,
+      );
+    } catch (e) {
+      print("error sendBep20 ${e}");
+    }
   }
 
   /// Send BNB
   Future<void> sendBsc() async {
+    print('sendBsc');
+    try {
+      
+      // 1
+      
+      String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
+      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
+
+      // transaction fee 5 gwei, which is about $0.0005
+      // 2
+      BigInt networkGas = (await _sdkProvider!.getSdkImpl.getBscClient.estimateGas(
+        sender: pkKey.address, //EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.evmAddress!),
+        // to: EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.bscDeployedContract.address!),
+        to: EthereumAddress.fromHex(recipientController.text),
+        value: EtherAmount.inWei(BigInt.from( double.parse(amountController.text) * pow(10, 18) )),
+      ));
+
+      await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
+        pkKey,
+        Transaction(
+          // gasPrice: gasPrice,
+          maxGas: networkGas.toInt(),
+          to: EthereumAddress.fromHex(recipientController.text),
+          value: EtherAmount.inWei(BigInt.from( double.parse(amountController.text) * pow(10, 18) )),
+        ),
+        chainId: null,
+        fetchChainIdFromNetworkId: true,
+      ).then((value) {
+        print(value);
+      });
+    } catch (e) {
+      print("error sendBsc ${e}");
+    }
   }
 
   /// Send Ethereum
   Future<void> sendEther() async {
+
+    print('sendEther');
+    try {
+      
+      // 1
+      
+      String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
+
+      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
+
+      // transaction fee 5 gwei, which is about $0.0005
+      // 2
+      BigInt networkGas = (await _sdkProvider!.getSdkImpl.getEthClient.estimateGas(
+        sender: pkKey.address, //EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.evmAddress!),
+        // to: EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.bscDeployedContract.address!),
+        to: EthereumAddress.fromHex(recipientController.text),
+        value: EtherAmount.inWei(BigInt.from( double.parse(amountController.text) * pow(10, 18) )),
+      ));
+
+      await _sdkProvider!.getSdkImpl.getEthClient.sendTransaction(
+        pkKey,
+        Transaction(
+          // gasPrice: gasPrice,
+          maxGas: networkGas.toInt(),
+          to: EthereumAddress.fromHex(recipientController.text),
+          value: EtherAmount.inWei(BigInt.from( double.parse(amountController.text) * pow(10, 18) )),
+        ),
+        chainId: null,
+        fetchChainIdFromNetworkId: true,
+      ).then((value) {
+        print(value);
+      });
+    } catch (e) {
+      print("error sendEther ${e}");
+    }
 
   }
 }

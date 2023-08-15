@@ -59,22 +59,18 @@ class WalletProvider with ChangeNotifier {
         addedContract = value[1];
       });
 
-      print("defaultListContract ${defaultListContract!.length}");
-      print("addedContract ${addedContract!.length}");
-
       await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
 
-      print("sdkProvider!.isMainnet.value ${sdkProvider!.isMainnet.value}");
       if (sdkProvider!.isMainnet.value == true) {
 
         await assetStateManipulate();
         
       }
-      //  else {
+      else {
 
-      //   await coinsTestnet();
+        await coinsTestnet();
         
-      // }
+      }
     } catch (e) {
       print("Error getAsset $e");
     }
@@ -83,13 +79,11 @@ class WalletProvider with ChangeNotifier {
 
   /// List Only EVM coins and SEL
   Future<void> coinsTestnet()async {
-    
     print("coinsTestnet");
+    
     defaultListContract!.every((element) {
         
       if ( (element.isBSC! || element.isEther!) && element.show == true ) {
-        print("element ${element.symbol}");
-        print("element ${element.isBSC}");
         listEvmNative!.add(element);
       }
       else if (element.isNative! && element.show == true && element.symbol!.toLowerCase() == "sel") {listNative!.add(element);}
@@ -98,7 +92,6 @@ class WalletProvider with ChangeNotifier {
     });
 
     addedContract!.every((element) {
-      print("addedContract addedContract addedContract $element");
       if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
       else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
 
@@ -106,11 +99,8 @@ class WalletProvider with ChangeNotifier {
     });
 
     await queryEvmBalance();
-    print("finish queryEvmBalance");
     await queryBep20Balance();
-    print("finish queryBep20Balance");
-    // await queryErc20Balance();
-    print("finish queryErc20Balance");
+    await queryErc20Balance();
 
     sortAsset();
   }
@@ -125,15 +115,13 @@ class WalletProvider with ChangeNotifier {
     await queryNativeBalance();
     await queryEvmBalance();
     await queryBep20Balance();
-    // await queryErc20Balance();
+    await queryErc20Balance();
 
     sortAsset();
     // await queryCoinsBalance();
   }
 
   void assetsFilter() async {
-    
-    print("assetsFilter");
 
     listEvmNative!.clear();
 
@@ -191,7 +179,7 @@ class WalletProvider with ChangeNotifier {
 
       // print("element ${element.symbol}");
       await sdkProvider!.getSdkImpl.getEvmBalance(
-        sdkProvider!.getSdkImpl.getBscClient,
+        element.isEther! ? sdkProvider!.getSdkImpl.getEthClient : sdkProvider!.getSdkImpl.getBscClient,
         // sdkProvider!.getSdkImpl.getBscClient, 
         EthereumAddress.fromHex(sdkProvider!.getSdkImpl.evmAddress ?? '')
       ).then((value) {
@@ -208,8 +196,6 @@ class WalletProvider with ChangeNotifier {
 
   Future<void> queryBep20Balance() async {
 
-    print("queryBep20Balance");
-
     for( var bep20 in listBep20!){
       
       print(bep20.symbol!);
@@ -217,7 +203,7 @@ class WalletProvider with ChangeNotifier {
       if (bep20.symbol!.toLowerCase() == "usdt" && sdkProvider!.isMainnet.value == true){
         sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", "0x55d398326f99059ff775485246999027b3197955");
         bep20.balance = (await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!, sdkProvider!.getSdkImpl.evmAddress ))[0].toString();
-        print("bep20.balance ${bep20.balance}");
+        
       }
       // else {
       //   print("Testnet");
@@ -297,8 +283,6 @@ class WalletProvider with ChangeNotifier {
   Future<void> sortAsset() async {
     
     sortListContract = await _walletUsecases.sortCoins( sortListContract!, addedCoin: addedContract);
-
-    print("After sort $sortListContract");
 
     notifyListeners();
   }
