@@ -85,10 +85,10 @@ class AccountManagementImpl extends AccountMangementUC {
   Future<void> accNavigation(BuildContext context, bool isMultiAcc) async {
 
     if (isMultiAcc == true) {
-      Navigator.popUntil(context!, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
+      Navigator.popUntil(context, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
     }
     else {
-      Navigator.pushNamedAndRemoveUntil(context!, "/${BitrielRouter.homeRoute}", (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, "/${BitrielRouter.homeRoute}", (route) => false);
     }
   }
 }

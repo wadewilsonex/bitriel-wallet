@@ -29,11 +29,12 @@ class Web3Blockchain {
   // String ethwsMainnet = "wss://arb1.arbitrum.io/feed";
   // String ethwsTestnet = "wss://goerli-rollup.arbitrum.io/feed";
   // String ethUrlMainnet = "https://arbitrum-mainnet.infura.io/93a7248515ca45d0ba4bbbb8c33f1bda";
+  
   String ethUrlMainnet = "https://mainnet.infura.io/v3/cc2b23795b984a859b1ead3e058b3bcf";
-  String ethUrlTestnet = "https://arbitrum-testnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
+  String ethUrlTestnet = "https://goerli.infura.io/v3/cc2b23795b984a859b1ead3e058b3bcf";
 
   String ethwsMainnet = "wss://mainnet.infura.io/ws/v3/cc2b23795b984a859b1ead3e058b3bcf";
-  String ethwsTestnet = "wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
+  String ethwsTestnet = "wss://goerli.infura.io/ws/v3/cc2b23795b984a859b1ead3e058b3bcf";
 
   Future<void> initBscClient() async {
     client = Client();

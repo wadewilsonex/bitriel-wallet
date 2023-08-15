@@ -322,7 +322,6 @@ class WalletScreen extends StatelessWidget {
 
   Widget _getItem({required BuildContext ctx, required MarketUCImpl coinMarketCap, required SmartContractModel element, required List<SmartContractModel> assetsModel}) {
 
-
     return SizedBox(
       child: ValueListenableBuilder(
         valueListenable: coinMarketCap.lstMarket,

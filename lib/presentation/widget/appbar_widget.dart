@@ -138,15 +138,6 @@ PreferredSizeWidget defaultAppBar({
                     fontWeight: FontWeight.w600,
                   ),
 
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left: 4),
-                  //   child: Icon(
-                  //     Iconsax.arrow_down_1, 
-                  //     size: 18, 
-                  //     color: hexaCodeToColor(AppColors.midNightBlue),
-                  //   ),
-                  // )
-
                 ],
               ),
 
