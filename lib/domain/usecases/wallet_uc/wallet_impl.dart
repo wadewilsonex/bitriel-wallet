@@ -63,12 +63,9 @@ class WalletUcImpl implements WalletUsecases{
   @override
   Future<List<SmartContractModel>> fetchCoinFromAssets() async {
     
-    print("fetchCoinFromAssets");
     _dir = (await getApplicationDocumentsDirectory()).path;
 
     final jsn = await rootBundle.loadString("assets/json/supported_contract.json");
-
-    print("jsn $jsn");
 
     return mapModel(List<Map<String, dynamic>>.from(jsonDecode(jsn)));
  
@@ -114,17 +111,15 @@ class WalletUcImpl implements WalletUsecases{
 
       // mainBalance = 0;
       // sortListContract.clear();
-      print("Before");
       // 1. Add Default Asset First
       for (var element in lst) {
         if (element.show! && element.id != "polkadot" && element.id != "kiwigo"){
-
-          if (element.marketPrice!.isNotEmpty) {
+          
+          if (element.marketPrice!.isNotEmpty && element.money != null) {
             element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice ?? '0.0');
           } else {
             element.money = 0.0;
           }
-          print(element.symbol);
 
           // mainBalance = mainBalance + element.money!;//double.parse(element.balance!.replaceAll(",", ""));
           // sortListContract.addAll({element});
@@ -143,8 +138,6 @@ class WalletUcImpl implements WalletUsecases{
       //   // sortListContract.addAll({element});
       //   lst.add(element);
       // }
-    
-      print("lst.length ${lst.length} ");
 
       // Sort Descending
 
@@ -225,20 +218,9 @@ class WalletUcImpl implements WalletUsecases{
   }
 
   /// BEP20 & ERC-20
-  Future<List<dynamic>> getContractBalance(Web3Client client, DeployedContract deployedContract) async {
-    
-    // _bitrielSDKImpl = Provider.of<SDKProvider>(_context!, listen: false).getSdkImpl;
-
-    print("finish");
-    // if (_bitrielSDKImpl == null){
-    //   _bitrielSDKImpl = Provider.of<SDKProvier>(_context!, listen: false).getSdkProvider;
-
-    // _bitrielSDKImpl!.bscDeployedContract ??= await _bitrielSDKImpl!.deployContract(abiPath, contractAddr);
-
+  Future<List<dynamic>> getContractBalance(Web3Client client, DeployedContract deployedContract, String? addr) async {
     // Get Web3 Balance
-    return await _bitrielSDKImpl!.callWeb3ContractFunc(client, deployedContract, 'balanceOf', params: [ deployedContract.address ]);
-    // return await _bitrielSDKImpl!.callWeb3ContractFunc(client, deployedContract, 'balanceOf', params: [ EthereumAddress.fromHex(_bitrielSDKImpl!.evmAddress!) ]);
-    // await SDKProvier
+    return await _bitrielSDKImpl!.callWeb3ContractFunc(client, deployedContract, 'balanceOf', params: [EthereumAddress.fromHex(addr!)]);
 
   }
   

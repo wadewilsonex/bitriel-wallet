@@ -36,8 +36,6 @@ class Web3Blockchain {
   String ethwsTestnet = "wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
 
   Future<void> initBscClient() async {
-    print("initBscClient");
-    print("isMainnet $isMainnet");
     client = Client();
     bscClient = Web3Client( isMainnet ? bscUrlMainnet : bscUrlTestnet, client!, socketConnector: (){
       return IOWebSocketChannel.connect( isMainnet ? bscwsMainnet : bscwsTestnet ).cast<String>();
@@ -46,9 +44,6 @@ class Web3Blockchain {
   }
 
   Future<void> initEthClient() async {
-    print("initEthClient");
-    
-    print("isMainnet $isMainnet");
     client = Client();
     ethClient = Web3Client( isMainnet ? ethUrlMainnet : ethUrlTestnet, client!, socketConnector: (){
       return IOWebSocketChannel.connect(isMainnet ? ethwsMainnet : ethwsTestnet).cast<String>();

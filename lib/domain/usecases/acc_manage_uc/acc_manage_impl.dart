@@ -25,7 +25,7 @@ class AccountManagementImpl extends AccountMangementUC {
       importData = await sdkProvider.importSeed(seed, pin);
 
       await sdkProvider.getSdkImpl.getWalletSdk.webView!.evalJavascript("wallets.getPrivateKey('$seed')").then((value) async {
-        print("evalJavascript $value");
+        
         _pk = value;
         await SecureStorage.writeData(key: DbKey.private, encodeValue: value);
       });

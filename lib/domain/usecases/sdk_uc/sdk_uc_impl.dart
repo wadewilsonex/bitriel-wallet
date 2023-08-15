@@ -260,10 +260,10 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// Extract Evm Address 0xa..
   @override
   Future<void> extractEvmAddress(String pk) async {
-    print("extractEvmAddress $pk");
+    
     final EthPrivateKey privateKey = EthPrivateKey.fromHex(pk);
     evmAddress = privateKey.address.toString();
-    print("extractEvmAddress $evmAddress");
+    
   }
   
 
@@ -332,13 +332,10 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// 2.
   /// e.g contract = contract.function('balanceOf')
   Future<List<dynamic>> callWeb3ContractFunc(Web3Client client, DeployedContract contract, String function, { List params = const [] }) async {
-    print("function name $function");
+    
     try {
-      print("contract.address ${contract.address}");
-      return await _web3repoImpl.callWeb3ContractFunc(client, contract, contract.function(function), params: params).then((value) {
-        print("value $value");
-        return value;
-      });
+      
+      return await _web3repoImpl.callWeb3ContractFunc(client, contract, contract.function(function), params: params);
     } catch (e) {
       print("Error callWeb3ContractFunc $e");
       throw Exception(e);

@@ -79,7 +79,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
   }
 
   Future<void> submitSeach() async {
-    print("submitSeach");
+
     print("networkIndex.value ${networkIndex.value}");
     try {
       if (networkIndex.value == 0){
@@ -89,7 +89,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
         await searchContract(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!);
 
       } else {
-        print("ERC");
+        
         sdkProvider!.getSdkImpl.etherDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", controller.text);
 
         await searchContract(sdkProvider!.getSdkImpl.getEthClient, sdkProvider!.getSdkImpl.etherDeployedContract!);
@@ -105,12 +105,16 @@ class AddAssetUcImpl implements AddAssetUsecase{
   }
 
   Future<void> searchContract(Web3Client client, DeployedContract deployedContract) async {
+    
     print("searchContract");
+
     String name = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
       client, 
       deployedContract, 
       'name', 
     ))[0];
+
+    print("name $name");
 
     String symbol = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
       client, 
@@ -118,10 +122,16 @@ class AddAssetUcImpl implements AddAssetUsecase{
       'symbol', 
     ))[0];
 
+    BigInt decimal = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
+      client, 
+      deployedContract, 
+      'decimals', 
+    ))[0];
+
     searched = SmartContractModel(
       name: name,
       symbol: symbol,
-      chainDecimal: 18,
+      chainDecimal: decimal.toInt(),
       address: sdkProvider!.getSdkImpl.evmAddress,
       type: '',
       org: networkIndex.value == 1 ? 'ERC-20' : 'BEP-20',
@@ -198,21 +208,26 @@ class AddAssetUcImpl implements AddAssetUsecase{
   }
 
   Future<void> _addToken({required DeployedContract? dpContract}) async {
-    print("_addToken");
+    
     try {
 
       BigInt balance = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
         sdkProvider!.getSdkImpl.getBscClient, 
         sdkProvider!.getSdkImpl.bscDeployedContract!, 
         'balanceOf', 
-        params: [EthereumAddress.fromHex(controller.text)]
+        params: [ EthereumAddress.fromHex(sdkProvider!.getSdkImpl.evmAddress!) ]
       ))[0];
+      
+      print("balance ${balance}");
+      print("searched!.chainDecimal! ${searched!.chainDecimal!}");
 
       searched!.balance = Fmt.bigIntToDouble(
         balance,
-        18,
+        searched!.chainDecimal!,
         // int.parse(18.toString()),
       ).toString();
+
+      print("after searched!.balance ${searched!.balance}");
       
       searched!.address = sdkProvider!.getSdkImpl.evmAddress;
       searched!.type = '';
@@ -235,7 +250,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
       await storeAddedAsset(searched!);
 
-      walletProvider!.sortAsset();
+      await walletProvider!.sortAsset();
 
       // Close Dialog
       Navigator.pop(_context!);
@@ -264,12 +279,10 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
   Future<void> storeAddedAsset(SmartContractModel searched) async {
 
-    walletProvider!.addedContract!.clear();
+    // walletProvider!.addedContract!.clear();
     walletProvider!.addedContract!.add(searched);
 
     await _secureStorageImpl.writeSecure(DbKey.addedContract, json.encode(SmartContractModel.encode( walletProvider!.addedContract!)));
-    await SecureStorage.readData(key: DbKey.addedContract).then((value) {
-      print("read after write $value");
-    });
+  
   }
 }

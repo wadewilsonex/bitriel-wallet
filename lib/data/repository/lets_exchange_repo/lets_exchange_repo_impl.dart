@@ -13,8 +13,6 @@ class LetsExchangeRepoImpl implements LetsExchangeRepository {
           var leCoin = LetsExchangeCoin.fromJson(jsonLECoin);
           lstLECoin.add(leCoin);
         }
-
-        print("json lets exchange $json");
       }
     });
 
