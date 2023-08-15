@@ -148,12 +148,12 @@ class WalletProvider with ChangeNotifier {
       return true;
     });
 
-    // addedContract!.every((element) {
-    //   if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
-    //   else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
+    addedContract!.every((element) {
+      if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
+      else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
 
-    //   return true;
-    // });
+      return true;
+    });
 
     sortListContract!.clear();
   }
