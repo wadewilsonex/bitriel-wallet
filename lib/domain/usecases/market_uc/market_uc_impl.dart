@@ -5,6 +5,8 @@ class MarketUCImpl implements MarketUseCases {
   MarketRepoImpl marketRepoImpl = MarketRepoImpl();
 
   ValueNotifier<List<Market>> lstMarket = ValueNotifier([]);
+
+  ValueNotifier<List<SmartContractModel>> smMarket = ValueNotifier([]);
   
   ValueNotifier<bool> backToTop = ValueNotifier(false);
   

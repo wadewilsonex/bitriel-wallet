@@ -10,6 +10,8 @@ class WalletScreen extends StatelessWidget {
 
     TextEditingController searchController = TextEditingController();
 
+    final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
+
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
 
     if (context.mounted){
@@ -19,12 +21,12 @@ class WalletScreen extends StatelessWidget {
       if (walletPro.defaultListContract == null) {
         walletPro.getAsset();
       
-        // Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
+        Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
       }
     }
 
     return Scaffold(
-      appBar: defaultAppBar(context: context),
+      appBar: defaultAppBar(context: context, multiAccountImpl: multiAccountImpl),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -69,52 +71,52 @@ class WalletScreen extends StatelessWidget {
               ),
             ),
 
-            // _getGroupSeparator("Native"),
-            // Consumer<WalletProvider>(
-            //   builder: (context, pro, wg) {
+            _getGroupSeparator("Native"),
+            Consumer<WalletProvider>(
+              builder: (context, pro, wg) {
                 
-            //     if (pro.listNative == null) {
-            //       return const CircularProgressIndicator();
-            //     }
-            //     else if (pro.listNative!.isEmpty) {
-            //       return const Text("No token");
-            //     }
+                if (pro.listNative == null) {
+                  return const CircularProgressIndicator();
+                }
+                else if (pro.listNative!.isEmpty) {
+                  return const Text("No token");
+                }
 
-            //     return ListView(
-            //       shrinkWrap: true,
-            //       physics: const NeverScrollableScrollPhysics(),
-            //       children: pro.listNative!.map((e) {
+                return ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: pro.listNative!.map((e) {
 
-            //         return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listNative!);
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listNative!);
 
-            //       }).toList(),
-            //     );
-            //   }
-            // ),
+                  }).toList(),
+                );
+              }
+            ),
 
-            // _getGroupSeparator("EVM"),
-            // Consumer<WalletProvider>(
-            //   builder: (context, pro, wg) {
+            _getGroupSeparator("EVM"),
+            Consumer<WalletProvider>(
+              builder: (context, pro, wg) {
 
-            //     if (pro.listEvmNative == null) {
-            //       return const CircularProgressIndicator();
-            //     }
-            //     else if (pro.listEvmNative!.isEmpty) {
-            //       return const Text("No token");
-            //     }
+                if (pro.listEvmNative == null) {
+                  return const CircularProgressIndicator();
+                }
+                else if (pro.listEvmNative!.isEmpty) {
+                  return const Text("No token");
+                }
 
-            //     return ListView(
-            //       shrinkWrap: true,
-            //       physics: const NeverScrollableScrollPhysics(),
-            //       children: pro.listEvmNative!.map((e) {
+                return ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: pro.listEvmNative!.map((e) {
                     
-            //         return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listEvmNative!);
-            //         // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listEvmNative!);
+                    // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
-            //       }).toList(),
-            //     );
-            //   }
-            // ),
+                  }).toList(),
+                );
+              }
+            ),
 
             _getGroupSeparator("BEP20"),
             Consumer<WalletProvider>(
@@ -140,29 +142,29 @@ class WalletScreen extends StatelessWidget {
               }
             ),
 
-            // _getGroupSeparator("ERC20"),
-            // Consumer<WalletProvider>(
-            //   builder: (context, pro, wg) {
+            _getGroupSeparator("ERC20"),
+            Consumer<WalletProvider>(
+              builder: (context, pro, wg) {
                 
-            //     if (pro.listErc20 == null) {
-            //       return const CircularProgressIndicator();
-            //     }
-            //     else if (pro.listErc20!.isEmpty) {
-            //       return const Text("No token");
-            //     }
+                if (pro.listErc20 == null) {
+                  return const CircularProgressIndicator();
+                }
+                else if (pro.listErc20!.isEmpty) {
+                  return const Text("No token");
+                }
 
-            //     return ListView(
-            //       shrinkWrap: true,
-            //       physics: const NeverScrollableScrollPhysics(),
-            //       children: pro.listErc20!.map((e) {
+                return ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: pro.listErc20!.map((e) {
                     
-            //         return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listErc20!);
-            //         // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listErc20!);
+                    // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
 
-            //       }).toList(),
-            //     );
-            //   }
-            // )
+                  }).toList(),
+                );
+              }
+            )
 
           ],
         ),

@@ -9,9 +9,7 @@ class MultiAccountScreen extends StatelessWidget {
 
     final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
 
-    multiAccountImpl.setContext = context;
-
-    multiAccountImpl.accInfoFromLocalStorage();
+    multiAccountImpl.setContext(context);
     
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),

@@ -6,19 +6,14 @@ class MultiAccountImpl implements MultiAccountUsecases {
 
   SDKProvider? sdkProvier;
 
-  set setContext(BuildContext ctx){
+  void setContext(BuildContext ctx, {bool listen = true}){
     _context = ctx;
-    sdkProvier = Provider.of<SDKProvider>(ctx, listen: true);
+    sdkProvier = Provider.of<SDKProvider>(ctx, listen: listen);
   }
 
   KeyPairData get getAccount => sdkProvier!.getSdkImpl.getKeyring.current;
 
   List<KeyPairData> get getAllAccount => sdkProvier!.getSdkImpl.getKeyring.allAccounts;
-
-  @override
-  Future<void> accInfoFromLocalStorage() async {
-    await SecureStorage.readData(key: DbKey.privateList);
-  }
 
   @override
   Future<void> createWallet() async {

@@ -44,12 +44,7 @@ class ImportWalletImpl implements ImportWalletUsecases {
 
       await _accountManagementImpl.verifyLaterData(sdkProvider, true);
 
-      if (isMultiAcc == true) {
-        Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.multiAccRoute.toString()}", (route) => false);
-      }
-      else {
-        Navigator.pushNamedAndRemoveUntil(_context!, "/${BitrielRouter.homeRoute}", (route) => false);
-      }
+      await _accountManagementImpl.accNavigation(_context!, isMultiAcc!);    
 
     } catch (e) {
       print("Error addAndImport $e");

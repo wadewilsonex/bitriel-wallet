@@ -7,6 +7,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
+    
     final walletProvider = Provider.of<WalletProvider>(context, listen: false);
 
     walletProvider.marketUCImpl.scrollController.addListener(() {
@@ -20,7 +22,7 @@ class HomeScreen extends StatelessWidget {
     Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
 
     return Scaffold(
-      appBar: defaultAppBar(context: context),
+      appBar: defaultAppBar(context: context, multiAccountImpl: multiAccountImpl),
       body: SingleChildScrollView(
         controller: walletProvider.marketUCImpl.scrollController,
         physics: const BouncingScrollPhysics(),
@@ -28,33 +30,6 @@ class HomeScreen extends StatelessWidget {
           color: hexaCodeToColor(AppColors.white),
           child: Column(
             children: [
-      
-              TextButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
-                }, 
-                child: const Text("To wallet screen")
-              ),
-      
-              TextButton(
-                onPressed: () async {
-                  await Provider.of<SDKProvider>(context, listen: false).disconnect();
-                }, 
-                child: const Text("Disconnect")
-              ),
-              TextButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const WalletScreen()));
-                }, 
-                child: const Text("To wallet screen")
-              ),
-
-              TextButton(
-                onPressed: () async {
-                  await Provider.of<SDKProvider>(context, listen: false).getSdkImpl.deleteAccount(context);
-                }, 
-                child: const Text("Delete account")
-              ),
       
               _menuItems(context),
       

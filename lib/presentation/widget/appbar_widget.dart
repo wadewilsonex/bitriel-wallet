@@ -27,16 +27,13 @@ PreferredSizeWidget appBar(final BuildContext context, {required final String ti
 
 
 PreferredSizeWidget defaultAppBar({
-  required BuildContext? context,
+  required BuildContext context,
+  required MultiAccountImpl multiAccountImpl,
 }) {
 
   const appBarHeight = 80.0;
 
-  final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
-
-  // multiAccountImpl.setContext = context;
-
-  multiAccountImpl.accInfoFromLocalStorage();
+  multiAccountImpl.setContext(context, listen: false);
 
   return AppBar(
     scrolledUnderElevation: 0,
@@ -47,7 +44,7 @@ PreferredSizeWidget defaultAppBar({
     centerTitle: true,
     flexibleSpace: SafeArea(
       child: Container(
-        width: MediaQuery.of(context!).size.width,
+        width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.only(left: 14, right: 14, top: 10),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
@@ -68,23 +65,21 @@ PreferredSizeWidget defaultAppBar({
             onTap: () async{
 
               await _selectAccount(context, multiAccountImpl);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const MultiAccountScreen()) 
-              // );
 
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
-              child: SizedBox(
-                height: 40,
-                width: 40,
-                child: Consumer<SDKProvider>(
-                builder: (context, pro, wg) {
-                    if (pro.isConnected == false) return const SizedBox();
-                    return RandomAvatar( pro.getSdkImpl.getKeyring.current.icon!);
-                  }
-                ),
+              child: Consumer<SDKProvider>(
+              builder: (context, pro, wg) {
+                  if (pro.isConnected == false) return const SizedBox();
+                  return pro.getSdkImpl.getKeyring.current.icon == null ? 
+                    const CircleAvatar() : 
+                    RandomAvatar(
+                      pro.getSdkImpl.getKeyring.current.icon!,
+                      height: 40,
+                      width: 40
+                    );
+                }
               ),
             )
           ),
@@ -184,128 +179,112 @@ PreferredSizeWidget defaultAppBar({
 
   Future<void> _selectAccount(BuildContext context, MultiAccountImpl multiAccountImpl) async {
 
-
+    int currentIndex = multiAccountImpl.getAllAccount.indexWhere((element) {
+      if (multiAccountImpl.getAccount.address == element.address){
+        return true;
+      }
+      return false;
+    });
 
     await showModalBottomSheet(
       context: context,
       isDismissible: true,
+      isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical( 
           top: Radius.circular(25.0),
         ),
       ),
-    //   builder: (context) {
-    //     return SizedBox(
-    //       width: MediaQuery.of(context).size.width,
-    //       child: Column(
-    //         children: [
-    //           Text("data"),
-    //         ],
-    //       ),
-    //     );
-    //   }
-    // );
-      
-      builder: (context) => ListView.builder(
-          itemCount: multiAccountImpl.getAllAccount.length,
-          itemBuilder:(context, index) {
+      builder: (context) => 
+      Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 0, left: 15, right: 0, bottom: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const MyTextConstant(
+                  text: "Swtich Account",
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                ),
 
-            print(" multiAccountImpl.getAllAccount.length ${ multiAccountImpl.getAllAccount.length}");
-
-            return InkWell(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onTap: () async {
-
-                multiAccountImpl.switchAccount(multiAccountImpl.getAllAccount[index]).then((value) => {
-                  Navigator.pop(context),
-                });
-
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  const SizedBox(height: 5),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      border: Border.all(color: hexaCodeToColor(AppColors.primary))
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Iconsax.close_circle, 
+                    color: hexaCodeToColor(AppColors.midNightBlue),
+                  )
+                )
+              ],
+            ),
+          ),
+          
+          Flexible(
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: multiAccountImpl.getAllAccount.length,
+              itemBuilder:(context, index) {
+          
+                return Container(
+                  color: currentIndex == index ? hexaCodeToColor(AppColors.primary).withOpacity(0.25) : Colors.transparent,
+                  
+                  child: ListTile(
+                    leading: multiAccountImpl.getAllAccount[index].icon == null ? 
+                    const CircleAvatar() : 
+                    RandomAvatar(
+                      multiAccountImpl.getAllAccount[index].icon!, 
+                      alignment: Alignment.topLeft,
+                      height: 40,
+                      width: 40
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-
-                                Container(
-                                  alignment: Alignment.center,
-                                  width: 35,
-                                  height: 35,
-                                  child: RandomAvatar(multiAccountImpl.getAllAccount[index].icon ?? '')
-                                ),
-
-                                const SizedBox(width: 10),
-
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-
-                                    MyTextConstant(
-                                      text: multiAccountImpl.getAllAccount[index].name ?? '',
-                                      // hexaColor: AppColors.blackColor,
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w600,
-                                      textAlign: TextAlign.start,
-                                    ),
-
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: paddingSize / 2),
-                                      child: MyTextConstant(
-                                        text: multiAccountImpl.getAllAccount[index].address!.replaceRange(10, multiAccountImpl.getAllAccount[index].address!.length - 10, "........"),
-                                        // hexaColor: AppColors.greyCode,
-                                        fontSize: 14,
-                                        color2: hexaCodeToColor(AppColors.darkGrey),
-                                      ),
-                                    ),
-
-                                  ],
-                                ),
-                              ]
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 0,
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                            child: const Icon(
-                              Iconsax.arrow_right_3
-                            ),
-                          ),
-                        ),
-                      ],
+                    title: MyTextConstant(
+                      text: multiAccountImpl.getAllAccount[index].name ?? '',
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600,
+                      textAlign: TextAlign.start,
                     ),
+                    subtitle: MyTextConstant(
+                      text: multiAccountImpl.getAllAccount[index].address!.replaceRange(10, multiAccountImpl.getAllAccount[index].address!.length - 10, "........"),
+                      fontSize: 14,
+                      color2: hexaCodeToColor(AppColors.darkGrey),
+                      textAlign: TextAlign.start,
+                    ),
+                    trailing: Icon(Icons.check_circle_rounded, color: hexaCodeToColor(AppColors.primary),),
+                    onTap: () {
+                      multiAccountImpl.switchAccount(multiAccountImpl.getAllAccount[index]).then((value) => {
+                        Navigator.pop(context),
+                      });
+                    },
                   ),
-                  const SizedBox(height: 5),
+                );
+              },
+            ),
+          ),
 
-                  // Container(color: ,)
-                ],
-              ),
-            );
-          },
-        )
-      );
-    }
+          multiAccountImpl.getAllAccount.length != 3 ? const SizedBox() : MyButton(
+            edgeMargin: const EdgeInsets.all(15),
+            textButton: "Add Account",
+            fontWeight: FontWeight.w600,
+            action: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  settings: RouteSettings(name: "/${BitrielRouter.multiAccRoute}"),
+                  builder: (context) => const MultiAccountScreen()
+                ) 
+              );
+            },
+          ),
+
+        ],
+      )
+    );
+  }
 
 
 void bottomSheetCgNetwork(BuildContext context) async{
