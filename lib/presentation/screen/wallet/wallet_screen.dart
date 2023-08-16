@@ -10,6 +10,8 @@ class WalletScreen extends StatelessWidget {
 
     TextEditingController searchController = TextEditingController();
 
+    final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
+
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
 
     if (context.mounted){
@@ -19,12 +21,12 @@ class WalletScreen extends StatelessWidget {
       if (walletPro.defaultListContract == null) {
         walletPro.getAsset();
       
-        // Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
+        Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
       }
     }
 
     return Scaffold(
-      appBar: defaultAppBar(context: context),
+      appBar: defaultAppBar(context: context, multiAccountImpl: multiAccountImpl),
       body: SingleChildScrollView(
         child: Column(
           children: [

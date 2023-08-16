@@ -122,7 +122,18 @@ class SettingScreen extends StatelessWidget {
                   //   ),
                   // ),
                   SettingsItem(
-                    onTap: () {},
+                    onTap: () async {
+                      await QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.warning,
+                        text: 'Are you sure to delete all your wallets?',
+                        confirmBtnText: "Delete",
+                        onConfirmBtnTap: () async{
+                          await Provider.of<SDKProvider>(context, listen: false).getSdkImpl.deleteAccount(context);
+                        },
+                        showCancelBtn: true
+                      );
+                    },
                     icons: Iconsax.trash,
                     title: "Delete Account",
                     subtitle: "Delete all your wallets",

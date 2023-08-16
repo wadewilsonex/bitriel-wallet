@@ -19,13 +19,7 @@ class WalletInfo extends StatelessWidget {
 
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
 
-    // walletPro.marketUCImpl.getMarkets();
-
-    // print("market[walletPro.defaultListContract!.indexOf(scModel)].name ${market[walletPro.defaultListContract!.indexOf(scModel)].name}");
-
-    // if (kDebugMode) {
-    //   print("find index: ${market[walletPro.defaultListContract!.where((element) => element.id == "bitcoin")].name}");
-    // }
+    walletPro.marketUCImpl.getMarkets();
 
     return DefaultTabController(  
       length: 2,
@@ -73,12 +67,14 @@ class WalletInfo extends StatelessWidget {
   Widget _infoTap(BuildContext context, WalletProvider walletPro) {
     return Column(
       children: [
-        // ignore: unnecessary_string_interpolations
-        _tokenIconHeader(price: double.parse("${scModel.balance ?? '0.0'}".replaceAll(",", "")).toStringAsFixed(2)),
+        _tokenIconHeader(price: double.parse((scModel.balance ?? '0.0').replaceAll(",", "")).toStringAsFixed(2)),
 
         _chartAsset(context),
     
         // lstScModel.isNotEmpty ? _tokenInfomation(walletPro) : const SizedBox(),
+
+        Expanded(child: Container()),
+        _buyAndsellBtn(),
       ],
     );
   }
@@ -141,7 +137,6 @@ class WalletInfo extends StatelessWidget {
   }
 
   Widget _chartAsset(BuildContext context) {
-
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 14),
       child: Consumer<WalletProvider>(
@@ -149,7 +144,7 @@ class WalletInfo extends StatelessWidget {
           return Column(
             children: [
 
-              if ( pro.defaultListContract![pro.defaultListContract!.indexOf(scModel)].chart == null)
+              if (pro.defaultListContract![pro.defaultListContract!.indexOf(scModel)].chart == null)
               const CircularProgressIndicator()
 
               else if (pro.defaultListContract![pro.defaultListContract!.indexOf(scModel)].chart!.isEmpty)
@@ -164,6 +159,7 @@ class WalletInfo extends StatelessWidget {
                   lstScModel[lstScModel.indexOf(scModel)].chart!,
                 ),
               ),
+
             ],
           );
         }
@@ -194,21 +190,21 @@ class WalletInfo extends StatelessWidget {
         _rowTokenInfo(title: "Market Cap", price: double.parse("${market[walletProvider.defaultListContract!.indexOf(scModel)].marketCap}".replaceAll(",", "")).toStringAsFixed(2))
         : Container(),
 
-        // market[lstScModel.indexOf(scModel)].volume24h != null ?
-        // _rowTokenInfo(title: "Volume (24h)", price: double.parse("${market[lstScModel.indexOf(scModel)].volume24h}".replaceAll(",", "")).toStringAsFixed(2))
-        // : Container(),
+        market[lstScModel.indexOf(scModel)].volume24h != null ?
+        _rowTokenInfo(title: "Volume (24h)", price: double.parse("${market[lstScModel.indexOf(scModel)].volume24h}".replaceAll(",", "")).toStringAsFixed(2))
+        : Container(),
 
-        // market[lstScModel.indexOf(scModel)].circulatingSupply != null ?
-        // _rowTokenInfo(title: "Circulating Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].circulatingSupply}".replaceAll(",", "")).toStringAsFixed(2))
-        // : Container(),
+        market[lstScModel.indexOf(scModel)].circulatingSupply != null ?
+        _rowTokenInfo(title: "Circulating Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].circulatingSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        : Container(),
 
-        // market[lstScModel.indexOf(scModel)].totalSupply != null ?
-        // _rowTokenInfo(title: "Total Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].totalSupply}".replaceAll(",", "")).toStringAsFixed(2))
-        // : Container(),
+        market[lstScModel.indexOf(scModel)].totalSupply != null ?
+        _rowTokenInfo(title: "Total Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].totalSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        : Container(),
         
-        // market[lstScModel.indexOf(scModel)].maxSupply != null ?
-        // _rowTokenInfo(title: "Max Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].maxSupply}".replaceAll(",", "")).toStringAsFixed(2))
-        // : Container(),
+        market[lstScModel.indexOf(scModel)].maxSupply != null ?
+        _rowTokenInfo(title: "Max Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].maxSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        : Container(),
 
     
         ],
@@ -224,9 +220,9 @@ class WalletInfo extends StatelessWidget {
         Expanded(
           child: MyButton(
             edgeMargin: const EdgeInsets.all(10),
-            textButton: "Buy",
+            textButton: "Send",
             fontWeight: FontWeight.w600,
-            buttonColor: "#00A478",
+            buttonColor: "#ED2727",
             opacity: 0.9,
             action: () async {
 
@@ -238,9 +234,9 @@ class WalletInfo extends StatelessWidget {
         Expanded(
           child: MyButton(
             edgeMargin: const EdgeInsets.all(10),
-            textButton: "Sell",
+            textButton: "Receive",
             fontWeight: FontWeight.w600,
-            buttonColor: "#ED2727",
+            buttonColor: "#00A478",
             opacity: 0.9,
             action: () async {
 
