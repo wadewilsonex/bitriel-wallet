@@ -180,8 +180,6 @@ PreferredSizeWidget defaultAppBar({
     await showModalBottomSheet(
       context: context,
       isDismissible: true,
-      isScrollControlled: true,
-      useSafeArea: true,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical( 
@@ -245,7 +243,7 @@ PreferredSizeWidget defaultAppBar({
                       color2: hexaCodeToColor(AppColors.darkGrey),
                       textAlign: TextAlign.start,
                     ),
-                    trailing: Icon(Icons.check_circle_rounded, color: hexaCodeToColor(AppColors.primary),),
+                    trailing: currentIndex == index ? Icon(Icons.check_circle_rounded, color: hexaCodeToColor(AppColors.primary),) : const SizedBox(),
                     onTap: () {
                       multiAccountImpl.switchAccount(multiAccountImpl.getAllAccount[index]).then((value) => {
                         Navigator.pop(context),
@@ -257,7 +255,7 @@ PreferredSizeWidget defaultAppBar({
             ),
           ),
 
-          multiAccountImpl.getAllAccount.length != 3 ? const SizedBox() : MyButton(
+          multiAccountImpl.getAllAccount.length == 3 ? const SizedBox() : MyButton(
             edgeMargin: const EdgeInsets.all(15),
             textButton: "Add Account",
             fontWeight: FontWeight.w600,

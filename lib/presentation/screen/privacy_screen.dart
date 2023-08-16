@@ -83,23 +83,6 @@ class PrivacyScreen extends StatelessWidget {
     );
   }
 
-  Widget _logoApp() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Image.asset("assets/logo/bitriel-logo.png", width: 75, height: 75,),
-      )
-    );
-  }
-
-  Widget _versionApp() {
-    return const MyTextConstant(
-      text: "Bitriel: 9.0.0",
-      fontSize: 18,
-      fontWeight: FontWeight.w600,
-    );
-  }
-
   Widget _aboutItems({required String name, required void Function() onTap}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
