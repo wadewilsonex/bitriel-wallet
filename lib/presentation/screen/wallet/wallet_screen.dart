@@ -71,100 +71,49 @@ class WalletScreen extends StatelessWidget {
               ),
             ),
 
-            _getGroupSeparator("Native"),
             Consumer<WalletProvider>(
               builder: (context, pro, wg) {
                 
-                if (pro.listNative == null) {
+                if (pro.sortListContract == null) {
                   return const CircularProgressIndicator();
                 }
-                else if (pro.listNative!.isEmpty) {
-                  return const Text("No token");
+                else if (pro.sortListContract!.isEmpty) {
+                  return const Text("No token found");
                 }
 
                 return ListView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: pro.listNative!.map((e) {
+                  children: pro.sortListContract!.map((e) {
 
-                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listNative!);
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.sortListContract!);
 
                   }).toList(),
                 );
               }
             ),
 
-            _getGroupSeparator("EVM"),
-            Consumer<WalletProvider>(
-              builder: (context, pro, wg) {
-
-                if (pro.listEvmNative == null) {
-                  return const CircularProgressIndicator();
-                }
-                else if (pro.listEvmNative!.isEmpty) {
-                  return const Text("No token");
-                }
-
-                return ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: pro.listEvmNative!.map((e) {
-                    
-                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listEvmNative!);
-                    // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
-
-                  }).toList(),
-                );
-              }
-            ),
-
-            _getGroupSeparator("BEP20"),
-            Consumer<WalletProvider>(
-              builder: (context, pro, wg) {
-
-                if (pro.listBep20 == null) {
-                  return const CircularProgressIndicator();
-                }
-                else if (pro.listBep20!.isEmpty) {
-                  return const Text("No token");
-                }
-
-                return ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: pro.listBep20!.map((e) {
-                    
-                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listBep20!);
-                    // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
-
-                  }).toList(),
-                );
-              }
-            ),
-
-            _getGroupSeparator("ERC20"),
-            Consumer<WalletProvider>(
-              builder: (context, pro, wg) {
+            // Consumer<WalletProvider>(
+            //   builder: (context, pro, wg) {
                 
-                if (pro.listErc20 == null) {
-                  return const CircularProgressIndicator();
-                }
-                else if (pro.listErc20!.isEmpty) {
-                  return const Text("No token");
-                }
+            //     if (pro.listErc20 == null) {
+            //       return const CircularProgressIndicator();
+            //     }
+            //     else if (pro.listErc20!.isEmpty) {
+            //       return const Text("No token found");
+            //     }
 
-                return ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: pro.listErc20!.map((e) {
-                    
-                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listErc20!);
-                    // return Text(pro.listEvmNative![pro.listEvmNative!.indexOf(e)].symbol!);
+            //     return ListView(
+            //       shrinkWrap: true,
+            //       physics: const NeverScrollableScrollPhysics(),
+            //       children: pro.listErc20!.map((e) {
 
-                  }).toList(),
-                );
-              }
-            )
+            //         return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listErc20!);
+
+            //       }).toList(),
+            //     );
+            //   }
+            // ),
 
           ],
         ),
@@ -237,7 +186,7 @@ class WalletScreen extends StatelessWidget {
               child: MyIconButton(
                 edgeMargin: const EdgeInsets.all(10),
                 fontWeight: FontWeight.w600,
-                buttonColor: "161414",
+                buttonColor: "#161414",
                 action: () {
                   Navigator.push(
                     context,
@@ -295,31 +244,6 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _getGroupSeparator(String label) {
-    return SizedBox(
-      height: 50,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: hexaCodeToColor("#F4F4F4"),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(14),
-            child: MyTextConstant(
-              text: label,
-              color2: hexaCodeToColor("#979797"),
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              textAlign: TextAlign.start,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _getItem({required BuildContext ctx, required MarketUCImpl coinMarketCap, required SmartContractModel element, required List<SmartContractModel> assetsModel}) {
 
     return SizedBox(
@@ -338,10 +262,41 @@ class WalletScreen extends StatelessWidget {
                 width: 50,
               ),
             ),
-            title: MyTextConstant(
-              text: assetsModel[assetsModel.indexOf(element)].name!,
-              fontWeight: FontWeight.w600,
-              textAlign: TextAlign.start,
+            title: Row(
+              children: [
+                MyTextConstant(
+                  text: assetsModel[assetsModel.indexOf(element)].name!,
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.start,
+                ),
+
+                assetsModel[assetsModel.indexOf(element)].org! == "BEP20" ? 
+                Card(
+                  color: hexaCodeToColor(AppColors.cardColor),
+                  child: const Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: MyTextConstant(
+                      text: "BNB Smart Chain",
+                      textAlign: TextAlign.start,
+                      fontSize: 12,
+                    ),
+                  ),
+                ) : Container(),
+
+                assetsModel[assetsModel.indexOf(element)].org! == "ERC-20" ? 
+                Card(
+                  color: hexaCodeToColor(AppColors.cardColor),
+                  child: const Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: MyTextConstant(
+                      text: "Ethereum",
+                      textAlign: TextAlign.start,
+                      fontSize: 12,
+                    ),
+                  ),
+                ) : Container()
+
+              ],
             ),
             subtitle: MyTextConstant(
               text: assetsModel[assetsModel.indexOf(element)].symbol!,
@@ -355,7 +310,7 @@ class WalletScreen extends StatelessWidget {
               children: [
 
                 MyTextConstant(
-                  text: element.balance ?? '0',//assetsModel[assetsModel.indexOf(element)].balance!,
+                  text: element.balance == null ? '0' : double.parse(element.balance!).toStringAsFixed(2), //assetsModel[assetsModel.indexOf(element)].balance!,
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.start,
                 ),
