@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bitriel_wallet/index.dart';
 
 class WalletProvider with ChangeNotifier {
@@ -20,7 +22,6 @@ class WalletProvider with ChangeNotifier {
 
   MarketUCImpl marketUCImpl = MarketUCImpl();
   
-
   set setBuildContext(BuildContext ctx) {
     
     _context = ctx;
@@ -81,28 +82,33 @@ class WalletProvider with ChangeNotifier {
   Future<void> coinsTestnet()async {
     print("coinsTestnet");
     
-    defaultListContract!.every((element) {
+    try {
+      defaultListContract!.every((element) {
         
-      if ( (element.isBSC! || element.isEther!) && element.show == true ) {
-        listEvmNative!.add(element);
-      }
-      else if (element.isNative! && element.show == true && element.symbol!.toLowerCase() == "sel") {listNative!.add(element);}
-      
-      return true;
-    });
+        if ( (element.isBSC! || element.isEther!) && element.show == true ) {
+          listEvmNative!.add(element);
+        }
+        else if (element.isNative! && element.show == true && element.symbol!.toLowerCase() == "sel") {listNative!.add(element);}
+        
+        return true;
+      });
 
-    addedContract!.every((element) {
-      if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
-      else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
+      addedContract!.every((element) {
+        print("addedContract ${element.chainDecimal}");
+        if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
+        else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
 
-      return true;
-    });
+        return true;
+      });
 
-    await queryEvmBalance();
-    await queryBep20Balance();
-    await queryErc20Balance();
+      await queryEvmBalance();
+      await queryBep20Balance();
+      await queryErc20Balance();
 
-    sortAsset();
+      sortAsset();
+    } catch (e) {
+      print("Error coinsTestnet $e");
+    }
   }
 
   /// List All Support Token in Mainnet
@@ -136,7 +142,9 @@ class WalletProvider with ChangeNotifier {
       return true;
     });
 
+    print("addedContract");
     addedContract!.every((element) {
+      print("element.symbol ${element.symbol} ");
       if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
       else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
 
@@ -196,57 +204,42 @@ class WalletProvider with ChangeNotifier {
 
   Future<void> queryBep20Balance() async {
 
-    for( var bep20 in listBep20!){
-      
-      print(bep20.symbol!);
+    try {
+      for( var bep20 in listBep20!){
 
-      if (bep20.symbol!.toLowerCase() == "usdt" && sdkProvider!.isMainnet.value == true){
-        sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", "0x55d398326f99059ff775485246999027b3197955");
-        bep20.balance = (await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!, sdkProvider!.getSdkImpl.evmAddress ))[0].toString();
-        
+        print("bep20.symbol ${bep20.symbol}");
+
+        sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", bep20.contract!);
+        if (bep20.symbol!.toLowerCase() == "usdt" && sdkProvider!.isMainnet.value == true){
+          bep20.balance = (await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!, sdkProvider!.getSdkImpl.evmAddress ))[0].toString();
+          
+        }
+        else {
+          await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!, sdkProvider!.getSdkImpl.evmAddress).then((value) {
+            bep20.balance = (value[0] / BigInt.from(pow(10, bep20.chainDecimal! ))).toString();
+          });
+        }
+
+        sortListContract!.add(bep20);
       }
-      // else {
-      //   print("Testnet");
-      //   print("bep20.name ${bep20.name}");
-      //   print("bep20.contract! ${bep20.contract!}");
-      //   sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", bep20.contract! );
-      //   await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!).then((value) {
-      //     bep20.balance = (value[0] / BigInt.from(pow(10, 18))).toString();
-      //   });
-      // }
 
-      sortListContract!.add(bep20);
+      notifyListeners();
+    } catch (e) {
+      print("Error queryBep20Balance $e");
     }
-
-    // await _walletUsecases.getContractBalance("json/abi/bep20.json", );
-    // for (var element in sortListContract!) {
-    //   if (element.isBep20!){
-    //     await sdkProvider!.getSdkImpl.getWeb3Balance(sdkProvider!.getSdkImpl.getBscClient, EthereumAddress.fromHex(sdkProvider!.getSdkImpl.evmAddress ?? ''))
-    //     .then((value) {
-    //       print("value ${value.getValueInUnit(EtherUnit.ether)}");
-    //       element.balance = (value.getValueInUnit(EtherUnit.ether)).toString();
-    //     });
-    //   } 
-    //   else if (element.isErc20!) {
-    //     if (element.isBep20!){
-    //     await sdkProvider!.getSdkImpl.getWeb3Balance(sdkProvider!.getSdkImpl.getEthClient, EthereumAddress.fromHex(sdkProvider!.getSdkImpl.evmAddress ?? ''))
-    //       .then((value) {
-    //         print("value ${value.getValueInUnit(EtherUnit.ether)}");
-    //         element.balance = (value.getValueInUnit(EtherUnit.ether)).toString();
-    //       });
-    //     }
-    //   }
-    // }
-    notifyListeners();
 
   }
 
   Future<void> queryErc20Balance() async {
 
+    print("queryErc20Balance");
     for( var erc20 in listErc20!){
 
+      sdkProvider!.getSdkImpl.etherDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", erc20.contract!);
+      
+      print(erc20.symbol);
+      print(erc20.chainDecimal);
       if (erc20.symbol!.toLowerCase() == "usdt"){
-
         erc20.balance = (await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getEthClient, sdkProvider!.getSdkImpl.etherDeployedContract!, sdkProvider!.getSdkImpl.evmAddress))[0].toString();
 
       }
@@ -257,24 +250,6 @@ class WalletProvider with ChangeNotifier {
       sortListContract!.add(erc20);
 
     }
-    // for (var element in sortListContract!) {
-    //   if (element.isBep20!){
-    //     await sdkProvider!.getSdkImpl.getWeb3Balance(sdkProvider!.getSdkImpl.getBscClient, EthereumAddress.fromHex(sdkProvider!.getSdkImpl.evmAddress ?? ''))
-    //     .then((value) {
-    //       print("value ${value.getValueInUnit(EtherUnit.ether)}");
-    //       element.balance = (value.getValueInUnit(EtherUnit.ether)).toString();
-    //     });
-    //   } 
-    //   else if (element.isErc20!) {
-    //     if (element.isBep20!){
-    //     await sdkProvider!.getSdkImpl.getWeb3Balance(sdkProvider!.getSdkImpl.getEthClient, EthereumAddress.fromHex(sdkProvider!.getSdkImpl.evmAddress ?? ''))
-    //       .then((value) {
-    //         print("value ${value.getValueInUnit(EtherUnit.ether)}");
-    //         element.balance = (value.getValueInUnit(EtherUnit.ether)).toString();
-    //       });
-    //     }
-    //   }
-    // }
     notifyListeners();
 
   }

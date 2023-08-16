@@ -48,9 +48,9 @@ class WalletUcImpl implements WalletUsecases{
         await fetchCoinFromAssets(),
         // []
         await SecureStorage.readData(key: DbKey.addedContract).then((value) {
-          
+          print("addedContract $value");
           if (value != null) {
-            return mapModel( List<Map<String, dynamic>>.from(json.decode(value)) );
+            return SmartContractModel.decode(value);
           }
           return [];
         })
@@ -67,39 +67,8 @@ class WalletUcImpl implements WalletUsecases{
 
     final jsn = await rootBundle.loadString("assets/json/supported_contract.json");
 
-    return mapModel(List<Map<String, dynamic>>.from(jsonDecode(jsn)));
+    return await SmartContractModel.decode(jsn);// mapModel(List<Map<String, dynamic>>.from(jsonDecode(jsn)));
  
-  }
-
-  /// 3.
-  List<SmartContractModel> mapModel(List<Map<String, dynamic>> data) {
-    
-    return data.map((e) {
-      return SmartContractModel(
-        id: e['id'],
-        name: e["name"],
-        logo: "$_dir/${e["logo"]}",
-        address: e['address'],
-        contract: e['contract'],
-        symbol: e["symbol"],
-        org: e["org"],
-        isBSC: e["is_bsc"],
-        isEther: e["is_ether"],
-        isNative: e["is_native"],
-        isBep20: e["is_bep20"],
-        isErc20: e["is_erc20"],
-        balance: e["balance"],
-        show: e["show"],
-        maxSupply: e["max_supply"],
-        description: e["description"],
-        platform: e['platform'] == null ? [] : List<Map<String, dynamic>>.from(e['platform'])
-        // lineChartList: Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data'] != null ? List<List<double>>.from(Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']) : null, //e['lineChartData'],
-        // lineChartList: e['lineChartData'],
-        // listActivity: [],
-        // lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
-      );
-    }).toList();
-
   }
 
   @override

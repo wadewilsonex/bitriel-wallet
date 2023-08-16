@@ -95,7 +95,7 @@ class SmartContractModel {
       maxSupply: json['max_supply'],
       description: json['description'],
       isAdded: json['isAdded'] ?? false,
-      platform: json['platform'],
+      platform: json['platform'] != null ? List<Map<String, dynamic>>.from(json['platform']) : null,
       balance: "0",
       marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
     );
@@ -134,6 +134,7 @@ class SmartContractModel {
   }
 
   static Future<List<SmartContractModel>> decode(String asset) async {
+    print("decode");
     final decode = await json.decode(asset);
     List<SmartContractModel> data = decode.map<SmartContractModel>((item) => SmartContractModel.fromJson(item)).toList();
     // debugPrint('data ${data.runtimeType} ${data[0]}');

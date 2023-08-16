@@ -129,16 +129,16 @@ class PaymentUcImpl implements PaymentUsecases {
         dialogLoading(context!);
 
         if (walletProvider!.sortListContract![index.value].isBep20 == true) {
-          if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
+          // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
 
             await sendBep20();
-          }
+          // }
         }
         else if (walletProvider!.sortListContract![index.value].isErc20 == true){
-          if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
+          // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
 
             await sendErc20();
-          }
+          // }
         }
         else if (walletProvider!.sortListContract![index.value].isBSC == true){
           await sendBsc();
@@ -245,31 +245,41 @@ class PaymentUcImpl implements PaymentUsecases {
       
       String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
+      print("encryptKey $encryptKey");
+
       EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
 
-      DeployedContract bscDeployedContract = await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", lstContractDropDown[index.value].contract!);
+      print("pkKey $pkKey");
 
+      _sdkProvider!.getSdkImpl.bscDeployedContract = await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", lstContractDropDown[index.value].contract!);
+
+      print("bscDeployedContract ${_sdkProvider!.getSdkImpl.bscDeployedContract!.address}");
+
+      print("recipientController.text ${recipientController.text}");
+      print("lstContractDropDown[index.value].chainDecimal! ${lstContractDropDown[index.value].chainDecimal ?? 'chain null'}");
       // transaction fee 5 gwei, which is about $0.0005
       // 2
       BigInt networkGas = (await _sdkProvider!.getSdkImpl.getBscClient.estimateGas(
         sender: pkKey.address, //EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.evmAddress!),
         // to: EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.bscDeployedContract.address!),
         to: EthereumAddress.fromHex(lstContractDropDown[index.value].contract!),
-        data: bscDeployedContract.function('transfer').encodeCall(
+        data: _sdkProvider!.getSdkImpl.bscDeployedContract!.function('transfer').encodeCall(
           [
             EthereumAddress.fromHex(recipientController.text),
             BigInt.from( double.parse(amountController.text) * pow(10, lstContractDropDown[index.value].chainDecimal!) )
           ],
         ),
       ));
+      
+      print("networkGas $networkGas");
 
       await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
         pkKey,
         Transaction.callContract(
-          contract: bscDeployedContract,
+          contract: _sdkProvider!.getSdkImpl.bscDeployedContract!,
           // gasPrice: gasPrice,
           maxGas: networkGas.toInt(),
-          function: bscDeployedContract.function('transfer'), 
+          function: _sdkProvider!.getSdkImpl.bscDeployedContract!.function('transfer'), 
           parameters: [
             EthereumAddress.fromHex(recipientController.text),
             BigInt.from( double.parse(amountController.text) * pow(10, lstContractDropDown[index.value].chainDecimal!) )
@@ -277,45 +287,17 @@ class PaymentUcImpl implements PaymentUsecases {
         ),
         chainId: null,
         fetchChainIdFromNetworkId: true,
-      );
+      ).then((value) {
+        print(value);
+      });
     } catch (e) {
       print("error sendBep20 ${e}");
     }
   }
 
-  // 2
-  // BigInt networkGas = (await _sdkProvider!.getSdkImpl.getBscClient.estimateGas(
-  //   sender: pkKey.address, //EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.evmAddress!),
-  //   to: _sdkProvider!.getSdkImpl.bscDeployedContract!.address,// Coin's Contract
-  //   data: _sdkProvider!.getSdkImpl.bscDeployedContract!.function('transfer').encodeCall(
-  //     [
-  //       EthereumAddress.fromHex(recipientController.text),
-  //       BigInt.from( double.parse(amountController.text) * pow(10, 18) )
-  //     ],
-  //   ),
-  // ));
-
-  // print("networkGas $networkGas");
-
-  // hash = await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
-  //   pkKey,
-  //   Transaction.callContract(
-  //     contract: _sdkProvider!.getSdkImpl.bscDeployedContract!,
-  //     // gasPrice: gasPrice,
-  //     maxGas: networkGas.toInt(),
-  //     function: _sdkProvider!.getSdkImpl.bscDeployedContract!.function('transfer'), 
-  //     parameters: [
-  //       EthereumAddress.fromHex(recipientController.text),
-  //       BigInt.from( double.parse(amountController.text) * pow(10, 18) )
-  //     ],
-  //   ),
-  //   chainId: null,
-  //   fetchChainIdFromNetworkId: true,
-  // );
-
   /// Send Any Erc20 contract
   Future<void> sendErc20() async {
-    print('sendBep20');
+    
     try {
       
       // 1
@@ -324,7 +306,7 @@ class PaymentUcImpl implements PaymentUsecases {
 
       EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
 
-      DeployedContract bscDeployedContract = await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", lstContractDropDown[index.value].contract!);
+      _sdkProvider!.getSdkImpl.etherDeployedContract = await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", lstContractDropDown[index.value].contract!);
 
       // transaction fee 5 gwei, which is about $0.0005
       // 2
@@ -332,7 +314,7 @@ class PaymentUcImpl implements PaymentUsecases {
         sender: pkKey.address, //EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.evmAddress!),
         // to: EthereumAddress.fromHex(_sdkProvider!.getSdkImpl.bscDeployedContract.address!),
         to: EthereumAddress.fromHex(lstContractDropDown[index.value].contract!),
-        data: bscDeployedContract.function('transfer').encodeCall(
+        data: _sdkProvider!.getSdkImpl.etherDeployedContract!.function('transfer').encodeCall(
           [
             EthereumAddress.fromHex(recipientController.text),
             BigInt.from( double.parse(amountController.text) * pow(10, lstContractDropDown[index.value].chainDecimal!) )
@@ -343,10 +325,10 @@ class PaymentUcImpl implements PaymentUsecases {
       await _sdkProvider!.getSdkImpl.getEthClient.sendTransaction(
         pkKey,
         Transaction.callContract(
-          contract: bscDeployedContract,
+          contract: _sdkProvider!.getSdkImpl.etherDeployedContract!,
           // gasPrice: gasPrice,
           maxGas: networkGas.toInt(),
-          function: bscDeployedContract.function('transfer'), 
+          function: _sdkProvider!.getSdkImpl.etherDeployedContract!.function('transfer'), 
           parameters: [
             EthereumAddress.fromHex(recipientController.text),
             BigInt.from( double.parse(amountController.text) * pow(10, lstContractDropDown[index.value].chainDecimal!) )
@@ -354,9 +336,11 @@ class PaymentUcImpl implements PaymentUsecases {
         ),
         chainId: null,
         fetchChainIdFromNetworkId: true,
-      );
+      ).then((value) {
+        print(value);
+      });
     } catch (e) {
-      print("error sendBep20 ${e}");
+      print("error sendErc20 ${e}");
     }
   }
 
