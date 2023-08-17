@@ -164,6 +164,7 @@ class WalletProvider with ChangeNotifier {
       if (element.symbol!.toLowerCase() != 'polkadot'){
 
         if (element.symbol!.toLowerCase() == 'btc'){
+          element.address = sdkProvider!.getSdkImpl.btcAddress;
           element.balance = await _walletUsecases.getBtcBalance();
         } else {
           element.balance = await _walletUsecases.fetchSELAddress();
@@ -194,6 +195,8 @@ class WalletProvider with ChangeNotifier {
         element.balance = (value.getValueInUnit(EtherUnit.ether)).toString();
       });
 
+      element.address = sdkProvider!.getSdkImpl.evmAddress;
+
       sortListContract!.add(element);
       
     }
@@ -211,7 +214,10 @@ class WalletProvider with ChangeNotifier {
 
         sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", bep20.contract!);
         if (bep20.symbol!.toLowerCase() == "usdt" && sdkProvider!.isMainnet.value == true){
-          bep20.balance = (await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!, sdkProvider!.getSdkImpl.evmAddress ))[0].toString();
+          await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!, sdkProvider!.getSdkImpl.evmAddress ).then((value) {
+            
+            bep20.balance = (value[0] / BigInt.from(pow(10, bep20.chainDecimal ?? 18 ))).toString();
+          });
           
         }
         else {

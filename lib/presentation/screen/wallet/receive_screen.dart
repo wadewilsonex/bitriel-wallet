@@ -1,8 +1,10 @@
 import 'package:bitriel_wallet/index.dart';
 
 class ReceiveWallet extends StatelessWidget {
-  const ReceiveWallet({Key? key, 
-  }) : super(key: key);
+
+  final String? addr;
+
+  const ReceiveWallet({Key? key, this.addr}) : super(key: key);
 
   @override
   Widget build(BuildContext context) { 
@@ -13,7 +15,7 @@ class ReceiveWallet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           
-          _qrWidget(),
+          _qrWidget(addr),
 
           _warnMsg(),
 
@@ -25,7 +27,7 @@ class ReceiveWallet extends StatelessWidget {
   }
 }
 
-Widget _qrWidget() {
+Widget _qrWidget(String? addr) {
   return Container(
     margin: const EdgeInsets.only(
       bottom: paddingSize,
@@ -57,14 +59,28 @@ Widget _qrWidget() {
                 // eyeStyle: QrEyeStyle(eyeShape: QrEyeShape.circle),
                 // dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle),
               ),
-        
+
+              if(addr != null) 
               Container(
                 margin: const EdgeInsets.all(paddingSize),
                 child: MyTextConstant(
-                  text: 'sefdsgdfklgjfdlgfedjhngldfukgjhglkdfssssgfdgsssss',
+                  text: addr,
                   color2: hexaCodeToColor(AppColors.darkGrey),
                   fontSize: 16,
                 ),
+              )
+        
+              else Consumer<SDKProvider>(
+                builder: (context, pro, wg) {
+                  return Container(
+                    margin: const EdgeInsets.all(paddingSize),
+                    child: MyTextConstant(
+                      text: pro.getSdkImpl.getSELAddress,
+                      color2: hexaCodeToColor(AppColors.darkGrey),
+                      fontSize: 16,
+                    ),
+                  );
+                }
               ),
             ],
           ),

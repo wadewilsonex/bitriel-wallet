@@ -55,26 +55,26 @@ class WalletInfo extends StatelessWidget {
         ),
         body: TabBarView(children: [
 
-          _infoTap(context, walletPro),
+          _infoTap(context, scModel),
 
-          _infoTap(context, walletPro),
+          _infoTap(context, scModel),
 
         ]),
       ),
     );
   }
 
-  Widget _infoTap(BuildContext context, WalletProvider walletPro) {
+  Widget _infoTap(BuildContext context, SmartContractModel scModel) {
     return Column(
       children: [
         _tokenIconHeader(price: double.parse((scModel.balance ?? '0.0').replaceAll(",", "")).toStringAsFixed(2)),
 
-        _chartAsset(context),
+        // _chartAsset(context),
     
         // lstScModel.isNotEmpty ? _tokenInfomation(walletPro) : const SizedBox(),
 
         Expanded(child: Container()),
-        _buyAndsellBtn(),
+        _buyAndsellBtn(context, scModel.address!, lstScModel.indexOf(scModel)),
       ],
     );
   }
@@ -213,7 +213,7 @@ class WalletInfo extends StatelessWidget {
   }
 
 
-  Widget _buyAndsellBtn() {
+  Widget _buyAndsellBtn(BuildContext context, String addr, int assetIndex) {
     return Row(
       children: [
 
@@ -226,7 +226,10 @@ class WalletInfo extends StatelessWidget {
             opacity: 0.9,
             action: () async {
 
-            
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TokenPayment(index: assetIndex) )
+              );
             },
           ),
         ),
@@ -239,7 +242,11 @@ class WalletInfo extends StatelessWidget {
             buttonColor: "#00A478",
             opacity: 0.9,
             action: () async {
-
+              
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ReceiveWallet(addr: addr,))
+              );
             },
           ),
         )

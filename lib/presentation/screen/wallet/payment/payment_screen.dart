@@ -2,9 +2,10 @@ import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/screen/wallet/payment/coin_select_screen.dart';
 
 class TokenPayment extends StatelessWidget {
+
+  final int? index;
   
-  const TokenPayment({Key? key, 
-  }) : super(key: key);
+  const TokenPayment({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) { 
@@ -12,6 +13,8 @@ class TokenPayment extends StatelessWidget {
     final PaymentUcImpl paymentUcImpl = PaymentUcImpl();
 
     paymentUcImpl.setBuildContext = context;
+
+    if (index != null) paymentUcImpl.assetChanged(index!);
 
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
