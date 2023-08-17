@@ -71,8 +71,6 @@ class MultiAccountScreen extends StatelessWidget {
               edgeMargin: const EdgeInsets.all(10),
               textButton: "Create Wallet",
               fontWeight: FontWeight.w600,
-              buttonColor: AppColors.bluebgColor,
-              opacity: 0.9,
               action: () async {
 
                 await multiAccountImpl.createWallet();
@@ -86,8 +84,10 @@ class MultiAccountScreen extends StatelessWidget {
               edgeMargin: const EdgeInsets.all(10),
               textButton: "Import Wallet",
               fontWeight: FontWeight.w600,
-              buttonColor: AppColors.midNightBlue,
-              opacity: 0.9,
+              textColor: AppColors.primaryBtn,
+              borderWidth: 1,
+              isTransparent: true,
+              isTransparentOpacity: 0,
               action: () async {
 
                 await multiAccountImpl.importWallet();

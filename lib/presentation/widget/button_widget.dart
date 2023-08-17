@@ -17,12 +17,14 @@ class MyButton extends StatelessWidget {
   final double? height;
   final bool? isTransparent;
   final double opacity;
+  final double isTransparentOpacity;
+  final double? borderWidth;
 
   const MyButton({
     Key? key,
     this.child,
     this.textButton = "",
-    this.buttonColor = AppColors.primary,
+    this.buttonColor = AppColors.primaryBtn,
     this.textColor = AppColors.white,
     this.fontWeight = FontWeight.bold,
     this.fontSize = 20,
@@ -33,6 +35,8 @@ class MyButton extends StatelessWidget {
     this.height = 50,
     this.isTransparent = false,
     this.opacity = 1,
+    this.isTransparentOpacity = 1,
+    this.borderWidth,
     @required this.action,
   }) : super(key: key);
 
@@ -45,10 +49,13 @@ class MyButton extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
-        color: isTransparent == true ? hexaCodeToColor(AppColors.lightGrey) : hexaCodeToColor(buttonColor!).withOpacity(opacity)
+        color: isTransparent == true ? hexaCodeToColor(AppColors.lightGrey).withOpacity(isTransparentOpacity) : hexaCodeToColor(buttonColor!).withOpacity(opacity)
       ),
       child: MaterialButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+          side: borderWidth == null ? BorderSide.none : BorderSide(width: borderWidth!, color: hexaCodeToColor(AppColors.primaryBtn))
+        ),
         onPressed: action == null
           ? null
           : () {

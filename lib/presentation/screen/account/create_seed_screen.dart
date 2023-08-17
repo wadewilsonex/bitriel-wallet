@@ -82,8 +82,8 @@ class CreateWalletScreen extends StatelessWidget {
         Flexible(
           flex: 0,
           child: InkWell(
-            onTap: (){
-              createWalletImpl.generateSeed();
+            onTap: () async{
+              await createWalletImpl.generateSeed();
             },
             child: const Row(
               children: [
@@ -144,7 +144,7 @@ class CreateWalletScreen extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: hexaCodeToColor("#E8E8E8"),
+        color: hexaCodeToColor(AppColors.cardColor),
       ),
       child: Column(
         children: [

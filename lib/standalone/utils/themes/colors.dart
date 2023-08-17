@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 class AppColors {
 
+  // Primary Button
+  static const String primaryBtn = "#347AF0";
+
   // Card
   static const String cardColor = "#E8F4FA";
   // Accents, CTAs, Links…

@@ -61,23 +61,59 @@ class SelectCoin extends StatelessWidget {
             textAlign: TextAlign.start,
           ),
 
-          const SizedBox(width: 2.5),
+          value.sortListContract![index].org == "BEP20" ? 
+          Card(
+            color: hexaCodeToColor(AppColors.cardColor),
+            child: const Padding(
+              padding: EdgeInsets.all(3.0),
+              child: MyTextConstant(
+                text: "BNB Smart Chain",
+                textAlign: TextAlign.start,
+                fontSize: 12,
+              ),
+            ),
+          ) : Container(),
 
-          Container(
-            padding: const EdgeInsets.all(4.0),
-            decoration: BoxDecoration(
-              color: hexaCodeToColor(AppColors.cardColor),
-              borderRadius: BorderRadius.circular(5)
+          value.sortListContract![index].org == "ERC-20" ? 
+          Card(
+            color: hexaCodeToColor(AppColors.cardColor),
+            child: const Padding(
+              padding: EdgeInsets.all(3.0),
+              child: MyTextConstant(
+                text: "Ethereum",
+                textAlign: TextAlign.start,
+                fontSize: 12,
+              ),
             ),
-            child: MyTextConstant(
-              text: _getTokenChain(value: value, index: index),
-              fontWeight: FontWeight.w500,
-              textAlign: TextAlign.start,
-              fontSize: 12,
-            ),
-          ),
+          ) : Container()
+
         ],
       ),
+      // title: Row(
+      //   children: [
+      //     MyTextConstant(
+      //       text: name,
+      //       fontWeight: FontWeight.w600,
+      //       textAlign: TextAlign.start,
+      //     ),
+
+      //     const SizedBox(width: 2.5),
+
+      //     Container(
+      //       padding: const EdgeInsets.all(4.0),
+      //       decoration: BoxDecoration(
+      //         color: hexaCodeToColor(AppColors.cardColor),
+      //         borderRadius: BorderRadius.circular(5)
+      //       ),
+      //       child: MyTextConstant(
+      //         text: _getTokenChain(value: value, index: index),
+      //         fontWeight: FontWeight.w500,
+      //         textAlign: TextAlign.start,
+      //         fontSize: 12,
+      //       ),
+      //     ),
+      //   ],
+      // ),
       subtitle: MyTextConstant(
         text: symbol,
         color2: hexaCodeToColor(AppColors.grey),
@@ -85,7 +121,7 @@ class SelectCoin extends StatelessWidget {
         textAlign: TextAlign.start,
       ),
       trailing: MyTextConstant(
-          text: balance,
+          text: double.parse(balance).toStringAsFixed(2),
           fontWeight: FontWeight.w600,
           textAlign: TextAlign.start,
         ),

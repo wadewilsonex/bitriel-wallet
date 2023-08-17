@@ -26,7 +26,7 @@ class DashboardMenuItem extends StatelessWidget {
         child: Container(
           height: 100,
           decoration: BoxDecoration(
-            color: hexaCodeToColor(hexColor).withOpacity(0.10),
+            color: hexaCodeToColor(hexColor).withOpacity(0.25),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

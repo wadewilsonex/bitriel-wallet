@@ -46,13 +46,14 @@ class WalletScreen extends StatelessWidget {
             _cardPortfolio(context),
 
             Padding(
-              padding: const EdgeInsets.only(bottom: 15, right: 15, left: 15),
+              padding: const EdgeInsets.only(left: 15),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-            
-                  Expanded(child: _searchBar(searchController)),
+                  
+                  const Expanded(child: Divider()),
+                  // Expanded(child: _searchBar(searchController)),
 
                   IconButton(
                     onPressed: () {
