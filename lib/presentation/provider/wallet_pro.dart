@@ -168,7 +168,7 @@ class WalletProvider with ChangeNotifier {
           element.balance = await _walletUsecases.getBtcBalance();
         } else {
           
-          element.address = sdkProvider!.getSdkImpl.getSELAddress;
+          element.address = sdkProvider!.getSdkImpl.getKeyring.current.address;
           element.balance = await _walletUsecases.fetchSELAddress();
         }
         sortListContract!.add(element);
@@ -209,15 +209,19 @@ class WalletProvider with ChangeNotifier {
 
   Future<void> queryBep20Balance() async {
 
+    print("queryBep20Balance");
     try {
       for( var bep20 in listBep20!){
 
         print("bep20.symbol ${bep20.symbol}");
+        print("bep20.symbol ${bep20.address}");
 
         sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", bep20.contract!);
         if (bep20.symbol!.toLowerCase() == "usdt" && sdkProvider!.isMainnet.value == true){
           await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!, sdkProvider!.getSdkImpl.evmAddress ).then((value) {
             
+            print("Blanace ${bep20.balance}");
+            bep20.address = sdkProvider!.getSdkImpl.evmAddress;
             bep20.balance = (value[0] / BigInt.from(pow(10, bep20.chainDecimal ?? 18 ))).toString();
           });
           

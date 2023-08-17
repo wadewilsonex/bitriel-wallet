@@ -220,6 +220,8 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
       // await StorageServices.clearSecure();
       
       // Provider.of<ContractProvider>(context, listen: false).resetConObject();
+      // ignore: use_build_context_synchronously
+      Provider.of<WalletProvider>(context, listen: false).initState();
       
       await Future.delayed(const Duration(seconds: 2), () {});
       
@@ -260,10 +262,10 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// Extract Evm Address 0xa..
   @override
   Future<void> extractEvmAddress(String pk) async {
-    
+    print("extractEvmAddress");
     final EthPrivateKey privateKey = EthPrivateKey.fromHex(pk);
     evmAddress = privateKey.address.toString();
-    
+    print("evmAddress $evmAddress");
   }
   
 

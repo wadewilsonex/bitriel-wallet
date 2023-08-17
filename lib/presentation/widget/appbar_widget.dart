@@ -263,6 +263,7 @@ PreferredSizeWidget defaultAppBar({
                 textButton: "Add Account",
                 fontWeight: FontWeight.w600,
                 action: () async {
+
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -271,11 +272,13 @@ PreferredSizeWidget defaultAppBar({
                     ) 
                   );
                   
-                  currentIndex = multiAccountImpl.getAllAccount.indexWhere((element) {
-                    if (multiAccountImpl.getAccount.address == element.address){
-                      return true;
-                    }
-                    return false;
+                  setState((){
+                    currentIndex = multiAccountImpl.getAllAccount.indexWhere((element) {
+                      if (multiAccountImpl.getAccount.address == element.address){
+                        return true;
+                      }
+                      return false;
+                    });
                   });
 
                 },

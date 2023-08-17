@@ -18,7 +18,7 @@ class WalletScreen extends StatelessWidget {
 
       walletPro.setBuildContext = context;
       
-      if (walletPro.defaultListContract == null) {
+      if (walletPro.defaultListContract == null || walletPro.defaultListContract!.isEmpty) {
         walletPro.getAsset();
       
         Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();

@@ -46,6 +46,9 @@ class ImportWalletImpl implements ImportWalletUsecases {
 
       await _accountManagementImpl.accNavigation(_context!, isMultiAcc!);
 
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      sdkProvider!.notifyListeners();
+
       // if (isMultiAcc == true) {
       //   Navigator.popUntil(_context!, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
       // }
