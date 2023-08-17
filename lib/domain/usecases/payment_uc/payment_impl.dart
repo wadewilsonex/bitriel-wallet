@@ -124,21 +124,21 @@ class PaymentUcImpl implements PaymentUsecases {
       
       // Check Input Not Equal 0
       // Check Input Not Less than Existing coin's balance
-      // if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
+      if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
         
         dialogLoading(context!);
 
         if (walletProvider!.sortListContract![index.value].isBep20 == true) {
-          // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
+          if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
 
             await sendBep20();
-          // }
+          }
         }
         else if (walletProvider!.sortListContract![index.value].isErc20 == true){
-          // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
+          if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
 
             await sendErc20();
-          // }
+          }
         }
         else if (walletProvider!.sortListContract![index.value].isBSC == true){
           await sendBsc();
@@ -159,9 +159,9 @@ class PaymentUcImpl implements PaymentUsecases {
           text: 'Transaction Completed Successfully!',
         );
 
-      // } else if (trxMessage.value.isEmpty) {
-      //   trxMessage.value = "Balance must greater than 0";
-      // }
+      } else if (trxMessage.value.isEmpty) {
+        trxMessage.value = "Balance must greater than 0";
+      }
 
     } catch (e) {
 
@@ -245,18 +245,10 @@ class PaymentUcImpl implements PaymentUsecases {
       
       String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
-      print("encryptKey $encryptKey");
-
       EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
-
-      print("pkKey $pkKey");
 
       _sdkProvider!.getSdkImpl.bscDeployedContract = await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", lstContractDropDown[index.value].contract!);
 
-      print("bscDeployedContract ${_sdkProvider!.getSdkImpl.bscDeployedContract!.address}");
-
-      print("recipientController.text ${recipientController.text}");
-      print("lstContractDropDown[index.value].chainDecimal! ${lstContractDropDown[index.value].chainDecimal ?? 'chain null'}");
       // transaction fee 5 gwei, which is about $0.0005
       // 2
       BigInt networkGas = (await _sdkProvider!.getSdkImpl.getBscClient.estimateGas(
@@ -270,8 +262,6 @@ class PaymentUcImpl implements PaymentUsecases {
           ],
         ),
       ));
-      
-      print("networkGas $networkGas");
 
       await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
         pkKey,
@@ -421,4 +411,8 @@ class PaymentUcImpl implements PaymentUsecases {
     }
 
   }
+
+  // Future proceedTransaction() async {
+
+  // }
 }

@@ -25,7 +25,7 @@ class SelectCoin extends StatelessWidget {
                     index: index, 
                     name:value.sortListContract![index].name!,
                     symbol: value.sortListContract![index].symbol!,
-                    balance: "0.00"
+                    balance: value.sortListContract![index].balance ?? '0.0'
                   );
                 }
               );

@@ -61,7 +61,7 @@ class MultiAccountScreen extends StatelessWidget {
         ),
       ),
 
-      bottomNavigationBar: Row(
+      bottomNavigationBar: multiAccountImpl.getAllAccount.length == 2 ? null : Row(
         children: [
 
           Expanded(
