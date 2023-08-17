@@ -1,3 +1,4 @@
+import 'package:bitriel_wallet/domain/usecases/wallet_uc/receive_impl.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class ReceiveWallet extends StatelessWidget {
@@ -8,6 +9,11 @@ class ReceiveWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) { 
+
+    final ReceiveUcImpl receiveImpl = ReceiveUcImpl();
+
+    receiveImpl.setBuildContext = context;
+
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
       appBar: appBar(context, title: "Receive SEL"),
@@ -15,11 +21,11 @@ class ReceiveWallet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           
-          _qrWidget(addr),
+          _qrWidget(receiveImpl, addr),
 
           _warnMsg(),
 
-          _optionBtn(context),
+          _optionBtn(context, receiveImpl, addr),
 
         ],
       ),
@@ -27,7 +33,7 @@ class ReceiveWallet extends StatelessWidget {
   }
 }
 
-Widget _qrWidget(String? addr) {
+Widget _qrWidget(ReceiveUcImpl receiveImpl, String? addr) {
   return Container(
     margin: const EdgeInsets.only(
       bottom: paddingSize,
@@ -51,15 +57,32 @@ Widget _qrWidget(String? addr) {
           child: Column(
             children: [
           
-              QrImageView(
-                data: '1234567890',
-                version: QrVersions.auto,
-                size: 200.0,
-                embeddedImage: Image.asset('assets/logo/embed-qr.png').image,
-                // eyeStyle: QrEyeStyle(eyeShape: QrEyeShape.circle),
-                // dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle),
+              Consumer<SDKProvider>(
+                builder: (context, pro, wg) {
+                  return RepaintBoundary(
+                    key: receiveImpl.globalKey,
+                    child: Container(
+                      padding: const EdgeInsets.all(paddingSize + 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        // boxShadow: [shadow(context)],
+                        color: isDarkMode
+                          ? Colors.white
+                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                      ),
+                      child: QrImageView(
+                        data: addr ?? pro.getSdkImpl.getSELAddress,
+                        version: QrVersions.auto,
+                        size: 200.0,
+                        embeddedImage: Image.asset('assets/logo/embed-qr.png').image,
+                        // eyeStyle: QrEyeStyle(eyeShape: QrEyeShape.circle),
+                        // dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle),
+                      ),
+                    ),
+                  );
+                }
               ),
-
+        
               if(addr != null) 
               Container(
                 margin: const EdgeInsets.all(paddingSize),
@@ -69,7 +92,7 @@ Widget _qrWidget(String? addr) {
                   fontSize: 16,
                 ),
               )
-        
+                
               else Consumer<SDKProvider>(
                 builder: (context, pro, wg) {
                   return Container(
@@ -119,7 +142,9 @@ Widget _warnMsg() {
   );
 }
 
-Widget _optionBtn(BuildContext context) {
+Widget _optionBtn(BuildContext context, ReceiveUcImpl receiveImpl, String? addr) {
+
+  print("addr ${addr ?? 'null'}");
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Row(
@@ -131,8 +156,9 @@ Widget _optionBtn(BuildContext context) {
             FloatingActionButton(
               heroTag: "btnCopy",
               backgroundColor: Colors.white,
-              onPressed: () {
-                print(Provider.of<SDKProvider>(context, listen: false).getSdkImpl.evmAddress);
+              onPressed: () async {
+                // print(Provider.of<SDKProvider>(context, listen: false).getSdkImpl.evmAddress);
+                await receiveImpl.copyAddress(addr ?? Provider.of<SDKProvider>(context, listen: false).getSdkImpl.getSELAddress);
               },
               child: Icon(
                 Iconsax.copy,
@@ -160,7 +186,9 @@ Widget _optionBtn(BuildContext context) {
             FloatingActionButton(
               heroTag: "btnShare",
               backgroundColor: Colors.white,
-              onPressed: () {},
+              onPressed: () async {
+                await receiveImpl.shareAddress(addr ?? Provider.of<SDKProvider>(context, listen: false).getSdkImpl.getSELAddress);
+              },
               child: Icon(
                 Iconsax.share,
                 size: 35,

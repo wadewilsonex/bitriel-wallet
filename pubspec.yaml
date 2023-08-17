@@ -76,6 +76,7 @@ dependencies:
   dropdown_button2: ^2.3.7
   flutter_inappwebview: ^5.7.2+3
   url_launcher: ^6.1.12
+  share_plus: ^7.1.0
   
 dependency_overrides:
   polkawallet_sdk:

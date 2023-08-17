@@ -186,91 +186,104 @@ PreferredSizeWidget defaultAppBar({
           top: Radius.circular(25.0),
         ),
       ),
-      builder: (context) => 
-      Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 0, left: 15, right: 0, bottom: 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const MyTextConstant(
-                  text: "Swtich Account",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                ),
-
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Iconsax.close_circle, 
-                    color: hexaCodeToColor(AppColors.midNightBlue),
-                  )
-                )
-              ],
-            ),
-          ),
-          
-          Flexible(
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: multiAccountImpl.getAllAccount.length,
-              itemBuilder:(context, index) {
-          
-                return Container(
-                  color: currentIndex == index ? hexaCodeToColor(AppColors.primary).withOpacity(0.25) : Colors.transparent,
-                  
-                  child: ListTile(
-                    leading: multiAccountImpl.getAllAccount[index].icon == null ? 
-                    const CircleAvatar() : 
-                    RandomAvatar(
-                      multiAccountImpl.getAllAccount[index].icon!, 
-                      alignment: Alignment.topLeft,
-                      height: 40,
-                      width: 40
-                    ),
-                    title: MyTextConstant(
-                      text: multiAccountImpl.getAllAccount[index].name ?? '',
-                      fontSize: 19,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 0, left: 15, right: 0, bottom: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const MyTextConstant(
+                      text: "Swtich Account",
                       fontWeight: FontWeight.w600,
-                      textAlign: TextAlign.start,
+                      fontSize: 18,
                     ),
-                    subtitle: MyTextConstant(
-                      text: multiAccountImpl.getAllAccount[index].address!.replaceRange(10, multiAccountImpl.getAllAccount[index].address!.length - 10, "........"),
-                      fontSize: 14,
-                      color2: hexaCodeToColor(AppColors.darkGrey),
-                      textAlign: TextAlign.start,
-                    ),
-                    trailing: currentIndex == index ? Icon(Icons.check_circle_rounded, color: hexaCodeToColor(AppColors.primary),) : const SizedBox(),
-                    onTap: () {
-                      multiAccountImpl.switchAccount(multiAccountImpl.getAllAccount[index]).then((value) => {
-                        Navigator.pop(context),
-                      });
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
 
-          multiAccountImpl.getAllAccount.length == 3 ? const SizedBox() : MyButton(
-            edgeMargin: const EdgeInsets.all(15),
-            textButton: "Add Account",
-            fontWeight: FontWeight.w600,
-            action: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  settings: RouteSettings(name: "/${BitrielRouter.multiAccRoute}"),
-                  builder: (context) => const MultiAccountScreen()
-                ) 
-              );
-            },
-          ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Iconsax.close_circle, 
+                        color: hexaCodeToColor(AppColors.midNightBlue),
+                      )
+                    )
+                  ],
+                ),
+              ),
+              
+              Flexible(
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: multiAccountImpl.getAllAccount.length,
+                  itemBuilder:(context, index) {
+              
+                    return Container(
+                      color: currentIndex == index ? hexaCodeToColor(AppColors.primary).withOpacity(0.25) : Colors.transparent,
+                      
+                      child: ListTile(
+                        leading: multiAccountImpl.getAllAccount[index].icon == null ? 
+                        const CircleAvatar() : 
+                        RandomAvatar(
+                          multiAccountImpl.getAllAccount[index].icon!, 
+                          alignment: Alignment.topLeft,
+                          height: 40,
+                          width: 40
+                        ),
+                        title: MyTextConstant(
+                          text: multiAccountImpl.getAllAccount[index].name ?? '',
+                          fontSize: 19,
+                          fontWeight: FontWeight.w600,
+                          textAlign: TextAlign.start,
+                        ),
+                        subtitle: MyTextConstant(
+                          text: multiAccountImpl.getAllAccount[index].address!.replaceRange(10, multiAccountImpl.getAllAccount[index].address!.length - 10, "........"),
+                          fontSize: 14,
+                          color2: hexaCodeToColor(AppColors.darkGrey),
+                          textAlign: TextAlign.start,
+                        ),
+                        trailing: currentIndex == index ? Icon(Icons.check_circle_rounded, color: hexaCodeToColor(AppColors.primary),) : const SizedBox(),
+                        onTap: () async {
 
-        ],
+                          await multiAccountImpl.switchAccount(multiAccountImpl.getAllAccount[index]).then((value) => {
+                            Navigator.pop(context),
+                          });
+
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              multiAccountImpl.getAllAccount.length == 3 ? const SizedBox() : MyButton(
+                edgeMargin: const EdgeInsets.all(15),
+                textButton: "Add Account",
+                fontWeight: FontWeight.w600,
+                action: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      settings: RouteSettings(name: "/${BitrielRouter.multiAccRoute}"),
+                      builder: (context) => const MultiAccountScreen()
+                    ) 
+                  );
+                  
+                  currentIndex = multiAccountImpl.getAllAccount.indexWhere((element) {
+                    if (multiAccountImpl.getAccount.address == element.address){
+                      return true;
+                    }
+                    return false;
+                  });
+
+                },
+              ),
+
+            ],
+          );
+        }
       )
     );
   }

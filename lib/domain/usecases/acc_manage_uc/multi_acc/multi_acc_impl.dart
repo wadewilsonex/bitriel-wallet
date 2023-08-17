@@ -6,9 +6,12 @@ class MultiAccountImpl implements MultiAccountUsecases {
 
   SDKProvider? sdkProvier;
 
+  WalletProvider? walletProvider;
+
   void setContext(BuildContext ctx, {bool listen = true}){
     _context = ctx;
     sdkProvier = Provider.of<SDKProvider>(ctx, listen: listen);
+    walletProvider = Provider.of<WalletProvider>(ctx, listen: listen);
   }
 
   KeyPairData get getAccount => sdkProvier!.getSdkImpl.getKeyring.current;
@@ -72,13 +75,26 @@ class MultiAccountImpl implements MultiAccountUsecases {
       }
     );
 
+
+
   }
 
   Future<void> switchAccount(KeyPairData acc) async {
     
+    dialogLoading(_context!);
+      
+    await sdkProvier!.fetchAllAccount();
+
+    // reset wallet state
+    walletProvider!.initState();
+
+    // Refetch asset balance
+    await walletProvider!.getAsset();
+
     sdkProvier!.getSdkImpl.getKeyring.setCurrent(acc);
 
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     sdkProvier!.notifyListeners();
+    Navigator.pop(_context!);
   }
 }

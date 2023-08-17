@@ -20,6 +20,8 @@ class SDKProvider with ChangeNotifier {
 
   ValueNotifier<bool> isMainnet = ValueNotifier(true);
 
+  int currentAccIndex = 0;
+
   // get bool getIsMainNet => _sdkImpl.
 
   set setBuildContext(BuildContext ctx) {
@@ -144,12 +146,21 @@ class SDKProvider with ChangeNotifier {
   /// To Identify status verify at Wallet screen.
   /// And Setup Evm and BTC Address 
   Future<void> fetchAllAccount() async {
-    
+
+    print("fetchAllAccount");
     await _accountManagementImpl.fetchAccount();
 
-    setEvmAddress = getUnverifyAcc[0].ethAddress!;
+    currentAccIndex = _sdkImpl.getKeyring.allAccounts.indexWhere((element) {
+      
+      if (_sdkImpl.getKeyring.current.address == element.address) return true;
+
+      return false;
+    });
+
+    setEvmAddress = getUnverifyAcc[currentAccIndex].ethAddress!;
     
-    setBtcAddress = getUnverifyAcc[0].btcAddress!;
+    setBtcAddress = getUnverifyAcc[currentAccIndex].btcAddress!;
+
   }
 
   Future<void> disconnect() async {

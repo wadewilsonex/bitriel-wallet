@@ -5,6 +5,7 @@ export 'package:flutter/services.dart';
 export 'package:flutter/foundation.dart';
 export 'dart:convert';
 export 'package:dropdown_button2/dropdown_button2.dart';
+export 'package:flutter/rendering.dart';
 
 // Pub & Packages
 export 'package:bitriel_wallet/app.dart';
@@ -53,6 +54,8 @@ export 'package:polkawallet_sdk/service/tx.dart';
 export 'package:polkawallet_sdk/api/api.dart';
 
 export 'package:bitriel_wallet/data/storage.dart';
+
+export 'package:share_plus/share_plus.dart';
 
 /*---------- Data Layer ----------*/
 
@@ -122,6 +125,8 @@ export 'package:bitriel_wallet/domain/usecases/add_asset_uc/add_asset_impl.dart'
 export 'package:bitriel_wallet/domain/usecases/payment_uc/payment_us.dart';
 export 'package:bitriel_wallet/domain/usecases/payment_uc/payment_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/lets_exchange_uc/lets_exchange_uc.dart';
+
+export 'package:bitriel_wallet/domain/usecases/wallet_uc/receive_uc.dart';
 
 /*---------- Presentation Layer ----------*/
 

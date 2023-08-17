@@ -123,7 +123,7 @@ class WalletProvider with ChangeNotifier {
     await queryBep20Balance();
     await queryErc20Balance();
 
-    sortAsset();
+    await sortAsset();
     // await queryCoinsBalance();
   }
 
@@ -167,6 +167,8 @@ class WalletProvider with ChangeNotifier {
           element.address = sdkProvider!.getSdkImpl.btcAddress;
           element.balance = await _walletUsecases.getBtcBalance();
         } else {
+          
+          element.address = sdkProvider!.getSdkImpl.getSELAddress;
           element.balance = await _walletUsecases.fetchSELAddress();
         }
         sortListContract!.add(element);

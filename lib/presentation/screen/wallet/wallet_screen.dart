@@ -31,17 +31,17 @@ class WalletScreen extends StatelessWidget {
         child: Column(
           children: [
             
-            ValueListenableBuilder(
-              valueListenable: Provider.of<SDKProvider>(context, listen: false).isMainnet, 
-              builder: (context, value, wg){
-                return Switch(
-                  value: value,
-                  onChanged: (value) {
-                    walletPro.switchChange(value);
-                  },
-                );
-              }
-            ),
+            // ValueListenableBuilder(
+            //   valueListenable: Provider.of<SDKProvider>(context, listen: false).isMainnet, 
+            //   builder: (context, value, wg){
+            //     return Switch(
+            //       value: value,
+            //       onChanged: (value) {
+            //         walletPro.switchChange(value);
+            //       },
+            //     );
+            //   }
+            // ),
             
             _cardPortfolio(context),
 
@@ -141,7 +141,7 @@ class WalletScreen extends StatelessWidget {
           ),
 
           MyTextConstant(
-            text: "\$125.42",
+            text: "\$0.0",
             color2: hexaCodeToColor(AppColors.midNightBlue),
             fontSize: 30,
             fontWeight: FontWeight.w600,
@@ -310,7 +310,7 @@ class WalletScreen extends StatelessWidget {
               children: [
 
                 MyTextConstant(
-                  text: element.balance == null ? '0' : double.parse(element.balance!).toStringAsFixed(2), //assetsModel[assetsModel.indexOf(element)].balance!,
+                  text: element.balance == null ? '0' : double.parse(element.balance!.replaceAll(",", "")).toStringAsFixed(2), //assetsModel[assetsModel.indexOf(element)].balance!,
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.start,
                 ),
