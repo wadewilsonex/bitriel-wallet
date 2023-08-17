@@ -271,7 +271,7 @@ class WalletScreen extends StatelessWidget {
                   textAlign: TextAlign.start,
                 ),
 
-                assetsModel[assetsModel.indexOf(element)].org! == "BEP20" ? 
+                assetsModel[assetsModel.indexOf(element)].isBep20 == true ? 
                 Card(
                   color: hexaCodeToColor(AppColors.cardColor),
                   child: const Padding(
@@ -284,7 +284,7 @@ class WalletScreen extends StatelessWidget {
                   ),
                 ) : Container(),
 
-                assetsModel[assetsModel.indexOf(element)].org! == "ERC-20" ? 
+                assetsModel[assetsModel.indexOf(element)].isErc20 == true ? 
                 Card(
                   color: hexaCodeToColor(AppColors.cardColor),
                   child: const Padding(

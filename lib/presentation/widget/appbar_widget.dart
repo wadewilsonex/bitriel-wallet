@@ -158,7 +158,11 @@ PreferredSizeWidget defaultAppBar({
                 color: hexaCodeToColor(AppColors.midNightBlue),
               ),
               onPressed: () async {
-
+                await QuickAlert.show(
+                  context: context,
+                  type: QuickAlertType.info,
+                  text: 'In Development',
+                );
               },
             ),
           ),
@@ -271,11 +275,13 @@ PreferredSizeWidget defaultAppBar({
                     ) 
                   );
                   
-                  currentIndex = multiAccountImpl.getAllAccount.indexWhere((element) {
-                    if (multiAccountImpl.getAccount.address == element.address){
-                      return true;
-                    }
-                    return false;
+                  setState((){
+                    currentIndex = multiAccountImpl.getAllAccount.indexWhere((element) {
+                      if (multiAccountImpl.getAccount.address == element.address){
+                        return true;
+                      }
+                      return false;
+                    });
                   });
 
                 },

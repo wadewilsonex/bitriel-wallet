@@ -228,6 +228,8 @@ class WalletProvider with ChangeNotifier {
           });
         }
 
+        print("balance ${bep20.balance}");
+
         sortListContract!.add(bep20);
       }
 
