@@ -29,29 +29,34 @@ class TokenPayment extends StatelessWidget {
               valueListenable: paymentUcImpl.index, 
               builder: (context, value, wg){
                 if (paymentUcImpl.lstContractDropDown.isEmpty) return const SizedBox();
-                return Column(
-                  children: [
-                    Text(paymentUcImpl.lstContractDropDown[value].balance ?? 0.toString(), style: const TextStyle(fontSize: 30),),
-                    Text(paymentUcImpl.lstContractDropDown[value].symbol!)
-                  ],
+                return Container(
+                  margin: const EdgeInsets.only(right: 16.0, left: 16.0, top: 8.0, bottom: 0.0),
+                  child: Card(
+                    color: hexaCodeToColor(AppColors.white),
+                    child: ListTile(
+                      leading: const CircleAvatar(),
+                      title: MyTextConstant(
+                        text: double.parse(paymentUcImpl.lstContractDropDown[value].balance!).toStringAsFixed(2),
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        textAlign: TextAlign.start,
+                      ),
+                      subtitle: MyTextConstant(
+                        text: "${paymentUcImpl.lstContractDropDown[value].name!} (${paymentUcImpl.lstContractDropDown[value].symbol!})",
+                        textAlign: TextAlign.start,
+                        fontSize: 12,
+                      ),
+                      trailing: const Icon(Iconsax.arrow_right_3),
+                      onTap: () {
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (builder) => SelectCoin(paymentUcImpl: paymentUcImpl))
+                        );
+                      },
+                    ),
+                  ),
                 );
               }
-            ),
-      
-            // Consumer<WalletProvider>(
-            //   builder: (context, pro, wg){
-            // //     return dropDown(pro.sortListContract!, paymentUcImpl);
-            //   },
-            // ),
-
-            InkWell(
-              onTap: (){
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute(builder: (builder) => SelectCoin(paymentUcImpl: paymentUcImpl) )
-                );
-              },
-              child: const Text("Select Token")
             ),
       
             _getEnterAddrSection(paymentUcImpl),

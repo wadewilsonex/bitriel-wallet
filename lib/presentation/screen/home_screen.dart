@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
       // padding: const EdgeInsets.all(14),
       margin: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: hexaCodeToColor(AppColors.cardColor),
+        color: hexaCodeToColor(AppColors.cardColor).withOpacity(0.70),
         borderRadius: const BorderRadius.all(Radius.circular(20))
       ),
       child: Column(

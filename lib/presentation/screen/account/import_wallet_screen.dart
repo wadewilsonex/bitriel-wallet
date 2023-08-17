@@ -22,6 +22,7 @@ class ImportWalletScreen extends StatelessWidget {
     // importWalletImpl.isSeedValid.value = isSeed!;
 
     return Scaffold(
+      appBar: appBar(context, title: "Import Mnemonic"),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -32,6 +33,14 @@ class ImportWalletScreen extends StatelessWidget {
             //   title: 'Restore with seed', 
             //   subTitle: 'Please add your 12 words seed below to restore your wallet.'
             // ),
+
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: MyTextConstant(
+                text: "Please add your 12 words seed below to restore your wallet.",
+                textAlign: TextAlign.start,
+              ),
+            ),
       
             Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,

@@ -32,7 +32,7 @@ class VerifySeedScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06) : hexaCodeToColor("#E8E8E8"),
+                    color: hexaCodeToColor(AppColors.cardColor),
                     borderRadius: BorderRadius.circular(12)
                   ),
                   child: Column(
@@ -68,8 +68,6 @@ class VerifySeedScreen extends StatelessWidget {
                 ValueListenableBuilder(
                   valueListenable: createWalletImpl!.tmpThreeSeedIndex, 
                   builder: (context, value, wg){
-                    
-                    // if (createWalletImpl!.tmpThreeSeedIndex.value.isNotEmpty) 
                     return Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Container(
@@ -102,52 +100,51 @@ class VerifySeedScreen extends StatelessWidget {
                 ValueListenableBuilder(
                   valueListenable: createWalletImpl!.isReset, 
                   builder: (context, value, wg){
-                    if (value == false) return const SizedBox();
+                    // if (value == false) return const SizedBox();
                     return Align(
                       alignment: Alignment.center,
                       child: InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
+                        child: const Padding(
+                          padding: EdgeInsets.all(15),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 30),
-                              const SizedBox(width: 9),
-                              const MyTextConstant(
-                                text: "Try Again",
+                              Icon(Iconsax.refresh),
+                              SizedBox(width: 9),
+                              MyTextConstant(
+                                text: "Refresh",
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,  
                               ),
                             ],
                           ),
                         ),
-                        onTap: () => createWalletImpl!.remove3Seeds(isReset: true)
+                        onTap: () => {
+                          createWalletImpl!.remove3Seeds(isReset: true),
+                        }
                       ),
                     );
                   }
                 ),
   
                 Flexible(child: Container()),
-                
-                // Consumer<VerifySeedsProvider>(
-                //   builder: (context, pro, wg){
-                //     return pro.isVerifying == false ? 
-                    MyFlatButton(
-                      height: 60,
-                      isTransparent: true,
-                      buttonColor: AppColors.whiteHexaColor,
-                      textColor: AppColors.primaryColor,
-                      textButton: "Verify Later",
-                      action: () async {
-                        await seedVerifyLaterDialog(context, createWalletImpl!.verifyLater);
-                      },
-                    ),
-                //     : Container();
-                //   }
-                // ),
 
+                MyButton(
+                  textButton: "Verify Later",
+                  fontWeight: FontWeight.w600,
+                  textColor: AppColors.primaryBtn,
+                  borderWidth: 1,
+                  isTransparent: true,
+                  isTransparentOpacity: 0,
+                  action: () async {
+
+                    await seedVerifyLaterDialog(context, createWalletImpl!.verifyLater);
+
+                  },
+                ),
+                
                 const SizedBox(height: 10,),
 
                 ValueListenableBuilder(
@@ -155,7 +152,7 @@ class VerifySeedScreen extends StatelessWidget {
                   builder: (context, value, wg){
                     return MyButton(
                       textButton: "Next",
-                      isTransparent: !  value,
+                      isTransparent: !value,
                       action: value == false ? null : () async {
                         // submit!();
                         await createWalletImpl!.addAndImport();

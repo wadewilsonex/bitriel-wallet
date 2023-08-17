@@ -36,7 +36,7 @@ class SeedsCompoent {
           alignment: Alignment.center,
           margin: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.primary),
+            color: hexaCodeToColor(AppColors.primaryBtn).withOpacity(0.66),
             borderRadius: const BorderRadius.all(Radius.circular(50)),
           ),
           // color: grey,
@@ -76,7 +76,7 @@ class SeedsCompoent {
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.primary),
+          color: hexaCodeToColor(AppColors.primaryBtn).withOpacity(0.66),
           borderRadius: const BorderRadius.all(Radius.circular(50)),
         ),
         // color: grey,
@@ -150,11 +150,25 @@ Future<void> seedVerifyLaterDialog(BuildContext context, Function? submit) async
 
                 const SizedBox(height: 10,),
 
+                // MyButton(
+                //   textButton: "Yes, Verify Later",
+                //   fontWeight: FontWeight.w600,
+                //   textColor: AppColors.primaryBtn,
+                //   borderWidth: 1,
+                //   isTransparent: true,
+                //   isTransparentOpacity: 0,
+                //   action: () async {
+
+                //     await multiAccountImpl.importWallet();
+
+                //   },
+                // ),
                 MyButton(
                   textButton: "Yes, Verify Later",
                   buttonColor: AppColors.white,
                   opacity: 0,
-                  textColor: isCheck == false ? AppColors.lightGrey : AppColors.primary,
+                  borderWidth: 1,
+                  textColor: isCheck == false ? AppColors.lightGrey : AppColors.primaryBtn,
                   action: (){
                     isCheck == false ? null : submit!();
                   }
