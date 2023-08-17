@@ -8,7 +8,7 @@ class AppColors {
   // Card
   static const String cardColor = "#E8F4FA";
   // Accents, CTAs, Links…
-  static const String primary = "#F27D3C";
+  static const String primary = "#347AF0"; //"#F27D3C";
 
   // Positive states, Success…
   static const String green = "#59BC7C";
@@ -71,7 +71,7 @@ class AppColors {
 
   /// Branding Color
   // orange
-  static const String primaryColor = "#F29F05";
+  // static const String primaryColor = "#F29F05";
   static const String orangeColor = "#F27649";
 
   //mono black

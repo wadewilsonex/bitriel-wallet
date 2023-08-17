@@ -203,7 +203,7 @@ class AddAsset extends StatelessWidget {
 
             Row(
               children: [
-                Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primaryColor),),
+                Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primary),),
               ],
             )
           ],

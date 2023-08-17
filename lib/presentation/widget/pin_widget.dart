@@ -28,15 +28,15 @@ class DotPin extends StatelessWidget {
             child: ValueListenableBuilder(
               valueListenable: txt!, 
               builder: (context, value, wg){
-                return txt!.value.isEmpty ? const SizedBox() : const Icon(Icons.circle, color: Color(0xFFF29F05),);
+                return txt!.value.isEmpty ? const SizedBox() : Icon(Icons.circle, color: hexaCodeToColor(AppColors.primary));
               }
             ),
           ),
     
           Container(
             height: 5,
-            decoration: const BoxDecoration(
-              color: Color(0xFFF29F05)
+            decoration: BoxDecoration(
+              color: hexaCodeToColor(AppColors.primary).withOpacity(0.5)
             ),
           ),
 

@@ -158,7 +158,11 @@ PreferredSizeWidget defaultAppBar({
                 color: hexaCodeToColor(AppColors.midNightBlue),
               ),
               onPressed: () async {
-
+                await QuickAlert.show(
+                  context: context,
+                  type: QuickAlertType.info,
+                  text: 'In Development',
+                );
               },
             ),
           ),

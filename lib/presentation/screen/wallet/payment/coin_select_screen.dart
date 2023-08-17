@@ -37,14 +37,6 @@ class SelectCoin extends StatelessWidget {
     );
   }
 
-  String _getTokenChain({required WalletProvider value, required int index}) {
-    return (value.sortListContract![index].isBep20!) ? "BEP20" :
-      (value.sortListContract![index].isErc20!) ? "ERC20" :
-      (value.sortListContract![index].isEther!) ? "Ethereum" :
-      (value.sortListContract![index].isBSC!) ? "BSC" : 
-      "Native";
-  }  
-
   Widget _listTokenItem({required BuildContext context, required WalletProvider value, required int index, required String name, required String symbol, required String balance}) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -61,7 +53,7 @@ class SelectCoin extends StatelessWidget {
             textAlign: TextAlign.start,
           ),
 
-          value.sortListContract![index].org == "BEP20" ? 
+          value.sortListContract![index].isBep20 == true ? 
           Card(
             color: hexaCodeToColor(AppColors.cardColor),
             child: const Padding(
@@ -74,7 +66,7 @@ class SelectCoin extends StatelessWidget {
             ),
           ) : Container(),
 
-          value.sortListContract![index].org == "ERC-20" ? 
+          value.sortListContract![index].isErc20 == true ? 
           Card(
             color: hexaCodeToColor(AppColors.cardColor),
             child: const Padding(

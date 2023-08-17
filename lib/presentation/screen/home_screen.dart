@@ -101,8 +101,12 @@ class HomeScreen extends StatelessWidget {
                           title: "Staking",
                           asset: "assets/icons/stake.png",
                           hexColor: "#FF9F00",
-                          action: () {
-                            // underContstuctionAnimationDailog(context: context);
+                          action: () async {
+                            await QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.info,
+                              text: 'In Development',
+                            );
                           },
                         ),
                       ),
@@ -120,7 +124,11 @@ class HomeScreen extends StatelessWidget {
                           asset: "assets/icons/wallet.png",
                           hexColor: "#FF0071",
                           action: () async {
-                            // underContstuctionAnimationDailog(context: context);
+                            await QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.info,
+                              text: 'In Development',
+                            );
                           },
                         ),
                       ),
@@ -132,8 +140,12 @@ class HomeScreen extends StatelessWidget {
                           title: "Bitriel NFTs",
                           asset: "assets/icons/digital.png",
                           hexColor: "#6C15ED",
-                          action: () {
-                            
+                          action: () async {
+                            await QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.info,
+                              text: 'In Development',
+                            );
                           },
                         ),
                       ),
@@ -185,8 +197,12 @@ class HomeScreen extends StatelessWidget {
           child: ScrollMenuItem(
             title: menuName[index], 
             asset: menuImage[index],
-            action: () {
-          
+            action: () async{
+              await QuickAlert.show(
+                context: context,
+                type: QuickAlertType.info,
+                text: 'In Development',
+              );
             }
           ),
         );

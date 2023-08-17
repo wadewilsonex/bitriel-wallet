@@ -218,6 +218,9 @@ class WalletProvider with ChangeNotifier {
 
         sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", bep20.contract!);
         if (bep20.symbol!.toLowerCase() == "usdt" && sdkProvider!.isMainnet.value == true){
+
+          bep20.address = sdkProvider!.getSdkImpl.evmAddress;
+
           await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getBscClient, sdkProvider!.getSdkImpl.bscDeployedContract!, sdkProvider!.getSdkImpl.evmAddress ).then((value) {
             
             print("Blanace ${bep20.balance}");
@@ -231,6 +234,8 @@ class WalletProvider with ChangeNotifier {
             bep20.balance = (value[0] / BigInt.from(pow(10, bep20.chainDecimal! ))).toString();
           });
         }
+
+        print("balance ${bep20.balance}");
 
         sortListContract!.add(bep20);
       }
@@ -252,6 +257,9 @@ class WalletProvider with ChangeNotifier {
       print(erc20.symbol);
       print(erc20.chainDecimal);
       if (erc20.symbol!.toLowerCase() == "usdt"){
+        
+        erc20.address = sdkProvider!.getSdkImpl.evmAddress;
+        
         erc20.balance = (await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getEthClient, sdkProvider!.getSdkImpl.etherDeployedContract!, sdkProvider!.getSdkImpl.evmAddress))[0].toString();
 
       }

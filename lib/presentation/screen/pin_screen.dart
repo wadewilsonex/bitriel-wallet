@@ -210,7 +210,7 @@ class PincodeScreenState extends State<PincodeScreen> {
                 builder: (context, value, wg){
                   return MyTextConstant(
                     text: value == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
-                    color2: hexaCodeToColor(AppColors.primaryColor),
+                    color2: hexaCodeToColor(AppColors.primary),
                     fontWeight: FontWeight.w700,
                   );
                 },

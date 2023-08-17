@@ -192,8 +192,11 @@ class _TokenInfoState extends State<TokenInfo> {
             buttonColor: "#00A478",
             opacity: 0.9,
             action: () async {
-
-            
+              await QuickAlert.show(
+                context: context,
+                type: QuickAlertType.info,
+                text: 'In Development',
+              );
             },
           ),
         ),
@@ -206,7 +209,11 @@ class _TokenInfoState extends State<TokenInfo> {
             buttonColor: "#ED2727",
             opacity: 0.9,
             action: () async {
-
+              await QuickAlert.show(
+                context: context,
+                type: QuickAlertType.info,
+                text: 'In Development',
+              );
             },
           ),
         )
