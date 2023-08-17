@@ -84,11 +84,7 @@ class MultiAccountImpl implements MultiAccountUsecases {
     dialogLoading(_context!);
       
     sdkProvier!.getSdkImpl.getKeyring.setCurrent(acc);
-<<<<<<< HEAD
     
-=======
-
->>>>>>> v9_samnang
     await sdkProvier!.fetchAllAccount();
 
     // reset wallet state
@@ -97,10 +93,6 @@ class MultiAccountImpl implements MultiAccountUsecases {
     // Refetch asset balance
     await walletProvider!.getAsset();
 
-<<<<<<< HEAD
-
-=======
->>>>>>> v9_samnang
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     sdkProvier!.notifyListeners();
 

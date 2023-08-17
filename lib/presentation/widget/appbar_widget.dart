@@ -64,7 +64,7 @@ PreferredSizeWidget defaultAppBar({
           child: GestureDetector(
             onTap: () async{
 
-              await _selectAccount(context, multiAccountImpl);
+              // await _selectAccount(context, multiAccountImpl);
 
             },
             child: Padding(

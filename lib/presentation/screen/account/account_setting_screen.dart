@@ -12,7 +12,7 @@ class AccountSettingScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          _inputWalletName(),
+          // _inputWalletName(),
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
