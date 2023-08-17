@@ -51,7 +51,9 @@ class MultiAccountScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AccountSettingScreen()
+                      builder: (context) => const AccountSettingScreen(
+                        
+                      )
                     )
                   );
                 },
