@@ -71,7 +71,7 @@ class SwapExchange extends StatelessWidget {
                             onPressed: (){
                               
                             },
-                            icon: Icon(Iconsax.refresh_circle, color: hexaCodeToColor(AppColors.primaryColor), size: 35,)
+                            icon: const Icon(Iconsax.refresh_circle, size: 35,)
                           ),
                         ),
                       
@@ -280,9 +280,8 @@ class SwapExchange extends StatelessWidget {
             color2: hexaCodeToColor("#949393"),
           ),
       
-          Icon(
+          const Icon(
             Iconsax.arrow_down_1,
-            color: hexaCodeToColor(AppColors.primaryColor),
             size: 20
           ),
         ],

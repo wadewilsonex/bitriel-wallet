@@ -76,7 +76,7 @@ class ConfirmSwapExchange extends StatelessWidget {
               onPressed: (){
                 
               },
-              icon: Icon(Iconsax.arrow_down, color: hexaCodeToColor(AppColors.primaryColor), size: 35,)
+              icon: Icon(Iconsax.arrow_down, color: hexaCodeToColor(AppColors.primary), size: 35,)
             ),
           ),
     
@@ -149,7 +149,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                     ),
                     
                     IconButton(
-                      icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20),
+                      icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20),
                       onPressed: () {
                         Clipboard.setData(
                           const ClipboardData(text: "0x1233r43....4j53213112d"),
@@ -183,7 +183,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                     ),
                     
                     IconButton(
-                      icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20),
+                      icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20),
                       onPressed: () {
                         Clipboard.setData(
                           const ClipboardData(text: "0x1233r43....4j53213112d"),
@@ -260,7 +260,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                           MyTextConstant(
                             text: "Copy Exchange ID to check \ntransaction status",
                             fontSize: 11,
-                            color2: hexaCodeToColor(AppColors.primaryColor),
+                            color2: hexaCodeToColor(AppColors.primary),
                             textAlign: TextAlign.start,
                           ),
                     
@@ -276,7 +276,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                     ),
     
                     IconButton(
-                      icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,),
+                      icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20,),
                       onPressed: () {
                         Clipboard.setData(
                           const ClipboardData(text: "12321321314"),

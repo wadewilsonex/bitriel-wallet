@@ -84,8 +84,8 @@ class TokenPayment extends StatelessWidget {
                           edgeMargin: const EdgeInsets.all(10),
                           textButton: "Send",
                           fontWeight: FontWeight.w600,
-                          buttonColor: value == false ? AppColors.grey : AppColors.primary,
-                          opacity: 0.9,
+                          buttonColor: value == false ? AppColors.grey : AppColors.primaryBtn,
+                          opacity: 1,
                           action: 
                           // value == false ? null : 
                           () async {
