@@ -40,10 +40,17 @@ class SelectCoin extends StatelessWidget {
   Widget _listTokenItem({required BuildContext context, required WalletProvider value, required int index, required String name, required String symbol, required String balance}) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
-      leading: const SizedBox(
-        height: 30, 
-        width: 30, 
-        child: CircleAvatar(),
+      leading: SizedBox(
+        height: 35,
+        width: 35,
+        child: value.sortListContract![index].logo != null ? 
+          Image.network(value.sortListContract![index].logo!, height: 35, width: 35,) : 
+          CircleAvatar(
+            child: MyTextConstant(
+              text: value.sortListContract![index].isBep20 == true ? "BEP20" : "ERC20",
+              fontSize: 9,
+            ),
+          ),
       ),
       title: Row(
         children: [
@@ -52,60 +59,25 @@ class SelectCoin extends StatelessWidget {
             fontWeight: FontWeight.w600,
             textAlign: TextAlign.start,
           ),
-
-          value.sortListContract![index].isBep20 == true ? 
+    
+          value.sortListContract![index].isNative == true || 
+          value.sortListContract![index].isEther == true ||
+          value.sortListContract![index].isBSC == true ?
+          Container() :
           Card(
             color: hexaCodeToColor(AppColors.cardColor),
-            child: const Padding(
-              padding: EdgeInsets.all(3.0),
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
               child: MyTextConstant(
-                text: "BNB Smart Chain",
+                text: value.sortListContract![index].isBep20 == true ? "BNB Smart Chain" : "Ethereum",
                 textAlign: TextAlign.start,
-                fontSize: 12,
+                fontSize: 10,
               ),
             ),
-          ) : Container(),
-
-          value.sortListContract![index].isErc20 == true ? 
-          Card(
-            color: hexaCodeToColor(AppColors.cardColor),
-            child: const Padding(
-              padding: EdgeInsets.all(3.0),
-              child: MyTextConstant(
-                text: "Ethereum",
-                textAlign: TextAlign.start,
-                fontSize: 12,
-              ),
-            ),
-          ) : Container()
-
+          ),
+    
         ],
       ),
-      // title: Row(
-      //   children: [
-      //     MyTextConstant(
-      //       text: name,
-      //       fontWeight: FontWeight.w600,
-      //       textAlign: TextAlign.start,
-      //     ),
-
-      //     const SizedBox(width: 2.5),
-
-      //     Container(
-      //       padding: const EdgeInsets.all(4.0),
-      //       decoration: BoxDecoration(
-      //         color: hexaCodeToColor(AppColors.cardColor),
-      //         borderRadius: BorderRadius.circular(5)
-      //       ),
-      //       child: MyTextConstant(
-      //         text: _getTokenChain(value: value, index: index),
-      //         fontWeight: FontWeight.w500,
-      //         textAlign: TextAlign.start,
-      //         fontSize: 12,
-      //       ),
-      //     ),
-      //   ],
-      // ),
       subtitle: MyTextConstant(
         text: symbol,
         color2: hexaCodeToColor(AppColors.grey),
@@ -119,7 +91,7 @@ class SelectCoin extends StatelessWidget {
         ),
       onTap: () {
         paymentUcImpl!.assetChanged(index);
-
+    
         Navigator.pop(context);
       },
     );

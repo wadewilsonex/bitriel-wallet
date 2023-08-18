@@ -34,20 +34,48 @@ class TokenPayment extends StatelessWidget {
                   child: Card(
                     color: hexaCodeToColor(AppColors.white),
                     child: ListTile(
-                      leading: paymentUcImpl.lstContractDropDown[value].logo != null ? Image.network(paymentUcImpl.lstContractDropDown[value].logo!) : CircleAvatar(child: Text(
-                        paymentUcImpl.lstContractDropDown[value].isBep20 == true ? "BEP20" : "ERC20",
-                        style: TextStyle(fontSize: 10),
-                      ),),
+                      leading: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: paymentUcImpl.lstContractDropDown[value].logo != null ? 
+                        Image.network(paymentUcImpl.lstContractDropDown[value].logo!, height: 40, width: 40,) : 
+                        CircleAvatar(
+                          child: MyTextConstant(
+                            text: paymentUcImpl.lstContractDropDown[value].isBep20 == true ? "BEP20" : "ERC20",
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
                       title: MyTextConstant(
                         text: double.parse(paymentUcImpl.lstContractDropDown[value].balance!).toStringAsFixed(2),
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
                         textAlign: TextAlign.start,
                       ),
-                      subtitle: MyTextConstant(
-                        text: "${paymentUcImpl.lstContractDropDown[value].name!} (${paymentUcImpl.lstContractDropDown[value].symbol!})",
-                        textAlign: TextAlign.start,
-                        fontSize: 12,
+                      subtitle: Row(
+                        children: [
+                          MyTextConstant(
+                            text: "${paymentUcImpl.lstContractDropDown[value].name!} (${paymentUcImpl.lstContractDropDown[value].symbol!})",
+                            textAlign: TextAlign.start,
+                            fontSize: 12,
+                          ),
+
+                          paymentUcImpl.lstContractDropDown[value].isNative == true || 
+                          paymentUcImpl.lstContractDropDown[value].isEther == true ||
+                          paymentUcImpl.lstContractDropDown[value].isBSC == true ?
+                          Container() :
+                          Card(
+                            color: hexaCodeToColor(AppColors.cardColor),
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: MyTextConstant(
+                                text: paymentUcImpl.lstContractDropDown[value].isBep20 == true ? "BNB Smart Chain" : "Ethereum",
+                                textAlign: TextAlign.start,
+                                fontSize: 10,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                       trailing: const Icon(Iconsax.arrow_right_3),
                       onTap: () {
