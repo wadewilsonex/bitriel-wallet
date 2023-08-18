@@ -254,13 +254,21 @@ class WalletScreen extends StatelessWidget {
           return ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
             leading: SizedBox(
-              height: 25, 
-              width: 25, 
-              child: Image.asset(
-                "assets/logo/bitriel-logo.png",
-                fit: BoxFit.contain,
-                height: 50,
-                width: 50,
+              height: 30, 
+              width: 30, 
+              child: assetsModel[assetsModel.indexOf(element)].logo != null ? CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Image.network(
+                  assetsModel[assetsModel.indexOf(element)].logo!,
+                  fit: BoxFit.contain,
+                  height: 50,
+                  width: 50,
+                ) 
+              )
+              : CircleAvatar(
+                backgroundColor: hexaCodeToColor(AppColors.cardColor),
+                child: assetsModel[assetsModel.indexOf(element)].isBep20 == true ? const MyTextConstant(text: "BEP20", fontSize: 9,)
+                : const MyTextConstant(text: "ERC20", fontSize: 9, ),
               ),
             ),
             title: Row(

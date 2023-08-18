@@ -156,7 +156,16 @@ class PaymentUcImpl implements PaymentUsecases {
         await QuickAlert.show(
           context: context!,
           type: QuickAlertType.success,
+          showCancelBtn: true,
+          cancelBtnText: "View Transaction",
+          cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
           text: 'Transaction Completed Successfully!',
+          // onCancelBtnTap: () async {
+          //   // await launchUrl(
+          //   //   Uri.parse("https://t.me/selendra"),
+          //   //   mode: LaunchMode.externalApplication,
+          //   // );
+          // }
         );
 
       } else if (trxMessage.value.isEmpty) {
