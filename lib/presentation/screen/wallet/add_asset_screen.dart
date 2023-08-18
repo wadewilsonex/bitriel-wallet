@@ -69,17 +69,25 @@ class AddAsset extends StatelessWidget {
 
             Expanded(child: Container()),
             ValueListenableBuilder(
-              valueListenable: addAssetUcImpl.isEnable, 
+              valueListenable: addAssetUcImpl.isLoadingBtn, 
               builder: (context, value, wg){
-                return MyButton(
-                  textButton: "Search",
-                  action: 
-                  // value == false ? null : 
+
+                return  MyButton(
+                  action: value == true ? null : 
                   () async {
       
                     await addAssetUcImpl.submitSeach();
       
-                  }
+                  },
+                  child: value == true ? 
+                  const CircularProgressIndicator(color: Colors.white) : 
+                  const MyTextConstant(
+                    text: "Search",
+                    color2: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    overflow: TextOverflow.ellipsis,
+                  )
                 );
               }
             )

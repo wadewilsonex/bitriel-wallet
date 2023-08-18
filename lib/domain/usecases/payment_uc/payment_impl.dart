@@ -27,6 +27,8 @@ class PaymentUcImpl implements PaymentUsecases {
   FocusNode addrNode = FocusNode();
   FocusNode amtNode = FocusNode();
 
+  String urlLauncher = "";
+
   set setBuildContext(BuildContext ctx){
     context = ctx;
     walletProvider = Provider.of<WalletProvider>(ctx, listen: false);
@@ -133,24 +135,39 @@ class PaymentUcImpl implements PaymentUsecases {
         if (walletProvider!.sortListContract![index.value].isBep20 == true) {
           // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
 
+            // 1
+            urlLauncher = "https://testnet.bscscan.com/tx/";
             await sendBep20();
           // }
         }
         else if (walletProvider!.sortListContract![index.value].isErc20 == true){
           // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
 
+      
+            // 1
+            urlLauncher = "https://goerli.etherscan.io/tx/";
+
             await sendErc20();
           // }
         }
         else if (walletProvider!.sortListContract![index.value].isBSC == true){
+      
+          // 1
+
+          urlLauncher = "https://testnet.bscscan.com/tx/";
           await sendBsc();
         }
         else if (walletProvider!.sortListContract![index.value].isEther == true){
+          // 1
+          urlLauncher = "https://goerli.etherscan.io/tx/";
           await sendEther();
         }
         else {
+          
           await sendNative();
         }
+
+        print("hash $hash");
 
         walletProvider!.sortListContract![index.value].trxHistory!.add(hash!);
 
@@ -167,12 +184,12 @@ class PaymentUcImpl implements PaymentUsecases {
           cancelBtnText: "View Transaction",
           cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
           text: 'Transaction Completed Successfully!',
-          // onCancelBtnTap: () async {
-          //   // await launchUrl(
-          //   //   Uri.parse("https://t.me/selendra"),
-          //   //   mode: LaunchMode.externalApplication,
-          //   // );
-          // }
+          onCancelBtnTap: () async {
+            await launchUrl(
+              Uri.parse("$urlLauncher$hash"),
+              mode: LaunchMode.externalApplication,
+            );
+          }
         );
 
       // } else if (trxMessage.value.isEmpty) {
@@ -257,8 +274,6 @@ class PaymentUcImpl implements PaymentUsecases {
     print('sendBep20');
     try {
       
-      // 1
-      
       String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
       EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
@@ -293,9 +308,7 @@ class PaymentUcImpl implements PaymentUsecases {
         ),
         chainId: null,
         fetchChainIdFromNetworkId: true,
-      ).then((value) {
-        print(value);
-      });
+      );
     } catch (e) {
       print("error sendBep20 ${e}");
     }
@@ -307,6 +320,7 @@ class PaymentUcImpl implements PaymentUsecases {
     try {
       
       // 1
+      urlLauncher = "https://goerli.etherscan.io/tx/";
       
       String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
@@ -342,9 +356,7 @@ class PaymentUcImpl implements PaymentUsecases {
         ),
         chainId: null,
         fetchChainIdFromNetworkId: true,
-      ).then((value) {
-        print(value);
-      });
+      );
     } catch (e) {
       print("error sendErc20 ${e}");
     }
@@ -380,9 +392,7 @@ class PaymentUcImpl implements PaymentUsecases {
         ),
         chainId: null,
         fetchChainIdFromNetworkId: true,
-      ).then((value) {
-        print(value);
-      });
+      );
     } catch (e) {
       print("error sendBsc ${e}");
     }
@@ -419,9 +429,7 @@ class PaymentUcImpl implements PaymentUsecases {
         ),
         chainId: null,
         fetchChainIdFromNetworkId: true,
-      ).then((value) {
-        print(value);
-      });
+      );
     } catch (e) {
       print("error sendEther ${e}");
     }

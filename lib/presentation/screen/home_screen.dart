@@ -156,19 +156,19 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(right: 14, left: 14, bottom: 14 / 2 ),
-            child: Divider(
-              color: hexaCodeToColor("#78839C").withOpacity(0.25),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 14, left: 14, bottom: 14 / 2 ),
+          //   child: Divider(
+          //     color: hexaCodeToColor("#78839C").withOpacity(0.25),
+          //   ),
+          // ),
 
-          SizedBox(
-            height: 30,
-            child: _listScrollMenuItem()
-          ),
+          // SizedBox(
+          //   height: 30,
+          //   child: _listScrollMenuItem()
+          // ),
 
-          const SizedBox(height: 14,),
+          // const SizedBox(height: 14,),
 
         ],
       ),

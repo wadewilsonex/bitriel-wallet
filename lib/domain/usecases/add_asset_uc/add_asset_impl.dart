@@ -26,6 +26,8 @@ class AddAssetUcImpl implements AddAssetUsecase{
   SmartContractModel? searched;
 
   ValueNotifier<bool> isSearching = ValueNotifier(false);
+
+  ValueNotifier<bool> isLoadingBtn = ValueNotifier(false);
   
   final SecureStorageImpl _secureStorageImpl = SecureStorageImpl();
 
@@ -54,6 +56,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
     isSearching.dispose();
     lstContractJson.dispose();
     isEnable.dispose();
+    isLoadingBtn.dispose();
   }
   
   /// 1.
@@ -96,16 +99,21 @@ class AddAssetUcImpl implements AddAssetUsecase{
       }
     } catch (e) {
       
+      isLoadingBtn.value = false;
+      
       await QuickAlert.show(
         context: _context!,
         type: QuickAlertType.error,
         text: '$e',
       );
+      
     }
   }
 
   // 2
   Future<void> searchContract(Web3Client client, DeployedContract deployedContract) async {
+
+    isLoadingBtn.value = true;
 
     String name = (await sdkProvider!.getSdkImpl.callWeb3ContractFunc(
       client, 
@@ -142,6 +150,8 @@ class AddAssetUcImpl implements AddAssetUsecase{
     );
 
     isSearching.value = true;
+
+    isLoadingBtn.value = false;
   }
 
   void resetController(){
@@ -243,7 +253,8 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
       await storeAddedAsset(searched!);
 
-      await walletProvider!.sortAsset();
+      // await walletProvider!.sortAsset();
+      walletProvider!.sortListContract!.add(searched!);
 
       // Close Dialog
       Navigator.pop(_context!);
@@ -254,6 +265,9 @@ class AddAssetUcImpl implements AddAssetUsecase{
         type: QuickAlertType.success,
         text: 'Successfully added ${searched!.name} to wallet',
       );
+
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      walletProvider!.notifyListeners();
 
     } catch (e) {
 

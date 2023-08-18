@@ -34,7 +34,10 @@ class TokenPayment extends StatelessWidget {
                   child: Card(
                     color: hexaCodeToColor(AppColors.white),
                     child: ListTile(
-                      leading: const CircleAvatar(),
+                      leading: paymentUcImpl.lstContractDropDown[value].logo != null ? Image.network(paymentUcImpl.lstContractDropDown[value].logo!) : CircleAvatar(child: Text(
+                        paymentUcImpl.lstContractDropDown[value].isBep20 == true ? "BEP20" : "ERC20",
+                        style: TextStyle(fontSize: 10),
+                      ),),
                       title: MyTextConstant(
                         text: double.parse(paymentUcImpl.lstContractDropDown[value].balance!).toStringAsFixed(2),
                         fontSize: 30,
@@ -169,36 +172,33 @@ Widget _getEnterAmountSection(PaymentUcImpl paymentUcImpl) {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
               child: Row(
                 children: <Widget>[
-                  SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: Image.asset("assets/logo/bitriel-logo.png", height: 30, width: 30,),
-                  ),
+                  // SizedBox(
+                  //   height: 30,
+                  //   width: 30,
+                  //   child: Image.asset("assets/logo/bitriel-logo.png", height: 30, width: 30,),
+                  // ),
                   // const Text(
                   //   '\$',
                   //   style: TextStyle(
                   //       fontWeight: FontWeight.bold, fontSize: 30.0),
                   // ),
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 12.0),
-                      child: TextFormField(
-                        controller: paymentUcImpl.amountController,
-                        keyboardType: TextInputType.number,
-                        // validator: paymentUcImpl.amtValidator,
-                        focusNode: paymentUcImpl.amtNode,
-                        onChanged: paymentUcImpl.onChanged,
-                        style: const TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black
-                        ),
-                        decoration: const InputDecoration(
-                          hintText: 'Amount',
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30.0
-                          )
-                        ),
+                    child: TextFormField(
+                      controller: paymentUcImpl.amountController,
+                      keyboardType: TextInputType.number,
+                      // validator: paymentUcImpl.amtValidator,
+                      focusNode: paymentUcImpl.amtNode,
+                      onChanged: paymentUcImpl.onChanged,
+                      style: const TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: 'Amount',
+                        labelStyle: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 30.0
+                        )
                       ),
                     ),
                   )

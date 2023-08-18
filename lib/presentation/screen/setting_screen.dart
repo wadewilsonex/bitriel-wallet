@@ -24,58 +24,24 @@ class SettingScreen extends StatelessWidget {
               SettingsGroup(
                 settingsGroupTitle: "General",
                 items: [
-                  // SettingsItem(
-                  //   onTap: () {},
-                  //   icons: CupertinoIcons.pencil_outline,
-                  //   iconStyle: IconStyle(),
-                  //   title: 'Appearance',
-                  //   subtitle: "Make Ziar'App yours",
-                  // ),
-                  // SettingsItem(
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(builder: (context) => const PrivacyScreen())
-                  //     );
-                  //   },
-                  //   icons: Icons.fingerprint_sharp,
-                  //   iconStyle: IconStyle(
-                  //     iconsColor: Colors.white,
-                  //     withBackground: true,
-                  //     backgroundColor: hexaCodeToColor(AppColors.primary),
-                  //   ),
-                  //   title: 'Privacy',
-                  //   subtitle: "Manage Your Privacy Settings",
-                  // ),
+
                   SettingsItem(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const PrivacyScreen())
+                      );
+                    },
                     icons: Icons.fingerprint_sharp,
                     iconStyle: IconStyle(
                       iconsColor: Colors.white,
                       withBackground: true,
-                      backgroundColor: Colors.green,
+                      backgroundColor: hexaCodeToColor(AppColors.primary),
                     ),
-                    title: 'Unlock with Biometric',
-                    trailing: Switch.adaptive(
-                      value: false,
-                      onChanged: (value) {},
-                    ),
+                    title: 'Privacy',
+                    subtitle: "Manage Your Privacy Settings",
                   ),
-                  // SettingsItem(
-                  //   onTap: () {},
-                  //   icons: Icons.dark_mode_rounded,
-                  //   iconStyle: IconStyle(
-                  //     iconsColor: Colors.white,
-                  //     withBackground: true,
-                  //     backgroundColor: Colors.green,
-                  //   ),
-                  //   title: 'Dark mode',
-                  //   subtitle: "Automatic",
-                  //   trailing: Switch.adaptive(
-                  //     value: false,
-                  //     onChanged: (value) {},
-                  //   ),
-                  // ),
+
                   SettingsItem(
                     onTap: () {
                       Navigator.push(
@@ -113,14 +79,7 @@ class SettingScreen extends StatelessWidget {
                       backgroundColor: hexaCodeToColor(AppColors.defiMenuItem),
                     ),
                   ),
-                  // SettingsItem(
-                  //   onTap: () {},
-                  //   icons: Iconsax.cloud_change,
-                  //   title: "Backup Account",
-                  //   iconStyle: IconStyle(
-                  //     backgroundColor: hexaCodeToColor(AppColors.midNightBlue),
-                  //   ),
-                  // ),
+                  
                   SettingsItem(
                     onTap: () async {
                       await QuickAlert.show(

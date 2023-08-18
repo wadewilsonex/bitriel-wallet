@@ -101,6 +101,7 @@ class WalletProvider with ChangeNotifier {
         return true;
       });
 
+      await queryNativeBalance();
       await queryEvmBalance();
       await queryBep20Balance();
       await queryErc20Balance();

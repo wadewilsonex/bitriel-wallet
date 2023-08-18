@@ -67,7 +67,7 @@ class WalletInfo extends StatelessWidget {
   Widget _infoTap(BuildContext context, SmartContractModel scModel) {
     return Column(
       children: [
-        _tokenIconHeader(price: double.parse((scModel.balance ?? '0.0').replaceAll(",", "")).toStringAsFixed(2)),
+        _tokenIconHeader(price: double.parse((scModel.balance ?? '0.0').replaceAll(",", "")).toStringAsFixed(2), scModel: scModel),
 
         // _chartAsset(context),
     
@@ -79,7 +79,7 @@ class WalletInfo extends StatelessWidget {
     );
   }
 
-  Widget _tokenIconHeader({required String price}) {
+  Widget _tokenIconHeader({required String price, SmartContractModel? scModel}) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -91,7 +91,9 @@ class WalletInfo extends StatelessWidget {
               child: SizedBox(
                 height: 80,
                 width: 80,
-                child: Image.asset("assets/logo/bitriel-logo.png", height: 80, width: 80,),
+                child: scModel!.logo != null ? Image.network(scModel!.logo!) : CircleAvatar(child: Text(
+                  scModel.isBep20 == true ? "BEP20" : "ERC20",
+                ),),
               ),
               // child: Image.network(
               //   market.logo, width: 80, height: 80, fit: BoxFit.fill,
