@@ -84,6 +84,7 @@ class MultiAccountImpl implements MultiAccountUsecases {
     dialogLoading(_context!);
       
     sdkProvier!.getSdkImpl.getKeyring.setCurrent(acc);
+    
     await sdkProvier!.fetchAllAccount();
 
     // reset wallet state
