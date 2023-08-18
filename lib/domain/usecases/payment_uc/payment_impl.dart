@@ -33,6 +33,8 @@ class PaymentUcImpl implements PaymentUsecases {
     _sdkProvider = Provider.of<SDKProvider>(ctx, listen: false);
   }
 
+  String? hash;
+
   void assetChanged(int value){
     index.value = value;
   }
@@ -124,21 +126,21 @@ class PaymentUcImpl implements PaymentUsecases {
       
       // Check Input Not Equal 0
       // Check Input Not Less than Existing coin's balance
-      if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
+      // if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
         
         dialogLoading(context!);
 
         if (walletProvider!.sortListContract![index.value].isBep20 == true) {
-          if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
+          // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
 
             await sendBep20();
-          }
+          // }
         }
         else if (walletProvider!.sortListContract![index.value].isErc20 == true){
-          if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
+          // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
 
             await sendErc20();
-          }
+          // }
         }
         else if (walletProvider!.sortListContract![index.value].isBSC == true){
           await sendBsc();
@@ -150,6 +152,11 @@ class PaymentUcImpl implements PaymentUsecases {
           await sendNative();
         }
 
+        walletProvider!.sortListContract![index.value].trxHistory!.add(hash!);
+
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+        walletProvider!.notifyListeners();
+
         // Close Dialog Loading
         Navigator.pop(context!);
 
@@ -159,9 +166,9 @@ class PaymentUcImpl implements PaymentUsecases {
           text: 'Transaction Completed Successfully!',
         );
 
-      } else if (trxMessage.value.isEmpty) {
-        trxMessage.value = "Balance must greater than 0";
-      }
+      // } else if (trxMessage.value.isEmpty) {
+      //   trxMessage.value = "Balance must greater than 0";
+      // }
 
     } catch (e) {
 
@@ -263,7 +270,7 @@ class PaymentUcImpl implements PaymentUsecases {
         ),
       ));
 
-      await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
+      hash = await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
         pkKey,
         Transaction.callContract(
           contract: _sdkProvider!.getSdkImpl.bscDeployedContract!,
@@ -312,7 +319,7 @@ class PaymentUcImpl implements PaymentUsecases {
         ),
       ));
 
-      await _sdkProvider!.getSdkImpl.getEthClient.sendTransaction(
+      hash = await _sdkProvider!.getSdkImpl.getEthClient.sendTransaction(
         pkKey,
         Transaction.callContract(
           contract: _sdkProvider!.getSdkImpl.etherDeployedContract!,
@@ -354,7 +361,7 @@ class PaymentUcImpl implements PaymentUsecases {
         value: EtherAmount.inWei(BigInt.from( double.parse(amountController.text) * pow(10, 18) )),
       ));
 
-      await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
+      hash = await _sdkProvider!.getSdkImpl.getBscClient.sendTransaction(
         pkKey,
         Transaction(
           // gasPrice: gasPrice,
@@ -393,7 +400,7 @@ class PaymentUcImpl implements PaymentUsecases {
         value: EtherAmount.inWei(BigInt.from( double.parse(amountController.text) * pow(10, 18) )),
       ));
 
-      await _sdkProvider!.getSdkImpl.getEthClient.sendTransaction(
+      hash = await _sdkProvider!.getSdkImpl.getEthClient.sendTransaction(
         pkKey,
         Transaction(
           // gasPrice: gasPrice,

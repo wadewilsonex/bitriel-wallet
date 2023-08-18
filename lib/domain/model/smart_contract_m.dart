@@ -34,6 +34,7 @@ class SmartContractModel {
   double? money;
   List<Map<String, dynamic>>? platform;
   Market? marketData;
+  List<String>? trxHistory = [];
 
   SmartContractModel({
     this.index,
@@ -65,6 +66,7 @@ class SmartContractModel {
     this.isErc20 = false,
     this.platform,
     this.marketData,
+    this.trxHistory
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {
@@ -98,6 +100,7 @@ class SmartContractModel {
       platform: json['platform'] != null ? List<Map<String, dynamic>>.from(json['platform']) : null,
       balance: "0",
       marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
+      trxHistory: json['trx_history'] != null ? List<String>.from(json['trx_history']) : []
     );
   }
 
@@ -126,6 +129,7 @@ class SmartContractModel {
     'is_bep20': asset.isBep20,
     'is_erc20': asset.isErc20,
     'platform': asset.platform,
+    'trx_history': asset.trxHistory
   };
 
   static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {

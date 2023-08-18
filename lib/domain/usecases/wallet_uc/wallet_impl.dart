@@ -8,9 +8,7 @@ class WalletUcImpl implements WalletUsecases{
   BuildContext? _context;
 
   set setBuilder(BuildContext ctx){
-
     _context = ctx;
-
     _bitrielSDKImpl = Provider.of<SDKProvider>(ctx, listen: false).getSdkImpl;
   }
 
@@ -21,28 +19,28 @@ class WalletUcImpl implements WalletUsecases{
   /// Return Index 1 for Added Assets
   @override
   Future<List<List<SmartContractModel>>> fetchCoinsFromLocalStorage() async {
-    // if ( (await SecureStorage.isContain(DbKey.listContract) || (await SecureStorage.isContain(DbKey.addedContract)) ) ){
-    //   print("Return storage");
-    //   return [
-    //     await SecureStorage.readData(key: DbKey.listContract).then((value) {
-    //       if (value != null) {
-    //         return mapModel( List<Map<String, dynamic>>.from(json.decode(value)) );
-    //       }
-    //       return [];
-    //     }),
+    if ( (await SecureStorage.isContain(DbKey.listContract) || (await SecureStorage.isContain(DbKey.addedContract)) ) ){
+      print("Return storage");
+      return [
+        await SecureStorage.readData(key: DbKey.listContract).then((value) {
+          if (value != null) {
+            return SmartContractModel.decode(value);
+          }
+          return [];
+        }),
 
-    //     await SecureStorage.readData(key: DbKey.addedContract).then((value) {
-    //       print("addedContract shit $value");
-    //       if (value != null) {
-    //         return mapModel( List<Map<String, dynamic>>.from(json.decode(value)) );
-    //       }
-    //       return [];
-    //     })
-    //   ];
+        await SecureStorage.readData(key: DbKey.addedContract).then((value) {
+          print("addedContract shit $value");
+          if (value != null) {
+            return SmartContractModel.decode(value);
+          }
+          return [];
+        })
+      ];
 
-    // } else {
+    } else {
 
-    //   print("Return from asset");
+      print("Return from asset");
 
       return [
         await fetchCoinFromAssets(),
@@ -55,7 +53,7 @@ class WalletUcImpl implements WalletUsecases{
           return [];
         })
       ];
-    // }
+    }
 
   }
 

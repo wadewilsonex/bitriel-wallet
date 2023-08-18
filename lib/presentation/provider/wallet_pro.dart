@@ -277,7 +277,7 @@ class WalletProvider with ChangeNotifier {
   /// 2
   Future<void> sortAsset() async {
     
-    sortListContract = await _walletUsecases.sortCoins( sortListContract!, addedCoin: addedContract);
+    sortListContract = await _walletUsecases.sortCoins(sortListContract!, addedCoin: addedContract);
 
     notifyListeners();
   }
