@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/screen/webview_screen.dart';
 import 'package:bitriel_wallet/presentation/widget/chart/chart_m.dart';
 
 class WalletInfo extends StatelessWidget {
@@ -57,9 +58,34 @@ class WalletInfo extends StatelessWidget {
 
           _infoTap(context, scModel),
 
-          _infoTap(context, scModel),
+          _activityTap(context),
 
         ]),
+      ),
+    );
+  }
+
+  Widget _getGroupSeparator(String label) {
+    return SizedBox(
+      height: 50,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: hexaCodeToColor("#F4F4F4"),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: MyTextConstant(
+              text: label,
+              color2: hexaCodeToColor("#979797"),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              textAlign: TextAlign.start,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -79,6 +105,210 @@ class WalletInfo extends StatelessWidget {
     );
   }
 
+  Widget _dgAppbar(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        MyTextConstant(
+          text: "Sent ${scModel.symbol}",
+          fontWeight: FontWeight.w700,
+        ),
+
+        IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          }, 
+          icon: const Icon(Iconsax.close_circle),
+        )
+      ],
+    );
+  }
+
+  Widget _dgRowData({String? title1, String? title2, String? data1, String? data2}) {
+    return Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            MyTextConstant(
+              text: title1,
+              fontSize: 10,
+            ),
+
+            MyTextConstant(
+              text: data1,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+          ],
+        ),
+        
+        const Spacer(),
+
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            MyTextConstant(
+              text: title2,
+              fontSize: 10,
+            ),
+
+            MyTextConstant(
+              text: data2,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _activityTap(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          child: InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    insetPadding: const EdgeInsets.all(14.0),
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
+                    child: SizedBox(
+                      height: 270,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+
+                            _dgAppbar(context),
+
+                            const SizedBox(height: 10),
+
+                            _dgRowData(
+                              title1: "Status",
+                              data1: "Confirmded",
+                              title2: "Date",
+                              data2: "21 Aug at 10:11AM"
+                            ),
+                            
+                            const Divider(),
+
+                            _dgRowData(
+                              title1: "From",
+                              data1: "0xe111...8941",
+                              title2: "To",
+                              data2: "0xceBa...c647"
+                            ),
+
+                            const Divider(),
+
+                            _dgRowData(
+                              title1: "Amount",
+                              data1: "1.00 ${scModel.symbol}",
+                              title2: "",
+                              data2: ""
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const AdsWebView(
+                                    title: "Explorer",
+                                    url: "https://bscscan.com/",
+                                  ))
+                                );
+                              }, 
+                              child: MyTextConstant(
+                                text: "View on Explorer",
+                                fontWeight: FontWeight.w600,
+                                color2: hexaCodeToColor(AppColors.primaryBtn),
+                              )
+                            )
+                            
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                    
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 8.0),
+                    child: MyTextConstant(
+                      text: "21 Aug at 10:11AM",
+                      textAlign: TextAlign.start,
+                      fontSize: 11,
+                    ),
+                  ),
+                  
+                  Row(
+                    children: [
+                    
+                      SizedBox(
+                        height: 35,
+                        width: 35,
+                        child: CircleAvatar(
+                          backgroundColor: hexaCodeToColor(AppColors.lightGrey),
+                          child: Icon(Iconsax.arrow_up_3, color: hexaCodeToColor(AppColors.darkGrey),)
+                        ),
+                      ),
+                    
+                      const SizedBox(width: 10),
+                    
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                    
+                          MyTextConstant(
+                            text: "Sent ${scModel.symbol}",
+                            fontWeight: FontWeight.w600,
+                            textAlign: TextAlign.start,
+                          ),
+                    
+                          MyTextConstant(
+                            text: "From 0x212safl12....12321rff",
+                            textAlign: TextAlign.start,
+                            color2: hexaCodeToColor(AppColors.darkGrey),
+                            fontSize: 11,
+                          ),
+                        ],
+                      ),
+                      
+                      Expanded(child: Container()),
+                    
+                      MyTextConstant(
+                        text: "+1.00 ${scModel.symbol}",
+                        fontWeight: FontWeight.w600,
+                        textAlign: TextAlign.start,
+                        color2: hexaCodeToColor(AppColors.green),
+                      ),
+                    
+                    ],
+                  ),
+                
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _tokenIconHeader({required String price, SmartContractModel? scModel}) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
@@ -91,9 +321,12 @@ class WalletInfo extends StatelessWidget {
               child: SizedBox(
                 height: 80,
                 width: 80,
-                child: scModel!.logo != null ? Image.network(scModel!.logo!) : CircleAvatar(child: Text(
-                  scModel.isBep20 == true ? "BEP20" : "ERC20",
-                ),),
+                child: scModel!.logo != null ? Image.network(scModel.logo!) 
+                : CircleAvatar(
+                  child: MyTextConstant(
+                    text: scModel.isBep20 == true ? "BEP20" : "ERC20",
+                  ),
+                  ),
               ),
               // child: Image.network(
               //   market.logo, width: 80, height: 80, fit: BoxFit.fill,

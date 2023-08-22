@@ -6,28 +6,51 @@ class PrivacyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final AppUsecasesImpl appUsecasesImpl = AppUsecasesImpl();
+
+    appUsecasesImpl.checkBiometrics();
+
+    appUsecasesImpl.readBio(isPrivacy: true);
+
     return Scaffold(
       appBar: appBar(context, title: "About"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14.0),
-            child: SettingsItem(
-              onTap: () {},
-              icons: Icons.fingerprint_sharp,
-              iconStyle: IconStyle(
-                iconsColor: Colors.white,
-                withBackground: true,
-                backgroundColor: Colors.green,
-              ),
-              title: 'Unlock with Biometric',
-              trailing: Switch.adaptive(
-                value: false,
-                onChanged: (value) {},
-              ),
-            ),
+          ValueListenableBuilder(
+            valueListenable: appUsecasesImpl.canCheckBiometrics,
+            builder: (context, value, wg) {
+              return appUsecasesImpl.canCheckBiometrics.value == true ? ValueListenableBuilder(
+                valueListenable: appUsecasesImpl.isEnableBiometric,
+                builder: (context, value, wg) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 14.0),
+                    child: SettingsItem(
+                      onTap: () {},
+                      icons: Icons.fingerprint_sharp,
+                      iconStyle: IconStyle(
+                        iconsColor: Colors.white,
+                        withBackground: true,
+                        backgroundColor: Colors.green,
+                      ),
+                      title: 'Unlock with Biometric',
+                      trailing: Switch.adaptive(
+                        value: appUsecasesImpl.isEnableBiometric.value,
+                        onChanged: (enabledValue) {
+                          appUsecasesImpl.enableBiometric(enabledValue).then((value) => () async{
+
+                            appUsecasesImpl.isEnableBiometric.value = enabledValue;
+
+                          });
+                        },
+                      ),
+                    ),
+                  );
+                }
+              ) : Container();
+            }
           ),
 
           const Padding(

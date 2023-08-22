@@ -15,7 +15,6 @@ class DbKey {
   static String hdWallet = "hdWallet_key";
   static String claim = "claim_key";
   static String pin = "pin_key";
-  static String biometric = "bimetic_key";
   static String bio = "bio_key";
   static String private = "private_key";
   static String btcwif = "btcwif_key";
