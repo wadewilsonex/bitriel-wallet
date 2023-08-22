@@ -75,11 +75,9 @@ class MultiAccountImpl implements MultiAccountUsecases {
       }
     );
 
-
-
   }
 
-  Future<void> switchAccount(KeyPairData acc) async {
+  Future<void> switchAccount(KeyPairData acc, int index) async {
     
     dialogLoading(_context!);
       
@@ -87,14 +85,16 @@ class MultiAccountImpl implements MultiAccountUsecases {
     
     await sdkProvier!.fetchAllAccount();
 
-    // reset wallet state
+    // // reset wallet state
     walletProvider!.initState();
 
-    // Refetch asset balance
+    // // Refetch asset balance
     await walletProvider!.getAsset();
 
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     sdkProvier!.notifyListeners();
+    
+    await SecureStorage.writeData(key: DbKey.private, encodeValue: sdkProvier!.getUnverifyAcc[index].pubKey);
 
     Navigator.pop(_context!);
   }

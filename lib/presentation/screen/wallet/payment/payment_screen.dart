@@ -16,6 +16,8 @@ class TokenPayment extends StatelessWidget {
 
     if (index != null) paymentUcImpl.assetChanged(index!);
 
+    // paymentUcImpl.getPrivateKey();
+
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
       appBar: appBar(context, title: "Send"),
@@ -39,7 +41,7 @@ class TokenPayment extends StatelessWidget {
                         style: TextStyle(fontSize: 10),
                       ),),
                       title: MyTextConstant(
-                        text: double.parse(paymentUcImpl.lstContractDropDown[value].balance!).toStringAsFixed(2),
+                        text: double.parse(paymentUcImpl.lstContractDropDown[value].balance!.replaceAll(",", "")).toStringAsFixed(2),
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
                         textAlign: TextAlign.start,

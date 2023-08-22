@@ -64,7 +64,7 @@ PreferredSizeWidget defaultAppBar({
           child: GestureDetector(
             onTap: () async{
 
-              // await _selectAccount(context, multiAccountImpl);
+              await _selectAccount(context, multiAccountImpl);
 
             },
             child: Padding(
@@ -251,7 +251,7 @@ PreferredSizeWidget defaultAppBar({
                         trailing: currentIndex == index ? Icon(Icons.check_circle_rounded, color: hexaCodeToColor(AppColors.primary),) : const SizedBox(),
                         onTap: () async {
 
-                          await multiAccountImpl.switchAccount(multiAccountImpl.getAllAccount[index]).then((value) => {
+                          await multiAccountImpl.switchAccount(multiAccountImpl.getAllAccount[index], index).then((value) => {
                             Navigator.pop(context),
                           });
 

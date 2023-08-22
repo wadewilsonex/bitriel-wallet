@@ -63,40 +63,41 @@ class MultiAccountScreen extends StatelessWidget {
         ),
       ),
 
-      // bottomNavigationBar: multiAccountImpl.getAllAccount.length == 2 ? null : Row(
-      //   children: [
+      bottomNavigationBar: multiAccountImpl.getAllAccount.length == 2 ? null : Row(
+        children: [
 
-      //     Expanded(
-      //       child: MyButton(
-      //         edgeMargin: const EdgeInsets.all(10),
-      //         textButton: "Create Wallet",
-      //         fontWeight: FontWeight.w600,
-      //         action: () async {
+          Expanded(
+            child: MyButton(
+              edgeMargin: const EdgeInsets.all(10),
+              textButton: "Create Wallet",
+              fontWeight: FontWeight.w600,
+              action: () async {
 
-      //           await multiAccountImpl.createWallet();
+                await multiAccountImpl.createWallet();
                 
-      //         },
-      //       ),
-      //     ),
+              },
+            ),
+          ),
       
-      //     Expanded(
-      //       child: MyButton(
-      //         edgeMargin: const EdgeInsets.all(10),
-      //         textButton: "Import Wallet",
-      //         fontWeight: FontWeight.w600,
-      //         textColor: AppColors.primaryBtn,
-      //         borderWidth: 1,
-      //         isTransparent: true,
-      //         isTransparentOpacity: 0,
-      //         action: () async {
+          Expanded(
+            child: MyButton(
+              edgeMargin: const EdgeInsets.all(10),
+              textButton: "Import Wallet",
+              fontWeight: FontWeight.w600,
+              textColor: AppColors.primaryBtn,
+              borderWidth: 1,
+              isTransparent: true,
+              isTransparentOpacity: 0,
+              action: () async {
 
-      //           await multiAccountImpl.importWallet();
+                await multiAccountImpl.importWallet();
 
-      //         },
-      //       ),
-      //     )
-      //   ],
-      // )
+              },
+            ),
+          )
+        ],
+      )
+      
     );
   }
 

@@ -198,6 +198,11 @@ class WalletProvider with ChangeNotifier {
         element.balance = (value.getValueInUnit(EtherUnit.ether)).toString();
       });
 
+      print(element.isEther! ? "Ether" : "BSC");
+      print("sdkProvider!.getSdkImpl.evmAddress ${sdkProvider!.getSdkImpl.evmAddress}");
+      print("element.symbol ${element.symbol}");
+      print("element.balance ${element.balance}");
+
       element.address = sdkProvider!.getSdkImpl.evmAddress;
 
       sortListContract!.add(element);
@@ -281,6 +286,11 @@ class WalletProvider with ChangeNotifier {
     sortListContract = await _walletUsecases.sortCoins(sortListContract!, addedCoin: addedContract);
 
     notifyListeners();
+  }
+
+  Future<void> storeAssets() async {
+    await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
+    await SecureStorage.writeData(key: DbKey.addedContract, encodeValue: json.encode(SmartContractModel.encode(addedContract!)) );
   }
 
 }

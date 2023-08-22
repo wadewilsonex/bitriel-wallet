@@ -358,4 +358,10 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     return await FlutterAesEcbPkcs5.encryptString(privateKey, key);
 
   }
+
+  Future<String?> decryptPrivateKey({String? privateKey, String? pin}) async {
+    final key = Encrypt.passwordToEncryptKey(pin!);
+    return await FlutterAesEcbPkcs5.decryptString(privateKey!, key);
+
+  }
 }

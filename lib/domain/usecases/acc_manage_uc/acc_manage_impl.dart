@@ -9,7 +9,7 @@ class AccountManagementImpl extends AccountMangementUC {
 
   String? _pk;
 
-  List<UnverifySeed> unverifyList = [];
+  // List<UnverifySeed> unverifyList = [];
 
   List<UnverifySeed> unVerifyAccount = [];
 
@@ -26,22 +26,30 @@ class AccountManagementImpl extends AccountMangementUC {
 
       await sdkProvider.getSdkImpl.getWalletSdk.webView!.evalJavascript("wallets.getPrivateKey('$seed')").then((value) async {
         
-        _pk = value;
-        await SecureStorage.writeData(key: DbKey.private, encodeValue: value);
+        // _pk = value;
+        print("addAndImport Value $value");
+
+        // await SecureStorage.writeData(key: DbKey.private, encodeValue: _pk);
+
+        _pk = await sdkProvider.getSdkImpl.encryptPrivateKey(value!, pin);
+        
+        await SecureStorage.writeData(key: DbKey.private, encodeValue: _pk);
+
+        print("_pk $_pk");
+
+        // Extract private from seed
+        // _pk = await sdkProvider.getSdkImpl.getDecrypedSeed(importData![1], pin);
+
+        // print("_pk $_pk");
+
+
+        // await SecureStorage.writeData(key: DbKey.private, encodeValue: res);
+
+        // Use Seed to query EVM address
+        // And Use PrivateKey to extract BTC native address.
+        await sdkProvider.getSdkImpl.queryAddress(seed, value!, pin);
+        
       });
-       
-      // Extract private from seed
-      // _pk = await sdkProvider.getSdkImpl.getDecrypedSeed(importData![1], pin);
-
-      // print("_pk $_pk");
-
-      // final res = await sdkProvider.getSdkImpl.encryptPrivateKey(_pk!.seed!, pin);
-
-      // await SecureStorage.writeData(key: DbKey.private, encodeValue: res);
-
-      // Use Seed to query EVM address
-      // And Use PrivateKey to extract BTC native address.
-      await sdkProvider.getSdkImpl.queryAddress(seed, _pk!, pin);
 
     }catch (e) {
       
@@ -54,31 +62,38 @@ class AccountManagementImpl extends AccountMangementUC {
   @override
   Future<void> verifyLaterData(SDKProvider? sdkProvider, bool status) async {
 
+    print("verifyLaterData");
+    print("_pk $_pk");
+
     await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) async {
 
       if(value.isNotEmpty){
-        unverifyList = UnverifySeed().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+        unVerifyAccount = UnverifySeed().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
       }
 
     });
 
-    unverifyList.add(UnverifySeed.init(
+    unVerifyAccount.add(UnverifySeed.init(
       address: sdkProvider!.getSdkImpl.getSELAddress,
       status: status, 
       ethAddress: sdkProvider.getSdkImpl.evmAddress,
-      btcAddress: sdkProvider.getSdkImpl.btcAddress// conProvider!.listContract[_apiProvider!.btcIndex].address
+      btcAddress: sdkProvider.getSdkImpl.btcAddress,// conProvider!.listContract[_apiProvider!.btcIndex].address
+      pubKey: _pk
     ));
 
-    await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unverifyList)));
+    await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unVerifyAccount)));
+  
   }
 
   Future<void> fetchAccount() async {
 
     await SecureStorage.readData(key: DbKey.privateList).then((value) {
+
+      print("fetchAccount bart $value");
       unVerifyAccount = UnverifySeed().fromJsonDb( List<Map<String, dynamic>>.from(json.decode(value!)) );
 
       // Reverse Index Acconts
-      unVerifyAccount = unVerifyAccount.reversed.toList();
+      // unVerifyAccount = unVerifyAccount.reversed.toList();
     });
     
   }

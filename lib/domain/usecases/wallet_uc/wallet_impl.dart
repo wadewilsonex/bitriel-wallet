@@ -19,26 +19,26 @@ class WalletUcImpl implements WalletUsecases{
   /// Return Index 1 for Added Assets
   @override
   Future<List<List<SmartContractModel>>> fetchCoinsFromLocalStorage() async {
-    // if ( (await SecureStorage.isContain(DbKey.listContract) || (await SecureStorage.isContain(DbKey.addedContract)) ) ){
-    //   print("Return storage");
-    //   return [
-    //     await SecureStorage.readData(key: DbKey.listContract).then((value) {
-    //       if (value != null) {
-    //         return SmartContractModel.decode(value);
-    //       }
-    //       return [];
-    //     }),
+    if ( (await SecureStorage.isContain(DbKey.listContract) || (await SecureStorage.isContain(DbKey.addedContract)) ) ){
+      print("Return storage");
+      return [
+        await SecureStorage.readData(key: DbKey.listContract).then((value) {
+          if (value != null) {
+            return SmartContractModel.decode(value);
+          }
+          return [];
+        }),
 
-    //     await SecureStorage.readData(key: DbKey.addedContract).then((value) {
-    //       print("addedContract shit $value");
-    //       if (value != null) {
-    //         return SmartContractModel.decode(value);
-    //       }
-    //       return [];
-    //     })
-    //   ];
+        await SecureStorage.readData(key: DbKey.addedContract).then((value) {
+          print("addedContract shit $value");
+          if (value != null) {
+            return SmartContractModel.decode(value);
+          }
+          return [];
+        })
+      ];
 
-    // } else {
+    } else {
 
       print("Return from asset");
 
@@ -53,7 +53,7 @@ class WalletUcImpl implements WalletUsecases{
           return [];
         })
       ];
-    // }
+    }
 
   }
 

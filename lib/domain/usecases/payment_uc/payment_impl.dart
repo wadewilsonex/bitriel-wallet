@@ -28,6 +28,8 @@ class PaymentUcImpl implements PaymentUsecases {
   FocusNode amtNode = FocusNode();
 
   String urlLauncher = "";
+  
+  String? _pk;
 
   set setBuildContext(BuildContext ctx){
     context = ctx;
@@ -121,50 +123,83 @@ class PaymentUcImpl implements PaymentUsecases {
   void mainValidator() {
     if (amountController.text.isNotEmpty && recipientController.text.isNotEmpty) isReady.value = true;
   }
+  Future<String?> _getPrivateKey(String pin) async {
+
+    return await _sdkProvider!.getSdkImpl.decryptPrivateKey(privateKey: (await SecureStorageImpl().readSecure(DbKey.private)), pin: pin);
+  }
 
   Future<void> submitTrx() async {
 
     try {
+
       
-      // Check Input Not Equal 0
-      // Check Input Not Less than Existing coin's balance
-      // if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
-        
+      String? pin = await Navigator.push(context!, MaterialPageRoute(builder: (context) => const PincodeScreen(isAppBar: true, label: PinCodeLabel.fromSendTx,)));
+      
+      if (pin != null){
+      
         dialogLoading(context!);
+
+        // Catch Wrong Pin 
+        // And throw To Main Error Handler
+        try {
+          
+          _pk = await _getPrivateKey(pin);
+
+          print("after decrypt _pk  $_pk");
+
+        } catch (e) {
+          throw "Wrong pin";
+        }
+
+        // Check Input Not Equal 0
+        // Check Input Not Less than Existing coin's balance
+        // if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
+          
 
         if (walletProvider!.sortListContract![index.value].isBep20 == true) {
           // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
 
-            // 1
             urlLauncher = "https://testnet.bscscan.com/tx/";
+            
             await sendBep20();
+
+            addTrxHistory(walletProvider!.listBep20!);
+
           // }
         }
         else if (walletProvider!.sortListContract![index.value].isErc20 == true){
           // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
 
-      
-            // 1
             urlLauncher = "https://goerli.etherscan.io/tx/";
 
             await sendErc20();
+
+            addTrxHistory(walletProvider!.listErc20!);
+
           // }
         }
         else if (walletProvider!.sortListContract![index.value].isBSC == true){
-      
-          // 1
 
           urlLauncher = "https://testnet.bscscan.com/tx/";
+
           await sendBsc();
+
+          addTrxHistory(walletProvider!.listEvmNative!);
+
         }
         else if (walletProvider!.sortListContract![index.value].isEther == true){
-          // 1
+          
           urlLauncher = "https://goerli.etherscan.io/tx/";
+          
           await sendEther();
+
+          addTrxHistory(walletProvider!.listEvmNative!);
         }
         else {
           
           await sendNative();
+
+          addTrxHistory(walletProvider!.listNative!);
         }
 
         print("hash $hash");
@@ -192,11 +227,14 @@ class PaymentUcImpl implements PaymentUsecases {
           }
         );
 
-      // } else if (trxMessage.value.isEmpty) {
-      //   trxMessage.value = "Balance must greater than 0";
-      // }
+        // } else if (trxMessage.value.isEmpty) {
+        //   trxMessage.value = "Balance must greater than 0";
+        // }
+      }
 
     } catch (e) {
+
+      print("Error $e");
 
       // Close Dialog Loading
       Navigator.pop(context!);
@@ -204,7 +242,7 @@ class PaymentUcImpl implements PaymentUsecases {
       await QuickAlert.show(
         context: context!,
         type: QuickAlertType.error,
-        text: 'Transaction failed',
+        text: '$e',
       );
     }
     
@@ -274,9 +312,9 @@ class PaymentUcImpl implements PaymentUsecases {
     print('sendBep20');
     try {
       
-      String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
+      // String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
-      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
+      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(_pk!);
 
       _sdkProvider!.getSdkImpl.bscDeployedContract = await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", lstContractDropDown[index.value].contract!);
 
@@ -321,10 +359,8 @@ class PaymentUcImpl implements PaymentUsecases {
       
       // 1
       urlLauncher = "https://goerli.etherscan.io/tx/";
-      
-      String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
-      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
+      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(_pk!);
 
       _sdkProvider!.getSdkImpl.etherDeployedContract = await _sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", lstContractDropDown[index.value].contract!);
 
@@ -369,9 +405,11 @@ class PaymentUcImpl implements PaymentUsecases {
       
       // 1
       
-      String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
+      // String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
-      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
+      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(_pk!);
+      
+      print("pkKey.address ${pkKey.address}");
 
       // transaction fee 5 gwei, which is about $0.0005
       // 2
@@ -406,9 +444,9 @@ class PaymentUcImpl implements PaymentUsecases {
       
       // 1
       
-      String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
+      // String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
-      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(encryptKey);
+      EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(_pk!);
 
       // transaction fee 5 gwei, which is about $0.0005
       // 2
@@ -434,6 +472,16 @@ class PaymentUcImpl implements PaymentUsecases {
       print("error sendEther ${e}");
     }
 
+  }
+
+  void addTrxHistory(List<SmartContractModel> lstContracts){
+    lstContracts.where((element) {
+      if (walletProvider!.sortListContract![index.value].symbol == element.symbol){
+        element.trxHistory!.add(hash!);
+        return true;
+      }
+      return false;
+    });
   }
 
   // Future proceedTransaction() async {
