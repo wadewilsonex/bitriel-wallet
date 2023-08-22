@@ -7,6 +7,10 @@ class SecureStorage {
   
   static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
+  static Future<void> writeBio({String? key, bool? encodeValue}) async {
+    await _secureStorage.write(key: key!, value: encodeValue.toString());
+  }
+
   static Future<void> writeData({String? key, String? encodeValue}) async {
     await _secureStorage.write(key: key!, value: encodeValue);
   }
