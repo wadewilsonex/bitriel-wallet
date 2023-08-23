@@ -8,6 +8,12 @@ class MultiAccountImpl implements MultiAccountUsecases {
 
   WalletProvider? walletProvider;
 
+  TextEditingController walletNameConroller = TextEditingController();
+
+  void initTxtController() {
+    walletNameConroller.text = sdkProvier!.getSdkImpl.getKeyring.current.name!;
+  }
+
   void setContext(BuildContext ctx, {bool listen = true}){
     _context = ctx;
     sdkProvier = Provider.of<SDKProvider>(ctx, listen: listen);
@@ -77,6 +83,7 @@ class MultiAccountImpl implements MultiAccountUsecases {
 
   }
 
+  @override
   Future<void> switchAccount(KeyPairData acc, int index) async {
     
     dialogLoading(_context!);
@@ -97,5 +104,35 @@ class MultiAccountImpl implements MultiAccountUsecases {
     await SecureStorage.writeData(key: DbKey.private, encodeValue: sdkProvier!.getUnverifyAcc[index].pubKey);
 
     Navigator.pop(_context!);
+  }
+
+  @override
+  Future<void> changeWalletName(int index, String newName) async {
+
+    if(newName.isNotEmpty) {
+     
+      await sdkProvier!.getSdkImpl.getWalletSdk.api.keyring.changeName(
+        sdkProvier!.getSdkImpl.getKeyring, 
+        sdkProvier!.getSdkImpl.getKeyring.current, 
+        newName
+      ).then((value) async{
+          await QuickAlert.show(
+          context: _context!,
+          type: QuickAlertType.success,
+          text: 'Wallet Name has been changed.',
+        );
+      });
+
+      sdkProvier!.updateWalletNameData();
+
+    }
+    else{
+      await QuickAlert.show(
+        context: _context!,
+        type: QuickAlertType.error,
+        text: 'Wallet Name cannot empty field.',
+      );
+    }
+
   }
 }

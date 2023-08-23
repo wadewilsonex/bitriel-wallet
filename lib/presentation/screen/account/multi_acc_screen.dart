@@ -32,11 +32,15 @@ class MultiAccountScreen extends StatelessWidget {
                   height: 40,
                   width: 40
                 ),
-                title: MyTextConstant(
-                  text: multiAccountImpl.getAllAccount[index].name ?? '',
-                  fontSize: 19,
-                  fontWeight: FontWeight.w600,
-                  textAlign: TextAlign.start,
+                title: Consumer<SDKProvider>(
+                  builder: (context, sdkProvider, wg) {
+                    return MyTextConstant(
+                      text: sdkProvider.getSdkImpl.getKeyring.allAccounts[index].name ?? '',
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600,
+                      textAlign: TextAlign.start,
+                    );
+                  }
                 ),
                 subtitle: MyTextConstant(
                   text: multiAccountImpl.getAllAccount[index].address!.replaceRange(10, multiAccountImpl.getAllAccount[index].address!.length - 10, "........"),
@@ -51,8 +55,9 @@ class MultiAccountScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AccountSettingScreen(
-                        
+                      builder: (context) => AccountSettingScreen(
+                        multiAccountImpl: multiAccountImpl,
+                        indexAcc: index,
                       )
                     )
                   );
