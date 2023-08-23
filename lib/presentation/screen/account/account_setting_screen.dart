@@ -1,5 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/screen/account/backup_wallet_screen.dart';
 
 class AccountSettingScreen extends StatelessWidget {
 
@@ -13,7 +12,7 @@ class AccountSettingScreen extends StatelessWidget {
 
     multiAccountImpl.setContext(context);
 
-    multiAccountImpl.initTxtController();
+    multiAccountImpl.initTxtController(indexAcc!);
 
     return Scaffold(
       appBar: appBar(context, title: "Wallet"),
@@ -38,12 +37,8 @@ class AccountSettingScreen extends StatelessWidget {
                 context: context,
                 submit: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const BackUpWalletScreen()
-                    )
-                  );
+                 
+                  multiAccountImpl.getMnemonic();
                 }
               );
             }
@@ -212,10 +207,7 @@ class AccountSettingScreen extends StatelessWidget {
                     labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
                   ),
                   onSubmitted: (value) async {
-                    await multiAccountImpl.changeWalletName(
-                      indexAcc, 
-                      value
-                    );
+                    await multiAccountImpl.changeWalletName(value);
                   },
                 ),
               ),

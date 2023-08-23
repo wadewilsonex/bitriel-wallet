@@ -73,7 +73,7 @@ class Welcome extends StatelessWidget {
 
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PincodeScreen())
+                MaterialPageRoute(builder: (context) => const PincodeScreen(title: "Create a PIN",))
               ).then((value) {
                 
                 if (value != null){
@@ -103,7 +103,7 @@ class Welcome extends StatelessWidget {
 
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PincodeScreen())
+                MaterialPageRoute(builder: (context) => const PincodeScreen(title: "Create a PIN",))
               ).then((value) {
                 
                 if (value != null){

@@ -14,14 +14,12 @@ enum PinCodeLabel {
 
 class PincodeScreen extends StatefulWidget {
 
-  final String? titleStatus;
+  final String title;
   final PinCodeLabel? label;
-  final bool? isAppBar;
   
   const PincodeScreen({
     Key? key, 
-    this.titleStatus,
-    this.isAppBar = false, 
+    required this.title,
     this.label
   }) : super(key: key);
   //static const route = '/passcode';
@@ -77,7 +75,7 @@ class PincodeScreenState extends State<PincodeScreen> {
         centerTitle: false,
         backgroundColor: hexaCodeToColor(AppColors.background),
         title: MyTextConstant(
-          text: widget.label == PinCodeLabel.fromSendTx ? "PIN" : "Create a PIN",
+          text: widget.title,
           fontSize: 26,
           color2: hexaCodeToColor(AppColors.midNightBlue),
           fontWeight: FontWeight.w600,
@@ -148,7 +146,7 @@ class PincodeScreenState extends State<PincodeScreen> {
               (pinUsecaseImpl.pinModel.isFirstPIN.value == true ) ? ValueListenableBuilder(
                 valueListenable: pinUsecaseImpl.pinModel.isFirstPIN, 
                 builder: (builder, value, wg){
-                  return widget.label == PinCodeLabel.fromSendTx ? 
+                  return widget.label == PinCodeLabel.fromSendTx || widget.label == PinCodeLabel.fromBackUp ? 
                   const MyTextConstant(
                     text: "Enter PIN to confirm",
                     fontSize: 17,

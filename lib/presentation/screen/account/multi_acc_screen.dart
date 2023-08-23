@@ -15,7 +15,7 @@ class MultiAccountScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
       appBar: appBar(context, title: "Account"),
-      body: (multiAccountImpl.sdkProvier!.isConnected == false ) 
+      body: (multiAccountImpl.sdkProvider!.isConnected == false ) 
       ? const Center(child: CircularProgressIndicator(),)
       : Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),

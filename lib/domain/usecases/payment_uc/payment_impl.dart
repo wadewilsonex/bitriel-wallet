@@ -133,7 +133,12 @@ class PaymentUcImpl implements PaymentUsecases {
     try {
 
       
-      String? pin = await Navigator.push(context!, MaterialPageRoute(builder: (context) => const PincodeScreen(isAppBar: true, label: PinCodeLabel.fromSendTx,)));
+      String? pin = await Navigator.push(
+        context!, 
+        MaterialPageRoute(
+          builder: (context) => const PincodeScreen(title: "PIN", label: PinCodeLabel.fromSendTx,)
+        )
+      );
       
       if (pin != null){
       

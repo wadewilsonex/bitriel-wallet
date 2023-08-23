@@ -150,6 +150,7 @@ export 'package:bitriel_wallet/presentation/screen/swap_letsexchange/select_swap
 export 'package:bitriel_wallet/presentation/screen/about_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/privacy_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/swap_letsexchange/status_exchange.dart';
+export 'package:bitriel_wallet/presentation/screen/account/backup_wallet_screen.dart';
 
 // Widget
 export 'package:bitriel_wallet/presentation/widget/text_widget.dart';
