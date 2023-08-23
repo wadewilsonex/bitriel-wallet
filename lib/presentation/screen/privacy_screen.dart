@@ -9,47 +9,40 @@ class PrivacyScreen extends StatelessWidget {
 
     final AppUsecasesImpl appUsecasesImpl = AppUsecasesImpl();
 
-    appUsecasesImpl.checkBiometrics();
+    appUsecasesImpl.setBuildContext = context;
 
     appUsecasesImpl.readBio(isPrivacy: true);
 
     return Scaffold(
-      appBar: appBar(context, title: "About"),
+      appBar: appBar(context, title: "Privacy"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
           ValueListenableBuilder(
-            valueListenable: appUsecasesImpl.canCheckBiometrics,
+            valueListenable: appUsecasesImpl.isAuthenticated,
             builder: (context, value, wg) {
-              return appUsecasesImpl.canCheckBiometrics.value == true ? ValueListenableBuilder(
-                valueListenable: appUsecasesImpl.isEnableBiometric,
-                builder: (context, value, wg) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 14.0),
-                    child: SettingsItem(
-                      onTap: () {},
-                      icons: Icons.fingerprint_sharp,
-                      iconStyle: IconStyle(
-                        iconsColor: Colors.white,
-                        withBackground: true,
-                        backgroundColor: Colors.green,
-                      ),
-                      title: 'Unlock with Biometric',
-                      trailing: Switch.adaptive(
-                        value: appUsecasesImpl.isEnableBiometric.value,
-                        onChanged: (enabledValue) {
-                          appUsecasesImpl.enableBiometric(enabledValue).then((value) => () async{
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 14.0),
+                child: SettingsItem(
+                  onTap: () {},
+                  icons: Icons.fingerprint_sharp,
+                  iconStyle: IconStyle(
+                    iconsColor: Colors.white,
+                    withBackground: true,
+                    backgroundColor: Colors.green,
+                  ),
+                  title: 'Unlock with Biometric',
+                  trailing: Switch.adaptive(
+                    value: value,
+                    onChanged: (enabledValue) {
 
-                            appUsecasesImpl.isEnableBiometric.value = enabledValue;
+                      appUsecasesImpl.enableBiometric(enabledValue);
 
-                          });
-                        },
-                      ),
-                    ),
-                  );
-                }
-              ) : Container();
+                    },
+                  ),
+                ),
+              );
             }
           ),
 

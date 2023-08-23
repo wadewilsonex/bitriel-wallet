@@ -14,15 +14,6 @@ class DotPin extends StatelessWidget {
       child: Column(
         children: [
           
-          // Expanded(
-          //   child: ValueListenableBuilder(
-          //     valueListenable: txt!, 
-          //     builder: (context, value, wg){
-          //       print("DotPin ValueListenableBuilder");
-          //       return value.isEmpty ? const SizedBox() : const Icon(Icons.circle, color: Color(0xFFF29F05),);
-          //     }
-          //   ),
-          // ),
 
           Expanded(
             child: ValueListenableBuilder(
@@ -33,11 +24,16 @@ class DotPin extends StatelessWidget {
             ),
           ),
     
-          Container(
-            height: 5,
-            decoration: BoxDecoration(
-              color: hexaCodeToColor(AppColors.primary).withOpacity(0.5)
-            ),
+          ValueListenableBuilder(
+            valueListenable: txt!, 
+              builder: (context, value, wg){
+              return Container(
+                height: 5,
+                decoration: BoxDecoration(
+                  color: txt!.value.isNotEmpty ? hexaCodeToColor(AppColors.primary) : hexaCodeToColor(AppColors.primary).withOpacity(0.5)
+                ),
+              );
+            }
           ),
 
         ],
@@ -84,7 +80,7 @@ class ReuseNumPad extends StatelessWidget {
           onPressed: startNumber != 0 ? pinIndexSetup : clearPin,
           child: startNumber == 0 ? Transform.rotate(
             angle: 70.6858347058,
-            child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 30),
+            child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.primary), size: 30),
           ) : null,
         ),
         
@@ -105,6 +101,9 @@ class ReuseKeyBoardNum extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
         onTap: () async {
           if (n == -1){
             // Clear All
