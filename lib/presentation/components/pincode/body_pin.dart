@@ -8,9 +8,8 @@ class PincodeBody extends StatelessWidget{
   final String? subStatus;
   final PinCodeLabel? label;
   /// [0] = is4Digit
-  /// 
   /// [1] = isFirstPin
-  final ValueNotifier<List<bool?>>? valueChange;
+  final List<ValueNotifier<bool?>>? valueChange;
   // final ValueNotifier<bool>? isFirst;
   // final bool? is4digits;
   final List<ValueNotifier<String>>? lsControl;
@@ -35,38 +34,36 @@ class PincodeBody extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-     
     return Scaffold(
       appBar: appBarPassCode(context),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+        padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 20),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
 
-            if (titleStatus == null ) ValueListenableBuilder(
-              valueListenable: valueChange!, 
-              builder: (builder, value, wg){
-                return MyText(
-                  top: 80,
-                  text: value[1]! ? 'Enter PIN' : 'Verify PIN',
-                  fontSize: 28,
+            Expanded(
+              child: Center(
+                child: (titleStatus == null ) ? ValueListenableBuilder(
+                  valueListenable: valueChange![1], 
+                  builder: (builder, value, wg){
+                    return MyTextConstant(
+                      text: value == true ? 'Enter PIN' : 'Verify PIN',
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ) ;
+                  }
+                )
+                // For Change PIN
+                : MyTextConstant(
+                  text: titleStatus,
+                  color2: AppUtils.colorFor(titleStatus == "Invalid PIN" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor),
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
-                ) ;
-              }
-            )
-            // For Change PIN
-            else MyTextConstant(
-              text: titleStatus,
-              color2: AppUtils.colorFor(titleStatus == "Invalid PIN" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor),
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-
-            const SizedBox(
-              height: 50,
+                ),
+              )
             ),
             
             if (subStatus == null) Column(
@@ -99,14 +96,15 @@ class PincodeBody extends StatelessWidget{
             const SizedBox(height: 50),
             
             ValueListenableBuilder(
-              valueListenable: valueChange!, 
+              valueListenable: valueChange![0], 
               builder: (builder, value, wg){
-                print("valueChange!");
+
+                print("is4Digti ValueListenableBuilder");
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: 
-                  value[0] == false ? 
-                  [
+                  value == false ? 
+                  [ 
                     DotPin(txt: lsControl![0]),
                     DotPin(txt: lsControl![1]),
                     DotPin(txt: lsControl![2]),
@@ -126,14 +124,13 @@ class PincodeBody extends StatelessWidget{
 
             const Expanded(child: SizedBox(),),
             
-            reuseNumPad(1, pinIndexSetup!, clearPin!),
-            const SizedBox(height: 19),
-            reuseNumPad(4, pinIndexSetup!, clearPin!),
-            const SizedBox(height: 19),
-            reuseNumPad(7, pinIndexSetup!, clearPin!),
-            const SizedBox(height: 19),
-            reuseNumPad(0, pinIndexSetup!, clearPin!),
-            const SizedBox(height: 19),
+            ReuseNumPad(startNumber: 1, pinIndexSetup: pinIndexSetup!, clearPin: clearPin!),
+            const SizedBox(height: 20),
+            ReuseNumPad(startNumber: 4, pinIndexSetup: pinIndexSetup!, clearPin: clearPin!),
+            const SizedBox(height: 20),
+            ReuseNumPad(startNumber: 7, pinIndexSetup: pinIndexSetup!, clearPin: clearPin!),
+            const SizedBox(height: 20),
+            ReuseNumPad(startNumber: 0, pinIndexSetup: pinIndexSetup!, clearPin: clearPin!),
             
           ],
         ),
@@ -157,21 +154,26 @@ class PincodeBody extends StatelessWidget{
 
       actions: [
         
-        TextButton(
-          onPressed: () {
-            onPressedDigit!();
-          }, 
-          child: ValueListenableBuilder(
-            valueListenable: valueChange!,
-            builder: (context, value, wg){
-              return MyTextConstant(
-                text: value[0] == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
-                color2: value[1] == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
-                fontWeight: FontWeight.w700,
-              );
-            },
-          ),
-        ),
+        ValueListenableBuilder(
+          valueListenable: valueChange![1], 
+          builder: (context, vl, wg){
+            return vl == true ? TextButton(
+              onPressed: () {
+                onPressedDigit!();
+              }, 
+              child: ValueListenableBuilder(
+                valueListenable: valueChange![0],
+                builder: (context, value, wg){
+                  return MyTextConstant(
+                    text: value == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
+                    color2: hexaCodeToColor(AppColors.primaryColor),
+                    fontWeight: FontWeight.w700,
+                  );
+                },
+              ),
+            ) : const SizedBox();
+          }
+        )
       ],
 
     );
@@ -192,13 +194,25 @@ class DotPin extends StatelessWidget {
       child: Column(
         children: [
           
+          // Expanded(
+          //   child: ValueListenableBuilder(
+          //     valueListenable: txt!, 
+          //     builder: (context, value, wg){
+          //       print("DotPin ValueListenableBuilder");
+          //       return value.isEmpty ? const SizedBox() : const Icon(Icons.circle, color: Color(0xFFF29F05),);
+          //     }
+          //   ),
+          // ),
+
           Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: txt!, 
-              builder: (context, value, wg){
-                return value.isEmpty ? const SizedBox() : const Icon(Icons.circle, color: Color(0xFFF29F05),);
-              }
-            ),
+            child: txt!.value.isEmpty ? const SizedBox() : const Icon(Icons.circle, color: Color(0xFFF29F05),)
+            // ValueListenableBuilder(
+            //   valueListenable: txt!, 
+            //   builder: (context, value, wg){
+            //     print("DotPin ValueListenableBuilder");
+            //     return ;
+            //   }
+            // ),
           ),
     
           Container(
@@ -207,6 +221,7 @@ class DotPin extends StatelessWidget {
               color: Color(0xFFF29F05)
             ),
           ),
+
         ],
       ),
     );
@@ -230,39 +245,59 @@ Widget reusePinNum(
 
 }
 
-Widget reuseNumPad(
-  int startNumber,
-  Function pinIndexSetup,
-  Function clearPin
-) {
-  return Row(
-    children: <Widget>[
+// ignore: must_be_immutable
+class ReuseNumPad extends StatelessWidget {
 
-      startNumber != 0 ? ReuseKeyBoardNum(
-        n: startNumber,
-        onPressed: pinIndexSetup,
-      ) : const Expanded(child: SizedBox(),),
-      const SizedBox(width: 19),
+  int startNumber;
+  final Function? pinIndexSetup;
+  final Function? clearPin;
 
-      ReuseKeyBoardNum(
-        n: startNumber != 0 ? ++startNumber : startNumber,
-        onPressed: pinIndexSetup,
-      ),
-      const SizedBox(width: 19),
+  ReuseNumPad({
+    super.key,
+    this.startNumber = -1,
+    this.pinIndexSetup,
+    this.clearPin,
+  });
 
-      // If startNumber != 0: Mean Among number 1-9
-      // Else Mean Back Or Remove 1 Pin Button
-      ReuseKeyBoardNum(
-        n: startNumber != 0 ? (++startNumber) : -1,
-        onPressed: startNumber != 0 ? pinIndexSetup : clearPin,
-        child: startNumber == 0 ? Transform.rotate(
-          angle: 70.6858347058,
-          child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 30),
-        ) : null,
-      ),
-    ],
-  );
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+
+        startNumber != 0 ? ReuseKeyBoardNum(
+          n: startNumber,
+          onPressed: pinIndexSetup,
+        ) : const Expanded(child: SizedBox(),),
+        const SizedBox(width: 19),
+
+        ReuseKeyBoardNum(
+          n: startNumber != 0 ? ++startNumber : startNumber,
+          onPressed: pinIndexSetup,
+        ),
+        const SizedBox(width: 19),
+
+        // If startNumber != 0: Mean Among number 1-9
+        // Else Mean Back Or Remove 1 Pin Button
+        ReuseKeyBoardNum(
+          n: (startNumber != 0) ? (++startNumber) : -1,
+          onPressed: startNumber != 0 ? pinIndexSetup : clearPin,
+          child: startNumber == 0 ? Transform.rotate(
+            angle: 70.6858347058,
+            child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 30),
+          ) : null,
+        ),
+      ],
+    );
+  }
 }
+
+// Widget reuseNumPad(
+//   int startNumber,
+//   Function pinIndexSetup,
+//   Function clearPin
+// ) {
+//   return ;
+// }
 
 class ReuseKeyBoardNum extends StatelessWidget {
 
@@ -275,28 +310,27 @@ class ReuseKeyBoardNum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SizedBox(
-        height: 55,
-        child: TextButton(
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
-            ),
-            backgroundColor: MaterialStateProperty.all(Colors.white)//isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa))
+      child: InkWell(
+        onTap: (){
+          if (n == -1){
+            onPressed!();
+          }
+          else {
+            onPressed!('$n');
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          height: 55,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: Colors.white
           ),
-          onPressed: (){
-            if (n == -1){
-              onPressed!();
-            }
-            else {
-              onPressed!('$n');
-            }
-          },
           child: child ?? Text(
             '$n',
             style: const TextStyle(
               fontSize: 30,// * MediaQuery.of(context).textScaleFactor,
-              color: Colors.white,//isDarkMode ?  : Colors.black,
+              color: Colors.black,//isDarkMode ? Colors.white : Colors.black,
               fontWeight: FontWeight.bold,
             ),
           ),

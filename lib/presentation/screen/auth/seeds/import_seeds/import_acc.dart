@@ -309,7 +309,6 @@ class ImportAccState extends State<ImportAcc> {
     // Get From Account js
     // await _apiProvider!.getCurrentAccount(context: context);
 
-
     final res = await _apiProvider!.encryptPrivateKey(_pk!, _importAccModel.pwCon!.text);
     
     await StorageServices.writeSecure(DbKey.private, res);

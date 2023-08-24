@@ -52,17 +52,17 @@ class PincodeState extends State<Pincode> {
 
   String? firstPin;
 
-  // ValueNotifier<bool>? valueChange.value[1]<bool>(true);
+  // ValueNotifier<bool>? valueChange[1].value<bool>(true);
 
   // bool? valueChange.value[0] = false;
 
   /// [0] = is4Digit;
   /// 
   /// [1] = isFirstPin
-  ValueNotifier<List<bool?>> valueChange = ValueNotifier([
-    false,
-    true
-  ]);
+  List<ValueNotifier<bool?>> valueChange = [
+    ValueNotifier(false),
+    ValueNotifier(true)
+  ];
 
   List<String> currentPin = ["", "", "", "", "", ""];
   
@@ -90,8 +90,8 @@ class PincodeState extends State<Pincode> {
 
   @override
   void initState() {
-    StorageServices.readSecure(DbKey.pin)!.then((value) => res = value);
-    authToHome();
+    // StorageServices.readSecure(DbKey.pin)!.then((value) => res = value);
+    // authToHome();
     super.initState();
   }
 
@@ -99,20 +99,15 @@ class PincodeState extends State<Pincode> {
   void dispose(){
 
     clearAll();
-    valueChange.value[1] = true;
+    valueChange[1].value = true;
 
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   void clearPin() {
     if (pinIndex == 0) {
       pinIndex = 0;
-    } else if (pinIndex == (valueChange.value[0]! ? 4 : 6)) {
+    } else if (pinIndex == (valueChange[0].value! ? 4 : 6)) {
       lsControl[pinIndex-1].value = "";
       pinIndex--;
     } else {
@@ -123,33 +118,32 @@ class PincodeState extends State<Pincode> {
   }
 
   Future<void> pinIndexSetup(String text) async {
-    // if (pinIndex == 0) {
-    //   // Add Selected PIN into List PIN
-    //   lsControl[pinIndex].value = text;
-    //   pinIndex = 1;
-    // } 
-    // else 
-    // if (pinIndex < (valueChange.value[0]! ? 4 : 6)) {
+    if (pinIndex == 0) {
+      // Add Selected PIN into List PIN
+      lsControl[pinIndex].value = text;
+      pinIndex = 1;
+    } 
+    else if (pinIndex < (valueChange[0].value! ? 4 : 6)) {
       // Add Selected PIN into List PIN
       lsControl[pinIndex].value = text;
       ++pinIndex;
 
-    //   if (pinIndex == (valueChange.value[0]! ? 4 : 6)){
+      if (pinIndex == (valueChange[0].value! ? 4 : 6)){
         
-    //     String strPin = "";
+        String strPin = "";
 
-    //     strPin = lsControl.map((e) {
-    //       return e.value;
-    //     }).toList().join();
+        strPin = lsControl.map((e) {
+          return e.value;
+        }).toList().join();
 
-    //     if (widget.label == PinCodeLabel.fromSplash) {
-    //       dialogLoading(context);
-    //       await passcodeAuth(strPin);
-    //     } else {
-    //       await setVerifyPin(strPin);
-    //     }
-    //   }
-    // }
+        if (widget.label == PinCodeLabel.fromSplash) {
+          dialogLoading(context);
+          await passcodeAuth(strPin);
+        } else {
+          await setVerifyPin(strPin);
+        }
+      }
+    }
   }
 
   Future<void> clearVerifyPin(String pin) async {
@@ -158,7 +152,7 @@ class PincodeState extends State<Pincode> {
 
       clearAll();
 
-      valueChange.value[1] = false;
+      valueChange[1].value = false;
     } else {
       if (firstPin == pin) {
         await StorageServices.clearKeySecure(DbKey.pin);
@@ -171,7 +165,9 @@ class PincodeState extends State<Pincode> {
   }
 
   Future<void> setVerifyPin(String pin) async {
+    print("setVerifyPin");
     if (firstPin == null) {
+
       firstPin = pin;
 
       clearAll();
@@ -187,7 +183,8 @@ class PincodeState extends State<Pincode> {
         Navigator.pop(context, true);
       }
       
-      valueChange.value[1] = false;
+      print("valueChange[1].value ${valueChange[1].value}");
+      valueChange[1].value = false;
       
     } else {
       
@@ -336,8 +333,8 @@ class PincodeState extends State<Pincode> {
   void onPressedDigit() {
     setState(() {
       clearAll();
-      valueChange.value[0] = !valueChange.value[0]!;
-      valueChange.value[0] == true ? init4Digits() : init6Digits();
+      valueChange[0].value = !valueChange[0].value!;
+      valueChange[0].value == true ? init4Digits() : init6Digits();
     });
   }
 

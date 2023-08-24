@@ -112,11 +112,6 @@ class ContractService implements IContractService {
       final sender = await credentials.extractAddress();
       final maxGas = await getMaxGas(sender, txInfo);
 
-      debugPrint("credentials ${credentials.address}");
-      debugPrint("txInfo ${txInfo}");
-      debugPrint("sender ${sender.hex}");
-      debugPrint("maxGas ${maxGas.toString()}");
-
       res = await _client.sendTransaction(
         credentials,
         Transaction.callContract(
@@ -156,9 +151,9 @@ class ContractService implements IContractService {
       final res = await _queryContract(_contract, _decimalFunction(), []);
       return res.first;
     } catch (e){
-        if (kDebugMode) {
-          debugPrint("err getChainDecimal $e");
-        }
+      if (kDebugMode) {
+        debugPrint("err getChainDecimal $e");
+      }
     }
     return 0 as BigInt;
   }

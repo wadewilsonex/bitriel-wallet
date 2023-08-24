@@ -200,7 +200,6 @@ class MySeedField extends StatelessWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(pLeft!, pTop!, pRight!, pBottom!),
       child: TextFormField(
-        key: key,
         enabled: enableInput,
         focusNode: focusNode,
         autofocus: autoFocus ?? false,
@@ -214,10 +213,11 @@ class MySeedField extends StatelessWidget {
           // ignore: prefer_if_null_operators
           inputAction == null ? TextInputAction.next : inputAction,
         style: TextStyle(
-            color: isDarkMode
-              ? hexaCodeToColor(AppColors.whiteColorHexa)
-              : hexaCodeToColor(AppColors.textColor),
-            fontSize: 15),
+          color: isDarkMode
+            ? hexaCodeToColor(AppColors.whiteColorHexa)
+            : hexaCodeToColor(AppColors.textColor),
+          fontSize: 15
+        ),
         validator: (String? value){
           return validateField!(value);
         },
@@ -232,8 +232,7 @@ class MySeedField extends StatelessWidget {
             fontWeight: FontWeight.w600
           ),
           prefixText: prefixText,
-          prefixStyle: TextStyle(
-              color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
+          prefixStyle: TextStyle(color: Color(int.parse("0xFF${AppColors.textColor.replaceAll("#", '')}")), fontSize: 18.0),
           /* Prefix Text */
           filled: true,
           fillColor: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06) : hexaCodeToColor(AppColors.blackColor).withOpacity(0.06),
@@ -261,9 +260,10 @@ class MySeedField extends StatelessWidget {
             ),
           ),
           /* Default Focuse Border Color*/
-          focusColor: isDarkMode
-              ? hexaCodeToColor("#ffffff")
-              : hexaCodeToColor(AppColors.textColor),
+          focusColor: Color(int.parse("0xFF${AppColors.textColor.replaceAll("#", '')}")),
+          // isDarkMode
+          //     ? hexaCodeToColor("#ffffff")
+          //     : hexaCodeToColor(AppColors.textColor),
           /* Border Color When Focusing */
           contentPadding: const EdgeInsets.fromLTRB(15, 15, 15, 1),
           suffixIcon: suffixIcon,

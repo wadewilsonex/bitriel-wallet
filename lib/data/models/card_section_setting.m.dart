@@ -276,6 +276,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
 
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
+    
     } catch (e) {
 
       if (kDebugMode) {

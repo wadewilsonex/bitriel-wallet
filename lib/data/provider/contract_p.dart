@@ -395,9 +395,9 @@ class ContractProvider with ChangeNotifier {
       notifyListeners();
     } catch (e) {
       
-        if (kDebugMode) {
-          
-        }
+      if (kDebugMode) {
+        
+      }
       
     }
   }

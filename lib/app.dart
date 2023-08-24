@@ -242,6 +242,7 @@ class AppState extends State<App>{
   //     await StorageServices.removeKey(DbKey.btcAddr);
   //   }
   // }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -254,14 +255,15 @@ class AppState extends State<App>{
       //   // appBarTheme: const AppBarTheme(backgroundColor: Colors.white)
       // ),
       // initialRoute: AppString.onboardingView,
-      // routes: {
-      //   // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
-      //   AppString.accountView: (_) => Account(
-      //     argument: ModalRoute.of(context)?.settings.arguments,
-      //   ),
-      //   AppString.homeView: (_) => const HomePage(),
-      //   AppString.onboardingView: (_) => const Onboarding()
-      // },
+      routes: {
+        // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
+        AppString.accountView: (_) => Account(
+          argument: ModalRoute.of(context)?.settings.arguments,
+        ),
+        AppString.homeView: (_) => const HomePage(),
+        AppString.onboardingView: (_) => const Onboarding(),
+        AppString.pinCreateSeedsView: (_) => const Pincode(label: PinCodeLabel.fromCreateSeeds,)
+      },
       home: Onboarding(),
     );
     // );

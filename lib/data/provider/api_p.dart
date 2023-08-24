@@ -89,7 +89,7 @@ class ApiProvider with ChangeNotifier {
 
       sldNetworkList = [
         json[ isMainnet ? 'mainnet' : 'testnet' ][0],
-        json[ isMainnet ? 'mainnet' : 'testnet' ][1]
+        json[ isMainnet ? 'mainnet' :v 'testnet' ][1]
       ];
 
       // sldNetworkList = [
@@ -216,7 +216,7 @@ class ApiProvider with ChangeNotifier {
 
       // setBtcAddr(bech32Address!);
       // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-      // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(context: context);
+      await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(context: context);
 
       contractPro.notifyListeners();
 
@@ -580,7 +580,7 @@ class ApiProvider with ChangeNotifier {
       final contract = Provider.of<ContractProvider>(context!, listen: false);
       // Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address ?? '');
       
-      await _sdk.webView!.evalJavascript("account.getBalance(api, '${_keyring.current.address}', 'Balance')").then((value) async {
+      await _sdk.webView!.evalJavascript("settings.getBalance(api, '${_keyring.current.address}', 'Balance')").then((value) async {
         
         contract.listContract[selNativeIndex].balance = Fmt.balance(
           value['freeBalance'].toString(),

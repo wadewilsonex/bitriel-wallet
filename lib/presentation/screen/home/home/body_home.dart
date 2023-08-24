@@ -99,7 +99,7 @@ Widget homePageBody(
                 ),
               ],
               
-              body: Text("hello")//_coinMenuCategory(),
+              body: _coinMenuCategory(),
             ),
           ),
           // SwapPage(),

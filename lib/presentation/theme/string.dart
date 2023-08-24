@@ -23,6 +23,7 @@ class AppString {
   static const String eventView = '/event';
 
   static const String homeView = '/home';
+  static const String pinCreateSeedsView = '/pin';
 
   static const String contactAppBarTitle = 'Contact List';
   static const String confirmTxTitle = 'Confirm Transaction';

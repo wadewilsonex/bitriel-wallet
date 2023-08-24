@@ -78,17 +78,6 @@ class OnboardingState extends State<Onboarding>{
       await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.deleteAccount(Provider.of<ApiProvider>(context, listen: false).getKeyring, Provider.of<ApiProvider>(context, listen: false).getKeyring.current);
     }
   }
-
-  Future<void> check() async {
-    return await Future<void>(() async {
-      if (Provider.of<ApiProvider>(context, listen: false).netWorkConnected!) {
-        await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.deleteAccount(
-          Provider.of<ApiProvider>(context, listen: false).getKeyring,
-          Provider.of<ApiProvider>(context, listen: false).getKeyring.current
-        );
-      }
-    });
-  }
   
   Future<void> getCurrentAccount() async {
 
@@ -233,7 +222,7 @@ class OnboardingState extends State<Onboarding>{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white, //Color(AppUtils.convertHexaColor(AppColors.lightColorBg)),
-      body: SafeArea(child: onboardingBody(context, isReady: isReady, inputController: InputController() , tabGoogle: tabGoogle, selected: selected,)),
+      body: SafeArea(child: OnboardingBody(isReady: isReady, inputController: InputController() , tabGoogle: tabGoogle, selected: selected,)),
     );
   }
 }

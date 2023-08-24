@@ -90,6 +90,7 @@ class AppProvider with ChangeNotifier {
       });
       
     }
+    
   }
 
   Future<void> deleteAllFile() async {

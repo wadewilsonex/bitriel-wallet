@@ -5,24 +5,25 @@ import 'package:wallet_apps/presentation/components/welcome_item_c.dart';
 import 'package:wallet_apps/data/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/presentation/screen/auth/json/json.dart';
 
-// class OnboardingBody extends StatelessWidget {
+class OnboardingBody extends StatelessWidget {
+  
+  final ValueNotifier<bool>? isReady;
+  final InputController? inputController;
+  final bool? selected;
+  final Function? tabGoogle;
+  final double? logoSize;
 
-  
-  
-  
-  
+  const OnboardingBody({
+    Key? key, 
+    this.selected, 
+    this.tabGoogle,
+    this.isReady,
+    this.inputController,
+    this.logoSize = 100
+  }) : super(key: key);
 
-  // OnboardingBody({Key? key, this.selected, this.tabGoogle}) : super(key: key);
-
-  Widget onboardingBody(
-    BuildContext context,{
-      ValueNotifier<bool>? isReady,
-      required InputController? inputController,
-      bool? selected,
-      Function? tabGoogle,
-      double? logoSize = 100,
-    }
-  ) {
+  @override
+  Widget build(BuildContext context) {
 
     return Padding(
       padding: const EdgeInsets.all(20),
@@ -49,45 +50,100 @@ import 'package:wallet_apps/presentation/screen/auth/json/json.dart';
       
           Row(
             children: [
-              
-              Expanded(
-                child: WelcomeItem(
-                  margin: const EdgeInsets.only(top: 20, bottom: 20, right: 20 / 2),
-                  title: "Create wallet",
-                  img: "assets/images/setup-1.png",
-                  textColor: AppColors.whiteColorHexa,
-                  imageIndex: 0,
-                  icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
-                  itemColor: "#263238",
-                  action: () {
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute(
-                        builder: (context) => const Pincode(label: PinCodeLabel.fromCreateSeeds),
-                        settings: ModalRoute.of(context)?.settings
-                      )
-                      // Transition(child: const Pincode(label: PinCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                    );
-                  },
-                ),
-              ),
 
-              Expanded(
-                child: WelcomeItem(
-                  margin: const EdgeInsets.only(top: 20, bottom: 20, left: 20 / 2),
-                  title: "Import wallet",
-                  img: "assets/images/setup-2.png",
-                  textColor: AppColors.whiteColorHexa,
-                  imageIndex: 1,
-                  icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
-                  itemColor: "#F27649",
-                  action: () {
-                    Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                  },
-                ),
-              ),
+              InkWell(
+                child: const Text("Hello"),
+            onTap: (){
+
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                transitionDuration: const Duration(milliseconds: 500),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                  position: Tween(begin: Offset(1, 0), end: Offset(0, 0)).animate(animation),
+                  child: child,
+                  );
+                },
+                pageBuilder: (context, animation, secondaryAnimation) => const Pincode(label: PinCodeLabel.fromCreateSeeds),
+                )
+              );
+              // Navigator.push(
+              //   context, 
+              //   PageRouteBuilder(
+              //     transitionDuration: const Duration(microseconds: 0),
+              //     reverseTransitionDuration: const Duration(microseconds: 0),
+              //     pageBuilder: (context, animation, secondaryAnimation) => const Pincode(label: PinCodeLabel.fromCreateSeeds),
+              //     settings: ModalRoute.of(context)?.settings
+              //   // MaterialPageRoute(
+              //   //   builder: (context) => const Pincode(label: PinCodeLabel.fromCreateSeeds),
+              //   )
+              //   // Transition(child: const Pincode(label: PinCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              // );
+            },
+          )
+              
+              // Expanded(
+              //   child: WelcomeItem(
+              //     margin: const EdgeInsets.only(top: 20, bottom: 20, right: 20 / 2),
+              //     title: "Create wallet",
+              //     img: "https://raw.githubusercontent.com/BITRIEL-DATA/BITRIEL-DATA.github.io/main/icons/setup-1.png",
+              //     textColor: AppColors.whiteColorHexa,
+              //     imageIndex: 0,
+              //     icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
+              //     itemColor: "#263238",
+              //     action: () {
+              //       Navigator.push(
+              //         context, 
+              //         MaterialPageRoute(
+              //           builder: (context) => const Pincode(label: PinCodeLabel.fromCreateSeeds),
+              //           settings: ModalRoute.of(context)?.settings
+              //         )
+              //         // Transition(child: const Pincode(label: PinCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              //       );
+              //     },
+              //   ),
+              // ),
+
+              // Expanded(
+              //   child: WelcomeItem(
+              //     margin: const EdgeInsets.only(top: 20, bottom: 20, left: 20 / 2),
+              //     title: "Import wallet",
+              //     img: "https://raw.githubusercontent.com/BITRIEL-DATA/BITRIEL-DATA.github.io/main/icons/setup-2.png",
+              //     textColor: AppColors.whiteColorHexa,
+              //     imageIndex: 1,
+              //     icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
+              //     itemColor: "#F27649",
+              //     action: () {
+              //       Navigator.push(
+              //         context, 
+              //         MaterialPageRoute(
+              //           builder: (context) => const Pincode(label: PinCodeLabel.fromImportSeeds,)
+              //         )
+              //         // Transition(child: , transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              //       );
+              //       // Navigator.push(
+              //       //   context,
+              //       //   PageRouteBuilder(
+              //       //     pageBuilder: (context, animation, secondaryAnimation) {
+              //       //       return const Pincode(label: PinCodeLabel.fromImportSeeds);
+              //       //     },
+              //       //     transitionDuration: const Duration(seconds: 500),
+              //       //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              //       //       return SlideTransition(
+              //       //         position: const Animtion<Offset>(1, 0),
+              //       //         child: child,
+              //       //       );
+              //       //     },
+              //       //   ),
+              //       // );
+              //     },
+              //   ),
+              // ),
+
             ],
           ),
+          
 
           // Row(
           //   children: [
@@ -152,4 +208,4 @@ import 'package:wallet_apps/presentation/screen/auth/json/json.dart';
     //   ],
     // );
   }
-// }
+}

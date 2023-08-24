@@ -301,7 +301,9 @@ class SubmitTrxState extends State<SubmitTrx> {
                 }
 
                 final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
+
                 final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 18)).toString());
+
                 final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last == "0" ? "1" : estAmtPrice.last);
 
                 final estTotalPrice = estGasFeePrice! + estToSendPrice;
@@ -476,6 +478,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                 _scanPayM.hash = await trxFunc!.sendTxErc20(_contractProvider!.getErc20, txInfo);
                 
               } else {
+                
                 await _contractProvider!.initBep20Service(contractAddr!);
                 _scanPayM.hash = await trxFunc!.sendTxBep20(_contractProvider!.getBep20, txInfo);
               }
