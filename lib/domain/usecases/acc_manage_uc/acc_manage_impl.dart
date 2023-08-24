@@ -26,24 +26,9 @@ class AccountManagementImpl extends AccountMangementUC {
 
       await sdkProvider.getSdkImpl.getWalletSdk.webView!.evalJavascript("wallets.getPrivateKey('$seed')").then((value) async {
         
-        // _pk = value;
-        print("addAndImport Value $value");
-
-        // await SecureStorage.writeData(key: DbKey.private, encodeValue: _pk);
-
         _pk = await sdkProvider.getSdkImpl.encryptPrivateKey(value!, pin);
         
         await SecureStorage.writeData(key: DbKey.private, encodeValue: _pk);
-
-        print("_pk $_pk");
-
-        // Extract private from seed
-        // _pk = await sdkProvider.getSdkImpl.getDecrypedSeed(importData![1], pin);
-
-        // print("_pk $_pk");
-
-
-        // await SecureStorage.writeData(key: DbKey.private, encodeValue: res);
 
         // Use Seed to query EVM address
         // And Use PrivateKey to extract BTC native address.
@@ -51,7 +36,7 @@ class AccountManagementImpl extends AccountMangementUC {
         
       });
 
-    }catch (e) {
+    } catch (e) {
       
       // Close Dialog Loading
       Navigator.pop(context);

@@ -8,8 +8,6 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    TextEditingController searchController = TextEditingController();
-
     final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
 
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
@@ -30,18 +28,6 @@ class WalletScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            
-            // ValueListenableBuilder(
-            //   valueListenable: Provider.of<SDKProvider>(context, listen: false).isMainnet, 
-            //   builder: (context, value, wg){
-            //     return Switch(
-            //       value: value,
-            //       onChanged: (value) {
-            //         walletPro.switchChange(value);
-            //       },
-            //     );
-            //   }
-            // ),
             
             _cardPortfolio(context),
 

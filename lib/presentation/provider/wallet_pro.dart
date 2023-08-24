@@ -289,6 +289,7 @@ class WalletProvider with ChangeNotifier {
   }
 
   Future<void> storeAssets() async {
+    
     await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
     await SecureStorage.writeData(key: DbKey.addedContract, encodeValue: json.encode(SmartContractModel.encode(addedContract!)) );
   }
