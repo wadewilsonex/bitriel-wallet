@@ -241,23 +241,26 @@ class AppUsecasesImpl implements AppUsecases {
         oldPass
       );
 
-
-
       print("res seed ${seeds!["seed"]}");
 
       // Get Private Key _resPk
-      final resPk = sdkProvider!.getSdkImpl.getPrivateKey(seeds['seed']);
+      // final resPk = sdkProvider!.getSdkImpl.getPrivateKey(seeds['seed']);
+      await sdkProvider!.getSdkImpl.getWalletSdk.webView!.evalJavascript("wallets.getPrivateKey('${seeds["seed"]}')").then((privateKey) async {
 
-      print("resPk $resPk");
+        // Re-Encrypt Private Key
+        final encrypt = await sdkProvider!.getSdkImpl.encryptPrivateKey(privateKey, newPass!);
 
-      // Re-Encrypt Private Key
-      final res = await sdkProvider!.getSdkImpl.encryptPrivateKey(resPk.toString(), newPass!);
+        print("resPk new pass $privateKey");
+        
+        await _secureStorageImpl.writeSecure(DbKey.private, encrypt!);
 
-      print("resPk new pass $resPk");
-      
-      await _secureStorageImpl.writeSecure(DbKey.private, res!);
+        await _secureStorageImpl.writeSecure(DbKey.pin, newPass!);
 
-      await _secureStorageImpl.writeSecure(DbKey.pin, newPass!);
+        // 1
+        sdkProvider!.getUnverifyAcc[sdkProvider!.currentAccIndex].pubKey = encrypt; 
+
+        await _secureStorageImpl.writeSecure(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(sdkProvider!.getUnverifyAcc)));
+      });
 
 
     } catch (e){
