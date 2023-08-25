@@ -186,6 +186,7 @@ class PinUsecaseImpl implements PinUsecase{
       if (
         pinModel.pinLabel == PinCodeLabel.fromSendTx || 
         pinModel.pinLabel == PinCodeLabel.fromBackUp ||
+        pinModel.pinLabel == PinCodeLabel.fromChangePin ||
         pinModel.pinLabel == PinCodeLabel.fromSignMessage
         ){
         Navigator.pop(context, pin);

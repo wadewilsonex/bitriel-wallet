@@ -74,13 +74,10 @@ class PrivacyScreen extends StatelessWidget {
               isTransparent: true,
               isTransparentOpacity: 0,
               action: () async {
-          
+                await appUsecasesImpl.changePin();
               },
             ),
           ),
-
-          
-
       
         ],
       ),

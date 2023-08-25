@@ -2,13 +2,14 @@ import 'package:bitriel_wallet/index.dart';
 
 class AccountSettingScreen extends StatelessWidget {
 
-  final MultiAccountImpl multiAccountImpl;
   final int? indexAcc;
   
-  const AccountSettingScreen({super.key, required this.multiAccountImpl, this.indexAcc});
+  const AccountSettingScreen({super.key, this.indexAcc});
 
   @override
   Widget build(BuildContext context) {
+
+    final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
 
     multiAccountImpl.setContext(context);
 

@@ -7,13 +7,20 @@ class AppUsecasesImpl implements AppUsecases {
   final LocalAuthentication _localAuth = LocalAuthentication();
   
   BuildContext? _context;
-  SDKProvider? sdkProvier;
+  SDKProvider? sdkProvider;
 
   final ValueNotifier<bool> isAuthenticated = ValueNotifier(false);
 
+  int? accIndex;
+
+  String? oldPass;
+  String? newPass;
+
+  final SecureStorageImpl _secureStorageImpl = SecureStorageImpl();
+
   set setBuildContext(BuildContext ctx){
     _context = ctx;
-    sdkProvier = Provider.of<SDKProvider>(ctx, listen: true);
+    sdkProvider = Provider.of<SDKProvider>(ctx, listen: true);
   }
     
   @override
@@ -112,12 +119,11 @@ class AppUsecasesImpl implements AppUsecases {
   @override
   Future<void> checkAccountExist() async {
     
-    if (sdkProvier!.getSdkImpl.getKeyring.allAccounts.isNotEmpty){
+    if (sdkProvider!.getSdkImpl.getKeyring.allAccounts.isNotEmpty){
       await Future.delayed(const Duration(milliseconds: 200), (){
         Navigator.pushAndRemoveUntil(
           _context!, 
           MaterialPageRoute(builder: (context) => const MainScreen()), 
-          // MaterialPageRoute(builder: (context) => const AddAsset()), 
           (route) => false
         );
 
@@ -128,7 +134,6 @@ class AppUsecasesImpl implements AppUsecases {
         Navigator.pushAndRemoveUntil(
           _context!, 
           MaterialPageRoute(builder: (context) => const Welcome()), 
-          // MaterialPageRoute(builder: (context) => const AddAsset()), 
           (route) => false
         );
 
@@ -136,6 +141,131 @@ class AppUsecasesImpl implements AppUsecases {
 
     }
     
+  }
+
+
+  @override
+  Future<void> changePin() async {
+    
+    try {
+      await Navigator.push(
+        _context!,
+        MaterialPageRoute(builder: (context) => const PincodeScreen(title: "Current PIN", label: PinCodeLabel.fromChangePin,))
+      ).then((oldPin) async {
+
+        oldPass = oldPin;
+
+        print("oldPass $oldPass");
+
+        dialogLoading(_context!);
+
+        await sdkProvider!.getSdkImpl.getWalletSdk.api.keyring.checkPassword(
+          sdkProvider!.getSdkImpl.getKeyring.current, 
+          oldPin
+        ).then((value) async {
+          
+          print("check password $value");
+
+          if(value == true) {
+            // Close dialogLoading
+            Navigator.pop(_context!);
+
+            Navigator.push(
+              _context!,
+              MaterialPageRoute(builder: (context) => const PincodeScreen(title: "New PIN", label: PinCodeLabel.fromChangePin,))
+            ).then((newPin) async {
+
+              dialogLoading(_context!);
+
+              newPass = newPin;
+
+              print("new password $newPass");
+
+              await sdkProvider!.getSdkImpl.getWalletSdk.api.keyring.changePassword(
+                sdkProvider!.getSdkImpl.getKeyring, 
+                sdkProvider!.getSdkImpl.getKeyring.current, 
+                oldPass!, 
+                newPass!
+              );
+
+              await updatePkWithNewPass();
+
+
+              // Close dialogLoading
+              Navigator.pop(_context!);
+
+              await QuickAlert.show(
+                context: _context!,
+                type: QuickAlertType.success,
+                text: "Your PIN has been changed.",
+                barrierDismissible: false
+              );
+
+            });
+          }
+          else {
+            Navigator.pop(_context!);
+
+            await QuickAlert.show(
+              context: _context!,
+              type: QuickAlertType.error,
+              text: "You entered incorrect PIN",
+              barrierDismissible: false
+            );
+          }
+        });
+
+      });
+    } catch (e) {
+
+      Navigator.pop(_context!);
+      
+      await QuickAlert.show(
+        context: _context!,
+        type: QuickAlertType.error,
+        text: "$e",
+        barrierDismissible: false
+      );
+    }
+
+  }
+
+  Future<void> updatePkWithNewPass() async {
+    try {
+
+      // Get Seeds From Decrypt
+      final seeds = await KeyringPrivateStore(
+        [sdkProvider!.getSdkImpl.sdkRepoImpl.nodes[0].ss58!]
+      ).getDecryptedSeed(
+        sdkProvider!.getSdkImpl.getKeyring.current.pubKey, 
+        oldPass
+      );
+
+
+
+      print("res seed ${seeds!["seed"]}");
+
+      // Get Private Key _resPk
+      final resPk = sdkProvider!.getSdkImpl.getPrivateKey(seeds['seed']);
+
+      print("resPk $resPk");
+
+      // Re-Encrypt Private Key
+      final res = await sdkProvider!.getSdkImpl.encryptPrivateKey(resPk.toString(), newPass!);
+
+      print("resPk new pass $resPk");
+      
+      await _secureStorageImpl.writeSecure(DbKey.private, res!);
+
+      await _secureStorageImpl.writeSecure(DbKey.pin, newPass!);
+
+
+    } catch (e){
+      
+      if (kDebugMode) {
+        debugPrint("Error updatePkWithNewPass $e");
+      }
+    } 
   }
   
 }

@@ -6,5 +6,6 @@ abstract class AppUsecases {
   Future<void> enableBiometric(bool switchValue);
   Future<void> readBio();
   Future<void> authPopup();
+  Future<void> changePin();
 
 }

@@ -47,7 +47,7 @@ class SplashScreen extends StatelessWidget {
 
     // If BIO exist Execute BIO Function 
     // Else Execute AccountExist Function
-    if (appImpl.sdkProvier!.isConnected) appImpl.readBio();
+    if (appImpl.sdkProvider!.isConnected) appImpl.readBio();
 
     return const Scaffold(
       body: SizedBox(

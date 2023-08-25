@@ -262,7 +262,7 @@ PreferredSizeWidget defaultAppBar({
                 ),
               ),
 
-              multiAccountImpl.getAllAccount.length == 3 ? const SizedBox() : MyButton(
+              multiAccountImpl.getAllAccount.length == 2 ? const SizedBox() : MyButton(
                 edgeMargin: const EdgeInsets.all(15),
                 textButton: "Add Account",
                 fontWeight: FontWeight.w600,
