@@ -86,6 +86,7 @@ class SettingScreen extends StatelessWidget {
                         context: context,
                         type: QuickAlertType.warning,
                         text: 'Are you sure to delete all your wallets?',
+                        confirmBtnColor: hexaCodeToColor(AppColors.red),
                         confirmBtnText: "Delete",
                         onConfirmBtnTap: () async{
                           await Provider.of<SDKProvider>(context, listen: false).getSdkImpl.deleteAccount(context);

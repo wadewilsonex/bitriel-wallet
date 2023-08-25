@@ -105,6 +105,7 @@ class SmartContractModel {
   }
 
   static Map<String, dynamic> toMap(SmartContractModel asset) => {
+    'index': asset.index,
     'id': asset.id,
     'address': asset.address,
     'symbol': asset.symbol,

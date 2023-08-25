@@ -14,14 +14,12 @@ enum PinCodeLabel {
 
 class PincodeScreen extends StatefulWidget {
 
-  final String? titleStatus;
+  final String title;
   final PinCodeLabel? label;
-  final bool? isAppBar;
   
   const PincodeScreen({
     Key? key, 
-    this.titleStatus,
-    this.isAppBar = false, 
+    required this.title,
     this.label
   }) : super(key: key);
   //static const route = '/passcode';
@@ -72,35 +70,100 @@ class PincodeScreenState extends State<PincodeScreen> {
   Widget pinBody(){
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
-      appBar: appBarPassCode(context),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: false,
+        backgroundColor: hexaCodeToColor(AppColors.background),
+        title: MyTextConstant(
+          text: widget.title,
+          fontSize: 26,
+          color2: hexaCodeToColor(AppColors.midNightBlue),
+          fontWeight: FontWeight.w600,
+          textAlign: TextAlign.start,
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            size: 30,
+            color: hexaCodeToColor(AppColors.midNightBlue),
+          ),
+        ),
+
+        actions: [
+          
+          ValueListenableBuilder(
+            valueListenable: pinUsecaseImpl.pinModel.isFirstPIN,
+            builder: (context, vl, wg){
+              return vl == true ? TextButton(
+                onPressed: () {
+
+                  /// Switch PIN Digit
+                  pinUsecaseImpl.onPressedDigitOption(pinUsecaseImpl.pinModel.is6gidit.value);
+                }, 
+                child: ValueListenableBuilder(
+                  valueListenable: pinUsecaseImpl.pinModel.is6gidit,
+                  builder: (context, value, wg){
+                    return MyTextConstant(
+                      text: value == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
+                      color2: hexaCodeToColor(AppColors.primary),
+                      fontWeight: FontWeight.w700,
+                    );
+                  },
+                ),
+              ) : const SizedBox();
+            }
+          )
+        ],
+
+      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20,),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
 
-            Expanded(
-              child: Center(
-                child: 
-                (pinUsecaseImpl.pinModel.isFirstPIN.value == true ) ? ValueListenableBuilder(
-                  valueListenable: pinUsecaseImpl.pinModel.isFirstPIN, 
-                  builder: (builder, value, wg){
-                    return MyTextConstant(
-                      text: value == true ? 'Enhance the security of your account by creating a PIN code' : 'Repeat a PIN code to continue',
-                      fontSize: 17,
-                    ) ;
-                  }
-                )
-                // For Change PIN
-                : MyTextConstant(
-                  text: pinUsecaseImpl.pinModel.subTitleStatus,
-                  color2: AppUtils.colorFor(pinUsecaseImpl.pinModel.titleStatus == "Invalid PIN" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor),
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: CircleAvatar(
+                  backgroundColor: hexaCodeToColor(AppColors.white),
+                  child: Icon(
+                    Iconsax.security_safe,
+                    size: 50,
+                    color: hexaCodeToColor(AppColors.primaryBtn),
+                  ),
                 ),
+              ),
+            ),
+
+            Center(
+              child: 
+              (pinUsecaseImpl.pinModel.isFirstPIN.value == true ) ? ValueListenableBuilder(
+                valueListenable: pinUsecaseImpl.pinModel.isFirstPIN, 
+                builder: (builder, value, wg){
+                  return widget.label == PinCodeLabel.fromSendTx || widget.label == PinCodeLabel.fromBackUp ? 
+                  const MyTextConstant(
+                    text: "Enter PIN to confirm",
+                    fontSize: 17,
+                  )
+                  : MyTextConstant(
+                    text: value == true ? 'Enhance the security of your account by creating a PIN code' : 'Repeat a PIN code to continue',
+                    fontSize: 17,
+                  );
+                }
               )
+              // For Change PIN
+              : MyTextConstant(
+                text: pinUsecaseImpl.pinModel.subTitleStatus,
+                color2: AppUtils.colorFor(pinUsecaseImpl.pinModel.titleStatus == "Invalid PIN" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor),
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
             ),
 
             // if (subStatus == null)
@@ -170,56 +233,6 @@ class PincodeScreenState extends State<PincodeScreen> {
           ],
         ),
       )
-    );
-  }
-  
-  PreferredSizeWidget appBarPassCode(final BuildContext context){
-    return AppBar(
-      elevation: 0,
-      centerTitle: false,
-      backgroundColor: hexaCodeToColor(AppColors.background),
-      title: MyTextConstant(
-        text: "Create a PIN",
-        fontSize: 26,
-        color2: hexaCodeToColor(AppColors.midNightBlue),
-        fontWeight: FontWeight.w600,
-        textAlign: TextAlign.start,
-      ),
-      leading: IconButton(
-        onPressed: () => Navigator.pop(context),
-        icon: Icon(
-          Iconsax.arrow_left_2,
-          size: 30,
-          color: hexaCodeToColor(AppColors.midNightBlue),
-        ),
-      ),
-
-      actions: [
-        
-        ValueListenableBuilder(
-          valueListenable: pinUsecaseImpl.pinModel.isFirstPIN,
-          builder: (context, vl, wg){
-            return vl == true ? TextButton(
-              onPressed: () {
-
-                /// Switch PIN Digit
-                pinUsecaseImpl.onPressedDigitOption(pinUsecaseImpl.pinModel.is6gidit.value);
-              }, 
-              child: ValueListenableBuilder(
-                valueListenable: pinUsecaseImpl.pinModel.is6gidit,
-                builder: (context, value, wg){
-                  return MyTextConstant(
-                    text: value == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
-                    color2: hexaCodeToColor(AppColors.primary),
-                    fontWeight: FontWeight.w700,
-                  );
-                },
-              ),
-            ) : const SizedBox();
-          }
-        )
-      ],
-
     );
   }
 }

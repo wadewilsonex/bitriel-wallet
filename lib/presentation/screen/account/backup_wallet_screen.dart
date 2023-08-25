@@ -1,15 +1,17 @@
 import 'package:bitriel_wallet/index.dart';
 
 class BackUpWalletScreen extends StatelessWidget{
+  
+  final String mnemonicKey;
 
   const BackUpWalletScreen({
-    Key? key,
+    Key? key, 
+    required this.mnemonicKey,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
 
-    String mnemonicKey = "february cushion veteran offer sustain captain pipe course rookie board cave expect";
     List<String> words = mnemonicKey.split(" ");
     int wordLength = words.length;
 
@@ -42,7 +44,7 @@ class BackUpWalletScreen extends StatelessWidget{
               ),
             ),
 
-            _copyButton(context: context, mnemonic: mnemonicKey),
+            // _copyButton(context: context, mnemonic: mnemonicKey),
             
 
             _warningMsg(),

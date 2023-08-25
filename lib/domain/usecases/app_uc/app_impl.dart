@@ -1,5 +1,6 @@
 import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/screen/auth_screen.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 
 class AppUsecasesImpl implements AppUsecases {
 
@@ -8,43 +9,41 @@ class AppUsecasesImpl implements AppUsecases {
   BuildContext? _context;
   SDKProvider? sdkProvier;
 
-  final ValueNotifier<bool> isEnableBiometric = ValueNotifier(false);
-
   final ValueNotifier<bool> isAuthenticated = ValueNotifier(false);
-
-  final ValueNotifier<bool> canCheckBiometrics = ValueNotifier(false);
 
   set setBuildContext(BuildContext ctx){
     _context = ctx;
     sdkProvier = Provider.of<SDKProvider>(ctx, listen: true);
   }
-
-  @override
-  Future<bool> checkBiometrics() async {
-    try {
-      // Check For Support Device
-      bool support = await LocalAuthentication().isDeviceSupported();
-      if (support) {
-        canCheckBiometrics.value = await LocalAuthentication().canCheckBiometrics;
-      }
-      
-
-    } on PlatformException catch (e) {
-        if (kDebugMode) {
-          debugPrint("Error checkBiometrics $e");
-        }
-    }
-
-    return canCheckBiometrics.value;
-  }
-
+    
   @override
   Future<bool> authenticateBiometric() async {
-    // Trigger Authentication By Finger Print
-    return await _localAuth.authenticate(
-      localizedReason: 'Please complete the biometrics to proceed.'
-    );
-
+    // Trigger Authentication By Finger Print or PIN
+    try {
+      final bool didAuthenticate = await _localAuth.authenticate(
+        localizedReason: 'Please complete the biometrics to proceed.',
+        options: const AuthenticationOptions(useErrorDialogs: false),
+      );
+      return didAuthenticate;  // Return the authentication result
+    } on PlatformException catch (e) {
+      if (e.code == auth_error.notAvailable) {
+        // Add handling of no hardware here.
+        await QuickAlert.show(
+          context: _context!,
+          type: QuickAlertType.error,
+          text: "Authentication not available",
+        );
+      } else if (e.code == auth_error.notEnrolled) {
+        await QuickAlert.show(
+          context: _context!,
+          type: QuickAlertType.error,
+          text: "Authentication not yet enrolled",
+        );
+      } else {
+        // ...
+      }
+      return false;  // Return false in case of any exception
+    }
   }
 
   @override
@@ -64,23 +63,16 @@ class AppUsecasesImpl implements AppUsecases {
   // Called in privacy and splash screen
   @override
   Future<void> readBio({bool isPrivacy = false}) async{
-
     if (await SecureStorage.isContain(DbKey.bio)){
       
       final readBioVal = await SecureStorage.readData(key: DbKey.bio);
 
-      isEnableBiometric.value = bool.parse(readBioVal!);
+      isAuthenticated.value = bool.parse(readBioVal!);
 
       // If False Means Navigation Occure Only For Splash Screen
-      if (isPrivacy == false && isEnableBiometric.value == false) {
-        Navigator.pushAndRemoveUntil(
-          _context!,
-          MaterialPageRoute(builder: (context) => const MainScreen()),
-          (route) => false 
-        );
 
-      } else if (isEnableBiometric.value == true){
-
+      // Splash Screen
+      if (isPrivacy == false) {
         Navigator.pushAndRemoveUntil(
           _context!,
           MaterialPageRoute(builder: (context) => const AuthScreen()),
@@ -88,8 +80,9 @@ class AppUsecasesImpl implements AppUsecases {
         );
       }
 
-      return;
-    } else {
+      // return;
+
+    } else if (isPrivacy == false) {
       await checkAccountExist();
     }
 
@@ -99,21 +92,16 @@ class AppUsecasesImpl implements AppUsecases {
   Future<void> enableBiometric(bool switchValue) async {
 
     await authenticateBiometric().then((values) async {
-        isAuthenticated.value = values;
-        if (isAuthenticated.value) {
+      
+      isAuthenticated.value = switchValue;
 
-          isEnableBiometric.value = switchValue;
-
+      if (isAuthenticated.value) {
           // Save local storage key
-          SecureStorage.writeBio(key: DbKey.bio, encodeValue: isEnableBiometric.value);
-          
+          await SecureStorage.writeBio(key: DbKey.bio, encodeValue: isAuthenticated.value); 
 
-        } else if (isAuthenticated.value) {
-
-          isEnableBiometric.value = switchValue;
-
+        } else {
           // Remove local storage key
-          SecureStorage.deleteKey(DbKey.bio);
+          await SecureStorage.deleteKey(DbKey.bio);
 
         }
       }

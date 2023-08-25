@@ -166,4 +166,10 @@ class SDKProvider with ChangeNotifier {
   Future<void> disconnect() async {
     await _sdkImpl.sdkRepoImpl.disconnectNode();
   }
+
+  void updateWalletNameData() {
+    // Update the data that the widget depends on
+    notifyListeners(); // Notify listeners to rebuild widgets that depend on this provider
+  }
+
 }

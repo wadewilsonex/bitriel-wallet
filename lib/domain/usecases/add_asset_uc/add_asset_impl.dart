@@ -248,15 +248,12 @@ class AddAssetUcImpl implements AddAssetUsecase{
         walletProvider!.listBep20!.add(searched!);
 
         findIndex();
-
       }
       else {
-
         searched!.isErc20 = true;
         walletProvider!.listErc20!.add(searched!);
 
         findIndex();
-
       }
 
       await storeAddedAsset(searched!);
@@ -288,33 +285,30 @@ class AddAssetUcImpl implements AddAssetUsecase{
         text: '$e',
       );
       print("Error addBscToken $e");
-
     }
 
   }
 
   void findIndex() async {
 
+    print('searched!.symbol ${searched!.symbol}');
     if (walletProvider!.addedContract!.isEmpty){
-      print("walletProvider!.defaultListContract!.length ${walletProvider!.defaultListContract!.length}");
       searched!.index = walletProvider!.defaultListContract!.length.toString();
-      print('searched!.index ${searched!.index}');
-    } else {
-      print("walletProvider!.addedContract!.length-1 ${walletProvider!.addedContract![walletProvider!.addedContract!.length-1].index ?? 'Null'}");
 
-      print("(walletProvider!.addedContract![walletProvider!.addedContract!.length-1].index!) ${(walletProvider!.addedContract![walletProvider!.addedContract!.length-1].index!)}");
+    } else {
+      
       searched!.index = (int.parse(walletProvider!.addedContract![walletProvider!.addedContract!.length-1].index!)+1).toString();
-      print('searched!.index ${searched!.index}');
+
     }
 
     print("searched!.index ${searched!.index}");
-    
   }
 
   Future<void> storeAddedAsset(SmartContractModel searched) async {
 
     // walletProvider!.addedContract!.clear();
     walletProvider!.addedContract!.add(searched);
+    print("walletProvider!.addedContract ${walletProvider!.addedContract![walletProvider!.addedContract!.length-1].index}");
 
     print("searched.decimal ${searched.chainDecimal}");
 

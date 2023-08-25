@@ -21,6 +21,9 @@ class WalletInfo extends StatelessWidget {
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
 
     walletPro.marketUCImpl.getMarkets();
+    
+    print("scModel.symbol ${scModel.symbol}");
+    print("scModel.index ${scModel.index}");
 
     return DefaultTabController(  
       length: 2,

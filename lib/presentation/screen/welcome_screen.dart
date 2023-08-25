@@ -8,6 +8,7 @@ class Welcome extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: hexaCodeToColor(AppColors.background),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -15,7 +16,7 @@ class Welcome extends StatelessWidget {
             children: [
               _textHeader(),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
         
               SizedBox(
                 child: _listMenuButton(context)
@@ -48,7 +49,7 @@ class Welcome extends StatelessWidget {
         MyTextConstant(
           text: "Safe keeping digital assets, send, receive, trade, and more with Bitriel wallet.",
           textAlign: TextAlign.start,
-          fontSize: 19,
+          fontSize: 17,
           color2: Colors.grey
         )
       ],
@@ -67,12 +68,12 @@ class Welcome extends StatelessWidget {
             icon: Iconsax.add_circle, 
             route: "/create-wallet", 
             imgName: "setup-1.png", 
-            bgColor: const Color(0xFFF29F05),
+            bgColor: hexaCodeToColor(AppColors.primary).withOpacity(0.5),
             navigate: () async {
 
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PincodeScreen())
+                MaterialPageRoute(builder: (context) => const PincodeScreen(title: "Create a PIN",))
               ).then((value) {
                 
                 if (value != null){
@@ -83,10 +84,6 @@ class Welcome extends StatelessWidget {
                   );
                 }
               });
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const CreateWallet())
-              // );
             }
           )
         ),
@@ -101,12 +98,12 @@ class Welcome extends StatelessWidget {
             icon: Iconsax.import ,
             route: "/import-wallet", 
             imgName: "setup-2.png", 
-            bgColor: const Color(0xFFF29F05).withOpacity(0.5),
+            bgColor: hexaCodeToColor(AppColors.secondary).withOpacity(0.5),
             navigate: () async {
 
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PincodeScreen())
+                MaterialPageRoute(builder: (context) => const PincodeScreen(title: "Create a PIN",))
               ).then((value) {
                 
                 if (value != null){

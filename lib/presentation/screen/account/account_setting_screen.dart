@@ -1,18 +1,26 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/screen/account/backup_wallet_screen.dart';
 
 class AccountSettingScreen extends StatelessWidget {
-  const AccountSettingScreen({super.key});
+
+  final MultiAccountImpl multiAccountImpl;
+  final int? indexAcc;
+  
+  const AccountSettingScreen({super.key, required this.multiAccountImpl, this.indexAcc});
 
   @override
   Widget build(BuildContext context) {
+
+    multiAccountImpl.setContext(context);
+
+    multiAccountImpl.initTxtController(indexAcc!);
+
     return Scaffold(
       appBar: appBar(context, title: "Wallet"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          _inputWalletName(),
+          _inputWalletName(indexAcc!, multiAccountImpl),
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -29,12 +37,8 @@ class AccountSettingScreen extends StatelessWidget {
                 context: context,
                 submit: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const BackUpWalletScreen()
-                    )
-                  );
+                 
+                  multiAccountImpl.getMnemonic();
                 }
               );
             }
@@ -168,37 +172,43 @@ class AccountSettingScreen extends StatelessWidget {
     );
   }
 
-  Widget _inputWalletName() {
+  Widget _inputWalletName(int indexAcc, MultiAccountImpl multiAccountImpl) {
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      child: const Card(
+      child: Card(
         color: Colors.white,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15.0))
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
+              const Padding(
+                padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
                 child: Text(
-                  'Name',
+                  'Wallet Name',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
                 child: TextField(
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black),
-                  decoration: InputDecoration(
-                      hintText: 'Wallet Name',
-                      labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)),
+                  controller: multiAccountImpl.walletNameConroller,
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: "Wallet Name",
+                    labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
+                  ),
+                  onSubmitted: (value) async {
+                    await multiAccountImpl.changeWalletName(value);
+                  },
                 ),
               ),
             ],
