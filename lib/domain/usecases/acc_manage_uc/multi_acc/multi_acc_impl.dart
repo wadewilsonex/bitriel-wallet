@@ -40,11 +40,7 @@ class MultiAccountImpl implements MultiAccountUsecases {
           await Navigator.push(
             _context!,
             MaterialPageRoute(
-              // builder: (context) => CreateWallet(isBackBtn: true, isAddNew: true, passCode: pinValue,)
               builder: (context) => CreateWalletScreen(pin: pin, isMultiAcc: true)
-              // const ImportAcc(
-              //   isBackBtn: true,
-              // )
             )
           );
 
@@ -67,19 +63,9 @@ class MultiAccountImpl implements MultiAccountUsecases {
           await Navigator.push(
             _context!,
             MaterialPageRoute(
-              // builder: (context) => CreateWallet(isBackBtn: true, isAddNew: true, passCode: pinValue,)
               builder: (context) => ImportWalletScreen(pin: pin, isMultiAcc: true)
-              // const ImportAcc(
-              //   isBackBtn: true,
-              // )
             )
           );
-          // .then((accValue) {
-          //   if (accValue != null && accValue == true){
-          //     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-          //     // Provider.of<ApiProvider>(context, listen: false).notifyListeners();
-          //   }
-          // });
         }
       }
     );
@@ -151,13 +137,11 @@ class MultiAccountImpl implements MultiAccountUsecases {
         if (pin != null){
 
            try {
-          
-            final pk = await sdkProvider!.getSdkImpl.decryptPrivateKey(
+
+            await sdkProvider!.getSdkImpl.decryptPrivateKey(
               privateKey: sdkProvider!.getUnverifyAcc[accIndex!].pubKey, 
               pin: pin
             );
-
-            print("after decrypt _pk  $pk");
 
           } catch (e) {
             throw "You entered incorrect PIN";
