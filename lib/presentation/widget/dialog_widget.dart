@@ -44,6 +44,8 @@ Widget progress({String? animationAsset, String? content}) {
               child: MyTextConstant(
                 text: content, 
                 color2: hexaCodeToColor(AppColors.whiteColorHexa),
+                fontWeight: FontWeight.w600,
+                fontSize: 17,
               ),
             ),
           ],

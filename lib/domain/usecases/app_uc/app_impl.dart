@@ -13,8 +13,8 @@ class AppUsecasesImpl implements AppUsecases {
 
   int? accIndex;
 
-  String? oldPass;
-  String? newPass;
+  String? oldPin;
+  String? newPin;
 
   final SecureStorageImpl _secureStorageImpl = SecureStorageImpl();
 
@@ -146,91 +146,77 @@ class AppUsecasesImpl implements AppUsecases {
 
   @override
   Future<void> changePin() async {
-    
-    try {
-      await Navigator.push(
-        _context!,
-        MaterialPageRoute(builder: (context) => const PincodeScreen(title: "Current PIN", label: PinCodeLabel.fromChangePin,))
-      ).then((oldPin) async {
 
-        oldPass = oldPin;
+    final oldPinRes = await Navigator.push(
+      _context!,
+      MaterialPageRoute(builder: (context) => const PincodeScreen(title: "Current PIN", label: PinCodeLabel.fromChangePin,))
+    );
 
-        print("oldPass $oldPass");
+    if(oldPinRes != null) {
 
-        dialogLoading(_context!);
+      dialogLoading(_context!);
 
-        await sdkProvider!.getSdkImpl.getWalletSdk.api.keyring.checkPassword(
-          sdkProvider!.getSdkImpl.getKeyring.current, 
-          oldPin
-        ).then((value) async {
-          
-          print("check password $value");
+      oldPin = oldPinRes;
 
-          if(value == true) {
-            // Close dialogLoading
-            Navigator.pop(_context!);
-
-            Navigator.push(
-              _context!,
-              MaterialPageRoute(builder: (context) => const PincodeScreen(title: "New PIN", label: PinCodeLabel.fromChangePin,))
-            ).then((newPin) async {
-
-              dialogLoading(_context!);
-
-              newPass = newPin;
-
-              print("new password $newPass");
-
-              await sdkProvider!.getSdkImpl.getWalletSdk.api.keyring.changePassword(
-                sdkProvider!.getSdkImpl.getKeyring, 
-                sdkProvider!.getSdkImpl.getKeyring.current, 
-                oldPass!, 
-                newPass!
-              );
-
-              await updatePkWithNewPass();
-
-
-              // Close dialogLoading
-              Navigator.pop(_context!);
-
-              await QuickAlert.show(
-                context: _context!,
-                type: QuickAlertType.success,
-                text: "Your PIN has been changed.",
-                barrierDismissible: false
-              );
-
-            });
-          }
-          else {
-            Navigator.pop(_context!);
-
-            await QuickAlert.show(
-              context: _context!,
-              type: QuickAlertType.error,
-              text: "You entered incorrect PIN",
-              barrierDismissible: false
-            );
-          }
-        });
-
-      });
-    } catch (e) {
-
-      Navigator.pop(_context!);
-      
-      await QuickAlert.show(
-        context: _context!,
-        type: QuickAlertType.error,
-        text: "$e",
-        barrierDismissible: false
+      final isCheckPw = await sdkProvider!.getSdkImpl.getWalletSdk.api.keyring.checkPassword(
+        sdkProvider!.getSdkImpl.getKeyring.current, 
+        oldPin!
       );
+      
+
+      if(isCheckPw == true) {
+
+        // Close dialog
+        Navigator.pop(_context!);
+
+        final newPinRes = await Navigator.push(
+          _context!,
+          MaterialPageRoute(builder: (context) => const PincodeScreen(title: "New PIN", label: PinCodeLabel.fromChangePin,))
+        );
+        
+        if(newPinRes == null) return;
+
+        dialogLoading(_context!, content: "Updating PIN Code");
+
+        newPin = newPinRes;
+        
+        await sdkProvider!.getSdkImpl.getWalletSdk.api.keyring.changePassword(
+          sdkProvider!.getSdkImpl.getKeyring, 
+          sdkProvider!.getSdkImpl.getKeyring.current, 
+          oldPin!, 
+          newPin!
+        );
+
+        await updatePkWithnewPin();
+
+        // Close dialog
+        Navigator.pop(_context!);
+        
+        await QuickAlert.show(
+          context: _context!,
+          type: QuickAlertType.success,
+          text: "Your PIN has been changed.",
+          barrierDismissible: false
+        );
+      }
+      else {
+
+        Navigator.pop(_context!);
+    
+        await QuickAlert.show(
+          context: _context!,
+          type: QuickAlertType.error,
+          text: "Your entered incorrect PIN Code.",
+          barrierDismissible: false
+        );
+
+      }
+
     }
 
   }
 
-  Future<void> updatePkWithNewPass() async {
+  Future<void> updatePkWithnewPin() async {
     try {
 
       // Get Seeds From Decrypt
@@ -238,23 +224,18 @@ class AppUsecasesImpl implements AppUsecases {
         [sdkProvider!.getSdkImpl.sdkRepoImpl.nodes[0].ss58!]
       ).getDecryptedSeed(
         sdkProvider!.getSdkImpl.getKeyring.current.pubKey, 
-        oldPass
+        oldPin
       );
 
-      print("res seed ${seeds!["seed"]}");
-
       // Get Private Key _resPk
-      // final resPk = sdkProvider!.getSdkImpl.getPrivateKey(seeds['seed']);
-      await sdkProvider!.getSdkImpl.getWalletSdk.webView!.evalJavascript("wallets.getPrivateKey('${seeds["seed"]}')").then((privateKey) async {
+      await sdkProvider!.getSdkImpl.getWalletSdk.webView!.evalJavascript("wallets.getPrivateKey('${seeds!["seed"]}')").then((privateKey) async {
 
         // Re-Encrypt Private Key
-        final encrypt = await sdkProvider!.getSdkImpl.encryptPrivateKey(privateKey, newPass!);
-
-        print("resPk new pass $privateKey");
+        final encrypt = await sdkProvider!.getSdkImpl.encryptPrivateKey(privateKey, newPin!);
         
         await _secureStorageImpl.writeSecure(DbKey.private, encrypt!);
 
-        await _secureStorageImpl.writeSecure(DbKey.pin, newPass!);
+        await _secureStorageImpl.writeSecure(DbKey.pin, newPin!);
 
         // 1
         sdkProvider!.getUnverifyAcc[sdkProvider!.currentAccIndex].pubKey = encrypt; 
@@ -266,7 +247,7 @@ class AppUsecasesImpl implements AppUsecases {
     } catch (e){
       
       if (kDebugMode) {
-        debugPrint("Error updatePkWithNewPass $e");
+        debugPrint("Error updatePkWithnewPin $e");
       }
     } 
   }
