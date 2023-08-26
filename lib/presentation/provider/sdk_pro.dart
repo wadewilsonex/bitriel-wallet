@@ -12,11 +12,11 @@ class SDKProvider with ChangeNotifier {
 
   bool connectFailed = false;
 
-  final AccountManagementImpl _accountManagementImpl = AccountManagementImpl();
+  final AccountManagementImpl accountManagementImpl = AccountManagementImpl();
 
   String? dirPath;
 
-  List<UnverifySeed> get getUnverifyAcc => _accountManagementImpl.unVerifyAccount;
+  List<UnverifySeed> get getUnverifyAcc => accountManagementImpl.unVerifyAccount;
 
   ValueNotifier<bool> isMainnet = ValueNotifier(true);
 
@@ -148,7 +148,7 @@ class SDKProvider with ChangeNotifier {
   Future<void> fetchAllAccount() async {
 
     print("fetchAllAccount");
-    await _accountManagementImpl.fetchAccount();
+    await accountManagementImpl.fetchAccount();
 
     currentAccIndex = _sdkImpl.getKeyring.allAccounts.indexWhere((element) {
       

@@ -15,11 +15,13 @@ class AccountManagementImpl extends AccountMangementUC {
 
   @override
   // ignore: avoid_renaming_method_parameters
-  Future<void> addAndImport(SDKProvider sdkProvider, BuildContext context, String seed, String pin) async {
+  Future<void> addAndImport(BuildContext context, String seed, String pin) async {
 
     dialogLoading(context);
 
     try {
+
+      SDKProvider sdkProvider = Provider.of<SDKProvider>(context, listen: false);
 
       // 1. Import And Add Account
       importData = await sdkProvider.importSeed(seed, pin);
@@ -50,6 +52,8 @@ class AccountManagementImpl extends AccountMangementUC {
     print("verifyLaterData");
     print("_pk $_pk");
 
+    unVerifyAccount.clear();
+
     await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) async {
 
       if(value.isNotEmpty){
@@ -68,6 +72,11 @@ class AccountManagementImpl extends AccountMangementUC {
 
     await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unVerifyAccount)));
   
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    sdkProvider.notifyListeners();
+
+    print("unVerifyAccount ${unVerifyAccount.length}");
+
   }
 
   Future<void> fetchAccount() async {
@@ -86,10 +95,8 @@ class AccountManagementImpl extends AccountMangementUC {
   Future<void> accNavigation(BuildContext context, bool isMultiAcc) async {
 
     if (isMultiAcc == true) {
-      Navigator.popUntil(context, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
 
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      Provider.of<SDKProvider>(context, listen: false).notifyListeners();
+      Navigator.popUntil(context, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
     }
     else {
       Navigator.pushNamedAndRemoveUntil(context, "/${BitrielRouter.homeRoute}", (route) => false);

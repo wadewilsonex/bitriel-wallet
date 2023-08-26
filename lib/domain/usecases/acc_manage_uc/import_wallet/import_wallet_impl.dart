@@ -10,8 +10,6 @@ class ImportWalletImpl implements ImportWalletUsecases {
   ValueNotifier<bool> isSeedValid = ValueNotifier(false);
 
   SDKProvider? sdkProvider;
-  
-  final AccountManagementImpl _accountManagementImpl = AccountManagementImpl();
 
   bool? isMultiAcc = false;
 
@@ -40,14 +38,13 @@ class ImportWalletImpl implements ImportWalletUsecases {
   Future<void> addAndImport(String pin) async {
     try {
 
-      await _accountManagementImpl.addAndImport(sdkProvider!, _context!, seedController.text, pin);
+      await sdkProvider!.accountManagementImpl.addAndImport(_context!, seedController.text, pin);
 
-      await _accountManagementImpl.verifyLaterData(sdkProvider, true);
+      await sdkProvider!.accountManagementImpl.verifyLaterData(sdkProvider, true);
 
-      await _accountManagementImpl.accNavigation(_context!, isMultiAcc!);
+      print("addAndImport sdkProvider.getUnverifyAcc.length ${sdkProvider!.getUnverifyAcc.length}");
 
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      sdkProvider!.notifyListeners();
+      await sdkProvider!.accountManagementImpl.accNavigation(_context!, isMultiAcc!);
 
       // if (isMultiAcc == true) {
       //   Navigator.popUntil(_context!, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
