@@ -105,7 +105,6 @@ class SDKProvider with ChangeNotifier {
       _sdkImpl.networkIndex = _sdkImpl.networkIndex == 0 ? 1 : 0;
       _sdkImpl.connectedIndex = _sdkImpl.connectedIndex == 0 ? 1 : 0;
       
-
       isConnected = true;
 
       // ignore: use_build_context_synchronously
@@ -156,6 +155,7 @@ class SDKProvider with ChangeNotifier {
 
       return false;
     });
+    print("currentAccIndex $currentAccIndex");
 
     setEvmAddress = getUnverifyAcc[currentAccIndex].ethAddress!;
     

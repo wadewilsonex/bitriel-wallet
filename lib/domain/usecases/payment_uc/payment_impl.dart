@@ -485,40 +485,6 @@ class PaymentUcImpl implements PaymentUsecases {
 
     // This add tx histroy also effect to [ DefaultListContract Or AddedContract ] Object.
     walletProvider!.sortListContract![index.value].trxHistory!.add(txHistoryModel!);
-
-    // int indexFond = -1;
-
-    // // Add Tx History Into Default Token From Asset Json
-    // if (walletProvider!.sortListContract![index.value].addedCoin == false){
-    //   print("From JSOn");
-
-    //   walletProvider!.defaultListContract![ int.parse(walletProvider!.sortListContract![index.value].index!)-1 ].trxHistory!.add(txHistoryModel!);
-
-    // }
-    // // Add Tx History Into AddedCoin 
-    // else {
-
-    //   print("From Local");
-
-    //   indexFond = walletProvider!.addedContract!.indexWhere((element) {
-    //     if (element.index == walletProvider!.sortListContract![index.value].index){
-    //       return true;
-    //     }
-    //     return false;
-    //   });
-
-    //   // This add tx histroy also effect to sortListContract
-    //   // walletProvider!.addedContract![indexFond].trxHistory!.add(txHistoryModel!);
-
-    // }
-
-    // print("indexFond $indexFond");
-
-    // print(walletProvider!.addedContract![indexFond].symbol);
-
-    // print("walletProvider!.addedContract![indexFond].trxHistory ${walletProvider!.addedContract![indexFond].trxHistory!.length}");
-
-    // print("After and after walletProvider!.sortListContract![indexFond].trxHistory!.length ${walletProvider!.sortListContract![index.value].trxHistory!.length}");
     
   }
 

@@ -82,8 +82,9 @@ class WalletProvider with ChangeNotifier {
     
     try {
       defaultListContract!.every((element) {
-        
+
         if ( (element.isBSC! || element.isEther!) && element.show == true ) {
+          element.address = sdkProvider!.getSdkImpl.evmAddress!;
           listEvmNative!.add(element);
         }
         else if (element.isNative! && element.show == true && element.symbol!.toLowerCase() == "sel") {listNative!.add(element);}
@@ -92,6 +93,9 @@ class WalletProvider with ChangeNotifier {
       });
 
       addedContract!.every((element) {
+
+        element.address = sdkProvider!.getSdkImpl.evmAddress!;
+
         print("addedContract ${element.symbol}");
         print("addedContract ${element.trxHistory}");
         if (element.isBep20! && element.show == true) {listBep20!.add(element);} 

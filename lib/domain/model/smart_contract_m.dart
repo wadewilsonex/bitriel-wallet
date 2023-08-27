@@ -74,7 +74,6 @@ class SmartContractModel {
     return SmartContractModel(
       index: json['index'],
       id: json['id'],
-      address: json['address'],
       symbol: json['symbol'],
       type: json['type'],
       logo: json['logo'],
@@ -108,7 +107,7 @@ class SmartContractModel {
   static Map<String, dynamic> toMap(SmartContractModel asset) => {
     'index': asset.index,
     'id': asset.id,
-    'address': asset.address,
+    // 'address': asset.address,
     'symbol': asset.symbol,
     'type': asset.type,
     'logo': asset.logo,
