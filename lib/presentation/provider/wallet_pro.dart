@@ -60,8 +60,6 @@ class WalletProvider with ChangeNotifier {
         addedContract = value[1];
       });
 
-      await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
-
       if (sdkProvider!.isMainnet.value == true) {
 
         await assetStateManipulate();
@@ -94,7 +92,8 @@ class WalletProvider with ChangeNotifier {
       });
 
       addedContract!.every((element) {
-        print("addedContract ${element.chainDecimal}");
+        print("addedContract ${element.symbol}");
+        print("addedContract ${element.trxHistory}");
         if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
         else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
 
@@ -290,6 +289,7 @@ class WalletProvider with ChangeNotifier {
 
   Future<void> storeAssets() async {
     
+    print("storeAssets");
     await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
     await SecureStorage.writeData(key: DbKey.addedContract, encodeValue: json.encode(SmartContractModel.encode(addedContract!)) );
   }

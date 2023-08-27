@@ -146,7 +146,9 @@ class AddAssetUcImpl implements AddAssetUsecase{
       org: networkIndex.value == 1 ? 'ERC-20' : 'BEP-20',
       lineChartList: [],
       contract: controller.text,
-      show: true
+      show: true,
+      addedCoin: true,
+      trxHistory: []
     );
 
     isSearching.value = true;
@@ -289,6 +291,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
   }
 
+  // Find And Asset Index To Added Coin
   void findIndex() async {
 
     print('searched!.symbol ${searched!.symbol}');

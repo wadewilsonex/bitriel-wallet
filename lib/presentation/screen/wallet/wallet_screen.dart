@@ -68,14 +68,18 @@ class WalletScreen extends StatelessWidget {
                   return const Text("No token found");
                 }
 
-                return ListView(
+                return ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: pro.sortListContract!.map((e) {
+                  itemCount: pro.sortListContract!.length,
+                  itemBuilder: (context, index){
+                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, index: index, assetsModel: pro.sortListContract!);
+                  },
+                  // children: pro.sortListContract!.map((e) {
 
-                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.sortListContract!);
+                  //   return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.sortListContract!);
 
-                  }).toList(),
+                  // }).toList(),
                 );
               }
             ),
@@ -231,7 +235,7 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _getItem({required BuildContext ctx, required MarketUCImpl coinMarketCap, required SmartContractModel element, required List<SmartContractModel> assetsModel}) {
+  Widget _getItem({required BuildContext ctx, required MarketUCImpl coinMarketCap, required int index, required List<SmartContractModel> assetsModel}) {
 
     return SizedBox(
       child: ValueListenableBuilder(
@@ -242,10 +246,10 @@ class WalletScreen extends StatelessWidget {
             leading: SizedBox(
               height: 30, 
               width: 30, 
-              child: assetsModel[assetsModel.indexOf(element)].logo != null ? CircleAvatar(
+              child: assetsModel[assetsModel.indexOf(assetsModel[index])].logo != null ? CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Image.network(
-                  assetsModel[assetsModel.indexOf(element)].logo!,
+                  assetsModel[assetsModel.indexOf(assetsModel[index])].logo!,
                   fit: BoxFit.contain,
                   height: 50,
                   width: 50,
@@ -253,19 +257,19 @@ class WalletScreen extends StatelessWidget {
               )
               : CircleAvatar(
                 backgroundColor: hexaCodeToColor(AppColors.cardColor),
-                child: assetsModel[assetsModel.indexOf(element)].isBep20 == true ? const MyTextConstant(text: "BEP20", fontSize: 9,)
+                child: assetsModel[assetsModel.indexOf(assetsModel[index])].isBep20 == true ? const MyTextConstant(text: "BEP20", fontSize: 9,)
                 : const MyTextConstant(text: "ERC20", fontSize: 9, ),
               ),
             ),
             title: Row(
               children: [
                 MyTextConstant(
-                  text: assetsModel[assetsModel.indexOf(element)].name!,
+                  text: assetsModel[assetsModel.indexOf(assetsModel[index])].name!,
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.start,
                 ),
 
-                assetsModel[assetsModel.indexOf(element)].isBep20 == true ? 
+                assetsModel[assetsModel.indexOf(assetsModel[index])].isBep20 == true ? 
                 Card(
                   color: hexaCodeToColor(AppColors.cardColor),
                   child: const Padding(
@@ -278,7 +282,7 @@ class WalletScreen extends StatelessWidget {
                   ),
                 ) : Container(),
 
-                assetsModel[assetsModel.indexOf(element)].isErc20 == true ? 
+                assetsModel[assetsModel.indexOf(assetsModel[index])].isErc20 == true ? 
                 Card(
                   color: hexaCodeToColor(AppColors.cardColor),
                   child: const Padding(
@@ -294,7 +298,7 @@ class WalletScreen extends StatelessWidget {
               ],
             ),
             subtitle: MyTextConstant(
-              text: assetsModel[assetsModel.indexOf(element)].symbol!,
+              text: assetsModel[assetsModel.indexOf(assetsModel[index])].symbol!,
               color2: hexaCodeToColor(AppColors.grey),
               fontSize: 12,
               textAlign: TextAlign.start,
@@ -305,7 +309,7 @@ class WalletScreen extends StatelessWidget {
               children: [
 
                 MyTextConstant(
-                  text: element.balance == null ? '0' : double.parse(element.balance!.replaceAll(",", "")).toStringAsFixed(2), //assetsModel[assetsModel.indexOf(element)].balance!,
+                  text: assetsModel[index].balance == null ? '0' : double.parse(assetsModel[index].balance!.replaceAll(",", "")).toStringAsFixed(2), //assetsModel[assetsModel.indexOf(assetsModel[index])].balance!,
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.start,
                 ),
@@ -321,7 +325,7 @@ class WalletScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 ctx,
-                MaterialPageRoute(builder: (context) => WalletInfo(scModel: element, lstScModel: assetsModel, market: value,))
+                MaterialPageRoute(builder: (context) => WalletInfo(index: index, market: value,))
               );
             },
           );

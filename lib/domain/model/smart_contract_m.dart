@@ -1,3 +1,4 @@
+import 'package:bitriel_wallet/domain/model/tx_history_m.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class SmartContractModel {
@@ -24,7 +25,7 @@ class SmartContractModel {
   String? change24h;
   int? chainDecimal;
   bool? show;
-  bool? isAdded;
+  bool? addedCoin;
   String? maxSupply;
   String? description;
   // List<TransactionInfo>? listActivity = [];
@@ -34,7 +35,7 @@ class SmartContractModel {
   double? money;
   List<Map<String, dynamic>>? platform;
   Market? marketData;
-  List<String>? trxHistory = [];
+  List<TxHistoryModel>? trxHistory;
 
   SmartContractModel({
     this.index,
@@ -58,7 +59,7 @@ class SmartContractModel {
     // this.lineChartModel,
     this.contract,
     // this.chart,
-    this.isAdded = false,
+    this.addedCoin = false,
     this.isEther = false,
     this.isBSC = false,
     this.isNative = false,
@@ -96,11 +97,11 @@ class SmartContractModel {
       show: json['show'],
       maxSupply: json['max_supply'],
       description: json['description'],
-      isAdded: json['isAdded'] ?? false,
+      addedCoin: json['added_coin'],
       platform: json['platform'] != null ? List<Map<String, dynamic>>.from(json['platform']) : null,
       balance: "0",
       marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
-      trxHistory: json['trx_history'] != null ? List<String>.from(json['trx_history']) : []
+      trxHistory: (json['trx_history'] == null || json['trx_history'] == []) ? [] : TxHistoryModel.decode(json['trx_history'])
     );
   }
 
@@ -123,27 +124,21 @@ class SmartContractModel {
     'show': asset.show,
     'max_supply': asset.maxSupply,
     'description': asset.description,
-    'isAdded': asset.isAdded,
+    'added_coin': asset.addedCoin,
     'is_bsc': asset.isEther,
     'is_ether': asset.isBSC,
     'is_native': asset.isNative,
     'is_bep20': asset.isBep20,
     'is_erc20': asset.isErc20,
     'platform': asset.platform,
-    'trx_history': asset.trxHistory
+    'trx_history': TxHistoryModel.encode(asset.trxHistory!)
   };
 
   static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {
-    
     return assets.map<Map<String, dynamic>>((asset) => SmartContractModel.toMap(asset)).toList();
   }
 
   static Future<List<SmartContractModel>> decode(String asset) async {
-    print("decode");
-    final decode = await json.decode(asset);
-    List<SmartContractModel> data = decode.map<SmartContractModel>((item) => SmartContractModel.fromJson(item)).toList();
-    // debugPrint('data ${data.runtimeType} ${data[0]}');
-    // debugPrint('decode again ${jsonDecode(data)[0]}');
-    return data;
+    return json.decode(asset).map<SmartContractModel>((item) => SmartContractModel.fromJson(item)).toList();
   }
 }

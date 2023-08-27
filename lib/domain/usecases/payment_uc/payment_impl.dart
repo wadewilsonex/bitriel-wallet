@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:bitriel_wallet/domain/model/tx_history_m.dart';
 import 'package:bitriel_wallet/index.dart';
 import 'package:get/utils.dart';
 import 'package:pinput/pinput.dart';
@@ -31,6 +32,8 @@ class PaymentUcImpl implements PaymentUsecases {
   
   String? _pk;
 
+  TxHistoryModel? txHistoryModel;
+
   set setBuildContext(BuildContext ctx){
     context = ctx;
     walletProvider = Provider.of<WalletProvider>(ctx, listen: false);
@@ -61,12 +64,6 @@ class PaymentUcImpl implements PaymentUsecases {
         if (isReady.value == false){
 
           mainValidator();
-          // EasyDebounce.debounce(
-          //   'my debound', 
-          //   const Duration(milliseconds: 300), 
-          //   () {
-          //   }
-          // );
         }
 
       // Prevent Rebuild When remove Text
@@ -131,8 +128,7 @@ class PaymentUcImpl implements PaymentUsecases {
   Future<void> submitTrx() async {
 
     try {
-
-      
+ 
       String? pin = await Navigator.push(
         context!, 
         MaterialPageRoute(
@@ -160,6 +156,11 @@ class PaymentUcImpl implements PaymentUsecases {
         // Check Input Not Less than Existing coin's balance
         // if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
           
+        txHistoryModel = TxHistoryModel(
+          from: walletProvider!.sortListContract![index.value].address,
+          to: recipientController.text,
+          amt: amountController.text
+        );
 
         if (walletProvider!.sortListContract![index.value].isBep20 == true) {
           // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
@@ -168,7 +169,7 @@ class PaymentUcImpl implements PaymentUsecases {
             
             await sendBep20();
 
-            addTrxHistory(walletProvider!.listBep20!);
+            addTrxHistory();
 
           // }
         }
@@ -179,7 +180,7 @@ class PaymentUcImpl implements PaymentUsecases {
 
             await sendErc20();
 
-            addTrxHistory(walletProvider!.listErc20!);
+            addTrxHistory();
 
           // }
         }
@@ -189,7 +190,7 @@ class PaymentUcImpl implements PaymentUsecases {
 
           await sendBsc();
 
-          addTrxHistory(walletProvider!.listEvmNative!);
+          addTrxHistory();
 
         }
         else if (walletProvider!.sortListContract![index.value].isEther == true){
@@ -198,21 +199,17 @@ class PaymentUcImpl implements PaymentUsecases {
           
           await sendEther();
 
-          addTrxHistory(walletProvider!.listEvmNative!);
+          addTrxHistory();
         }
         else {
           
           await sendNative();
 
-          addTrxHistory(walletProvider!.listNative!);
+          addTrxHistory();
         }
-
-        print("hash $hash");
-
-        walletProvider!.sortListContract![index.value].trxHistory!.add(hash!);
-
-        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-        walletProvider!.notifyListeners();
+        
+        // Save Trx Into Local Storage
+        await walletProvider!.storeAssets();
 
         // Close Dialog Loading
         Navigator.pop(context!);
@@ -231,6 +228,9 @@ class PaymentUcImpl implements PaymentUsecases {
             );
           }
         );
+
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+        walletProvider!.notifyListeners();
 
         // } else if (trxMessage.value.isEmpty) {
         //   trxMessage.value = "Balance must greater than 0";
@@ -359,11 +359,8 @@ class PaymentUcImpl implements PaymentUsecases {
 
   /// Send Any Erc20 contract
   Future<void> sendErc20() async {
-    
+    print('sendERC');
     try {
-      
-      // 1
-      urlLauncher = "https://goerli.etherscan.io/tx/";
 
       EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(_pk!);
 
@@ -479,17 +476,50 @@ class PaymentUcImpl implements PaymentUsecases {
 
   }
 
-  void addTrxHistory(List<SmartContractModel> lstContracts){
-    lstContracts.where((element) {
-      if (walletProvider!.sortListContract![index.value].symbol == element.symbol){
-        element.trxHistory!.add(hash!);
-        return true;
-      }
-      return false;
-    });
+  void addTrxHistory() async {
+
+    print("addTrxHistory");
+
+    // Assign Launcher Explorer
+    txHistoryModel!.networkHash = "$urlLauncher$hash";
+
+    // This add tx histroy also effect to [ DefaultListContract Or AddedContract ] Object.
+    walletProvider!.sortListContract![index.value].trxHistory!.add(txHistoryModel!);
+
+    // int indexFond = -1;
+
+    // // Add Tx History Into Default Token From Asset Json
+    // if (walletProvider!.sortListContract![index.value].addedCoin == false){
+    //   print("From JSOn");
+
+    //   walletProvider!.defaultListContract![ int.parse(walletProvider!.sortListContract![index.value].index!)-1 ].trxHistory!.add(txHistoryModel!);
+
+    // }
+    // // Add Tx History Into AddedCoin 
+    // else {
+
+    //   print("From Local");
+
+    //   indexFond = walletProvider!.addedContract!.indexWhere((element) {
+    //     if (element.index == walletProvider!.sortListContract![index.value].index){
+    //       return true;
+    //     }
+    //     return false;
+    //   });
+
+    //   // This add tx histroy also effect to sortListContract
+    //   // walletProvider!.addedContract![indexFond].trxHistory!.add(txHistoryModel!);
+
+    // }
+
+    // print("indexFond $indexFond");
+
+    // print(walletProvider!.addedContract![indexFond].symbol);
+
+    // print("walletProvider!.addedContract![indexFond].trxHistory ${walletProvider!.addedContract![indexFond].trxHistory!.length}");
+
+    // print("After and after walletProvider!.sortListContract![indexFond].trxHistory!.length ${walletProvider!.sortListContract![index.value].trxHistory!.length}");
+    
   }
 
-  // Future proceedTransaction() async {
-
-  // }
 }
