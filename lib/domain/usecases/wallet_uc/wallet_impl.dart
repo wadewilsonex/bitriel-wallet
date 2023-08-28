@@ -30,7 +30,6 @@ class WalletUcImpl implements WalletUsecases{
         }),
 
         await SecureStorage.readData(key: DbKey.addedContract).then((value) {
-          print("addedContract shit $value");
           if (value != null) {
             return SmartContractModel.decode(value);
           }

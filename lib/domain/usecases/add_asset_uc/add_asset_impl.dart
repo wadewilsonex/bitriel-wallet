@@ -146,7 +146,9 @@ class AddAssetUcImpl implements AddAssetUsecase{
       org: networkIndex.value == 1 ? 'ERC-20' : 'BEP-20',
       lineChartList: [],
       contract: controller.text,
-      show: true
+      show: true,
+      addedCoin: true,
+      trxHistory: []
     );
 
     isSearching.value = true;
@@ -243,12 +245,17 @@ class AddAssetUcImpl implements AddAssetUsecase{
       searched!.show = true;
 
       if (networkIndex.value == 0) {
+
         searched!.isBep20 = true;
         walletProvider!.listBep20!.add(searched!);
+
+        findIndex();
       }
       else {
         searched!.isErc20 = true;
         walletProvider!.listErc20!.add(searched!);
+
+        findIndex();
       }
 
       await storeAddedAsset(searched!);
@@ -284,14 +291,31 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
   }
 
+  // Find And Asset Index To Added Coin
+  void findIndex() async {
+
+    print('searched!.symbol ${searched!.symbol}');
+    if (walletProvider!.addedContract!.isEmpty){
+      searched!.index = walletProvider!.defaultListContract!.length.toString();
+
+    } else {
+      
+      searched!.index = (int.parse(walletProvider!.addedContract![walletProvider!.addedContract!.length-1].index!)+1).toString();
+
+    }
+
+    print("searched!.index ${searched!.index}");
+  }
+
   Future<void> storeAddedAsset(SmartContractModel searched) async {
 
     // walletProvider!.addedContract!.clear();
     walletProvider!.addedContract!.add(searched);
+    print("walletProvider!.addedContract ${walletProvider!.addedContract![walletProvider!.addedContract!.length-1].index}");
 
     print("searched.decimal ${searched.chainDecimal}");
 
-    await _secureStorageImpl.writeSecure(DbKey.addedContract, json.encode(SmartContractModel.encode( walletProvider!.addedContract!)));
+    await _secureStorageImpl.writeSecure(DbKey.addedContract, json.encode(SmartContractModel.encode( walletProvider!.addedContract! )));
   
   }
 }

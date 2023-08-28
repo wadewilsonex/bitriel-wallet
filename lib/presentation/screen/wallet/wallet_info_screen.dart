@@ -4,13 +4,11 @@ import 'package:bitriel_wallet/presentation/widget/chart/chart_m.dart';
 
 class WalletInfo extends StatelessWidget {
 
-  final SmartContractModel scModel;
-  final List<SmartContractModel> lstScModel;
+  final int index;
   final List<Market> market;
 
   const WalletInfo({
-    required this.scModel,
-    required this.lstScModel,
+    required this.index,
     required this.market,
     super.key,
   });
@@ -30,7 +28,7 @@ class WalletInfo extends StatelessWidget {
           centerTitle: true,
           backgroundColor: hexaCodeToColor(AppColors.background),
           title: MyTextConstant(
-            text: "${scModel.name} (${scModel.symbol})",
+            text: "${walletPro.sortListContract![index].name} (${walletPro.sortListContract![index].symbol})",
             fontSize: 26,
             color2: hexaCodeToColor(AppColors.midNightBlue),
             fontWeight: FontWeight.w600,
@@ -56,9 +54,13 @@ class WalletInfo extends StatelessWidget {
         ),
         body: TabBarView(children: [
 
-          _infoTap(context, scModel),
+          _infoTap(context, Provider.of<WalletProvider>(context).sortListContract![index]),
 
-          _activityTap(context),
+          Consumer<WalletProvider>(
+            builder: (context, walletPro, wg) {
+              return _activityTap(context, walletPro.sortListContract![index]);
+            }
+          ),
 
         ]),
       ),
@@ -97,10 +99,15 @@ class WalletInfo extends StatelessWidget {
 
         // _chartAsset(context),
     
-        // lstScModel.isNotEmpty ? _tokenInfomation(walletPro) : const SizedBox(),
+        // walletProvider.sortListContract!.isNotEmpty ? _tokenInfomation(walletPro) : const SizedBox(),
 
         Expanded(child: Container()),
-        _buyAndsellBtn(context, scModel.address!, lstScModel.indexOf(scModel)),
+        Consumer<WalletProvider>(
+          builder: (context, pro, wg){
+            print("WalletProvider pro ${pro.sortListContract![index].trxHistory!.length}");
+            return _buyAndsellBtn(context, scModel.address!, pro.sortListContract!.indexOf(scModel));
+          },
+        ),
       ],
     );
   }
@@ -109,8 +116,9 @@ class WalletInfo extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+
         MyTextConstant(
-          text: "Sent ${scModel.symbol}",
+          text: "Sent ${Provider.of<WalletProvider>(context, listen: false).sortListContract![index].symbol}",
           fontWeight: FontWeight.w700,
         ),
 
@@ -164,152 +172,154 @@ class WalletInfo extends StatelessWidget {
     );
   }
 
-  Widget _activityTap(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          child: InkWell(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return Dialog(
-                    insetPadding: const EdgeInsets.all(14.0),
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
-                    child: SizedBox(
-                      height: 270,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-
-                            _dgAppbar(context),
-
-                            const SizedBox(height: 10),
-
-                            _dgRowData(
-                              title1: "Status",
-                              data1: "Confirmded",
-                              title2: "Date",
-                              data2: "21 Aug at 10:11AM"
-                            ),
-                            
-                            const Divider(),
-
-                            _dgRowData(
-                              title1: "From",
-                              data1: "0xe111...8941",
-                              title2: "To",
-                              data2: "0xceBa...c647"
-                            ),
-
-                            const Divider(),
-
-                            _dgRowData(
-                              title1: "Amount",
-                              data1: "1.00 ${scModel.symbol}",
-                              title2: "",
-                              data2: ""
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const AdsWebView(
-                                    title: "Explorer",
-                                    url: "https://bscscan.com/",
-                                  ))
-                                );
-                              }, 
-                              child: MyTextConstant(
-                                text: "View on Explorer",
-                                fontWeight: FontWeight.w600,
-                                color2: hexaCodeToColor(AppColors.primaryBtn),
-                              )
-                            )
-                            
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                    
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: MyTextConstant(
-                      text: "21 Aug at 10:11AM",
-                      textAlign: TextAlign.start,
-                      fontSize: 11,
-                    ),
-                  ),
-                  
-                  Row(
-                    children: [
-                    
-                      SizedBox(
-                        height: 35,
-                        width: 35,
-                        child: CircleAvatar(
-                          backgroundColor: hexaCodeToColor(AppColors.lightGrey),
-                          child: Icon(Iconsax.arrow_up_3, color: hexaCodeToColor(AppColors.darkGrey),)
-                        ),
-                      ),
-                    
-                      const SizedBox(width: 10),
-                    
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _activityTap(BuildContext context, SmartContractModel scModel) {
+    scModel.trxHistory!.reversed;
+    return ListView.builder(
+      itemCount: scModel.trxHistory!.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+          onTap: () {
+            
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  insetPadding: const EdgeInsets.all(14.0),
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
+                  child: SizedBox(
+                    height: 270,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
                         children: [
-                    
-                          MyTextConstant(
-                            text: "Sent ${scModel.symbol}",
-                            fontWeight: FontWeight.w600,
-                            textAlign: TextAlign.start,
+
+                          _dgAppbar(context),
+
+                          const SizedBox(height: 10),
+
+                          // _dgRowData(
+                          //   title1: "Status",
+                          //   data1: "Confirmded",
+                          //   title2: "Date",
+                          //   data2: "21 Aug at 10:11AM"
+                          // ),
+                          
+                          const Divider(),
+
+                          _dgRowData(
+                            title1: "From",
+                            data1: scModel.trxHistory![index].from!.replaceRange(6, scModel.trxHistory![index].from!.length - 6, "......."),
+                            title2: "To",
+                            data2: scModel.trxHistory![index].to!.replaceRange(6, scModel.trxHistory![index].to!.length - 6, ".......")
                           ),
-                    
-                          MyTextConstant(
-                            text: "From 0x212safl12....12321rff",
-                            textAlign: TextAlign.start,
-                            color2: hexaCodeToColor(AppColors.darkGrey),
-                            fontSize: 11,
+
+                          const Divider(),
+
+                          _dgRowData(
+                            title1: "Amount",
+                            data1: "${scModel.trxHistory![index].amt} ${scModel.symbol}",
+                            title2: "",
+                            data2: ""
                           ),
+
+                          const SizedBox(height: 10),
+
+                          TextButton(
+                            onPressed: () {
+                              
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => AdsWebView(
+                                  title: "Explorer",
+                                  url: scModel.trxHistory![index].networkHash!,
+                                ))
+                              );
+                            }, 
+                            child: MyTextConstant(
+                              text: "View on Explorer",
+                              fontWeight: FontWeight.w600,
+                              color2: hexaCodeToColor(AppColors.primaryBtn),
+                            )
+                          )
+                          
                         ],
                       ),
-                      
-                      Expanded(child: Container()),
-                    
-                      MyTextConstant(
-                        text: "+1.00 ${scModel.symbol}",
-                        fontWeight: FontWeight.w600,
-                        textAlign: TextAlign.start,
-                        color2: hexaCodeToColor(AppColors.green),
-                      ),
-                    
-                    ],
+                    ),
                   ),
+                );
+              }
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                  
+                // const Padding(
+                //   padding: EdgeInsets.only(bottom: 8.0),
+                //   child: MyTextConstant(
+                //     text: "21 Aug at 10:11AM",
+                //     textAlign: TextAlign.start,
+                //     fontSize: 11,
+                //   ),
+                // ),
                 
-                ],
-              ),
+                Row(
+                  children: [
+                  
+                    SizedBox(
+                      height: 35,
+                      width: 35,
+                      child: CircleAvatar(
+                        backgroundColor: hexaCodeToColor(AppColors.lightGrey),
+                        child: Icon(Iconsax.arrow_up_3, color: hexaCodeToColor(AppColors.darkGrey),)
+                      ),
+                    ),
+                  
+                    const SizedBox(width: 10),
+                  
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                  
+                        MyTextConstant(
+                          text: "Sent ${scModel.symbol}",
+                          fontWeight: FontWeight.w600,
+                          textAlign: TextAlign.start,
+                        ),
+                  
+                        MyTextConstant(
+                          text: "From ${scModel.trxHistory![index].from!.replaceRange(6, scModel.trxHistory![index].from!.length - 6, ".......")}",
+                          textAlign: TextAlign.start,
+                          color2: hexaCodeToColor(AppColors.darkGrey),
+                          fontSize: 11,
+                        ),
+                      ],
+                    ),
+                    
+                    Expanded(child: Container()),
+                  
+                    MyTextConstant(
+                      text: "${scModel.trxHistory![index].amt} ${scModel.symbol}",
+                      fontWeight: FontWeight.w600,
+                      textAlign: TextAlign.start,
+                      color2: hexaCodeToColor(AppColors.green),
+                    ),
+                  
+                  ],
+                ),
+              
+              ],
             ),
           ),
-        ),
-      ],
+        );
+      }
     );
   }
 
-  Widget _tokenIconHeader({required String price, SmartContractModel? scModel}) {
+  Widget _tokenIconHeader({required String price, required SmartContractModel? scModel}) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -379,19 +389,19 @@ class WalletInfo extends StatelessWidget {
           return Column(
             children: [
 
-              if (pro.defaultListContract![pro.defaultListContract!.indexOf(scModel)].chart == null)
+              if (pro.defaultListContract![pro.defaultListContract!.indexOf(pro.sortListContract![index])].chart == null)
               const CircularProgressIndicator()
 
-              else if (pro.defaultListContract![pro.defaultListContract!.indexOf(scModel)].chart!.isEmpty)
+              else if (pro.defaultListContract![pro.defaultListContract!.indexOf(pro.sortListContract![index])].chart!.isEmpty)
               const SizedBox()
               
               else Container(
                 child: chartAsset(
-                  lstScModel[lstScModel.indexOf(scModel)].name!,
-                  lstScModel[lstScModel.indexOf(scModel)].symbol!,
+                  pro.sortListContract![pro.sortListContract!.indexOf(pro.sortListContract![index])].name!,
+                  pro.sortListContract![pro.sortListContract!.indexOf(pro.sortListContract![index])].symbol!,
                   'USD',
-                  double.parse("${market[lstScModel.indexOf(scModel)].price}".replaceAll(",", "")).toStringAsFixed(2),
-                  lstScModel[lstScModel.indexOf(scModel)].chart!,
+                  double.parse("${market[pro.sortListContract! .indexOf(pro.sortListContract![index])].price}".replaceAll(",", "")).toStringAsFixed(2),
+                  pro.sortListContract![pro.sortListContract!.indexOf(pro.sortListContract![index])].chart!,
                 ),
               ),
 
@@ -414,31 +424,31 @@ class WalletInfo extends StatelessWidget {
             child: Align(
               alignment: Alignment.topLeft,
               child: MyTextConstant(
-                text: "About ${scModel.name}",
+                text: "About ${walletProvider.sortListContract![index].name}",
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
             ),
           ),
 
-        market[walletProvider.defaultListContract!.indexOf(scModel)].marketCap != null ? 
-        _rowTokenInfo(title: "Market Cap", price: double.parse("${market[walletProvider.defaultListContract!.indexOf(scModel)].marketCap}".replaceAll(",", "")).toStringAsFixed(2))
+        market[walletProvider.defaultListContract!.indexOf(walletProvider.sortListContract![index])].marketCap != null ? 
+        _rowTokenInfo(title: "Market Cap", price: double.parse("${market[walletProvider.defaultListContract!.indexOf(walletProvider.sortListContract![index])].marketCap}".replaceAll(",", "")).toStringAsFixed(2))
         : Container(),
 
-        market[lstScModel.indexOf(scModel)].volume24h != null ?
-        _rowTokenInfo(title: "Volume (24h)", price: double.parse("${market[lstScModel.indexOf(scModel)].volume24h}".replaceAll(",", "")).toStringAsFixed(2))
+        market[walletProvider.sortListContract!.indexOf(walletProvider.sortListContract![index])].volume24h != null ?
+        _rowTokenInfo(title: "Volume (24h)", price: double.parse("${market[walletProvider.sortListContract!.indexOf(walletProvider.sortListContract![index])].volume24h}".replaceAll(",", "")).toStringAsFixed(2))
         : Container(),
 
-        market[lstScModel.indexOf(scModel)].circulatingSupply != null ?
-        _rowTokenInfo(title: "Circulating Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].circulatingSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        market[walletProvider.sortListContract!.indexOf(walletProvider.sortListContract![index])].circulatingSupply != null ?
+        _rowTokenInfo(title: "Circulating Supply", price: double.parse("${market[walletProvider.sortListContract!.indexOf(walletProvider.sortListContract![index])].circulatingSupply}".replaceAll(",", "")).toStringAsFixed(2))
         : Container(),
 
-        market[lstScModel.indexOf(scModel)].totalSupply != null ?
-        _rowTokenInfo(title: "Total Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].totalSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        market[walletProvider.sortListContract!.indexOf(walletProvider.sortListContract![index])].totalSupply != null ?
+        _rowTokenInfo(title: "Total Supply", price: double.parse("${market[walletProvider.sortListContract!.indexOf(walletProvider.sortListContract![index])].totalSupply}".replaceAll(",", "")).toStringAsFixed(2))
         : Container(),
         
-        market[lstScModel.indexOf(scModel)].maxSupply != null ?
-        _rowTokenInfo(title: "Max Supply", price: double.parse("${market[lstScModel.indexOf(scModel)].maxSupply}".replaceAll(",", "")).toStringAsFixed(2))
+        market[walletProvider.sortListContract!.indexOf(walletProvider.sortListContract![index])].maxSupply != null ?
+        _rowTokenInfo(title: "Max Supply", price: double.parse("${market[walletProvider.sortListContract!.indexOf(walletProvider.sortListContract![index])].maxSupply}".replaceAll(",", "")).toStringAsFixed(2))
         : Container(),
 
     

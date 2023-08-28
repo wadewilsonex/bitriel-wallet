@@ -81,9 +81,6 @@ class MultiAccountImpl implements MultiAccountUsecases {
     
     await sdkProvider!.fetchAllAccount();
 
-    // // reset wallet state
-    walletProvider!.initState();
-
     // // Refetch asset balance
     await walletProvider!.getAsset();
 

@@ -15,35 +15,22 @@ class AccountManagementImpl extends AccountMangementUC {
 
   @override
   // ignore: avoid_renaming_method_parameters
-  Future<void> addAndImport(SDKProvider sdkProvider, BuildContext context, String seed, String pin) async {
+  Future<void> addAndImport(BuildContext context, String seed, String pin) async {
 
     dialogLoading(context);
 
     try {
+
+      SDKProvider sdkProvider = Provider.of<SDKProvider>(context, listen: false);
 
       // 1. Import And Add Account
       importData = await sdkProvider.importSeed(seed, pin);
 
       await sdkProvider.getSdkImpl.getWalletSdk.webView!.evalJavascript("wallets.getPrivateKey('$seed')").then((value) async {
         
-        // _pk = value;
-        print("addAndImport Value $value");
-
-        // await SecureStorage.writeData(key: DbKey.private, encodeValue: _pk);
-
         _pk = await sdkProvider.getSdkImpl.encryptPrivateKey(value!, pin);
         
         await SecureStorage.writeData(key: DbKey.private, encodeValue: _pk);
-
-        print("_pk $_pk");
-
-        // Extract private from seed
-        // _pk = await sdkProvider.getSdkImpl.getDecrypedSeed(importData![1], pin);
-
-        // print("_pk $_pk");
-
-
-        // await SecureStorage.writeData(key: DbKey.private, encodeValue: res);
 
         // Use Seed to query EVM address
         // And Use PrivateKey to extract BTC native address.
@@ -51,7 +38,7 @@ class AccountManagementImpl extends AccountMangementUC {
         
       });
 
-    }catch (e) {
+    } catch (e) {
       
       // Close Dialog Loading
       Navigator.pop(context);
@@ -64,6 +51,8 @@ class AccountManagementImpl extends AccountMangementUC {
 
     print("verifyLaterData");
     print("_pk $_pk");
+
+    unVerifyAccount.clear();
 
     await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) async {
       print("value $value");
@@ -85,6 +74,11 @@ class AccountManagementImpl extends AccountMangementUC {
 
     print("unVerifyAccount ${unVerifyAccount.length}");
   
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    sdkProvider.notifyListeners();
+
+    print("unVerifyAccount ${unVerifyAccount.length}");
+
   }
 
   Future<void> fetchAccount() async {
@@ -104,10 +98,6 @@ class AccountManagementImpl extends AccountMangementUC {
 
     if (isMultiAcc == true) {
 
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      Provider.of<SDKProvider>(context, listen: false).notifyListeners();
-
-      print("Provider.of<SDKProvider>(context, listen: false).getUnverifyAcc.length ${Provider.of<SDKProvider>(context, listen: false).getUnverifyAcc.length}");
       Navigator.popUntil(context, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
     }
     else {

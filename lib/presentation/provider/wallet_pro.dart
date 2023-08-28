@@ -60,8 +60,6 @@ class WalletProvider with ChangeNotifier {
         addedContract = value[1];
       });
 
-      await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
-
       if (sdkProvider!.isMainnet.value == true) {
 
         await assetStateManipulate();
@@ -84,8 +82,9 @@ class WalletProvider with ChangeNotifier {
     
     try {
       defaultListContract!.every((element) {
-        
+
         if ( (element.isBSC! || element.isEther!) && element.show == true ) {
+          element.address = sdkProvider!.getSdkImpl.evmAddress!;
           listEvmNative!.add(element);
         }
         else if (element.isNative! && element.show == true && element.symbol!.toLowerCase() == "sel") {listNative!.add(element);}
@@ -94,7 +93,11 @@ class WalletProvider with ChangeNotifier {
       });
 
       addedContract!.every((element) {
-        print("addedContract ${element.chainDecimal}");
+
+        element.address = sdkProvider!.getSdkImpl.evmAddress!;
+
+        print("addedContract ${element.symbol}");
+        print("addedContract ${element.trxHistory}");
         if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
         else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
 
@@ -289,6 +292,8 @@ class WalletProvider with ChangeNotifier {
   }
 
   Future<void> storeAssets() async {
+    
+    print("storeAssets");
     await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
     await SecureStorage.writeData(key: DbKey.addedContract, encodeValue: json.encode(SmartContractModel.encode(addedContract!)) );
   }

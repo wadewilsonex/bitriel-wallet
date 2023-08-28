@@ -12,11 +12,11 @@ class SDKProvider with ChangeNotifier {
 
   bool connectFailed = false;
 
-  final AccountManagementImpl _accountManagementImpl = AccountManagementImpl();
+  final AccountManagementImpl accountManagementImpl = AccountManagementImpl();
 
   String? dirPath;
 
-  List<UnverifySeed> get getUnverifyAcc => _accountManagementImpl.unVerifyAccount;
+  List<UnverifySeed> get getUnverifyAcc => accountManagementImpl.unVerifyAccount;
 
   ValueNotifier<bool> isMainnet = ValueNotifier(true);
 
@@ -105,7 +105,6 @@ class SDKProvider with ChangeNotifier {
       _sdkImpl.networkIndex = _sdkImpl.networkIndex == 0 ? 1 : 0;
       _sdkImpl.connectedIndex = _sdkImpl.connectedIndex == 0 ? 1 : 0;
       
-
       isConnected = true;
 
       // ignore: use_build_context_synchronously
@@ -148,7 +147,7 @@ class SDKProvider with ChangeNotifier {
   Future<void> fetchAllAccount() async {
 
     print("fetchAllAccount");
-    await _accountManagementImpl.fetchAccount();
+    await accountManagementImpl.fetchAccount();
 
     currentAccIndex = _sdkImpl.getKeyring.allAccounts.indexWhere((element) {
       
@@ -156,6 +155,7 @@ class SDKProvider with ChangeNotifier {
 
       return false;
     });
+    print("currentAccIndex $currentAccIndex");
 
     setEvmAddress = getUnverifyAcc[currentAccIndex].ethAddress!;
     

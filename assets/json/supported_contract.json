@@ -5,7 +5,6 @@
         "name": "SELENDRA",
         "logo": "https://faucet.selendra.org/static/media/selendra-logo.de60d7ff48c61b51964b.png",
         "contract": "",
-        "address": "",
         "symbol": "SEL",
         "org": "Selendra Chain",
         "is_bsc": false,
@@ -15,14 +14,14 @@
         "is_erc20": false,
         "show": true,
         "max_supply": "3,141,592,653",
-        "description": "SEL is the native token, unit of account, and fuel to operate on Selendra Blockchain system. While Selendra as the system will bridge to the outside blockchains, allows it users to liquidate and transact with anyone that interacts on the Internet."
+        "description": "SEL is the native token, unit of account, and fuel to operate on Selendra Blockchain system. While Selendra as the system will bridge to the outside blockchains, allows it users to liquidate and transact with anyone that interacts on the Internet.",
+        "added_coin": false
     },
     {
         "index": "1",
         "id": "selendra",
         "name": "SELENDRA",
         "contract": "0x288d3A87a87C284Ed685E0490E5C4cC0883a060a",
-        "address": "",
         "logo": "https://faucet.selendra.org/static/media/selendra-logo.de60d7ff48c61b51964b.png",
         "symbol": "SEL (v1)",
         "org": "BEP-20",
@@ -33,14 +32,14 @@
         "is_erc20": false,
         "show": false,
         "max_supply": "",
-        "description": ""
+        "description": "",
+        "added_coin": false
     },
     {
         "index": "2",
         "id": "selendra v2",
         "name": "SELENDRA",
         "contract": "0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C",
-        "address": "",
         "logo": "https://faucet.selendra.org/static/media/selendra-logo.de60d7ff48c61b51964b.png",
         "symbol": "SEL (v2)",
         "org": "BEP-20",
@@ -51,14 +50,14 @@
         "is_erc20": false,
         "show": false,
         "max_supply": "",
-        "description": ""
+        "description": "",
+        "added_coin": false
     },
     {
         "index": "3",
         "id": "kiwigo",
         "name": "KIWIGO",
         "contract": "0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773",
-        "address": "",
         "logo": "token_logo/Kiwi-GO-White-1.png",
         "symbol": "KGO",
         "org": "BEP-20",
@@ -69,14 +68,14 @@
         "is_erc20": false,
         "show": false,
         "max_supply": "",
-        "description": "KiwiGo is a super-app for frontier markets that provides a wide array of services empowering local businesses and individuals in their daily lives, from e-wallet, ride-hailing, food and grocery delivery, last-mile delivery, news aggregator, classifieds to in-app."
+        "description": "KiwiGo is a super-app for frontier markets that provides a wide array of services empowering local businesses and individuals in their daily lives, from e-wallet, ride-hailing, food and grocery delivery, last-mile delivery, news aggregator, classifieds to in-app.",
+        "added_coin": false
     },
     {
         "index": "4",
         "id": "ethereum",
         "name": "Ethereum",
         "contract": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-        "address": "",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Ethereum_logo_2014.svg/1257px-Ethereum_logo_2014.svg.png",
         "symbol": "ETH",
         "org": "ETH",
@@ -87,14 +86,14 @@
         "is_erc20": false,
         "show": true,
         "max_supply": "",
-        "description": "Ethereum is a decentralized, open-source blockchain with smart contract functionality. Ether is the native cryptocurrency of the platform. Among cryptocurrencies, Ether is second only to Bitcoin in market capitalization. Ethereum was conceived in 2013 by programmer Vitalik Buterin."
+        "description": "Ethereum is a decentralized, open-source blockchain with smart contract functionality. Ether is the native cryptocurrency of the platform. Among cryptocurrencies, Ether is second only to Bitcoin in market capitalization. Ethereum was conceived in 2013 by programmer Vitalik Buterin.",
+        "added_coin": false
     },
     {
         "index": "5",
         "id": "binance-coin",
         "name": "Binance Coin",
         "contract": "",
-        "address": "",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Binance-coin-bnb-logo.png",
         "symbol": "BNB",
         "org": "Smart Chain",
@@ -105,7 +104,8 @@
         "is_erc20": false,
         "show": true,
         "max_supply": "",
-        "description": "Binance Coin is the cryptocurrency issued by Binance exchange and trades with the BNB symbol. As of Q2 2022, Binance Exchange is the largest cryptocurrency exchange in the world, with a volume of $7.6 billion."
+        "description": "Binance Coin is the cryptocurrency issued by Binance exchange and trades with the BNB symbol. As of Q2 2022, Binance Exchange is the largest cryptocurrency exchange in the world, with a volume of $7.6 billion.",
+        "added_coin": false
     },
     {
         "index": "6",
@@ -113,7 +113,6 @@
         "symbol": "DOT",
         "name": "Polkadot",
         "contract": "",
-        "address": "",
         "logo": "token_logo/polkadot.png",
         "org": "",
         "is_bsc": false,
@@ -123,7 +122,8 @@
         "is_erc20": false,
         "show": false,
         "max_supply": "",
-        "description": "Polkadot is an open source blockchain platform and cryptocurrency. It provides interconnectivity and interoperability between blockchains, by enabling independent chains to securely exchange messages and perform transactions with each other without a trusted third-party."
+        "description": "Polkadot is an open source blockchain platform and cryptocurrency. It provides interconnectivity and interoperability between blockchains, by enabling independent chains to securely exchange messages and perform transactions with each other without a trusted third-party.",
+        "added_coin": false
     },
     {
         "index": "7",
@@ -131,7 +131,6 @@
         "symbol": "BTC",
         "name": "Bitcoin",
         "contract": "",
-        "address": "",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png",
         "org": "",
         "is_bsc": false,
@@ -141,7 +140,8 @@
         "is_erc20": false,
         "show": true,
         "max_supply": "",
-        "description": "Bitcoin is a decentralized digital currency that can be transferred on the peer-to-peer bitcoin network. Bitcoin transactions are verified by network nodes through cryptography and recorded in a public distributed ledger called a blockchain."
+        "description": "Bitcoin is a decentralized digital currency that can be transferred on the peer-to-peer bitcoin network. Bitcoin transactions are verified by network nodes through cryptography and recorded in a public distributed ledger called a blockchain.",
+        "added_coin": false
     },
     {
         "index": "8",
@@ -149,7 +149,6 @@
         "symbol": "REKREAY",
         "name": "Rekreay",
         "contract": "0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0",
-        "address": "",
         "logo": "token_logo/rekreay.png",
         "org": "BEP-20",
         "is_bsc": false,
@@ -159,7 +158,8 @@
         "is_erc20": false,
         "show": false,
         "max_supply": "",
-        "description": "REKREAY is a decentralized financial payment network that rebuilds the traditional payment stack on the blockchain. It utilizes a basket of fiat-pegged stablecoins, algorithmically stabilized by its reserve currency REKREAY, to facilitate programmable payments and open financial infrastructure development. As of December 2020, the network has transacted an estimated $299 billion for over 2 million users."
+        "description": "REKREAY is a decentralized financial payment network that rebuilds the traditional payment stack on the blockchain. It utilizes a basket of fiat-pegged stablecoins, algorithmically stabilized by its reserve currency REKREAY, to facilitate programmable payments and open financial infrastructure development. As of December 2020, the network has transacted an estimated $299 billion for over 2 million users.",
+        "added_coin": false
     },
     {
         "index": "9",
@@ -177,7 +177,6 @@
                 "contract": "0x55d398326f99059ff775485246999027b3197955"
             }
         ],
-        "address": "",
         "logo": "https://altcoinsbox.com/wp-content/uploads/2023/01/tether-logo.webp",
         "org": "BEP20",
         "is_bsc": false,
@@ -187,7 +186,8 @@
         "is_erc20": false,
         "show": true,
         "max_supply": "",
-        "description": "Tether is an asset-backed cryptocurrency stablecoin"
+        "description": "Tether is an asset-backed cryptocurrency stablecoin",
+        "added_coin": false
     }
     
 ]
