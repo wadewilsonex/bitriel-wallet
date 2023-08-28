@@ -15,15 +15,6 @@ class AccountSettingScreen extends StatelessWidget {
 
     multiAccountImpl.initTxtController(indexAcc!);
 
-    print(multiAccountImpl.sdkProvider!.getUnverifyAcc.length);
-
-  
-    print("accIndex! $indexAcc!");
-
-    print('sdkProvider!.getUnverifyAcc[accIndex!].pubKey ${multiAccountImpl.sdkProvider!.getUnverifyAcc[0].pubKey}');
-
-    print('sdkProvider!.getUnverifyAcc[accIndex!].pubKey ${multiAccountImpl.sdkProvider!.getUnverifyAcc[indexAcc!].pubKey}');
-
     return Scaffold(
       appBar: appBar(context, title: "Wallet"),
       body: Column(

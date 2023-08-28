@@ -245,7 +245,6 @@ class PinUsecaseImpl implements PinUsecase{
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: MyTextConstant(text: "Pin does not match", textAlign: TextAlign.start, color2: Colors.white,))
         );
-        Vibration.vibrate(amplitude: 500);
       }
     }
   }
@@ -269,7 +268,6 @@ class PinUsecaseImpl implements PinUsecase{
         // Navigator.pop(context, false);
       } else {
         clearAll();
-        Vibration.vibrate(amplitude: 500);
       }
     }
   }

@@ -99,10 +99,12 @@ class AppUsecasesImpl implements AppUsecases {
   Future<void> enableBiometric(bool switchValue) async {
 
     await authenticateBiometric().then((values) async {
-      
-      isAuthenticated.value = switchValue;
 
-      if (isAuthenticated.value) {
+      if(values == true) {
+
+        isAuthenticated.value = switchValue;
+
+        if (isAuthenticated.value) {
           // Save local storage key
           await SecureStorage.writeBio(key: DbKey.bio, encodeValue: isAuthenticated.value); 
 
@@ -111,8 +113,9 @@ class AppUsecasesImpl implements AppUsecases {
           await SecureStorage.deleteKey(DbKey.bio);
 
         }
+
       }
-    );
+    });
 
   }
   

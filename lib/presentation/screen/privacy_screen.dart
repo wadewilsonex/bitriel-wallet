@@ -35,9 +35,9 @@ class PrivacyScreen extends StatelessWidget {
                   title: 'Unlock with Biometric',
                   trailing: Switch.adaptive(
                     value: value,
-                    onChanged: (enabledValue) {
+                    onChanged: (enabledValue) async {
 
-                      appUsecasesImpl.enableBiometric(enabledValue);
+                      await appUsecasesImpl.enableBiometric(enabledValue);
 
                     },
                   ),

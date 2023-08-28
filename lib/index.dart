@@ -31,7 +31,6 @@ export 'package:provider/provider.dart';
 export 'package:iconsax/iconsax.dart';
 export 'package:lottie/lottie.dart';
 export 'package:flutter_secure_storage/flutter_secure_storage.dart';
-export 'package:vibration/vibration.dart';
 export 'package:fl_chart/fl_chart.dart';
 export 'package:unicons/unicons.dart';
 export 'package:sticky_grouped_list/sticky_grouped_list.dart';
