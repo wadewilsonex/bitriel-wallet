@@ -66,7 +66,7 @@ class AccountManagementImpl extends AccountMangementUC {
     print("_pk $_pk");
 
     await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) async {
-
+      print("value $value");
       if(value.isNotEmpty){
         unVerifyAccount = UnverifySeed().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
       }
@@ -82,6 +82,8 @@ class AccountManagementImpl extends AccountMangementUC {
     ));
 
     await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unVerifyAccount)));
+
+    print("unVerifyAccount ${unVerifyAccount.length}");
   
   }
 
@@ -101,10 +103,12 @@ class AccountManagementImpl extends AccountMangementUC {
   Future<void> accNavigation(BuildContext context, bool isMultiAcc) async {
 
     if (isMultiAcc == true) {
-      Navigator.popUntil(context, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
 
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       Provider.of<SDKProvider>(context, listen: false).notifyListeners();
+
+      print("Provider.of<SDKProvider>(context, listen: false).getUnverifyAcc.length ${Provider.of<SDKProvider>(context, listen: false).getUnverifyAcc.length}");
+      Navigator.popUntil(context, ModalRoute.withName("/${BitrielRouter.multiAccRoute}"));
     }
     else {
       Navigator.pushNamedAndRemoveUntil(context, "/${BitrielRouter.homeRoute}", (route) => false);
