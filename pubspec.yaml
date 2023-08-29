@@ -93,7 +93,7 @@ dev_dependencies:
     sdk: flutter
 
 icons_launcher:
-  image_path: "assets/logo/bitriel-logo.png"
+  image_path: "assets/logo/bitriel_icon.png"
   platforms:
     android:
       enable: true
