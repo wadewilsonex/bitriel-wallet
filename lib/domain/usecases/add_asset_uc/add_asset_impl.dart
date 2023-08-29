@@ -262,7 +262,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
       // await walletProvider!.sortAsset();
       walletProvider!.sortListContract!.add(searched!);
-
+      
       // Close Dialog
       Navigator.pop(_context!);
 
@@ -294,7 +294,6 @@ class AddAssetUcImpl implements AddAssetUsecase{
   // Find And Asset Index To Added Coin
   void findIndex() async {
 
-    print('searched!.symbol ${searched!.symbol}');
     if (walletProvider!.addedContract!.isEmpty){
       searched!.index = walletProvider!.defaultListContract!.length.toString();
 
@@ -304,16 +303,12 @@ class AddAssetUcImpl implements AddAssetUsecase{
 
     }
 
-    print("searched!.index ${searched!.index}");
   }
 
   Future<void> storeAddedAsset(SmartContractModel searched) async {
 
     // walletProvider!.addedContract!.clear();
     walletProvider!.addedContract!.add(searched);
-    print("walletProvider!.addedContract ${walletProvider!.addedContract![walletProvider!.addedContract!.length-1].index}");
-
-    print("searched.decimal ${searched.chainDecimal}");
 
     await _secureStorageImpl.writeSecure(DbKey.addedContract, json.encode(SmartContractModel.encode( walletProvider!.addedContract! )));
   

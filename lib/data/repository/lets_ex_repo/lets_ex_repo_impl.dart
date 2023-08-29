@@ -1,3 +1,4 @@
+import 'package:bitriel_wallet/data/api/post_api.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class LetsExchangeRepoImpl implements LetsExchangeRepository {
@@ -18,6 +19,13 @@ class LetsExchangeRepoImpl implements LetsExchangeRepository {
 
     return lstLECoin;
 
+  }
+
+  // Post Request
+  @override
+  Future<Response> swap(Map<String, dynamic> mapData) async {
+
+    return await PostRequest().swap(mapData);
   }
 
 }

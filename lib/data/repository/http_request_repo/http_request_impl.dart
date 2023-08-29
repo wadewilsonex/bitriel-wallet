@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:bitriel_wallet/data/api/get_api.dart';
 import 'package:bitriel_wallet/data/repository/http_request_repo/http_request_repo.dart';
 import 'package:http/http.dart' as http;
@@ -24,4 +23,5 @@ class HttpRequestImpl extends HttpRequestRepo {
       return List<Map<String, dynamic>>.from(json.decode(value.body));
     });
   }
+  
 }

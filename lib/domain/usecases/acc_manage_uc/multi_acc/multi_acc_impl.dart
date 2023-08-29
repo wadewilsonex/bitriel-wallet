@@ -42,7 +42,13 @@ class MultiAccountImpl implements MultiAccountUsecases {
             MaterialPageRoute(
               builder: (context) => CreateWalletScreen(pin: pin, isMultiAcc: true)
             )
-          );
+          ).then((value) async {
+
+            print("sdkProvider ${sdkProvider!.getSdkImpl.evmAddress}");
+
+            // // Refetch asset balance
+            await walletProvider!.getAsset();
+          });
 
         }
       }
@@ -65,7 +71,13 @@ class MultiAccountImpl implements MultiAccountUsecases {
             MaterialPageRoute(
               builder: (context) => ImportWalletScreen(pin: pin, isMultiAcc: true)
             )
-          );
+          ).then((value) async {
+
+            print("sdkProvider ${sdkProvider!.getSdkImpl.evmAddress}");
+
+            // // Refetch asset balance
+            await walletProvider!.getAsset();
+          });
         }
       }
     );
@@ -80,6 +92,8 @@ class MultiAccountImpl implements MultiAccountUsecases {
     sdkProvider!.getSdkImpl.getKeyring.setCurrent(acc);
     
     await sdkProvider!.fetchAllAccount();
+
+    print("sdkProvider ${sdkProvider!.getSdkImpl.evmAddress}");
 
     // // Refetch asset balance
     await walletProvider!.getAsset();

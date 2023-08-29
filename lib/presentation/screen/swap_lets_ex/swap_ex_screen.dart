@@ -1,12 +1,15 @@
 import 'package:bitriel_wallet/index.dart';
 
 class SwapExchange extends StatelessWidget {
+  
   const SwapExchange({super.key});
 
   @override
   Widget build(BuildContext context) {
 
     final LetsExchangeUCImpl letsExchangeUCImpl = LetsExchangeUCImpl();
+
+    letsExchangeUCImpl.setContext = context;
 
     letsExchangeUCImpl.getLetsExchangeCoin();
 
@@ -34,7 +37,7 @@ class SwapExchange extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (builder) => const StatusExchange())
+                MaterialPageRoute(builder: (builder) => StatusExchange(lstSwapResponse: letsExchangeUCImpl.lstTx,))
               );
             }, 
             child: MyTextConstant(
@@ -58,7 +61,7 @@ class SwapExchange extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10))
                 ),
                 child: ValueListenableBuilder(
-                  valueListenable: letsExchangeUCImpl.inputAmount,
+                  valueListenable: letsExchangeUCImpl.swapModel.amt!,
                   builder: (context, value, wg) {
                     return Column(
                       children: [
@@ -89,13 +92,14 @@ class SwapExchange extends StatelessWidget {
             ),
 
             Center(
-              child: _buildNumberPad(context, letsExchangeUCImpl.inputAmount.value, letsExchangeUCImpl.onDeleteTxt, letsExchangeUCImpl.formatDouble)
+              child: _buildNumberPad(context, letsExchangeUCImpl.swapModel.amt!.value, letsExchangeUCImpl.onDeleteTxt, letsExchangeUCImpl.formatDouble)
             ),
 
             MyButton(
               edgeMargin: const EdgeInsets.all(paddingSize),
               textButton: "Swap",
               action: () async {
+                await letsExchangeUCImpl.swap();
               },
             ),
       
@@ -144,9 +148,9 @@ class SwapExchange extends StatelessWidget {
                       ),
                       child: MyTextConstant(
                         textAlign: TextAlign.start,
-                        text: leUCImpl.inputAmount.value.isEmpty ? "0.00" : leUCImpl.inputAmount.value.toString(),
+                        text: leUCImpl.swapModel.amt!.value.isEmpty ? "0.00" : leUCImpl.swapModel.amt!.value.toString(),
                         fontSize: 20,
-                        color2: leUCImpl.inputAmount.value.isEmpty ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
+                        color2: leUCImpl.swapModel.amt!.value.isEmpty ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
                       ),
                     ),
                   ),
@@ -156,23 +160,53 @@ class SwapExchange extends StatelessWidget {
               Expanded(child: Container()),
 
               ValueListenableBuilder(
-                valueListenable: leUCImpl.lstLECoin,
-                builder: (context, value, wg) {
-                  return value.isNotEmpty ? _ddTokenButton(
-                    context: context, 
-                    i: 0,
-                    onPressed: () {
-                      
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SelectSwapToken(itemLE: value))
-                      );
+                valueListenable: leUCImpl.coin1, 
+                builder: (context, value, wg){
+                  return InkWell(
+                    child: Container(
+                      width: 50,
+                      color: Colors.grey.withOpacity(0.3),
+                      child: Column(
+                        children: [
+                          Text(value.title ?? ''),
+                          Text(value.network ?? '', overflow: TextOverflow.ellipsis,)
+                        ],
+                      ),
+                    ),
+                    onTap: (){
+
+                      leUCImpl.setCoin(context, true);
 
                     },
-                    letsExchangeRepoImpl: leUCImpl
-                  ) : const CircularProgressIndicator();
+                  );
                 }
-              ),
+              )
+
+              // ValueListenableBuilder(
+              //   valueListenable: leUCImpl.l,
+              //   builder: (context, value, wg) {
+              //     return value.isNotEmpty ? _ddTokenButton(
+              //       context: context, 
+              //       i: 0,
+              //       onPressed: () {
+                      
+              //         leUCImpl.setCoin(context, value, true);
+                      
+              //         // Navigator.push(
+              //         //   context,
+              //         //   MaterialPageRoute(builder: (context) => SelectSwapToken(itemLE: value))
+              //         // ).then((res) {
+              //         //   print("SelectSwapToken res ${value[res].toJson()}");
+              //         //   if (res != null){
+              //         //     leUCImpl.swapModel.from = value[res].name;
+              //         //   }
+              //         // });
+
+              //       },
+              //       letsExchangeRepoImpl: leUCImpl
+              //     ) : const CircularProgressIndicator();
+              //   }
+              // ),
 
             ],
           ),
@@ -225,25 +259,45 @@ class SwapExchange extends StatelessWidget {
               ),
 
               Expanded(child: Container()),
-            
-              ValueListenableBuilder(
-                valueListenable: leUCImpl.lstLECoin,
-                builder: (context, value, wg) {
-                  return value.isNotEmpty ? _ddTokenButton(
-                    context: context, 
-                    i: 1,
-                    onPressed: () {
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SelectSwapToken(itemLE: value))
-                      );
+              ValueListenableBuilder(
+                valueListenable: leUCImpl.coin2, 
+                builder: (context, value, wg){
+                  return InkWell(
+                    onTap: (){
+
+                      leUCImpl.setCoin(context, false);
 
                     },
-                    letsExchangeRepoImpl: leUCImpl
-                  ) : const CircularProgressIndicator();
+                    child: Container(
+                      color: Colors.grey.withOpacity(0.3),
+                      width: 50,
+                      child: Column(
+                        children: [
+                          Text(value.title ?? ''),
+                          Text(value.network ?? '', overflow: TextOverflow.ellipsis)
+                        ],
+                      ),
+                    )
+                  );
                 }
-              ),
+              )
+            
+              // ValueListenableBuilder(
+              //   valueListenable: leUCImpl.lstLECoin,
+              //   builder: (context, value, wg) {
+              //     return value.isNotEmpty ? _ddTokenButton(
+              //       context: context, 
+              //       i: 1,
+              //       onPressed: () {
+
+              //         leUCImpl.setCoin(context, value, false);
+
+              //       },
+              //       letsExchangeRepoImpl: leUCImpl
+              //     ) : const CircularProgressIndicator();
+              //   }
+              // ),
               
             ],
           ),
@@ -267,7 +321,7 @@ class SwapExchange extends StatelessWidget {
             width: 30,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: SvgPicture.network(i == 0 ? letsExchangeRepoImpl.lstLECoin.value[0].icon!.replaceAll("\\/", "/") : letsExchangeRepoImpl.lstLECoin.value[1].icon!.replaceAll("\\/", "/")) ,
+              child: letsExchangeRepoImpl.lstLECoin.value[0].image!// SvgPicture.network(i == 0 ? letsExchangeRepoImpl.lstLECoin.value[0].image!.replaceAll("\\/", "/") : letsExchangeRepoImpl.lstLECoin.value[1].icon!.replaceAll("\\/", "/")) ,
             ),
           ),
 
@@ -275,7 +329,7 @@ class SwapExchange extends StatelessWidget {
           
           MyTextConstant(
             textAlign: TextAlign.start,
-            text: i == 0 ? letsExchangeRepoImpl.lstLECoin.value[0].code : letsExchangeRepoImpl.lstLECoin.value[1].code,
+            text: i == 0 ? letsExchangeRepoImpl.lstLECoin.value[0].title : letsExchangeRepoImpl.lstLECoin.value[1].title,
             fontSize: 18,
             color2: hexaCodeToColor("#949393"),
           ),

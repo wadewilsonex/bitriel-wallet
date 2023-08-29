@@ -2,7 +2,7 @@ import 'package:bitriel_wallet/index.dart';
 
 class SelectSwapToken extends StatelessWidget {
 
-  final List<LetsExchangeCoin> itemLE;
+  final List<LetsExCoinByNetworkModel> itemLE;
 
   const SelectSwapToken({super.key, required this.itemLE});
 
@@ -24,7 +24,7 @@ class SelectSwapToken extends StatelessWidget {
                 ListView.builder(
                   itemCount: itemLE.length,
                   itemBuilder: (context, index) {
-                    return _listTokenItem(index);
+                    return _listTokenItem(context, index);
                   },
                 ),
 
@@ -51,7 +51,7 @@ class SelectSwapToken extends StatelessWidget {
     );
   }
 
-  Widget _searchBar(TextEditingController searchController, List<LetsExchangeCoin> itemLE) {
+  Widget _searchBar(TextEditingController searchController, List<LetsExCoinByNetworkModel> itemLE) {
     return Padding(
       padding: const EdgeInsets.only(top: 15 / 2, left: 15, right: 15, bottom: 15 / 2),
       child: TextField(
@@ -80,29 +80,29 @@ class SelectSwapToken extends StatelessWidget {
   }
 
   Widget _buildImageItem(int index) {
-    if (itemLE[index].icon == null) {
+    // if (itemLE[index].icon == null) {
       return const CircleAvatar();
-    }
-    else if (itemLE[index].icon!.endsWith('.svg')) {
-      // Handle SVG images using flutter_svg
-      return SvgPicture.network(
-        itemLE[index].icon!.replaceAll("\\/", "/"),
-        placeholderBuilder: (context) => const CircularProgressIndicator(),
-        height: 100,
-        width: 100,
-      );
-    } 
-    else {
-      // Handle PNG and JPEG images using cached_network_image
-      return CachedNetworkImage(
-        imageUrl: itemLE[index].icon!.replaceAll("\\/", "/"),
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        errorWidget: (context, url, error) => const CircleAvatar(),
-      );
-    }
+    // }
+    // else if (itemLE[index].icon!.endsWith('.svg')) {
+    //   // Handle SVG images using flutter_svg
+    //   return SvgPicture.network(
+    //     itemLE[index].icon!.replaceAll("\\/", "/"),
+    //     placeholderBuilder: (context) => const CircularProgressIndicator(),
+    //     height: 100,
+    //     width: 100,
+    //   );
+    // } 
+    // else {
+    //   // Handle PNG and JPEG images using cached_network_image
+    //   return CachedNetworkImage(
+    //     imageUrl: itemLE[index].icon!.replaceAll("\\/", "/"),
+    //     placeholder: (context, url) => const CircularProgressIndicator(),
+    //     errorWidget: (context, url, error) => const CircleAvatar(),
+    //   );
+    // }
   }
 
-  Widget _listTokenItem(int index) {
+  Widget _listTokenItem(BuildContext context, int index) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
       leading: SizedBox(
@@ -111,12 +111,12 @@ class SelectSwapToken extends StatelessWidget {
         child: _buildImageItem(index),
       ),
       title: MyTextConstant(
-        text: itemLE[index].name,
+        text: itemLE[index].title ?? '',
         fontWeight: FontWeight.w600,
         textAlign: TextAlign.start,
       ),
       subtitle: MyTextConstant(
-        text: itemLE[index].code,
+        text: itemLE[index].network,
         color2: hexaCodeToColor(AppColors.grey),
         fontSize: 12,
         textAlign: TextAlign.start,
@@ -140,7 +140,7 @@ class SelectSwapToken extends StatelessWidget {
         ],
       ),
       onTap: () {
-
+        Navigator.pop(context, index);
       },
     );
   }

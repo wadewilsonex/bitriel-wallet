@@ -14,7 +14,7 @@ class WalletProvider with ChangeNotifier {
   List<SmartContractModel>? listErc20;
   
   List<SmartContractModel>? addedContract;
-  List<SmartContractModel>? sortListContract;
+  List<SmartContractModel>? sortListContract = [];
 
   BuildContext? _context;
 
@@ -51,6 +51,8 @@ class WalletProvider with ChangeNotifier {
   /// Get Asset and Sort Asset
   Future<void> getAsset() async {
 
+    print("getAsset");
+
     initState();
     
     try {
@@ -59,6 +61,8 @@ class WalletProvider with ChangeNotifier {
         defaultListContract = value[0];
         addedContract = value[1];
       });
+
+      await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
 
       if (sdkProvider!.isMainnet.value == true) {
 
@@ -118,6 +122,7 @@ class WalletProvider with ChangeNotifier {
   /// List All Support Token in Mainnet
   Future<void> assetStateManipulate() async {
     
+    print("assetStateManipulate");
     // 0
     assetsFilter();
 

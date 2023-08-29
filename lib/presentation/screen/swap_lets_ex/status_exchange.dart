@@ -2,7 +2,9 @@ import 'package:bitriel_wallet/index.dart';
 
 class StatusExchange extends StatelessWidget {
 
-  const StatusExchange({super.key});
+  final ValueNotifier<List<SwapResModel>>? lstSwapResponse;
+
+  const StatusExchange({super.key, required this.lstSwapResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -12,17 +14,45 @@ class StatusExchange extends StatelessWidget {
       body: Column(
         children: [
           _inputExchangeID(),
-
-          Expanded(
-            child: Container()
-          ),
-
+          
           MyButton(
             edgeMargin: const EdgeInsets.all(paddingSize),
             textButton: "Check",
             action: () async {
 
             },
+          ),
+
+          ValueListenableBuilder(
+            valueListenable: lstSwapResponse!,
+            builder: (context, lst, wg) {
+              return ListView(
+                shrinkWrap: true,
+                children: lst.map((e) {
+                  return InkWell(
+                    onTap: (){
+                      
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+
+                        Column(
+                          children: [
+                            Text(e.transaction_id!),
+                            Text(e.status!),
+                          ],
+                        ),
+
+                        const Text("Transfer")
+
+                      ],
+                    )
+                  );
+                }
+                ).toList(),
+              );
+            }
           ),
         ],
       ),

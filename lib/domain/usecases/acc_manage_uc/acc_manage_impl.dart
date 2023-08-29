@@ -72,6 +72,7 @@ class AccountManagementImpl extends AccountMangementUC {
 
     await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unVerifyAccount)));
   
+
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     sdkProvider.notifyListeners();
 
