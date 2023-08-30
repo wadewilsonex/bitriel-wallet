@@ -95,6 +95,12 @@ class GetRequest {
     });
   }
 
+  /// Exam id: tether...
+  static Future<http.Response> getContractById(String id) async {
+    var url = "https://api.coingecko.com/api/v3/coins/$id";
+    return await http.get(Uri.parse(url), headers: conceteHeader());
+  }
+
   static Future<http.Response> getLetsExchangeCoin() async {
     var url = "https://api.letsexchange.io/api/v2/coins";
     var token = dotenv.get('LETS_EXCHANGE_TOKEN');

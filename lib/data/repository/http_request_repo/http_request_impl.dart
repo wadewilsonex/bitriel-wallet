@@ -23,5 +23,9 @@ class HttpRequestImpl extends HttpRequestRepo {
       return List<Map<String, dynamic>>.from(json.decode(value.body));
     });
   }
+
+  Future<Map<String, dynamic>> getContractById(String id) async {
+    return json.decode( (await GetRequest.getContractById(id)).body );
+  }
   
 }

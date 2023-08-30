@@ -37,7 +37,7 @@ class SwapExchange extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (builder) => StatusExchange(lstSwapResponse: letsExchangeUCImpl.lstTx,))
+                MaterialPageRoute(builder: (builder) => StatusExchange(letsExchangeUCImpl: letsExchangeUCImpl,))
               );
             }, 
             child: MyTextConstant(

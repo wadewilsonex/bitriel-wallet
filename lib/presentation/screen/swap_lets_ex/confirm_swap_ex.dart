@@ -1,7 +1,12 @@
 import 'package:bitriel_wallet/index.dart';
 
 class ConfirmSwapExchange extends StatelessWidget {
-  const ConfirmSwapExchange({super.key});
+
+  final SwapResModel? swapResModel;
+
+  final Function? confirmSwap;
+  
+  const ConfirmSwapExchange({super.key, required this.swapResModel, required this.confirmSwap});
 
   @override
   Widget build(BuildContext context) {
@@ -10,9 +15,9 @@ class ConfirmSwapExchange extends StatelessWidget {
       body: Column(
         children: [
       
-          _swapTokenInfo(),
+          _swapTokenInfo(swapResModel),
 
-          _trxExchangeInfo(context),
+          _trxExchangeInfo(context, swapResModel),
 
           Expanded(
             child: Container()
@@ -21,8 +26,8 @@ class ConfirmSwapExchange extends StatelessWidget {
           MyButton(
             edgeMargin: const EdgeInsets.all(paddingSize),
             textButton: "Confirm",
-            action: () async {
-              
+            action: () {
+              confirmSwap!(swapResModel);
             },
           ),
       
@@ -31,7 +36,7 @@ class ConfirmSwapExchange extends StatelessWidget {
     );
   }
 
-  Widget _swapTokenInfo() {
+  Widget _swapTokenInfo(SwapResModel? swapResModel) {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -59,8 +64,8 @@ class ConfirmSwapExchange extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
           
-                    const MyTextConstant(
-                      text: "1 BNB",
+                    MyTextConstant(
+                      text: "${swapResModel!.deposit_amount} ${swapResModel.coin_from}",
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     )
@@ -101,8 +106,8 @@ class ConfirmSwapExchange extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
           
-                    const MyTextConstant(
-                      text: "1 BNB",
+                    MyTextConstant(
+                      text: swapResModel.withdrawal_amount,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     )
@@ -117,7 +122,7 @@ class ConfirmSwapExchange extends StatelessWidget {
     );
   }
 
-  Widget _trxExchangeInfo(BuildContext context) {
+  Widget _trxExchangeInfo(BuildContext context, SwapResModel? swapResModel) {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -136,15 +141,15 @@ class ConfirmSwapExchange extends StatelessWidget {
                 Row(
                   children: [
                     MyTextConstant(
-                      text: "Deposit BNB To",
+                      text: "Deposit ${swapResModel!.coin_from} To ${swapResModel.coin_to}",
                       fontWeight: FontWeight.w600,
                       color2: hexaCodeToColor(AppColors.darkGrey),
                     ),
             
                     const Spacer(),
             
-                    const MyTextConstant(
-                      text: "0x123....3112d",
+                    MyTextConstant(
+                      text: swapResModel.withdrawal!.replaceRange(6, swapResModel.withdrawal!.length - 6, "......."),
                       fontWeight: FontWeight.w600,
                     ),
                     
@@ -152,7 +157,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20),
                       onPressed: () {
                         Clipboard.setData(
-                          const ClipboardData(text: "0x1233r43....4j53213112d"),
+                          ClipboardData(text: swapResModel.deposit!.replaceRange(6, swapResModel.deposit!.length - 6, ".......")),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -177,8 +182,8 @@ class ConfirmSwapExchange extends StatelessWidget {
             
                     const Spacer(),
             
-                    const MyTextConstant(
-                      text: "0x123....3112d",
+                    MyTextConstant(
+                      text: swapResModel.deposit!.replaceRange(6, swapResModel.deposit!.length - 6, "......."),
                       fontWeight: FontWeight.w600,
                     ),
                     
@@ -186,7 +191,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20),
                       onPressed: () {
                         Clipboard.setData(
-                          const ClipboardData(text: "0x1233r43....4j53213112d"),
+                          ClipboardData(text: swapResModel.deposit!),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -270,8 +275,8 @@ class ConfirmSwapExchange extends StatelessWidget {
             
                     const Spacer(),
             
-                    const MyTextConstant(
-                      text: "12321321314",
+                    MyTextConstant(
+                      text: swapResModel.transaction_id,
                       fontWeight: FontWeight.w600,
                     ),
     
@@ -279,7 +284,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20,),
                       onPressed: () {
                         Clipboard.setData(
-                          const ClipboardData(text: "12321321314"),
+                          ClipboardData(text: swapResModel.transaction_id!),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(

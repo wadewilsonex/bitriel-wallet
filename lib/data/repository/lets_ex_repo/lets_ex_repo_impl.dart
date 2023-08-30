@@ -7,6 +7,7 @@ class LetsExchangeRepoImpl implements LetsExchangeRepository {
   Future<List<LetsExchangeCoin>> getLetsExchangeCoin() async{
     
     List<LetsExchangeCoin> lstLECoin = [];
+    
     await GetRequest.getLetsExchangeCoin().then((value) {
       if (value.statusCode == 200) {
         var json = jsonDecode(value.body);

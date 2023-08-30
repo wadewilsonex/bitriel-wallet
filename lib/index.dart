@@ -82,7 +82,7 @@ export 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
 export 'package:bitriel_wallet/data/repository/market_repo/market_repo_impl.dart';
 export 'package:bitriel_wallet/data/repository/lets_ex_repo/lets_ex_repo.dart';
 export 'package:bitriel_wallet/data/repository/lets_ex_repo/lets_ex_repo_impl.dart';
-export 'package:bitriel_wallet/domain/usecases/swap/lets_exchange_uc/lets_ex_uc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/swap_uc/lets_exchange_uc/lets_ex_uc_impl.dart';
 
 /*---------- Domain Layer ----------*/
 
@@ -96,6 +96,7 @@ export 'package:bitriel_wallet/domain/model/line_chart_model.dart';
 export 'package:bitriel_wallet/domain/model/market.m.dart';
 export 'package:bitriel_wallet/domain/model/lets_ex_coin_m.dart';
 export 'package:bitriel_wallet/domain/model/swap_m.dart';
+export 'package:bitriel_wallet/domain/model/coin_info_m.dart';
 
 // Usecases
 export 'package:bitriel_wallet/domain/usecases/asset_uc/asset_uc_impl.dart';
@@ -125,7 +126,7 @@ export 'package:bitriel_wallet/domain/usecases/add_asset_uc/add_asset_uc.dart';
 export 'package:bitriel_wallet/domain/usecases/add_asset_uc/add_asset_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/payment_uc/payment_us.dart';
 export 'package:bitriel_wallet/domain/usecases/payment_uc/payment_impl.dart';
-export 'package:bitriel_wallet/domain/usecases/swap/lets_exchange_uc/lets_ex_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/swap_uc/lets_exchange_uc/lets_ex_uc.dart';
 
 export 'package:bitriel_wallet/domain/usecases/wallet_uc/receive_uc.dart';
 
@@ -152,6 +153,7 @@ export 'package:bitriel_wallet/presentation/screen/about_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/privacy_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/swap_lets_ex/status_exchange.dart';
 export 'package:bitriel_wallet/presentation/screen/account/backup_wallet_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/swap_lets_ex/confirm_swap_ex.dart';
 
 // Widget
 export 'package:bitriel_wallet/presentation/widget/text_widget.dart';

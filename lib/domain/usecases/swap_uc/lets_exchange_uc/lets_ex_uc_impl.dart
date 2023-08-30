@@ -3,8 +3,10 @@ import 'package:bitriel_wallet/index.dart';
 class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
   BuildContext? _context;
-
+  
+  /// Data Of Coin 1
   ValueNotifier<LetsExCoinByNetworkModel> coin1 = ValueNotifier(LetsExCoinByNetworkModel());
+  /// Data Of Coin 2
   ValueNotifier<LetsExCoinByNetworkModel> coin2 = ValueNotifier(LetsExCoinByNetworkModel());
 
   final LetsExchangeRepoImpl _letsExchangeRepoImpl = LetsExchangeRepoImpl();
@@ -20,7 +22,8 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   ValueNotifier<List<SwapResModel>> lstTx = ValueNotifier([]);
 
   final PaymentUcImpl _paymentUcImpl = PaymentUcImpl();
-  // final AddAsset _addAsset = Add
+  
+  CoinInfo coinInfo = CoinInfo();
 
   set setContext(BuildContext ctx){
     _context = ctx;
@@ -40,8 +43,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
       _secureStorageImpl.readSecure(DbKey.lstTxIds)!.then( (localLstTx){
 
-        print("localLstTx $localLstTx");
-        
         if (localLstTx.isNotEmpty){
 
           lstTx.value = List<Map<String, dynamic>>.from((json.decode(localLstTx))).map((e) {
@@ -51,45 +52,11 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
       });
 
-      print(lstTx.value.length);
-
     }
 
     lstCoinExtract();
     
   }
-
-  // void initState(){
-
-  //   List<SmartContractModel> found1 = _walletProvider!.sortListContract!.where((element) {
-  //     if (element.id == "tether") return true;
-  //     return false;
-  //   }).toList();
-    
-
-  //   List<SmartContractModel> found2 = _walletProvider!.sortListContract!.where((element) {
-  //     if (element.id == "ethereum") return true;
-  //     return false;
-  //   }).toList();
-
-  //   if (found1.isNotEmpty && found2.isNotEmpty){
-
-  //     name1.value = found1[0].symbol!;
-  //     logo1!.value = found1[0].logo!.contains('http') && found1[0].logo!.contains('svg') ? SvgPicture.network(found1[0].logo!) : Image.file(File(found1[0].logo!));
-  //     network1 = found1[0].org!;
-  //     networkFrom = found1[0].org!;
-
-  //     name2.value = found2[0].symbol!;
-  //     logo2!.value = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.file(File(found2[0].logo!));
-  //     network2 = found2[0].org!;
-  //     networkTo = found2[0].org!;
-      
-  //     balance1 = "0";//found1[0].balance!;
-  //     balance2 = "0";//found2[0].balance!;
-
-  //   }
-    
-  // }
   
   void lstCoinExtract() {
 
@@ -122,18 +89,28 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
     //   imgConversion = CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),);
     }
 
-    lstLECoin.value.add(
-      LetsExCoinByNetworkModel(
-        title: defaultLstCoins[i].code,
-        subtitle: defaultLstCoins[i].name,
-        // isActive: index2 == i ? true : false,
-        image: Container(),//imgConversion!,
-        network: defaultLstCoins[i].networks![j].name!,
-        networkCode: defaultLstCoins[i].networks![j].code,
-        balance: "0"//contractProvider!.sortListContract[i].balance,
-        
-      )
-    );
+    if (
+      defaultLstCoins[i].networks![j].code == "BTC" ||
+      defaultLstCoins[i].networks![j].code == "BEP20" ||
+      defaultLstCoins[i].networks![j].code == "ERC20" ||
+      defaultLstCoins[i].networks![j].code == "Ethereum" ||
+      defaultLstCoins[i].networks![j].code == "Binance Chain"
+    ){
+
+      lstLECoin.value.add(
+        LetsExCoinByNetworkModel(
+          title: defaultLstCoins[i].code,
+          subtitle: defaultLstCoins[i].name,
+          // isActive: index2 == i ? true : false,
+          image: Container(),//imgConversion!,
+          network: defaultLstCoins[i].networks![j].name!,
+          networkCode: defaultLstCoins[i].networks![j].code,
+          balance: "0"//contractProvider!.sortListContract[i].balance,
+          
+        )
+      );
+    }
+
   }
 
 
@@ -192,8 +169,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
           coin1.value = lstLECoin.value[res];
           swapModel.from = coin1.value.title;
           swapModel.networkFrom = coin1.value.network;
-          // swapModel.networkFrom = lstCoin[res].networks!;
-          
 
         } else {
           
@@ -274,27 +249,63 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   // Index Of List
   Future<void> paySwap(int index) async {
 
-    // Navigator.push(
-    //   _context!,
-    //   MaterialPageRoute(builder: (context) => const PincodeScreen(title: '', label: PinCodeLabel.fromSendTx,))
-    // ).then((value) async {
+    Navigator.push(
+      _context!,
+      MaterialPageRoute(builder: (context) => const PincodeScreen(title: '', label: PinCodeLabel.fromSendTx,))
+    ).then((value) async {
 
-    //   _paymentUcImpl.recipientController.text = lstTx.value[index].deposit!;
-    //   _paymentUcImpl.amountController.text = lstTx.value[index].deposit_amount!;
+      _paymentUcImpl.recipientController.text = lstTx.value[index].deposit!;
+      _paymentUcImpl.amountController.text = lstTx.value[index].deposit_amount!;
 
-    //   if (value != null){
-    //     await _paymentUcImpl.sendBep20();
-    //   }
-    // });
-    await QuickAlert.show(
-      context: _context!,
-      type: QuickAlertType.warning,
-      showCancelBtn: true,
-      cancelBtnText: "Close",
-      cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
-      text: 'Under maintenance',
+      if (value != null){
+        await _paymentUcImpl.sendBep20();
+      }
+    });
+
+    // await QuickAlert.show(
+    //   context: _context!,
+    //   type: QuickAlertType.warning,
+    //   showCancelBtn: true,
+    //   cancelBtnText: "Close",
+    //   cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
+    //   text: 'Under maintenance',
+    // );
+
+  }
+
+  @override
+  Future<void> confirmSwap(SwapResModel swapResModel) async {
+    Navigator.push(
+      _context!,
+      MaterialPageRoute(builder: (context) => ConfirmSwapExchange(swapResModel: swapResModel, confirmSwap: swapping,))
     );
+  }
 
+  @override
+  Future<void> swapping(SwapResModel swapResModel) async {
+    await queryContractById(swapResModel.coin_from!);
+  }
+
+  @override
+  Future<void> queryContractById(String id) async {
+    try {
+
+      await HttpRequestImpl().getContractById(id).then((value) {
+        coinInfo = CoinInfo.fromJson(value);
+        print(coinInfo.platforms);
+      });
+
+    } catch (e) {
+      
+      await QuickAlert.show(
+        context: _context!,
+        type: QuickAlertType.error,
+        showCancelBtn: true,
+        cancelBtnText: "Close",
+        cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
+        text: 'Coin not found',
+      );
+    }
   }
 
 }
