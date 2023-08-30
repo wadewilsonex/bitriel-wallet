@@ -134,21 +134,22 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   @override
   void formatDouble(String value) {
 
-    // Value Equal Empty & Not Contains "."
-    if (value.contains(".") && !(swapModel.amt!.value.contains(".")) && swapModel.amt!.value.isEmpty){
+    if (swapModel.amt!.value.replaceAll(".", "").length < 10){
+      // Value Equal Empty & Not Contains "."
+      if (value.contains(".") && !(swapModel.amt!.value.contains(".")) && swapModel.amt!.value.isEmpty){
 
-      swapModel.amt!.value = "0.";
+        swapModel.amt!.value = "0.";
 
-    } 
-    // Prevent Add "." Multiple Time.
-    // Reject Input "." Evertime
-    else if ( !(value.contains("."))) {
+      } 
+      // Prevent Add "." Multiple Time.
+      // Reject Input "." Evertime
+      else if ( !(value.contains("."))) {
 
-      swapModel.amt!.value = swapModel.amt!.value + value;
+        swapModel.amt!.value = swapModel.amt!.value + value;
 
-    }
-    // Add "." For Only one time.
-    else if ( !(swapModel.amt!.value.contains(".")) ){
+      }
+      // Add "." For Only one time.
+      else if ( !(swapModel.amt!.value.contains(".")) ){
 
       swapModel.amt!.value = swapModel.amt!.value + value;
       
@@ -158,6 +159,8 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
       isReady.value = true;
     } else if (isReady.value == true){
       isReady.value = false;
+        swapModel.amt!.value = swapModel.amt!.value + value;
+      }
     }
 
   }
