@@ -79,7 +79,8 @@ dependencies:
   url_launcher: ^6.1.12
   share_plus: ^7.1.0
   icons_launcher: ^2.1.3
-  scan: ^1.6.0
+  # scan: ^1.6.0
+  qr_code_scanner:
 
 dependency_overrides:
   polkawallet_sdk:

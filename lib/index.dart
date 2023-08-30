@@ -55,6 +55,7 @@ export 'package:polkawallet_sdk/api/api.dart';
 export 'package:bitriel_wallet/data/storage.dart';
 
 export 'package:share_plus/share_plus.dart';
+export 'package:qr_code_scanner/qr_code_scanner.dart';
 
 /*---------- Data Layer ----------*/
 
@@ -126,8 +127,9 @@ export 'package:bitriel_wallet/domain/usecases/add_asset_uc/add_asset_impl.dart'
 export 'package:bitriel_wallet/domain/usecases/payment_uc/payment_us.dart';
 export 'package:bitriel_wallet/domain/usecases/payment_uc/payment_impl.dart';
 export 'package:bitriel_wallet/domain/usecases/swap_uc/lets_exchange_uc/lets_ex_uc.dart';
-
 export 'package:bitriel_wallet/domain/usecases/wallet_uc/receive_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/scan_qr_uc/scan_qr_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/scan_qr_uc/scan_qr_uc_impl.dart';
 
 /*---------- Presentation Layer ----------*/
 
@@ -153,6 +155,7 @@ export 'package:bitriel_wallet/presentation/screen/privacy_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/swap_lets_ex/status_exchange.dart';
 export 'package:bitriel_wallet/presentation/screen/account/backup_wallet_screen.dart';
 export 'package:bitriel_wallet/presentation/screen/swap_lets_ex/confirm_swap_ex.dart';
+export 'package:bitriel_wallet/presentation/screen/qr_scanner/qr_scanner_screen.dart';
 
 // Widget
 export 'package:bitriel_wallet/presentation/widget/text_widget.dart';
