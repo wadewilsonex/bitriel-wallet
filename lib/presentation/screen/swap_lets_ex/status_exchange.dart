@@ -14,15 +14,15 @@ class StatusExchange extends StatelessWidget {
       body: Column(
         children: [
           
-          _inputExchangeID(),
+          // _inputExchangeID(),
           
-          MyButton(
-            edgeMargin: const EdgeInsets.all(paddingSize),
-            textButton: "Check",
-            action: () async {
+          // MyButton(
+          //   edgeMargin: const EdgeInsets.all(paddingSize),
+          //   textButton: "Check",
+          //   action: () async {
 
-            },
-          ),
+          //   },
+          // ),
 
           ValueListenableBuilder(
             valueListenable: letsExchangeUCImpl!.lstTx,
@@ -30,32 +30,38 @@ class StatusExchange extends StatelessWidget {
               return ListView(
                 shrinkWrap: true,
                 children: lst.map((e) {
-                  return InkWell(
-                    onTap: (){
-                      letsExchangeUCImpl!.confirmSwap(e);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-
-                        Column(
-                          children: [
-                            Text(e.transaction_id!),
-                            Text(e.status!),
-                          ],
-                        ),
-
-                        const Text("Transfer")
-
-                      ],
-                    )
-                  );
-                }
-                ).toList(),
+                  return _statusSwapRes(letsExchangeUCImpl: letsExchangeUCImpl!, swapM: e);
+                }).toList(),
               );
             }
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _statusSwapRes({required LetsExchangeUCImpl letsExchangeUCImpl, required SwapResModel swapM}) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      child: ListTile(
+        onTap: () {
+          letsExchangeUCImpl.confirmSwap(swapM);
+        },
+        title: MyTextConstant(
+          text: "Exchange ID: ${swapM.transaction_id}",
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.start,
+        ),
+        subtitle: MyTextConstant(
+          text: "Status: ${swapM.created_at}",
+          color2: hexaCodeToColor(AppColors.iconGreyColor),
+          textAlign: TextAlign.start,
+        ),
+        trailing: MyTextConstant(
+          text: "Status: ${swapM.status}",
+          color2: hexaCodeToColor(AppColors.primary),
+          textAlign: TextAlign.end,
+        ),
       ),
     );
   }

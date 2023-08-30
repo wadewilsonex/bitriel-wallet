@@ -11,7 +11,7 @@ class ConfirmSwapExchange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context, title: "Confirm Swap"),
+      appBar: appBar(context, title: "Swap"),
       body: Column(
         children: [
       
@@ -141,7 +141,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                 Row(
                   children: [
                     MyTextConstant(
-                      text: "Deposit ${swapResModel!.coin_from} To ${swapResModel.coin_to}",
+                      text: "From Address",
                       fontWeight: FontWeight.w600,
                       color2: hexaCodeToColor(AppColors.darkGrey),
                     ),
@@ -149,7 +149,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                     const Spacer(),
             
                     MyTextConstant(
-                      text: swapResModel.withdrawal!.replaceRange(6, swapResModel.withdrawal!.length - 6, "......."),
+                      text: swapResModel!.withdrawal!.replaceRange(6, swapResModel.withdrawal!.length - 6, "......."),
                       fontWeight: FontWeight.w600,
                     ),
                     
@@ -162,7 +162,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Deposit Address is Copied to Clipboard"),
+                            content: Text("From Address is Copied to Clipboard"),
                           ),
                         );
                       },  
@@ -175,7 +175,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                 Row(
                   children: [
                     MyTextConstant(
-                      text: "Recipient Address",
+                      text: "To Address",
                       fontWeight: FontWeight.w600,
                       color2: hexaCodeToColor(AppColors.darkGrey),
                     ),
@@ -196,7 +196,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Recipient Address is Copied to Clipboard"),
+                            content: Text("To Address is Copied to Clipboard"),
                           ),
                         );
                       },  
@@ -263,7 +263,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                           const SizedBox(height: 2.5,),
                           
                           MyTextConstant(
-                            text: "Copy Exchange ID to check \ntransaction status",
+                            text: "Status: ${swapResModel.status}",
                             fontSize: 11,
                             color2: hexaCodeToColor(AppColors.primary),
                             textAlign: TextAlign.start,
