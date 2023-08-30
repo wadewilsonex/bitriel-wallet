@@ -131,7 +131,7 @@ class ConfirmSwapExchange extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: hexaCodeToColor(AppColors.cardColor),
+              color: hexaCodeToColor(AppColors.background),
               borderRadius: const BorderRadius.all(Radius.circular(18),
               ),
             ),
@@ -235,70 +235,105 @@ class ConfirmSwapExchange extends StatelessWidget {
     
           const SizedBox(height: 10),
     
-          Container(
-            padding: const EdgeInsets.all(paddingSize),
-            decoration: BoxDecoration(
-              color: hexaCodeToColor(AppColors.cardColor),
-              borderRadius: const BorderRadius.all(Radius.circular(18),
-              ),
-            ),
-            child: Column(
-              children: [
-            
-                Row(
-                  children: [
-    
-                    Flexible(
-                      flex: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                    
-                          MyTextConstant(
-                            text: "Exchange ID",
-                            fontWeight: FontWeight.w600,
-                            color2: hexaCodeToColor(AppColors.darkGrey),
-                          ),
-
-                          const SizedBox(height: 2.5,),
-                          
-                          MyTextConstant(
-                            text: "Status: ${swapResModel.status}",
-                            fontSize: 11,
-                            color2: hexaCodeToColor(AppColors.primary),
-                            textAlign: TextAlign.start,
-                          ),
-                    
-                        ],
-                      ),
-                    ),
-            
-                    const Spacer(),
-            
-                    MyTextConstant(
-                      text: swapResModel.transaction_id,
-                      fontWeight: FontWeight.w600,
-                    ),
-    
-                    IconButton(
-                      icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20,),
-                      onPressed: () {
-                        Clipboard.setData(
-                          ClipboardData(text: swapResModel.transaction_id!),
-                        );
-                        /* Copy Text */
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Exchange ID is Copied to Clipboard"),
-                          ),
-                        );
-                      },  
-                    )
-                    
-                  ],
+          InkWell(
+            onTap: () {
+              Clipboard.setData(
+                ClipboardData(text: swapResModel.transaction_id!),
+              );
+              /* Copy Text */
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Exchange ID is Copied to Clipboard"),
                 ),
-    
-              ],
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(paddingSize),
+              decoration: BoxDecoration(
+                color: hexaCodeToColor(AppColors.cardColor),
+                borderRadius: const BorderRadius.all(Radius.circular(18),
+                ),
+              ),
+              child: Column(
+                children: [
+              
+                  Row(
+                    children: [
+              
+                      Flexible(
+                        flex: 0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                      
+                            MyTextConstant(
+                              text: "Exchange ID",
+                              fontWeight: FontWeight.w600,
+                              color2: hexaCodeToColor(AppColors.darkGrey),
+                            ),
+          
+                            const SizedBox(height: 2.5,),
+                            
+                            MyTextConstant(
+                              text: "${swapResModel.transaction_id}",
+                              color2: hexaCodeToColor(AppColors.primary),
+                              textAlign: TextAlign.start,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      
+                          ],
+                        ),
+                      ),
+              
+                      const Spacer(),
+
+                      Flexible(
+                        flex: 0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                      
+                            MyTextConstant(
+                              text: "Status",
+                              fontWeight: FontWeight.w600,
+                              color2: hexaCodeToColor(AppColors.darkGrey),
+                            ),
+          
+                            const SizedBox(height: 2.5,),
+                            
+                            MyTextConstant(
+                              text: "${swapResModel.status}",
+                              color2: hexaCodeToColor(AppColors.primary),
+                              textAlign: TextAlign.start,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      
+                          ],
+                        ),
+                      ),
+
+                      const Spacer(),
+
+                      IconButton(
+                        icon: Icon(Iconsax.refresh_circle, color: hexaCodeToColor(AppColors.orangeColor)),
+                        onPressed: () {
+                          Clipboard.setData(
+                            ClipboardData(text: swapResModel.deposit!),
+                          );
+                          /* Copy Text */
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("To Address is Copied to Clipboard"),
+                            ),
+                          );
+                        },  
+                      )
+                      
+                    ],
+                  ),
+              
+                ],
+              ),
             ),
           ),
     

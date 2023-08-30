@@ -123,24 +123,6 @@ class SelectSwapToken extends StatelessWidget {
         fontSize: 12,
         textAlign: TextAlign.start,
       ),
-      trailing: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const MyTextConstant(
-            text: "0.00",
-            fontWeight: FontWeight.w600,
-            textAlign: TextAlign.start,
-          ),
-
-          MyTextConstant(
-            text: "\$0.00",
-            color2: hexaCodeToColor(AppColors.grey),
-            fontSize: 12,
-            textAlign: TextAlign.start,
-          ),
-        ],
-      ),
       onTap: () {
         Navigator.pop(context, index);
       },
