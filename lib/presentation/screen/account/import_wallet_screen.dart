@@ -58,7 +58,7 @@ class ImportWalletScreen extends StatelessWidget {
                 // controller: importAccModel!.key,
                 // focusNode: importAccModel!.keyNode,
                 maxLine: 7,
-                validateField: FormValidator.seedValidator,
+                validateField: Validator.seedValidator,
                 onChanged: (String value){
                   importWalletImpl.changeState(value);
                 },

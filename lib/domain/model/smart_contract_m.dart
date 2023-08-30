@@ -75,6 +75,7 @@ class SmartContractModel {
       index: json['index'],
       id: json['id'],
       symbol: json['symbol'],
+      // address: json['address'],
       type: json['type'],
       logo: json['logo'],
       org: json['org'],
@@ -129,6 +130,7 @@ class SmartContractModel {
     'is_bep20': asset.isBep20,
     'is_erc20': asset.isErc20,
     'platform': asset.platform,
+    // 'address': asset.address,
     'trx_history': TxHistoryModel.encode(asset.trxHistory!)
   };
 

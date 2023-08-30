@@ -5,8 +5,9 @@ class TokenPayment extends StatelessWidget {
 
   final int? index;
   final String? address;
+  final String? amt;
   
-  const TokenPayment({Key? key, this.index, this.address}) : super(key: key);
+  const TokenPayment({Key? key, this.index, this.address, this.amt}) : super(key: key);
 
   @override
   Widget build(BuildContext context) { 
@@ -17,7 +18,13 @@ class TokenPayment extends StatelessWidget {
 
     if (address != null) paymentUcImpl.recipientController.text = address!;
 
+    if (amt != null) paymentUcImpl.amountController.text = amt!;
+
     if (index != null) paymentUcImpl.assetChanged(index!);
+
+    if (address != null && amt != null) {
+      paymentUcImpl.isReady.value = true;
+    }
 
     // paymentUcImpl.getPrivateKey();
 
@@ -138,6 +145,7 @@ class TokenPayment extends StatelessWidget {
 }
 
 Widget _getEnterAddrSection(PaymentUcImpl paymentUcImpl) {
+
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 16.0),
     child: Card(
@@ -165,12 +173,14 @@ Widget _getEnterAddrSection(PaymentUcImpl paymentUcImpl) {
                 validator: paymentUcImpl.addressValidator,
                 focusNode: paymentUcImpl.addrNode,
                 style: const TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black
+                ),
                 decoration: const InputDecoration(
-                    hintText: 'Address',
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)),
+                  hintText: 'Address',
+                  labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0)
+                ),
               ),
             ),
           ],

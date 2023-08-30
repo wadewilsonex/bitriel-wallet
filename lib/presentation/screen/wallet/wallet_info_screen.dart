@@ -20,10 +20,14 @@ class WalletInfo extends StatelessWidget {
 
     walletPro.marketUCImpl.getMarkets();
 
+    print(walletPro.sortListContract![index].name);
+    print(walletPro.sortListContract![index].symbol);
+    print(walletPro.sortListContract![index].org);
+    print(walletPro.sortListContract![index].address ?? 'null null');
+
     final String? tokenName = walletPro.sortListContract![index].name;
     final String? tokenSymbol = walletPro.sortListContract![index].symbol;
     final String? tokenNetwork = walletPro.sortListContract![index].org;
-    
 
     return DefaultTabController(  
       length: 2,
@@ -98,6 +102,7 @@ class WalletInfo extends StatelessWidget {
   }
 
   Widget _infoTap(BuildContext context, SmartContractModel scModel, String tokenName, String tokenSymbol, String tokenNetwork) {
+
     return Column(
       children: [
         _tokenIconHeader(price: double.parse((scModel.balance ?? '0.0').replaceAll(",", "")).toStringAsFixed(2), scModel: scModel),
@@ -109,8 +114,14 @@ class WalletInfo extends StatelessWidget {
         Expanded(child: Container()),
         Consumer<WalletProvider>(
           builder: (context, pro, wg){
-            print("WalletProvider pro ${pro.sortListContract![index].trxHistory!.length}");
-            return _buyAndsellBtn(context, scModel.address!, pro.sortListContract!.indexOf(scModel), tokenName, tokenSymbol, tokenNetwork);
+    
+            print("scModel.address! ${pro.sortListContract![pro.sortListContract!.indexOf(scModel)].address}");
+            print("pro.sortListContract!.indexOf(scModel) ${pro.sortListContract!.indexOf(scModel)}");
+            print("tokenName $tokenName");
+            print("tokenSymbol $tokenName");
+            print("tokenNetwork $tokenName");
+            
+            return _buyAndsellBtn(context, pro.sortListContract![pro.sortListContract!.indexOf(scModel)].address!, pro.sortListContract!.indexOf(scModel), tokenName, tokenSymbol, tokenNetwork);
           },
         ),
       ],

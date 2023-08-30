@@ -76,6 +76,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
     });
   }
 
+  /// Network Change
   void onChanged(int value){
     networkIndex.value = value;
     resetController();
@@ -206,6 +207,8 @@ class AddAssetUcImpl implements AddAssetUsecase{
       }
         
     } catch (e) {
+
+      print("Error addAsset $e");
       // Pop dialogLoading
       Navigator.pop(_context!);
       

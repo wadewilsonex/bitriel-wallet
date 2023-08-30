@@ -1,4 +1,4 @@
-class FormValidator {
+class Validator {
 
   static String? _text;
 
@@ -12,5 +12,11 @@ class FormValidator {
       _text = null;
     }
     return _text;
+  }
+
+  static bool? swapValidator(String coin1, String coin2, String amt){
+    
+    if (coin1.isNotEmpty && coin2.isNotEmpty && amt.isNotEmpty ) return true;
+    return false;
   }
 }

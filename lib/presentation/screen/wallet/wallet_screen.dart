@@ -12,16 +12,16 @@ class WalletScreen extends StatelessWidget {
 
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
 
-    if (context.mounted){
+    // if (context.mounted){
 
-      walletPro.setBuildContext = context;
+    //   walletPro.setBuildContext = context;
       
-      if (walletPro.defaultListContract == null || walletPro.defaultListContract!.isEmpty) {
-        walletPro.getAsset();
+    //   if (walletPro.defaultListContract == null || walletPro.defaultListContract!.isEmpty) {
+    //     walletPro.getAsset();
       
-        Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
-      }
-    }
+    //     Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
+    //   }
+    // }
 
     return Scaffold(
       appBar: defaultAppBar(context: context, multiAccountImpl: multiAccountImpl),

@@ -154,7 +154,7 @@ class PaymentUcImpl implements PaymentUsecases {
 
         // Check Input Not Equal 0
         // Check Input Not Less than Existing coin's balance
-        // if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
+        if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
           
         txHistoryModel = TxHistoryModel(
           from: walletProvider!.sortListContract![index.value].address,
@@ -232,9 +232,9 @@ class PaymentUcImpl implements PaymentUsecases {
         // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
         walletProvider!.notifyListeners();
 
-        // } else if (trxMessage.value.isEmpty) {
-        //   trxMessage.value = "Balance must greater than 0";
-        // }
+        } else if (trxMessage.value.isEmpty) {
+          trxMessage.value = "Balance must greater than 0";
+        }
       }
 
     } catch (e) {

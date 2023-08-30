@@ -2,7 +2,9 @@ import 'package:bitriel_wallet/index.dart';
 
 class AddAsset extends StatelessWidget {
 
-  const AddAsset({super.key});
+  final int? index;
+
+  const AddAsset({super.key, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +14,10 @@ class AddAsset extends StatelessWidget {
     addAssetUcImpl.setBuildContext = context;
 
     addAssetUcImpl.fetchContracts();
+
+    if (index != null) {
+      addAssetUcImpl.onChanged(index!);
+    }
 
     return Scaffold(
       appBar: appBar(context, title: "Import Token", dispose: addAssetUcImpl.dispose),

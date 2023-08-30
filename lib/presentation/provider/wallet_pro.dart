@@ -51,8 +51,6 @@ class WalletProvider with ChangeNotifier {
   /// Get Asset and Sort Asset
   Future<void> getAsset() async {
 
-    print("getAsset");
-
     initState();
     
     try {
@@ -100,8 +98,6 @@ class WalletProvider with ChangeNotifier {
 
         element.address = sdkProvider!.getSdkImpl.evmAddress!;
 
-        print("addedContract ${element.symbol}");
-        print("addedContract ${element.trxHistory}");
         if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
         else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
 
@@ -133,7 +129,6 @@ class WalletProvider with ChangeNotifier {
     await queryErc20Balance();
 
     await sortAsset();
-    // await queryCoinsBalance();
   }
 
   void assetsFilter() async {
@@ -151,9 +146,7 @@ class WalletProvider with ChangeNotifier {
       return true;
     });
 
-    print("addedContract");
     addedContract!.every((element) {
-      print("element.symbol ${element.symbol} ");
       if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
       else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
 
@@ -182,10 +175,7 @@ class WalletProvider with ChangeNotifier {
         }
         sortListContract!.add(element);
       }
-      // await sdkProvider!.getSdkImpl.getWeb3Balance(element.isBSC! ? sdkProvider!.getSdkImpl.getBscClient : sdkProvider!.getSdkImpl.getEthClient, EthereumAddress.fromHex(sdkProvider!.getSdkImpl.evmAddress ?? '')).then((value) {
-      //   print("${element.symbol} value ${value.getValueInUnit(EtherUnit.ether)}");
-      //   element.balance = (value.getValueInUnit(EtherUnit.ether)).toString();
-      // });
+      
     }
 
     notifyListeners();
@@ -205,11 +195,6 @@ class WalletProvider with ChangeNotifier {
       ).then((value) {
         element.balance = (value.getValueInUnit(EtherUnit.ether)).toString();
       });
-
-      print(element.isEther! ? "Ether" : "BSC");
-      print("sdkProvider!.getSdkImpl.evmAddress ${sdkProvider!.getSdkImpl.evmAddress}");
-      print("element.symbol ${element.symbol}");
-      print("element.balance ${element.balance}");
 
       element.address = sdkProvider!.getSdkImpl.evmAddress;
 
@@ -249,6 +234,8 @@ class WalletProvider with ChangeNotifier {
           });
         }
 
+        bep20.address = sdkProvider!.getSdkImpl.evmAddress;
+
         print("balance ${bep20.balance}");
 
         sortListContract!.add(bep20);
@@ -263,16 +250,11 @@ class WalletProvider with ChangeNotifier {
 
   Future<void> queryErc20Balance() async {
 
-    print("queryErc20Balance");
     for( var erc20 in listErc20!){
 
       sdkProvider!.getSdkImpl.etherDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", erc20.contract!);
       
-      print(erc20.symbol);
-      print(erc20.chainDecimal);
       if (erc20.symbol!.toLowerCase() == "usdt"){
-        
-        erc20.address = sdkProvider!.getSdkImpl.evmAddress;
         
         erc20.balance = (await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getEthClient, sdkProvider!.getSdkImpl.etherDeployedContract!, sdkProvider!.getSdkImpl.evmAddress))[0].toString();
 
@@ -280,6 +262,8 @@ class WalletProvider with ChangeNotifier {
       else {
         erc20.balance = (await _walletUsecases.getContractBalance(sdkProvider!.getSdkImpl.getEthClient, sdkProvider!.getSdkImpl.etherDeployedContract!, sdkProvider!.getSdkImpl.evmAddress))[0].toString();
       }
+        
+      erc20.address = sdkProvider!.getSdkImpl.evmAddress;
       
       sortListContract!.add(erc20);
 
@@ -298,7 +282,6 @@ class WalletProvider with ChangeNotifier {
 
   Future<void> storeAssets() async {
     
-    print("storeAssets");
     await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
     await SecureStorage.writeData(key: DbKey.addedContract, encodeValue: json.encode(SmartContractModel.encode(addedContract!)) );
   }

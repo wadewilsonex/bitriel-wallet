@@ -95,12 +95,18 @@ class SwapExchange extends StatelessWidget {
               child: _buildNumberPad(context, letsExchangeUCImpl.swapModel.amt!.value, letsExchangeUCImpl.onDeleteTxt, letsExchangeUCImpl.formatDouble)
             ),
 
-            MyButton(
-              edgeMargin: const EdgeInsets.all(paddingSize),
-              textButton: "Swap",
-              action: () async {
-                await letsExchangeUCImpl.swap();
-              },
+            ValueListenableBuilder(
+              valueListenable: letsExchangeUCImpl.isReady,
+              builder: (context, isReady, wg) {
+                return MyButton(
+                  edgeMargin: const EdgeInsets.all(paddingSize),
+                  textButton: "Swap",
+                  buttonColor: isReady == false ? AppColors.greyCode : AppColors.primaryBtn,
+                  action: isReady == false ? null : () async {
+                    await letsExchangeUCImpl.swap();
+                  },
+                );
+              }
             ),
       
           ],
@@ -182,32 +188,6 @@ class SwapExchange extends StatelessWidget {
                 }
               )
 
-              // ValueListenableBuilder(
-              //   valueListenable: leUCImpl.l,
-              //   builder: (context, value, wg) {
-              //     return value.isNotEmpty ? _ddTokenButton(
-              //       context: context, 
-              //       i: 0,
-              //       onPressed: () {
-                      
-              //         leUCImpl.setCoin(context, value, true);
-                      
-              //         // Navigator.push(
-              //         //   context,
-              //         //   MaterialPageRoute(builder: (context) => SelectSwapToken(itemLE: value))
-              //         // ).then((res) {
-              //         //   print("SelectSwapToken res ${value[res].toJson()}");
-              //         //   if (res != null){
-              //         //     leUCImpl.swapModel.from = value[res].name;
-              //         //   }
-              //         // });
-
-              //       },
-              //       letsExchangeRepoImpl: leUCImpl
-              //     ) : const CircularProgressIndicator();
-              //   }
-              // ),
-
             ],
           ),
           
@@ -282,22 +262,6 @@ class SwapExchange extends StatelessWidget {
                   );
                 }
               )
-            
-              // ValueListenableBuilder(
-              //   valueListenable: leUCImpl.lstLECoin,
-              //   builder: (context, value, wg) {
-              //     return value.isNotEmpty ? _ddTokenButton(
-              //       context: context, 
-              //       i: 1,
-              //       onPressed: () {
-
-              //         leUCImpl.setCoin(context, value, false);
-
-              //       },
-              //       letsExchangeRepoImpl: leUCImpl
-              //     ) : const CircularProgressIndicator();
-              //   }
-              // ),
               
             ],
           ),

@@ -7,5 +7,4 @@ abstract class LetsExchangeUseCases {
   Future<void> swap();
   Future<void> confirmSwap(SwapResModel swapResModel);
   Future<void> swapping(SwapResModel swapResModel);
-  Future<void> queryContractById(String id);
 }

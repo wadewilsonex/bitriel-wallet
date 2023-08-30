@@ -13,17 +13,19 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
   List<LetsExchangeCoin> defaultLstCoins = [];
 
-  ValueNotifier<List<LetsExCoinByNetworkModel>> lstLECoin = ValueNotifier([]);
-
   Widget? imgConversion;
 
   SwapModel swapModel = SwapModel();
 
-  ValueNotifier<List<SwapResModel>> lstTx = ValueNotifier([]);
+  CoinInfo coinInfo = CoinInfo();
 
   final PaymentUcImpl _paymentUcImpl = PaymentUcImpl();
-  
-  CoinInfo coinInfo = CoinInfo();
+
+  ValueNotifier<List<LetsExCoinByNetworkModel>> lstLECoin = ValueNotifier([]);
+
+  ValueNotifier<List<SwapResModel>> lstTx = ValueNotifier([]);
+
+  ValueNotifier<bool> isReady = ValueNotifier(false);
 
   set setContext(BuildContext ctx){
     _context = ctx;
@@ -70,8 +72,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     lstLECoin.notifyListeners();
-
-    print("lstLECoin ${lstLECoin.value.length}");
   }
 
   void addCoinByIndex(int i, int j) {
@@ -151,6 +151,13 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
     else if ( !(swapModel.amt!.value.contains(".")) ){
 
       swapModel.amt!.value = swapModel.amt!.value + value;
+      
+    }
+
+    if (Validator.swapValidator(swapModel.from!, swapModel.to!, swapModel.amt!.value) == true){
+      isReady.value = true;
+    } else if (isReady.value == true){
+      isReady.value = false;
     }
 
   }
@@ -177,15 +184,18 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
           swapModel.networkTo = coin1.value.network;
         }
         
+        if (Validator.swapValidator(swapModel.from!, swapModel.to!, swapModel.amt!.value) == true){
+          isReady.value = true;
+        } else if (isReady.value == false) {
+          isReady.value = false;
+        }
+        
       }
     });
   }
 
   @override
   Future<void> swap() async {
-
-    print("swap");
-    print(swapModel.toJson());
     
     try {
 
@@ -262,15 +272,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
       }
     });
 
-    // await QuickAlert.show(
-    //   context: _context!,
-    //   type: QuickAlertType.warning,
-    //   showCancelBtn: true,
-    //   cancelBtnText: "Close",
-    //   cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
-    //   text: 'Under maintenance',
-    // );
-
   }
 
   @override
@@ -283,28 +284,43 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
   @override
   Future<void> swapping(SwapResModel swapResModel) async {
-    await queryContractById(swapResModel.coin_from!);
-  }
+    
+    int index = Provider.of<WalletProvider>(_context!, listen: false).sortListContract!.indexWhere((model) {
+      
+      if ( swapResModel.coin_from!.toLowerCase() == model.symbol!.toLowerCase() ){
+        isReady.value = true;
+        return true;
+      }
 
-  @override
-  Future<void> queryContractById(String id) async {
-    try {
+      return false;
 
-      await HttpRequestImpl().getContractById(id).then((value) {
-        coinInfo = CoinInfo.fromJson(value);
-        print(coinInfo.platforms);
-      });
+    });
 
-    } catch (e) {
+    if (index != -1){
+
+      await Navigator.pushReplacement(
+        _context!,
+        MaterialPageRoute(builder: (context) => TokenPayment(index: index, address: swapResModel.withdrawal, amt: swapResModel.deposit_amount,))
+      );
+      
+    } else {
       
       await QuickAlert.show(
         context: _context!,
-        type: QuickAlertType.error,
+        type: QuickAlertType.warning,
         showCancelBtn: true,
         cancelBtnText: "Close",
         cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
-        text: 'Coin not found',
+        text: '${swapResModel.coin_from!} (${swapResModel.coin_from_network}) is not found. Please add contract token !',
+        confirmBtnText: 'Add Contract',
+        onConfirmBtnTap: (){
+          Navigator.pushReplacement(
+            _context!, 
+            MaterialPageRoute(builder: (context) => AddAsset(index: swapResModel.coin_from_network == "BEP20" ? 0 : 1,))
+          );
+        }
       );
+
     }
   }
 

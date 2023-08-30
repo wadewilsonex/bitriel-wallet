@@ -86,7 +86,7 @@ export 'package:bitriel_wallet/domain/usecases/swap_uc/lets_exchange_uc/lets_ex_
 
 /*---------- Domain Layer ----------*/
 
-export 'package:bitriel_wallet/domain/validator/form_validate.dart';
+export 'package:bitriel_wallet/domain/validator/validator.dart';
 // Model
 export 'package:bitriel_wallet/domain/model/pin_m.dart';
 export 'package:bitriel_wallet/domain/model/create_acc_m.dart';

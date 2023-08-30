@@ -21,6 +21,21 @@ class HomeScreen extends StatelessWidget {
     
     Provider.of<SDKProvider>(context, listen: false).fetchAllAccount();
 
+    Provider.of<WalletProvider>(context, listen: false).setBuildContext = context;
+
+    Provider.of<WalletProvider>(context, listen: false).getAsset();
+
+    // final walletPro = Provider.of<WalletProvider>(context, listen: false);
+
+    // if (context.mounted){
+
+    //   walletPro.setBuildContext = context;
+      
+    //   if (walletPro.defaultListContract == null || walletPro.defaultListContract!.isEmpty) {
+      
+    //   }
+    // }
+
     return Scaffold(
       appBar: defaultAppBar(context: context, multiAccountImpl: multiAccountImpl),
       body: SingleChildScrollView(
