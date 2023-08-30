@@ -55,7 +55,7 @@ class AccountManagementImpl extends AccountMangementUC {
     unVerifyAccount.clear();
 
     await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) async {
-
+      print("value $value");
       if(value.isNotEmpty){
         unVerifyAccount = UnverifySeed().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
       }
@@ -71,6 +71,8 @@ class AccountManagementImpl extends AccountMangementUC {
     ));
 
     await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unVerifyAccount)));
+
+    print("unVerifyAccount ${unVerifyAccount.length}");
   
 
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member

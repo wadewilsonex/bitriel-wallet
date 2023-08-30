@@ -1,4 +1,5 @@
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/screen/mobile_scanner/qr_scanner_screen.dart';
 
 PreferredSizeWidget appBar(final BuildContext context, {required final String title, Function? dispose}) {
   return AppBar(
@@ -158,10 +159,9 @@ PreferredSizeWidget defaultAppBar({
                 color: hexaCodeToColor(AppColors.midNightBlue),
               ),
               onPressed: () async {
-                await QuickAlert.show(
-                  context: context,
-                  type: QuickAlertType.info,
-                  text: 'In Development',
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) => const QrScanner())
                 );
               },
             ),

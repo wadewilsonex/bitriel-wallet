@@ -22,6 +22,7 @@ class App extends StatelessWidget {
           seedColor: hexaCodeToColor(AppColors.white), 
           background: hexaCodeToColor(AppColors.white),
         ),
+        canvasColor: Colors.white,
         useMaterial3: true,
         fontFamily: 'TitilliumWeb',
       ),

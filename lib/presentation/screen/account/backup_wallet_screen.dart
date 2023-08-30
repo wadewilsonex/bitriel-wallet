@@ -14,7 +14,6 @@ class BackUpWalletScreen extends StatelessWidget{
 
     List<String> words = mnemonicKey.split(" ");
     int wordLength = words.length;
-
      
     return Scaffold(
       appBar: appBar(context, title: "Export Mnemonic"),

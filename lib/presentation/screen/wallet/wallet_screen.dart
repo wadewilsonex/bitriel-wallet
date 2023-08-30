@@ -181,7 +181,7 @@ class WalletScreen extends StatelessWidget {
                 action: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ReceiveWallet())
+                    MaterialPageRoute(builder: (context) => const ReceiveWallet(symbol: "SEL", tokenName: "Selendra Token", tokenNetwork: "Selendra Chain",))
                   );
                 },
                 child: Row(

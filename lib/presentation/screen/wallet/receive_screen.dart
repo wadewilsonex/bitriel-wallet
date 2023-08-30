@@ -4,8 +4,12 @@ import 'package:bitriel_wallet/index.dart';
 class ReceiveWallet extends StatelessWidget {
 
   final String? addr;
+  final WalletProvider? walletPro;
+  final String? tokenName;
+  final String? symbol;
+  final String? tokenNetwork;
 
-  const ReceiveWallet({Key? key, this.addr}) : super(key: key);
+  const ReceiveWallet({Key? key, this.addr, this.walletPro, this.tokenName, this.symbol, this.tokenNetwork}) : super(key: key);
 
   @override
   Widget build(BuildContext context) { 
@@ -16,14 +20,14 @@ class ReceiveWallet extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
-      appBar: appBar(context, title: "Receive SEL"),
+      appBar: appBar(context, title:  "Receive $symbol"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           
           _qrWidget(receiveImpl, addr),
 
-          _warnMsg(),
+          _warnMsg(receiveImpl, tokenName!, tokenNetwork!),
 
           _optionBtn(context, receiveImpl, addr),
 
@@ -62,10 +66,8 @@ Widget _qrWidget(ReceiveUcImpl receiveImpl, String? addr) {
                   return RepaintBoundary(
                     key: receiveImpl.globalKey,
                     child: Container(
-                      padding: const EdgeInsets.all(paddingSize + 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        // boxShadow: [shadow(context)],
                         color: isDarkMode
                           ? Colors.white
                           : hexaCodeToColor(AppColors.whiteHexaColor),
@@ -115,28 +117,39 @@ Widget _qrWidget(ReceiveUcImpl receiveImpl, String? addr) {
   );
 }
 
-Widget _warnMsg() {
+Widget _warnMsg(ReceiveUcImpl receiveImpl, String? tokenName, String? tokenNetwork) {
   return Container(
     margin: const EdgeInsets.all(14),
     padding: const EdgeInsets.all(14),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(15),
-      color: hexaCodeToColor(AppColors.red).withOpacity(0.35)
+      color: hexaCodeToColor(AppColors.primary).withOpacity(0.15)
     ),
-    child: const Row(
+    child: Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Icon(Iconsax.warning_2, color:Colors.red,),
+        Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.primary),),
 
-        SizedBox(width: 10),
-  
-        Expanded(
-          child: MyTextConstant(
-            text: "Send only Selendra Smart Chain (SEL) to this address, or you might lose your funds.",
-            textAlign: TextAlign.start,
-            color2: Colors.red,
-          ),
-        )
+        const SizedBox(width: 10),
+
+        Consumer<SDKProvider>(
+          builder: (context, pro, wg) {
+            return Expanded(
+              child: RichText(
+                text: TextSpan(
+                    style: TextStyle(color: hexaCodeToColor(AppColors.primary)),
+                    children: <TextSpan>[
+                      const TextSpan(text: "Send only "),
+                      TextSpan(text: "$tokenName ($tokenNetwork) " , style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const TextSpan(text: "to this address.", ),
+                      const TextSpan(text: "\nSending any other coins may result in permanent loss", )
+                    ],
+                ),
+              ),
+            );
+          }
+        ),
+
       ]
     ),
   );

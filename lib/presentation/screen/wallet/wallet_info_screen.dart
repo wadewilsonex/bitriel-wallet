@@ -20,6 +20,11 @@ class WalletInfo extends StatelessWidget {
 
     walletPro.marketUCImpl.getMarkets();
 
+    final String? tokenName = walletPro.sortListContract![index].name;
+    final String? tokenSymbol = walletPro.sortListContract![index].symbol;
+    final String? tokenNetwork = walletPro.sortListContract![index].org;
+    
+
     return DefaultTabController(  
       length: 2,
       child: Scaffold(
@@ -54,7 +59,7 @@ class WalletInfo extends StatelessWidget {
         ),
         body: TabBarView(children: [
 
-          _infoTap(context, Provider.of<WalletProvider>(context).sortListContract![index]),
+          _infoTap(context, Provider.of<WalletProvider>(context).sortListContract![index], tokenName!, tokenSymbol!, tokenNetwork!),
 
           Consumer<WalletProvider>(
             builder: (context, walletPro, wg) {
@@ -92,7 +97,7 @@ class WalletInfo extends StatelessWidget {
     );
   }
 
-  Widget _infoTap(BuildContext context, SmartContractModel scModel) {
+  Widget _infoTap(BuildContext context, SmartContractModel scModel, String tokenName, String tokenSymbol, String tokenNetwork) {
     return Column(
       children: [
         _tokenIconHeader(price: double.parse((scModel.balance ?? '0.0').replaceAll(",", "")).toStringAsFixed(2), scModel: scModel),
@@ -105,7 +110,7 @@ class WalletInfo extends StatelessWidget {
         Consumer<WalletProvider>(
           builder: (context, pro, wg){
             print("WalletProvider pro ${pro.sortListContract![index].trxHistory!.length}");
-            return _buyAndsellBtn(context, scModel.address!, pro.sortListContract!.indexOf(scModel));
+            return _buyAndsellBtn(context, scModel.address!, pro.sortListContract!.indexOf(scModel), tokenName, tokenSymbol, tokenNetwork);
           },
         ),
       ],
@@ -114,13 +119,16 @@ class WalletInfo extends StatelessWidget {
 
   Widget _dgAppbar(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        
+        const SizedBox(width: 5),
 
         MyTextConstant(
           text: "Sent ${Provider.of<WalletProvider>(context, listen: false).sortListContract![index].symbol}",
           fontWeight: FontWeight.w700,
         ),
+
+        const Spacer(),
 
         IconButton(
           onPressed: () {
@@ -133,42 +141,49 @@ class WalletInfo extends StatelessWidget {
   }
 
   Widget _dgRowData({String? title1, String? title2, String? data1, String? data2}) {
-    return Row(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MyTextConstant(
-              text: title1,
-              fontSize: 10,
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyTextConstant(
+                    text: title1,
+                    fontSize: 12,
+                  ),
+    
+                  MyTextConstant(
+                    text: data1,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ],
+              ),
+              
+              const Spacer(),
+    
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  MyTextConstant(
+                    text: title2,
+                    fontSize: 12,
+                  ),
+    
+                  MyTextConstant(
+                    text: data2,
+                    fontWeight: FontWeight.w600,
+                  )
+                ],
+              ),
+            ],
+          ),
 
-            MyTextConstant(
-              text: data1,
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-            ),
-          ],
-        ),
-        
-        const Spacer(),
-
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            MyTextConstant(
-              text: title2,
-              fontSize: 10,
-            ),
-
-            MyTextConstant(
-              text: data2,
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-            )
-          ],
-        ),
-      ],
+          const Divider(),
+        ],
+      ),
     );
   }
 
@@ -183,76 +198,85 @@ class WalletInfo extends StatelessWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return Dialog(
-                  insetPadding: const EdgeInsets.all(14.0),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
-                  child: SizedBox(
-                    height: 270,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
+                return Theme(
+                  data: ThemeData(dialogBackgroundColor: Colors.white),
+                  child: Builder(
+                    builder: (context) {
+                      return Dialog(
+                        insetPadding: const EdgeInsets.all(14.0),
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0)),
+                        child: SizedBox(
+                          height: 270,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
 
-                          _dgAppbar(context),
+                                _dgAppbar(context),
 
-                          const SizedBox(height: 10),
+                                const SizedBox(height: 10),
 
-                          // _dgRowData(
-                          //   title1: "Status",
-                          //   data1: "Confirmded",
-                          //   title2: "Date",
-                          //   data2: "21 Aug at 10:11AM"
-                          // ),
-                          
-                          const Divider(),
+                                // _dgRowData(
+                                //   title1: "Status",
+                                //   data1: "Confirmded",
+                                //   title2: "Date",
+                                //   data2: "21 Aug at 10:11AM"
+                                // ),
+                                
+                                // const Divider(),
 
-                          _dgRowData(
-                            title1: "From",
-                            data1: scModel.trxHistory![index].from!.replaceRange(6, scModel.trxHistory![index].from!.length - 6, "......."),
-                            title2: "To",
-                            data2: scModel.trxHistory![index].to!.replaceRange(6, scModel.trxHistory![index].to!.length - 6, ".......")
+                                _dgRowData(
+                                  title1: "From",
+                                  data1: scModel.trxHistory![index].from!.replaceRange(6, scModel.trxHistory![index].from!.length - 6, "......."),
+                                  title2: "To",
+                                  data2: scModel.trxHistory![index].to!.replaceRange(6, scModel.trxHistory![index].to!.length - 6, ".......")
+                                ),
+
+                                
+
+                                _dgRowData(
+                                  title1: "Amount",
+                                  data1: "${scModel.trxHistory![index].amt} ${scModel.symbol}",
+                                  title2: "",
+                                  data2: ""
+                                ),
+
+                                const SizedBox(height: 10),
+
+                                const Spacer(),
+
+                                TextButton(
+                                  onPressed: () {
+                                    
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => AdsWebView(
+                                        title: "Explorer",
+                                        url: scModel.trxHistory![index].networkHash!,
+                                      ))
+                                    );
+                                  }, 
+                                  child: MyTextConstant(
+                                    text: "View on Explorer",
+                                    fontWeight: FontWeight.w600,
+                                    color2: hexaCodeToColor(AppColors.primaryBtn),
+                                  )
+                                )
+                                
+                              ],
+                            ),
                           ),
-
-                          const Divider(),
-
-                          _dgRowData(
-                            title1: "Amount",
-                            data1: "${scModel.trxHistory![index].amt} ${scModel.symbol}",
-                            title2: "",
-                            data2: ""
-                          ),
-
-                          const SizedBox(height: 10),
-
-                          TextButton(
-                            onPressed: () {
-                              
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => AdsWebView(
-                                  title: "Explorer",
-                                  url: scModel.trxHistory![index].networkHash!,
-                                ))
-                              );
-                            }, 
-                            child: MyTextConstant(
-                              text: "View on Explorer",
-                              fontWeight: FontWeight.w600,
-                              color2: hexaCodeToColor(AppColors.primaryBtn),
-                            )
-                          )
-                          
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
+                      );
+                    }
+                  )
                 );
               }
             );
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -294,7 +318,7 @@ class WalletInfo extends StatelessWidget {
                           text: "From ${scModel.trxHistory![index].from!.replaceRange(6, scModel.trxHistory![index].from!.length - 6, ".......")}",
                           textAlign: TextAlign.start,
                           color2: hexaCodeToColor(AppColors.darkGrey),
-                          fontSize: 11,
+                          fontSize: 12,
                         ),
                       ],
                     ),
@@ -305,7 +329,7 @@ class WalletInfo extends StatelessWidget {
                       text: "${scModel.trxHistory![index].amt} ${scModel.symbol}",
                       fontWeight: FontWeight.w600,
                       textAlign: TextAlign.start,
-                      color2: hexaCodeToColor(AppColors.green),
+                      color2: hexaCodeToColor(AppColors.red),
                     ),
                   
                   ],
@@ -458,7 +482,7 @@ class WalletInfo extends StatelessWidget {
   }
 
 
-  Widget _buyAndsellBtn(BuildContext context, String addr, int assetIndex) {
+  Widget _buyAndsellBtn(BuildContext context, String addr, int assetIndex, String tokenName, String tokenSymbol, String tokenNetwork){
     return Row(
       children: [
 
@@ -490,7 +514,7 @@ class WalletInfo extends StatelessWidget {
               
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ReceiveWallet(addr: addr,))
+                MaterialPageRoute(builder: (context) => ReceiveWallet(addr: addr, tokenName: tokenName, symbol: tokenSymbol, tokenNetwork: tokenNetwork))
               );
             },
           ),
