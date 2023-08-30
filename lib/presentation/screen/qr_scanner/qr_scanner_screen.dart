@@ -1,33 +1,19 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:scan/scan.dart';
 
-class QrScanner extends StatefulWidget {
+class QrScanner extends StatelessWidget {
 
   const QrScanner({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<QrScanner> createState() => _QrScannerState();
-}
-
-class _QrScannerState extends State<QrScanner> {
-
-  ScanController scanController = ScanController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    scanController.pause();
-    super.dispose();
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
+
+    final ScanQrUcImpl scanQrUcImpl = ScanQrUcImpl();
+
+    scanQrUcImpl.setContext = context;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
@@ -38,28 +24,24 @@ class _QrScannerState extends State<QrScanner> {
             children: [
 
               SizedBox(
-                child: ScanView(
-                  controller: scanController,
-                  scanLineColor: hexaCodeToColor(AppColors.primary),
-                  onCapture: (data) async {
-                  
-                    Navigator.pop(context, data);
-
-                    if(data.contains("0x") || data.contains("se")) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => TokenPayment(address: data,))
-                      );
-                    }
-                    else{
-                      await QuickAlert.show(
-                        context: context,
-                        type: QuickAlertType.error,
-                        text: 'Invalid address format',
-                      );
-                    }
-                  },
-                ),
+                // child: ScanView(
+                //   controller: scanQrUcImpl.scanController,
+                //   scanLineColor: hexaCodeToColor(AppColors.primary),
+                //   onCapture: scanQrUcImpl.scanQr,
+                // ),
+                child: QRView(
+                  key: scanQrUcImpl.qrKey,
+                    onQRViewCreated: scanQrUcImpl.onQrViewCreated,
+                    //  (QRViewController qrView) async {
+                    //   await onQrViewCreated(qrView);
+                    // },
+                    overlay: QrScannerOverlayShape(
+                      borderColor: Colors.white,
+                      borderRadius: 10,
+                      borderWidth: 5,
+                      borderLength: 50,
+                    )
+                )
               ),
 
               Positioned(

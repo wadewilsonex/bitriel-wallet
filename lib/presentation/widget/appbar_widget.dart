@@ -1,5 +1,4 @@
 import 'package:bitriel_wallet/index.dart';
-import 'package:bitriel_wallet/presentation/screen/mobile_scanner/qr_scanner_screen.dart';
 
 PreferredSizeWidget appBar(final BuildContext context, {required final String title, Function? dispose}) {
   return AppBar(
