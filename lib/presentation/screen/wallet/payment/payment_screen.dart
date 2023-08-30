@@ -4,8 +4,9 @@ import 'package:bitriel_wallet/presentation/screen/wallet/payment/coin_select_sc
 class TokenPayment extends StatelessWidget {
 
   final int? index;
+  final String? address;
   
-  const TokenPayment({Key? key, this.index}) : super(key: key);
+  const TokenPayment({Key? key, this.index, this.address}) : super(key: key);
 
   @override
   Widget build(BuildContext context) { 
@@ -13,6 +14,8 @@ class TokenPayment extends StatelessWidget {
     final PaymentUcImpl paymentUcImpl = PaymentUcImpl();
 
     paymentUcImpl.setBuildContext = context;
+
+    if (address != null) paymentUcImpl.recipientController.text = address!;
 
     if (index != null) paymentUcImpl.assetChanged(index!);
 
