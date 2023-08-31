@@ -21,53 +21,59 @@ class PostRequest {
   Future<http.Response> swap(Map<String, dynamic> mapData) async {
 
     _api ??= dotenv.get('LETS_EXCHANGE_API');
+    
+    var token = dotenv.get('LETS_EXCHANGE_TOKEN');
 
-    // return await http.post(
-    //   Uri.parse("$_api/v1/transaction"),
-    //   body: json.encode(mapData),
-    //   headers: conceteHeader()
-    // );
+    print("mapData $mapData");
 
-    Map<String, dynamic> data = {
-      "is_float": false,
-      "status": "wait",
-      "coin_from": "BAT",
-      "coin_to": "USDT",
-      "deposit_amount": "360",
-      "withdrawal": "0xe11175d356d20b70abcec858c6b82b226e988941",
-      "withdrawal_extra_id": null,
-      "return": "0xe11175d356d20b70abcec858c6b82b226e988941",
-      "return_extra_id": null,
-      "extra_fee_from": 0,
-      "extra_fee_to": 0,
-      "coin_from_network": "ERC20",
-      "coin_to_network": "BEP20",
-      "deposit": "0xae1F4085B8A5B0c4b9992926cdFfcCFE65896604",
-      "deposit_extra_id": null,
-      "withdrawal_amount": "99.02333403",
-      "rate": "0.275064816750",
-      "fee": "0",
-      "revert": false,
-      "transaction_id": "643e45813785c",
-      "expired_at": 1681804425,
-      "created_at": "2023-04-18 10:23:45",
-      "execution_time": null,
-      "is_available": true,
-      "coin_from_explorer_url": "https:\/\/etherscan.io\/tx\/",
-      "coin_to_explorer_url": "https:\/\/bscscan.com\/tx\/",
-      "coin_from_icon": "https:\/\/letsexchange.s3.eu-central-1.amazonaws.com\/coins\/5651e7594769444e85f15aa097bd6327.svg",
-      "coin_from_extra_name": null,
-      "coin_to_icon": "https:\/\/letsexchange.s3.eu-central-1.amazonaws.com\/coins\/9a086127589d7c0279610e20bc0bfaac.svg",
-      "coin_to_extra_name": null,
-      "coin_from_name": "Basic Attention Token",
-      "coin_to_name": "Tether USD",
-      "need_confirmations": 0,
-      "confirmations": 0,
-      "email": null,
-      "aml_error_signals": [],
-      "bonus": 1.62
-    };
+    print("token $token");
 
-    return http.Response(json.encode(data), 200);
+    return await http.post(
+      Uri.parse("$_api/v1/transaction"),
+      body: json.encode(mapData),
+      headers: conceteHeader(key: "Authorization", value: "Bearer $token")
+    );
+
+    // Map<String, dynamic> data = {
+    //   "is_float": false,
+    //   "status": "wait",
+    //   "coin_from": "BAT",
+    //   "coin_to": "USDT",
+    //   "deposit_amount": "360",
+    //   "withdrawal": "0xe11175d356d20b70abcec858c6b82b226e988941",
+    //   "withdrawal_extra_id": null,
+    //   "return": "0xe11175d356d20b70abcec858c6b82b226e988941",
+    //   "return_extra_id": null,
+    //   "extra_fee_from": 0,
+    //   "extra_fee_to": 0,
+    //   "coin_from_network": "ERC20",
+    //   "coin_to_network": "BEP20",
+    //   "deposit": "0xae1F4085B8A5B0c4b9992926cdFfcCFE65896604",
+    //   "deposit_extra_id": null,
+    //   "withdrawal_amount": "99.02333403",
+    //   "rate": "0.275064816750",
+    //   "fee": "0",
+    //   "revert": false,
+    //   "transaction_id": "643e45813785c",
+    //   "expired_at": 1681804425,
+    //   "created_at": "2023-04-18 10:23:45",
+    //   "execution_time": null,
+    //   "is_available": true,
+    //   "coin_from_explorer_url": "https:\/\/etherscan.io\/tx\/",
+    //   "coin_to_explorer_url": "https:\/\/bscscan.com\/tx\/",
+    //   "coin_from_icon": "https:\/\/letsexchange.s3.eu-central-1.amazonaws.com\/coins\/5651e7594769444e85f15aa097bd6327.svg",
+    //   "coin_from_extra_name": null,
+    //   "coin_to_icon": "https:\/\/letsexchange.s3.eu-central-1.amazonaws.com\/coins\/9a086127589d7c0279610e20bc0bfaac.svg",
+    //   "coin_to_extra_name": null,
+    //   "coin_from_name": "Basic Attention Token",
+    //   "coin_to_name": "Tether USD",
+    //   "need_confirmations": 0,
+    //   "confirmations": 0,
+    //   "email": null,
+    //   "aml_error_signals": [],
+    //   "bonus": 1.62
+    // };
+
+    // return http.Response(json.encode(data), 200);
   }
 }

@@ -178,14 +178,16 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
           coin1.value = lstLECoin.value[res];
           swapModel.from = coin1.value.title;
-          swapModel.networkFrom = coin1.value.network;
+          swapModel.networkFrom = coin1.value.networkCode;
 
         } else {
           
           coin2.value = lstLECoin.value[res];
-          swapModel.to = coin1.value.title;
-          swapModel.networkTo = coin1.value.network;
+          swapModel.to = coin2.value.title;
+          swapModel.networkTo = coin2.value.networkCode;
         }
+
+        swapModel.withdrawal = Provider.of<SDKProvider>(context, listen: false).getSdkImpl.evmAddress;
         
         if (Validator.swapValidator(swapModel.from!, swapModel.to!, swapModel.amt!.value) == true){
           isReady.value = true;
@@ -278,10 +280,10 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   }
 
   @override
-  Future<void> confirmSwap(SwapResModel swapResModel) async {
+  Future<void> confirmSwap(SwapResModel swapResModel, int index) async {
     Navigator.push(
       _context!,
-      MaterialPageRoute(builder: (context) => ConfirmSwapExchange(swapResModel: swapResModel, confirmSwap: swapping,))
+      MaterialPageRoute(builder: (context) => ConfirmSwapExchange(swapResModel: swapResModel, index: index, confirmSwap: swapping,))
     );
   }
 
@@ -325,6 +327,13 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
       );
 
     }
+  }
+
+  Future<void> getStatus(String txId, int index) async {
+    
+    await _letsExchangeRepoImpl.getLetsExStatusByTxId(txId).then((value) {
+
+    });
   }
 
 }

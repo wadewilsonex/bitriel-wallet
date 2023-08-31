@@ -268,7 +268,7 @@ class SwapExchange extends StatelessWidget {
                 builder: (context, value, wg){
                   return InkWell(
                     onTap: (){
-                      leUCImpl.setCoin(context, true);
+                      leUCImpl.setCoin(context, false);
                     },
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width / 2.20,

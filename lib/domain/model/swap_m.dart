@@ -5,6 +5,7 @@ class SwapModel {
   String? from;
   String? to;
   String? networkFrom;
+  String? withdrawal;
   String? networkTo;
   ValueNotifier<String>? amt;
   String? affiliateId;
@@ -20,12 +21,16 @@ class SwapModel {
 
   // Return Encode Json
   Map<String, dynamic> toJson(){
+    
     return {
-      "from": from,
-      "to": to,
+      "coin_from": from,
+      "coin_to": to,
+      "deposit_amount": amt!.value,
+      "withdrawal": withdrawal,
+      "return": withdrawal,
       "network_from": networkFrom,
       "network_to": networkTo,
-      "amount": amt!.value,
+      "withdrawal_extra_id": null,
       "affiliate_id": affiliateId,
     };
   }

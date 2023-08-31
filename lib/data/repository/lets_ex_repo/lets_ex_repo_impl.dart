@@ -29,4 +29,9 @@ class LetsExchangeRepoImpl implements LetsExchangeRepository {
     return await PostRequest().swap(mapData);
   }
 
+  @override
+  Future<Response> getLetsExStatusByTxId(String txId) async {
+    return await GetRequest.getLetsExStatusByTxId(txId);
+  }
+
 }

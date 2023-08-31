@@ -109,4 +109,12 @@ class GetRequest {
     });
   }
 
+  static Future<http.Response> getLetsExStatusByTxId(String txId) async {
+    var url = "https://api.letsexchange.io/api/v1/transaction/$txId";
+    var token = dotenv.get('LETS_EXCHANGE_TOKEN');
+    return await http.get(Uri.parse(url),headers: {
+      "Authorization" : "Bearer $token"
+    });
+  }
+
 }

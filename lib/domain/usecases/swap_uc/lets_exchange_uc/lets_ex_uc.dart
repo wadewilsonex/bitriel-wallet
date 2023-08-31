@@ -5,6 +5,6 @@ abstract class LetsExchangeUseCases {
   void onDeleteTxt();
   void formatDouble(String value);
   Future<void> swap();
-  Future<void> confirmSwap(SwapResModel swapResModel);
+  Future<void> confirmSwap(SwapResModel swapResModel, int index);
   Future<void> swapping(SwapResModel swapResModel);
 }

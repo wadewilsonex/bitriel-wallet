@@ -30,7 +30,7 @@ class StatusExchange extends StatelessWidget {
               return ListView(
                 shrinkWrap: true,
                 children: lst.map((e) {
-                  return _statusSwapRes(letsExchangeUCImpl: letsExchangeUCImpl!, swapM: e);
+                  return _statusSwapRes(letsExchangeUCImpl: letsExchangeUCImpl!, swapM: e, index: lst.indexOf(e));
                 }).toList(),
               );
             }
@@ -40,12 +40,12 @@ class StatusExchange extends StatelessWidget {
     );
   }
 
-  Widget _statusSwapRes({required LetsExchangeUCImpl letsExchangeUCImpl, required SwapResModel swapM}) {
+  Widget _statusSwapRes({required LetsExchangeUCImpl letsExchangeUCImpl, required SwapResModel swapM, int? index}) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
       child: ListTile(
         onTap: () {
-          letsExchangeUCImpl.confirmSwap(swapM);
+          letsExchangeUCImpl.confirmSwap(swapM, index!);
         },
         title: MyTextConstant(
           text: "Exchange ID: ${swapM.transaction_id}",

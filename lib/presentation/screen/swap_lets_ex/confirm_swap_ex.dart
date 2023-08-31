@@ -2,11 +2,15 @@ import 'package:bitriel_wallet/index.dart';
 
 class ConfirmSwapExchange extends StatelessWidget {
 
+  final int? index;
+
   final SwapResModel? swapResModel;
 
   final Function? confirmSwap;
+
+  final Function? updateStatus;
   
-  const ConfirmSwapExchange({super.key, required this.swapResModel, required this.confirmSwap});
+  const ConfirmSwapExchange({super.key, required this.index, required this.swapResModel, required this.confirmSwap, this.updateStatus});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class ConfirmSwapExchange extends StatelessWidget {
       
           _swapTokenInfo(swapResModel),
 
-          _trxExchangeInfo(context, swapResModel),
+          _trxExchangeInfo(context, index!, swapResModel),
 
           Expanded(
             child: Container()
@@ -122,7 +126,7 @@ class ConfirmSwapExchange extends StatelessWidget {
     );
   }
 
-  Widget _trxExchangeInfo(BuildContext context, SwapResModel? swapResModel) {
+  Widget _trxExchangeInfo(BuildContext context, int index, SwapResModel? swapResModel) {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -190,15 +194,17 @@ class ConfirmSwapExchange extends StatelessWidget {
                     IconButton(
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20),
                       onPressed: () {
-                        Clipboard.setData(
-                          ClipboardData(text: swapResModel.deposit!),
-                        );
-                        /* Copy Text */
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("To Address is Copied to Clipboard"),
-                          ),
-                        );
+                        // Clipboard.setData(
+                        //   ClipboardData(text: swapResModel.deposit!),
+                        // );
+                        // /* Copy Text */
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   const SnackBar(
+                        //     content: Text("To Address is Copied to Clipboard"),
+                        //   ),
+                        // );
+
+                        
                       },  
                     )
                   ],
