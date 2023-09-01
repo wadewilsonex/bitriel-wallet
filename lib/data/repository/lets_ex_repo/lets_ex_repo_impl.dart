@@ -34,4 +34,9 @@ class LetsExchangeRepoImpl implements LetsExchangeRepository {
     return await GetRequest.getLetsExStatusByTxId(txId);
   }
 
+  @override
+  Future<Response> twoCoinInfo(Map<String, dynamic> jsn) async {
+    return await PostRequest().twoCoinInfo(jsn);
+  }
+
 }

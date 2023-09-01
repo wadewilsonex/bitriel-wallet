@@ -284,11 +284,16 @@ class SwapExchange extends StatelessWidget {
                         borderRadius: BorderRadius.circular(50.0),
                         color: hexaCodeToColor(AppColors.background)
                       ),
-                      child: const MyTextConstant(
-                        textAlign: TextAlign.start,
-                        // text: pro.lstConvertCoin![pro.name2] != null ? "≈ ${pro.lstConvertCoin![pro.name2]}" : "≈ 0",
-                        text: "≈ 0.00",
-                        fontSize: 20,
+                      child: ValueListenableBuilder(
+                        valueListenable: leUCImpl.receiveAmt,
+                        builder: (context, receiveAmt, wg) {
+                          return MyTextConstant(
+                            textAlign: TextAlign.start,
+                            // text: pro.lstConvertCoin![pro.name2] != null ? "≈ ${pro.lstConvertCoin![pro.name2]}" : "≈ 0",
+                            text: "≈ $receiveAmt",
+                            fontSize: 20,
+                          );
+                        }
                       ),
                     ),
                   )

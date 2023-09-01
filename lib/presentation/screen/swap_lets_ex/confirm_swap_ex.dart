@@ -25,7 +25,7 @@ class ConfirmSwapExchange extends StatelessWidget {
             child: Container()
           ),
 
-          swapResModel!.status == "success" ? MyButton(
+          swapResModel!.status!.toLowerCase() != "success" ? MyButton(
             edgeMargin: const EdgeInsets.all(paddingSize),
             textButton: "Confirm",
             action: () {

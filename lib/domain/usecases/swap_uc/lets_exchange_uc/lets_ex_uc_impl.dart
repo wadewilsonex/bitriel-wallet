@@ -11,6 +11,8 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   
   ValueNotifier<bool> isLstCoinReady = ValueNotifier(false);
 
+  ValueNotifier<String> receiveAmt = ValueNotifier("");
+
   final LetsExchangeRepoImpl _letsExchangeRepoImpl = LetsExchangeRepoImpl();
 
   List<LetsExchangeCoin> defaultLstCoins = [];
@@ -18,8 +20,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   Widget? imgConversion;
 
   SwapModel swapModel = SwapModel();
-
-  CoinInfo coinInfo = CoinInfo();
 
   final PaymentUcImpl _paymentUcImpl = PaymentUcImpl();
 
@@ -36,8 +36,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
     _paymentUcImpl.setBuildContext = ctx;
 
     lstTx.value.length = 1;
-    print(lstTx.value.length);
-    print(lstTx.value[0]);
   }
 
   final SecureStorageImpl _secureStorageImpl = SecureStorageImpl();
@@ -79,8 +77,7 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
     }
 
     isLstCoinReady.value = true;
-
-    print(isLstCoinReady.value);
+    
   }
 
   void addCoinByIndex(int i, int j) {
@@ -160,18 +157,41 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
       // Add "." For Only one time.
       else if ( !(swapModel.amt!.value.contains(".")) ){
 
-      swapModel.amt!.value = swapModel.amt!.value + value;
-      
-    }
-
-    if (Validator.swapValidator(swapModel.from!, swapModel.to!, swapModel.amt!.value) == true){
-      isReady.value = true;
-    } else if (isReady.value == true){
-      isReady.value = false;
         swapModel.amt!.value = swapModel.amt!.value + value;
+      
+      }
+
+      queryEstimateAmt();
+
+      if (Validator.swapValidator(swapModel.from!, swapModel.to!, swapModel.amt!.value) == true){
+        isReady.value = true;
+      } else if (isReady.value == true){
+      isReady.value = false;
       }
     }
 
+  }
+
+  void queryEstimateAmt() {
+
+    print("queryEstimateAmt");
+    if (swapModel.from!.isNotEmpty && swapModel.to!.isNotEmpty){
+      EasyDebounce.debounce("tag", const Duration(milliseconds: 500), () async {
+        await _letsExchangeRepoImpl.twoCoinInfo({
+          "from": swapModel.from,
+          "to": swapModel.to,
+          "network_from": swapModel.networkFrom,
+          "network_to": swapModel.networkTo,
+          "amount": swapModel.amt!.value
+        }).then((value) {
+          print("value ${value.body}");
+
+          if (value.statusCode == 200) {
+            receiveAmt.value = (json.decode(value.body))['amount'].toString();
+          }
+        });
+      });
+    }
   }
 
   void setCoin(BuildContext context, bool isFrom){
@@ -197,6 +217,8 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
         }
 
         swapModel.withdrawal = Provider.of<SDKProvider>(context, listen: false).getSdkImpl.evmAddress;
+        
+        queryEstimateAmt();
         
         if (Validator.swapValidator(swapModel.from!, swapModel.to!, swapModel.amt!.value) == true){
           isReady.value = true;
@@ -247,7 +269,11 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
             showCancelBtn: true,
             cancelBtnText: "Close",
             cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
+            confirmBtnText: "Confirm",
             text: 'Swap Successfully!',
+            onConfirmBtnTap: () {
+              confirmSwap(lstTx.value.length-1);
+            },
           );
         } else {
           throw json.decode(value.body);

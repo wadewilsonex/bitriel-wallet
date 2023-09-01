@@ -76,4 +76,18 @@ class PostRequest {
 
     // return http.Response(json.encode(data), 200);
   }
+
+  Future<http.Response> twoCoinInfo(Map<String, dynamic> mapData) async {
+
+    _api ??= dotenv.get('LETS_EXCHANGE_API');
+    
+    var token = dotenv.get('LETS_EXCHANGE_TOKEN');
+
+    return await http.post(
+      Uri.parse("$_api/v1/info"),
+      body: json.encode(mapData),
+      headers: conceteHeader(key: "Authorization", value: "Bearer $token")
+    );
+    // return http.Response(json.encode(data), 200);
+  }
 }

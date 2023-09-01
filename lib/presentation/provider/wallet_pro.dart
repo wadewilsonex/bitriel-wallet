@@ -19,6 +19,7 @@ class WalletProvider with ChangeNotifier {
   BuildContext? _context;
 
   SDKProvider? sdkProvider;
+  WalletProvider? walletProvider;
 
   MarketUCImpl marketUCImpl = MarketUCImpl();
   
@@ -27,6 +28,7 @@ class WalletProvider with ChangeNotifier {
     _context = ctx;
     _walletUsecases.setBuilder = ctx;
     sdkProvider = Provider.of<SDKProvider>(_context!, listen: false);
+    walletProvider = Provider.of<WalletProvider>(_context!, listen: false);
 
   }
 
@@ -170,13 +172,16 @@ class WalletProvider with ChangeNotifier {
       if (element.symbol!.toLowerCase() != 'polkadot'){
 
         if (element.symbol!.toLowerCase() == 'btc'){
+
           element.address = sdkProvider!.getSdkImpl.btcAddress;
           element.balance = await _walletUsecases.getBtcBalance();
+
         } else {
           
           element.address = sdkProvider!.getSdkImpl.getKeyring.current.address;
           element.balance = await _walletUsecases.fetchSELAddress();
         }
+
         sortListContract!.add(element);
       }
       
@@ -238,6 +243,15 @@ class WalletProvider with ChangeNotifier {
           });
         }
 
+        walletProvider!.marketUCImpl.lstMarket.value.every((mkData) {
+          if (mkData.symbol == bep20.symbol){
+            print("mkData.symbol == element.symbol ${mkData.symbol == bep20.symbol}");
+            bep20.marketPrice = mkData.price.toString();
+            return true;
+          }
+          return false;
+        });
+
         bep20.address = sdkProvider!.getSdkImpl.evmAddress;
 
         print("balance ${bep20.balance}");
@@ -280,6 +294,20 @@ class WalletProvider with ChangeNotifier {
   Future<void> sortAsset() async {
     
     sortListContract = await _walletUsecases.sortCoins(sortListContract!, addedCoin: addedContract);
+
+    for (var element in sortListContract!) {
+
+      walletProvider!.marketUCImpl.lstMarket.value.every((mkData) {
+        print("mkData.symbol ${mkData.symbol}");
+        print("element.symbol ${element.symbol}");
+        if (mkData.symbol == element.symbol){
+          print("mkData.symbol == element.symbol ${mkData.symbol == element.symbol}");
+          element.marketPrice = mkData.price.toString();
+          return false;
+        }
+        return true;
+      });
+    }
 
     notifyListeners();
   }

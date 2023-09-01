@@ -58,6 +58,8 @@ export 'package:bitriel_wallet/data/storage.dart';
 export 'package:share_plus/share_plus.dart';
 export 'package:qr_code_scanner/qr_code_scanner.dart';
 
+export 'package:easy_debounce/easy_debounce.dart';
+
 /*---------- Data Layer ----------*/
 
 /// SDK

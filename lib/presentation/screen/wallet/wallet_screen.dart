@@ -314,7 +314,7 @@ class WalletScreen extends StatelessWidget {
                 ),
 
                 MyTextConstant(
-                  text: "\$0.00",
+                  text: "\$${double.parse(assetsModel[index].marketPrice!).toStringAsFixed(2)}",
                   color2: hexaCodeToColor(AppColors.grey),
                   fontSize: 12,
                   textAlign: TextAlign.start,
