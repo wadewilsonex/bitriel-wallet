@@ -2,15 +2,13 @@ import 'package:bitriel_wallet/index.dart';
 
 class ConfirmSwapExchange extends StatelessWidget {
 
-  final int? index;
-
   final SwapResModel? swapResModel;
 
   final Function? confirmSwap;
 
-  final Function? updateStatus;
+  final Function? getStatus;
   
-  const ConfirmSwapExchange({super.key, required this.index, required this.swapResModel, required this.confirmSwap, this.updateStatus});
+  const ConfirmSwapExchange({super.key, required this.swapResModel, required this.confirmSwap, this.getStatus});
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +19,19 @@ class ConfirmSwapExchange extends StatelessWidget {
       
           _swapTokenInfo(swapResModel),
 
-          _trxExchangeInfo(context, index!, swapResModel),
+          _trxExchangeInfo(context, swapResModel, getStatus!),
 
           Expanded(
             child: Container()
           ),
 
-          MyButton(
+          swapResModel!.status == "success" ? MyButton(
             edgeMargin: const EdgeInsets.all(paddingSize),
             textButton: "Confirm",
             action: () {
               confirmSwap!(swapResModel);
             },
-          ),
+          ) : const SizedBox(),
       
         ],
       ),
@@ -126,7 +124,7 @@ class ConfirmSwapExchange extends StatelessWidget {
     );
   }
 
-  Widget _trxExchangeInfo(BuildContext context, int index, SwapResModel? swapResModel) {
+  Widget _trxExchangeInfo(BuildContext context, SwapResModel? swapResModel, Function getStatus) {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -159,7 +157,7 @@ class ConfirmSwapExchange extends StatelessWidget {
                     
                     IconButton(
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20),
-                      onPressed: () {
+                      onPressed: () async {
                         Clipboard.setData(
                           ClipboardData(text: swapResModel.deposit!.replaceRange(6, swapResModel.deposit!.length - 6, ".......")),
                         );
@@ -193,18 +191,16 @@ class ConfirmSwapExchange extends StatelessWidget {
                     
                     IconButton(
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primary), size: 20),
-                      onPressed: () {
-                        // Clipboard.setData(
-                        //   ClipboardData(text: swapResModel.deposit!),
-                        // );
-                        // /* Copy Text */
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   const SnackBar(
-                        //     content: Text("To Address is Copied to Clipboard"),
-                        //   ),
-                        // );
-
-                        
+                      onPressed: () async {
+                        Clipboard.setData(
+                          ClipboardData(text: swapResModel.deposit!),
+                        );
+                        /* Copy Text */
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("To Address is Copied to Clipboard"),
+                          ),
+                        );
                       },  
                     )
                   ],
@@ -323,15 +319,16 @@ class ConfirmSwapExchange extends StatelessWidget {
                       IconButton(
                         icon: Icon(Iconsax.refresh_circle, color: hexaCodeToColor(AppColors.orangeColor)),
                         onPressed: () {
-                          Clipboard.setData(
-                            ClipboardData(text: swapResModel.deposit!),
-                          );
-                          /* Copy Text */
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("To Address is Copied to Clipboard"),
-                            ),
-                          );
+                          // Clipboard.setData(
+                          //   ClipboardData(text: swapResModel.deposit!),
+                          // );
+                          // /* Copy Text */
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(
+                          //     content: Text("To Address is Copied to Clipboard"),
+                          //   ),
+                          // );
+                          getStatus();
                         },  
                       )
                       

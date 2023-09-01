@@ -8,6 +8,8 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   ValueNotifier<LetsExCoinByNetworkModel> coin1 = ValueNotifier(LetsExCoinByNetworkModel());
   /// Data Of Coin 2
   ValueNotifier<LetsExCoinByNetworkModel> coin2 = ValueNotifier(LetsExCoinByNetworkModel());
+  
+  ValueNotifier<bool> isLstCoinReady = ValueNotifier(false);
 
   final LetsExchangeRepoImpl _letsExchangeRepoImpl = LetsExchangeRepoImpl();
 
@@ -24,6 +26,8 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   ValueNotifier<List<LetsExCoinByNetworkModel>> lstLECoin = ValueNotifier([]);
 
   ValueNotifier<List<SwapResModel>> lstTx = ValueNotifier([]);
+
+  int? index;
 
   ValueNotifier<bool> isReady = ValueNotifier(false);
 
@@ -70,8 +74,9 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
     }
 
-    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-    lstLECoin.notifyListeners();
+    isLstCoinReady.value = true;
+
+    print(isLstCoinReady.value);
   }
 
   void addCoinByIndex(int i, int j) {
@@ -229,7 +234,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
           
           await SecureStorageImpl().writeSecure(DbKey.lstTxIds, json.encode(SwapResModel().toJson(lstTx.value)));
 
-
           // Close Dialog
           Navigator.pop(_context!);
 
@@ -263,7 +267,7 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
   // Index Of List
   Future<void> paySwap(int index) async {
-
+    
     Navigator.push(
       _context!,
       MaterialPageRoute(builder: (context) => const PincodeScreen(title: '', label: PinCodeLabel.fromSendTx,))
@@ -280,10 +284,11 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   }
 
   @override
-  Future<void> confirmSwap(SwapResModel swapResModel, int index) async {
+  Future<void> confirmSwap(int indx) async {
+    index = indx;
     Navigator.push(
       _context!,
-      MaterialPageRoute(builder: (context) => ConfirmSwapExchange(swapResModel: swapResModel, index: index, confirmSwap: swapping,))
+      MaterialPageRoute(builder: (context) => ConfirmSwapExchange(swapResModel: lstTx.value[index!], confirmSwap: swapping, getStatus: getStatus))
     );
   }
 
@@ -329,11 +334,24 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
     }
   }
 
-  Future<void> getStatus(String txId, int index) async {
+  /// This function for update status inside details
+  Future<void> getStatus() async {
     
-    await _letsExchangeRepoImpl.getLetsExStatusByTxId(txId).then((value) {
+    dialogLoading(_context!, content: "Checking Status");
+
+    await _letsExchangeRepoImpl.getLetsExStatusByTxId(lstTx.value[index!].transaction_id!).then((value) {
+      print("value.body ${value.body}");
+      lstTx.value[index!] = SwapResModel.fromJson(json.decode(value.body));
 
     });
+
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    lstTx.notifyListeners();
+
+    await SecureStorageImpl().writeSecure(DbKey.lstTxIds, json.encode(SwapResModel().toJson(lstTx.value)));
+
+    // Close Dialog
+    Navigator.pop(_context!);
   }
 
 }

@@ -78,7 +78,6 @@ class SwapExchange extends StatelessWidget {
                           ),
                         ),
                       
-
                         _getDisplay(context, letsExchangeUCImpl),
                       ],
                     );
@@ -166,11 +165,16 @@ class SwapExchange extends StatelessWidget {
               Expanded(child: Container()),
 
               ValueListenableBuilder(
-                valueListenable: leUCImpl.coin1, 
-                builder: (context, value, wg){
+                valueListenable: leUCImpl.isLstCoinReady, 
+                builder: (context, isLstCoinReady, wg){
                   return InkWell(
                     onTap: (){
-                      leUCImpl.setCoin(context, true);
+                      print("isLstCoinReady.value $isLstCoinReady");
+                      if (kDebugMode) {
+                        // ignore: unnecessary_null_comparison
+                        print(isLstCoinReady == null);
+                      }
+                      if (isLstCoinReady == true) leUCImpl.setCoin(context, true);
                     },
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width / 2.20,
@@ -181,26 +185,32 @@ class SwapExchange extends StatelessWidget {
                           borderRadius: BorderRadius.circular(50.0),
                           color: hexaCodeToColor(AppColors.background)
                         ),
-                        child: Row(
-                          children: [
-                            MyTextConstant(
-                              text: value.title ?? 'Select Token',
-                              color2: value.title == null ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
-                              fontWeight: value.title == null ? FontWeight.normal : FontWeight.bold,
-                            ),
+                        child: ValueListenableBuilder(
+                          valueListenable: leUCImpl.coin1,
+                          builder: (context, coin1, wg) {
+                            return Row(
+                              children: [
+                                
+                                MyTextConstant(
+                                  text: coin1.title ?? 'Select Token',
+                                  color2: coin1.title == null ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
+                                  fontWeight: coin1.title == null ? FontWeight.normal : FontWeight.bold,
+                                ),
 
-                            value.networkCode != null ? MyTextConstant(
-                              text: " (${value.networkCode})",
-                              color2: value.networkCode == null ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
-                              overflow: TextOverflow.ellipsis,
-                            ) : const SizedBox(),
+                                coin1.networkCode != null ? MyTextConstant(
+                                  text: " (${coin1.networkCode})",
+                                  color2: coin1.networkCode == null ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
+                                  overflow: TextOverflow.ellipsis,
+                                ) : const SizedBox(),
 
-                            const Spacer(),
+                                const Spacer(),
 
-                            Icon(Iconsax.arrow_down_1, color: hexaCodeToColor(AppColors.orangeColor),),
+                                Icon(Iconsax.arrow_down_1, color: hexaCodeToColor(AppColors.orangeColor),),
 
-                            const SizedBox(width: 10),
-                          ],
+                                const SizedBox(width: 10),
+                              ],
+                            );
+                          }
                         ),
                       ),
                     ),
@@ -264,11 +274,17 @@ class SwapExchange extends StatelessWidget {
               Expanded(child: Container()),
 
               ValueListenableBuilder(
-                valueListenable: leUCImpl.coin2, 
-                builder: (context, value, wg){
+                valueListenable: leUCImpl.isLstCoinReady, 
+                builder: (context, isLstCoinReady, wg){
                   return InkWell(
                     onTap: (){
-                      leUCImpl.setCoin(context, false);
+
+                      print("isLstCoinReady.value $isLstCoinReady");
+
+                      if (isLstCoinReady == true){
+
+                        leUCImpl.setCoin(context, false);
+                      }
                     },
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width / 2.20,
@@ -279,26 +295,31 @@ class SwapExchange extends StatelessWidget {
                           borderRadius: BorderRadius.circular(50.0),
                           color: hexaCodeToColor(AppColors.background)
                         ),
-                        child: Row(
-                          children: [
-                            MyTextConstant(
-                              text: value.title ?? 'Select Token',
-                              color2: value.title == null ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
-                              fontWeight: value.title == null ? FontWeight.normal : FontWeight.bold,
-                            ),
+                        child: ValueListenableBuilder(
+                          valueListenable: leUCImpl.coin2,
+                          builder: (context, coin2, wg) {
+                            return Row(
+                              children: [
+                                MyTextConstant(
+                                  text: coin2.title ?? 'Select Token',
+                                  color2: coin2.title == null ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
+                                  fontWeight: coin2.title == null ? FontWeight.normal : FontWeight.bold,
+                                ),
 
-                            value.networkCode != null ? MyTextConstant(
-                              text: " (${value.networkCode})",
-                              color2: value.networkCode == null ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
-                              overflow: TextOverflow.ellipsis,
-                            ) : const SizedBox(),
+                                coin2.networkCode != null ? MyTextConstant(
+                                  text: " (${coin2.networkCode})",
+                                  color2: coin2.networkCode == null ? hexaCodeToColor(AppColors.grey) : hexaCodeToColor(AppColors.midNightBlue),
+                                  overflow: TextOverflow.ellipsis,
+                                ) : const SizedBox(),
 
-                            const Spacer(),
+                                const Spacer(),
 
-                            Icon(Iconsax.arrow_down_1, color: hexaCodeToColor(AppColors.orangeColor),),
+                                Icon(Iconsax.arrow_down_1, color: hexaCodeToColor(AppColors.orangeColor),),
 
-                            const SizedBox(width: 10),
-                          ],
+                                const SizedBox(width: 10),
+                              ],
+                            );
+                          }
                         ),
                       ),
                     ),
@@ -314,7 +335,7 @@ class SwapExchange extends StatelessWidget {
   }
 
   /// dd stand for dropdown
-  Widget _ddTokenButton({BuildContext? context, Function()? onPressed, required int? i, required LetsExchangeUCImpl letsExchangeRepoImpl}){
+  Widget _ddTokenButton({Function()? onPressed, required int? i, required LetsExchangeUCImpl letsExchangeRepoImpl}){
     
     return GestureDetector(
       onTap: onPressed!,

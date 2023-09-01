@@ -48,8 +48,8 @@ class SwapResModel {
   String? _return;
   String? return_extra_id;
   String? final_amount;
-  int? extra_fee_from;
-  int? extra_fee_to;
+  String? extra_fee_from;
+  String? extra_fee_to;
   String? coin_from_network;
   String? coin_to_network;
   String? deposit;
@@ -79,7 +79,12 @@ class SwapResModel {
   SwapResModel();
 
   SwapResModel.fromJson(Map<String, dynamic> jsn){
-    is_float = jsn['is_float'];
+
+    if (jsn['revert'].runtimeType.toString() == "int"){
+      jsn['revert'] = jsn['revert'] == 0 ? false : true;
+    }
+
+    is_float = jsn['is_float'] == 1 ? true : false;
     status = jsn['status'];
     coin_from = jsn['coin_from'];
     coin_to = jsn['coin_to'];
@@ -89,15 +94,15 @@ class SwapResModel {
     final_amount = jsn['final_amount'];
     _return = jsn['return'];
     return_extra_id = jsn['return_extra_id'];
-    extra_fee_from = jsn['extra_fee_from'];
-    extra_fee_to = jsn['extra_fee_to'];
+    extra_fee_from = jsn['extra_fee_from'].toString();
+    extra_fee_to = jsn['extra_fee_to'].toString();
     coin_from_network = jsn['coin_from_network'];
     coin_to_network = jsn['coin_to_network'];
     deposit = jsn['deposit'];
     deposit_extra_id = jsn['deposit_extra_id'];
     withdrawal_amount = jsn['withdrawal_amount'];
     rate = jsn['rate'];
-    fee = jsn['fee'];
+    fee = jsn['fee'].toString();
     revert = jsn['revert'];
     transaction_id = jsn['transaction_id'];
     expired_at = jsn['expired_at'];

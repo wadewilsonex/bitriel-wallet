@@ -30,7 +30,7 @@ class StatusExchange extends StatelessWidget {
               return ListView(
                 shrinkWrap: true,
                 children: lst.map((e) {
-                  return _statusSwapRes(letsExchangeUCImpl: letsExchangeUCImpl!, swapM: e, index: lst.indexOf(e));
+                  return _statusSwapRes(letsExchangeUCImpl: letsExchangeUCImpl!, index: lst.indexOf(e));
                 }).toList(),
               );
             }
@@ -40,25 +40,26 @@ class StatusExchange extends StatelessWidget {
     );
   }
 
-  Widget _statusSwapRes({required LetsExchangeUCImpl letsExchangeUCImpl, required SwapResModel swapM, int? index}) {
+  Widget _statusSwapRes({required LetsExchangeUCImpl letsExchangeUCImpl, int? index}) {
+    
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
       child: ListTile(
         onTap: () {
-          letsExchangeUCImpl.confirmSwap(swapM, index!);
+          letsExchangeUCImpl.confirmSwap(index);
         },
         title: MyTextConstant(
-          text: "Exchange ID: ${swapM.transaction_id}",
+          text: "Exchange ID: ${letsExchangeUCImpl.lstTx.value[index!].transaction_id}",
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.start,
         ),
         subtitle: MyTextConstant(
-          text: "Status: ${swapM.created_at}",
+          text: "Status: ${letsExchangeUCImpl.lstTx.value[index].created_at}",
           color2: hexaCodeToColor(AppColors.iconGreyColor),
           textAlign: TextAlign.start,
         ),
         trailing: MyTextConstant(
-          text: "Status: ${swapM.status}",
+          text: "Status: ${letsExchangeUCImpl.lstTx.value[index].status}",
           color2: hexaCodeToColor(AppColors.primary),
           textAlign: TextAlign.end,
         ),
