@@ -27,6 +27,14 @@ class StatusExchange extends StatelessWidget {
           ValueListenableBuilder(
             valueListenable: letsExchangeUCImpl!.lstTx,
             builder: (context, lst, wg) {
+
+              // ignore: curly_braces_in_flow_control_structures, unnecessary_null_comparison
+              if (lst[0] == null) return const Center(child: CircularProgressIndicator());
+
+              else if (lst.isEmpty){
+                return const Text("No Transaction");
+              }
+              
               return ListView(
                 shrinkWrap: true,
                 children: lst.map((e) {
@@ -49,17 +57,17 @@ class StatusExchange extends StatelessWidget {
           letsExchangeUCImpl.confirmSwap(index);
         },
         title: MyTextConstant(
-          text: "Exchange ID: ${letsExchangeUCImpl.lstTx.value[index!].transaction_id}",
+          text: "Exchange ID: ${letsExchangeUCImpl.lstTx.value[index!]!.transaction_id}",
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.start,
         ),
         subtitle: MyTextConstant(
-          text: "Status: ${letsExchangeUCImpl.lstTx.value[index].created_at}",
+          text: "Status: ${letsExchangeUCImpl.lstTx.value[index]!.created_at}",
           color2: hexaCodeToColor(AppColors.iconGreyColor),
           textAlign: TextAlign.start,
         ),
         trailing: MyTextConstant(
-          text: "Status: ${letsExchangeUCImpl.lstTx.value[index].status}",
+          text: "Status: ${letsExchangeUCImpl.lstTx.value[index]!.status}",
           color2: hexaCodeToColor(AppColors.primary),
           textAlign: TextAlign.end,
         ),

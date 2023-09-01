@@ -16,7 +16,7 @@ class SelectSwapToken extends StatelessWidget {
       body: Column(
         children: [
       
-          _searchBar(searchController, itemLE),
+          // _searchBar(searchController, itemLE),
 
           Expanded(
             child: Stack(
@@ -108,19 +108,20 @@ class SelectSwapToken extends StatelessWidget {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
       leading: SizedBox(
-        height: 30, 
-        width: 30, 
+        height: 40, 
+        width: 40, 
         child: _buildImageItem(index),
       ),
       title: MyTextConstant(
         text: itemLE[index].title ?? '',
         fontWeight: FontWeight.w600,
+        fontSize: 17,
         textAlign: TextAlign.start,
       ),
       subtitle: MyTextConstant(
         text: itemLE[index].network,
         color2: hexaCodeToColor(AppColors.grey),
-        fontSize: 12,
+        fontSize: 13,
         textAlign: TextAlign.start,
       ),
       onTap: () {

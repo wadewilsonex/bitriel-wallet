@@ -123,10 +123,10 @@ class SwapResModel {
     aml_error_signals = jsn['aml_error_signals'];
   }
 
-  List<Map<String, dynamic>> toJson(List<SwapResModel> lstSwapRes){
+  List<Map<String, dynamic>> toJson(List<SwapResModel?> lstSwapRes){
 
-    return lstSwapRes.map((e) => {
-      'is_float': e.is_float,
+    return lstSwapRes!.map((e) => {
+      'is_float': e!.is_float,
       'status': e.status,
       'coin_from': e.coin_from,
       'coin_to': e.coin_to,

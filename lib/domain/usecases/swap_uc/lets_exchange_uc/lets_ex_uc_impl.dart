@@ -25,7 +25,7 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
   ValueNotifier<List<LetsExCoinByNetworkModel>> lstLECoin = ValueNotifier([]);
 
-  ValueNotifier<List<SwapResModel>> lstTx = ValueNotifier([]);
+  ValueNotifier<List<SwapResModel?>> lstTx = ValueNotifier([]);
 
   int? index;
 
@@ -34,6 +34,10 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   set setContext(BuildContext ctx){
     _context = ctx;
     _paymentUcImpl.setBuildContext = ctx;
+
+    lstTx.value.length = 1;
+    print(lstTx.value.length);
+    print(lstTx.value[0]);
   }
 
   final SecureStorageImpl _secureStorageImpl = SecureStorageImpl();
@@ -45,20 +49,20 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
       defaultLstCoins = await _letsExchangeRepoImpl.getLetsExchangeCoin();
     }
 
-    if (lstTx.value.isEmpty){
+    _secureStorageImpl.readSecure(DbKey.lstTxIds)!.then( (localLstTx){
 
-      _secureStorageImpl.readSecure(DbKey.lstTxIds)!.then( (localLstTx){
+      print("localLstTx $localLstTx");
 
-        if (localLstTx.isNotEmpty){
+      if (localLstTx.isNotEmpty){
 
-          lstTx.value = List<Map<String, dynamic>>.from((json.decode(localLstTx))).map((e) {
-            return SwapResModel.fromJson(e);
-          }).toList();
-        }
+        lstTx.value.clear();
 
-      });
+        lstTx.value = List<Map<String, dynamic>>.from((json.decode(localLstTx))).map((e) {
+          return SwapResModel.fromJson(e);
+        }).toList();
+      }
 
-    }
+    });
 
     lstCoinExtract();
     
@@ -273,8 +277,8 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
       MaterialPageRoute(builder: (context) => const PincodeScreen(title: '', label: PinCodeLabel.fromSendTx,))
     ).then((value) async {
 
-      _paymentUcImpl.recipientController.text = lstTx.value[index].deposit!;
-      _paymentUcImpl.amountController.text = lstTx.value[index].deposit_amount!;
+      _paymentUcImpl.recipientController.text = lstTx.value[index]!.deposit!;
+      _paymentUcImpl.amountController.text = lstTx.value[index]!.deposit_amount!;
 
       if (value != null){
         await _paymentUcImpl.sendBep20();
@@ -339,7 +343,7 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
     
     dialogLoading(_context!, content: "Checking Status");
 
-    await _letsExchangeRepoImpl.getLetsExStatusByTxId(lstTx.value[index!].transaction_id!).then((value) {
+    await _letsExchangeRepoImpl.getLetsExStatusByTxId(lstTx.value[index!]!.transaction_id!).then((value) {
       print("value.body ${value.body}");
       lstTx.value[index!] = SwapResModel.fromJson(json.decode(value.body));
 

@@ -68,13 +68,15 @@ class SwapExchange extends StatelessWidget {
 
                         _payInput(context, letsExchangeUCImpl),
 
+                        const SizedBox(height: 10),
+
                         Align(
                           alignment: Alignment.centerRight,
                           child: IconButton(
                             onPressed: (){
                               
                             },
-                            icon: const Icon(Iconsax.refresh_circle, size: 35,)
+                            icon: Icon(Iconsax.refresh_circle, size: 35, color: hexaCodeToColor(AppColors.orangeColor),)
                           ),
                         ),
                       
@@ -167,7 +169,29 @@ class SwapExchange extends StatelessWidget {
               ValueListenableBuilder(
                 valueListenable: leUCImpl.isLstCoinReady, 
                 builder: (context, isLstCoinReady, wg){
-                  return InkWell(
+                  return isLstCoinReady == false 
+                  ? Shimmer.fromColors(
+                    baseColor: hexaCodeToColor(AppColors.background),
+                    highlightColor: hexaCodeToColor(AppColors.orangeColor),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2.20,
+                          padding: const EdgeInsets.only(top: paddingSize, left: paddingSize / 2, bottom: paddingSize),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50.0),
+                            color: hexaCodeToColor(AppColors.background)
+                          ),
+                          child: const MyTextConstant(
+                            text: "Token Loading...",
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                  )
+                  
+                  : InkWell(
                     onTap: (){
                       print("isLstCoinReady.value $isLstCoinReady");
                       if (kDebugMode) {
@@ -276,7 +300,29 @@ class SwapExchange extends StatelessWidget {
               ValueListenableBuilder(
                 valueListenable: leUCImpl.isLstCoinReady, 
                 builder: (context, isLstCoinReady, wg){
-                  return InkWell(
+                  return isLstCoinReady == false 
+                  ? Shimmer.fromColors(
+                    baseColor: hexaCodeToColor(AppColors.background),
+                    highlightColor: hexaCodeToColor(AppColors.orangeColor),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2.20,
+                          padding: const EdgeInsets.only(top: paddingSize, left: paddingSize / 2, bottom: paddingSize),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50.0),
+                            color: hexaCodeToColor(AppColors.background)
+                          ),
+                          child: const MyTextConstant(
+                            text: "Token Loading...",
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                  )
+                  
+                  : InkWell(
                     onTap: (){
 
                       print("isLstCoinReady.value $isLstCoinReady");

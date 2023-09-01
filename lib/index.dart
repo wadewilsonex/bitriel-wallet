@@ -22,6 +22,7 @@ export 'package:qr_flutter/qr_flutter.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:url_launcher/url_launcher.dart';
+export 'package:shimmer/shimmer.dart';
 
 // ignore: depend_on_referenced_packages
 export 'package:permission_handler/permission_handler.dart';
