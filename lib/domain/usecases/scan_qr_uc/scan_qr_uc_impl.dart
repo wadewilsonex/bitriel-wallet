@@ -27,9 +27,6 @@ class ScanQrUcImpl implements ScanQrUc {
       });
 
     } catch (e) {
-      if (kDebugMode) {
-        print("qr create $e");
-      }
     }
 
     return qrViewController!;
@@ -37,8 +34,6 @@ class ScanQrUcImpl implements ScanQrUc {
 
   @override
   Future<void> getData(String data) async {
-    
-    print("data $data");
     
     qrViewController!.pauseCamera();
   

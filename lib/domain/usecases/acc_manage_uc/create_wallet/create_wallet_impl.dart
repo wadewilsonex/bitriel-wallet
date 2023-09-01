@@ -232,7 +232,7 @@ class CreateWalletImpl implements CreateWalletUsecase {
 
   @override
   Future<void> addAndImport() async {
-    print("addAndImport");
+    
     await _accountManagementImpl.addAndImport(_context!, seed.value, pin!);
 
     // If Verify Later Chosen then Param will pass to false, Else Param will pass to true

@@ -24,10 +24,6 @@ class PostRequest {
     
     var token = dotenv.get('LETS_EXCHANGE_TOKEN');
 
-    print("mapData $mapData");
-
-    print("token $token");
-
     return await http.post(
       Uri.parse("$_api/v1/transaction"),
       body: json.encode(mapData),

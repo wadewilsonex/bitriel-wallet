@@ -146,8 +146,6 @@ class PaymentUcImpl implements PaymentUsecases {
           
           _pk = await _getPrivateKey(pin);
 
-          print("after decrypt _pk  $_pk");
-
         } catch (e) {
           throw "Wrong pin";
         }
@@ -238,8 +236,6 @@ class PaymentUcImpl implements PaymentUsecases {
       }
 
     } catch (e) {
-
-      print("Error $e");
 
       // Close Dialog Loading
       Navigator.pop(context!);
@@ -353,13 +349,11 @@ class PaymentUcImpl implements PaymentUsecases {
         fetchChainIdFromNetworkId: true,
       );
     } catch (e) {
-      print("error sendBep20 ${e}");
     }
   }
 
   /// Send Any Erc20 contract
   Future<void> sendErc20() async {
-    print('sendERC');
     try {
 
       EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(_pk!);
@@ -402,16 +396,11 @@ class PaymentUcImpl implements PaymentUsecases {
 
   /// Send BNB
   Future<void> sendBsc() async {
-    print('sendBsc');
     try {
       
       // 1
-      
-      // String encryptKey = (await SecureStorage.readData(key: DbKey.private))!;
 
       EthPrivateKey pkKey = _sdkProvider!.getSdkImpl.getPrivateKey(_pk!);
-      
-      print("pkKey.address ${pkKey.address}");
 
       // transaction fee 5 gwei, which is about $0.0005
       // 2
@@ -477,8 +466,6 @@ class PaymentUcImpl implements PaymentUsecases {
   }
 
   void addTrxHistory() async {
-
-    print("addTrxHistory");
 
     // Assign Launcher Explorer
     txHistoryModel!.networkHash = "$urlLauncher$hash";

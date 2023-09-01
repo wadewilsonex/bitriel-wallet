@@ -134,10 +134,6 @@ class AddAssetUcImpl implements AddAssetUsecase{
       'decimals', 
     ))[0];
 
-    print("name $name");
-    print("symbol $symbol");
-    print("decimal $decimal");
-
     searched = SmartContractModel(
       name: name,
       symbol: symbol,
@@ -177,7 +173,7 @@ class AddAssetUcImpl implements AddAssetUsecase{
       });
 
     } catch (e) {
-      print("error validateWeb3Address $e");
+      // print("error validateWeb3Address $e");
     }
     
   }
@@ -208,7 +204,6 @@ class AddAssetUcImpl implements AddAssetUsecase{
         
     } catch (e) {
 
-      print("Error addAsset $e");
       // Pop dialogLoading
       Navigator.pop(_context!);
       
@@ -289,7 +284,6 @@ class AddAssetUcImpl implements AddAssetUsecase{
         type: QuickAlertType.error,
         text: '$e',
       );
-      print("Error addBscToken $e");
     }
 
   }

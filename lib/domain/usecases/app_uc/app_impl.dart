@@ -249,9 +249,6 @@ class AppUsecasesImpl implements AppUsecases {
 
     } catch (e){
       
-      if (kDebugMode) {
-        debugPrint("Error updatePkWithnewPin $e");
-      }
     } 
   }
   

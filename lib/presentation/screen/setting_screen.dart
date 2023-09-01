@@ -6,8 +6,6 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
-    print("Setting");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

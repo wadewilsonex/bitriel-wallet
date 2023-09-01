@@ -49,13 +49,10 @@ class AccountManagementImpl extends AccountMangementUC {
   @override
   Future<void> verifyLaterData(SDKProvider? sdkProvider, bool status) async {
 
-    print("verifyLaterData");
-    print("_pk $_pk");
-
     unVerifyAccount.clear();
 
     await SecureStorageImpl().readSecure(DbKey.privateList)!.then((value) async {
-      print("value $value");
+      
       if(value.isNotEmpty){
         unVerifyAccount = UnverifySeed().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
       }
@@ -72,13 +69,8 @@ class AccountManagementImpl extends AccountMangementUC {
 
     await SecureStorageImpl().writeSecureList(DbKey.privateList, jsonEncode(UnverifySeed().unverifyListToJson(unVerifyAccount)));
 
-    print("unVerifyAccount ${unVerifyAccount.length}");
-  
-
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     sdkProvider.notifyListeners();
-
-    print("unVerifyAccount ${unVerifyAccount.length}");
 
   }
 
@@ -88,11 +80,8 @@ class AccountManagementImpl extends AccountMangementUC {
 
       await SecureStorage.readData(key: DbKey.privateList).then((value) {
 
-        print("fetchAccount bart $value");
         unVerifyAccount = UnverifySeed().fromJsonDb( List<Map<String, dynamic>>.from(json.decode(value!)) );
 
-        // Reverse Index Acconts
-        // unVerifyAccount = unVerifyAccount.reversed.toList();
       });
     }
     

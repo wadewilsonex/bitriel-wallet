@@ -20,7 +20,7 @@ class WalletUcImpl implements WalletUsecases{
   @override
   Future<List<List<SmartContractModel>>> fetchCoinsFromLocalStorage() async {
     if ( (await SecureStorage.isContain(DbKey.listContract) || (await SecureStorage.isContain(DbKey.addedContract)) ) ){
-      print("Return storage");
+
       return [
         await SecureStorage.readData(key: DbKey.listContract).then((value) {
           if (value != null) {
@@ -39,13 +39,10 @@ class WalletUcImpl implements WalletUsecases{
 
     } else {
 
-      print("Return from asset");
-
       return [
         await fetchCoinFromAssets(),
         // []
         await SecureStorage.readData(key: DbKey.addedContract).then((value) {
-          print("addedContract $value");
           if (value != null) {
             return SmartContractModel.decode(value);
           }
@@ -79,7 +76,7 @@ class WalletUcImpl implements WalletUsecases{
       for (var element in lst) {
         if (element.show! && element.id != "polkadot" && element.id != "kiwigo"){
           
-          if (element.marketPrice!.isNotEmpty && element.money != null) {
+          if (element.marketPrice!.isNotEmpty && element.balance != null) {
             element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice ?? '0.0');
           } else {
             element.money = 0.0;

@@ -7,9 +7,7 @@ class WalletScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    print("Wallet");
-
+    
     // final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
 
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
@@ -29,7 +27,7 @@ class WalletScreen extends StatelessWidget {
       child: Column(
         children: [
           
-          _cardPortfolio(context),
+          _cardPortfolio(context,),
 
           Padding(
             padding: const EdgeInsets.only(left: 15),
@@ -130,11 +128,16 @@ class WalletScreen extends StatelessWidget {
             fontSize: 15,
           ),
 
-          MyTextConstant(
-            text: "\$0.0",
-            color2: hexaCodeToColor(AppColors.midNightBlue),
-            fontSize: 30,
-            fontWeight: FontWeight.w600,
+          ValueListenableBuilder(
+            valueListenable: Provider.of<WalletProvider>(context).mainBalance,
+            builder: (context, mainBalance, wg) {
+              return MyTextConstant(
+                text: "\$${mainBalance.toStringAsFixed(4)}",
+                color2: hexaCodeToColor(AppColors.midNightBlue),
+                fontSize: 30,
+                fontWeight: FontWeight.w600,
+              );
+            }
           ),
 
           const SizedBox(height: 15),
@@ -314,7 +317,7 @@ class WalletScreen extends StatelessWidget {
                 ),
 
                 MyTextConstant(
-                  text: "\$${double.parse(assetsModel[index].marketPrice!).toStringAsFixed(2)}",
+                  text: assetsModel[index].money != null ? "\$${assetsModel[index].money!.toStringAsFixed(2)}" : "0.0",
                   color2: hexaCodeToColor(AppColors.grey),
                   fontSize: 12,
                   textAlign: TextAlign.start,

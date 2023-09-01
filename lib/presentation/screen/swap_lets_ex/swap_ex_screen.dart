@@ -189,7 +189,7 @@ class SwapExchange extends StatelessWidget {
                   
                   : InkWell(
                     onTap: (){
-                      print("isLstCoinReady.value $isLstCoinReady");
+                      
                       if (kDebugMode) {
                         // ignore: unnecessary_null_comparison
                         print(isLstCoinReady == null);
@@ -325,8 +325,6 @@ class SwapExchange extends StatelessWidget {
                   
                   : InkWell(
                     onTap: (){
-
-                      print("isLstCoinReady.value $isLstCoinReady");
 
                       if (isLstCoinReady == true){
 

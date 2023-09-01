@@ -45,11 +45,8 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
       defaultLstCoins = await _letsExchangeRepoImpl.getLetsExchangeCoin();
     }
 
-    print("lstTx.value[0] == null ${lstTx.value[0] == null}");
     if (lstTx.value[0] == null){
       _secureStorageImpl.readSecure(DbKey.lstTxIds)!.then( (localLstTx){
-
-        print("localLstTx $localLstTx");
 
         lstTx.value.clear();
 
@@ -179,7 +176,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
   void queryEstimateAmt() {
 
-    print("queryEstimateAmt");
     if (swapModel.from!.isNotEmpty && swapModel.to!.isNotEmpty){
       EasyDebounce.debounce("tag", const Duration(milliseconds: 500), () async {
         await _letsExchangeRepoImpl.twoCoinInfo({
@@ -189,7 +185,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
           "network_to": swapModel.networkTo,
           "amount": swapModel.amt!.value
         }).then((value) {
-          print("value ${value.body}");
 
           if (value.statusCode == 200) {
             receiveAmt.value = (json.decode(value.body))['amount'].toString();
@@ -260,8 +255,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
           lstTx.value.add(SwapResModel.fromJson(json.decode(value.body)));
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           lstTx.notifyListeners();
-
-          print("value ${value.body}");
           
           await SecureStorageImpl().writeSecure(DbKey.lstTxIds, json.encode(SwapResModel().toJson(lstTx.value)));
 
@@ -375,7 +368,7 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
     dialogLoading(_context!, content: "Checking Status");
 
     await _letsExchangeRepoImpl.getLetsExStatusByTxId(lstTx.value[index!]!.transaction_id!).then((value) {
-      print("value.body ${value.body}");
+      
       lstTx.value[index!] = SwapResModel.fromJson(json.decode(value.body));
 
     });

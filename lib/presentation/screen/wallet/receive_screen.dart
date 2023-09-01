@@ -135,8 +135,6 @@ Widget _warnMsg(ReceiveUcImpl receiveImpl, String? tokenName, String? tokenNetwo
         Consumer<SDKProvider>(
           builder: (context, pro, wg) {
 
-            print("tokenNetwork $tokenNetwork");
-
             return Expanded(
               child: RichText(
                 text: TextSpan(
@@ -159,8 +157,7 @@ Widget _warnMsg(ReceiveUcImpl receiveImpl, String? tokenName, String? tokenNetwo
 }
 
 Widget _optionBtn(BuildContext context, ReceiveUcImpl receiveImpl, String? addr) {
-
-  print("addr ${addr ?? 'null'}");
+  
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Row(

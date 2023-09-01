@@ -44,8 +44,6 @@ class MultiAccountImpl implements MultiAccountUsecases {
             )
           ).then((value) async {
 
-            print("sdkProvider ${sdkProvider!.getSdkImpl.evmAddress}");
-
             // // Refetch asset balance
             await walletProvider!.getAsset();
           });
@@ -73,8 +71,6 @@ class MultiAccountImpl implements MultiAccountUsecases {
             )
           ).then((value) async {
 
-            print("sdkProvider ${sdkProvider!.getSdkImpl.evmAddress}");
-
             // // Refetch asset balance
             await walletProvider!.getAsset();
           });
@@ -92,8 +88,6 @@ class MultiAccountImpl implements MultiAccountUsecases {
     sdkProvider!.getSdkImpl.getKeyring.setCurrent(acc);
     
     await sdkProvider!.fetchAllAccount();
-
-    print("sdkProvider ${sdkProvider!.getSdkImpl.evmAddress}");
 
     // // Refetch asset balance
     await walletProvider!.getAsset();

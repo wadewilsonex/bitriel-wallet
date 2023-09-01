@@ -6,8 +6,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    print("Home");
     
     final walletProvider = Provider.of<WalletProvider>(context, listen: false);
 

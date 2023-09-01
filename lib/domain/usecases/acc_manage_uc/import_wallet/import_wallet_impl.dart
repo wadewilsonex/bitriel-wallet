@@ -42,8 +42,6 @@ class ImportWalletImpl implements ImportWalletUsecases {
 
       await sdkProvider!.accountManagementImpl.verifyLaterData(sdkProvider, true);
 
-      print("addAndImport sdkProvider.getUnverifyAcc.length ${sdkProvider!.getUnverifyAcc.length}");
-
       await sdkProvider!.accountManagementImpl.accNavigation(_context!, isMultiAcc!);
 
       // if (isMultiAcc == true) {
@@ -54,7 +52,7 @@ class ImportWalletImpl implements ImportWalletUsecases {
       // }
 
     } catch (e) {
-      print("Error addAndImport $e");
+      // print("Error addAndImport $e");
     }
 
   }

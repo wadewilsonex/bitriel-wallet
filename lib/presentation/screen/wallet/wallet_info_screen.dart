@@ -114,12 +114,6 @@ class WalletInfo extends StatelessWidget {
         Expanded(child: Container()),
         Consumer<WalletProvider>(
           builder: (context, pro, wg){
-    
-            print("scModel.address! ${pro.sortListContract![pro.sortListContract!.indexOf(scModel)].address}");
-            print("pro.sortListContract!.indexOf(scModel) ${pro.sortListContract!.indexOf(scModel)}");
-            print("tokenName $tokenName");
-            print("tokenSymbol $tokenName");
-            print("tokenNetwork $tokenName");
             
             return _buyAndsellBtn(context, pro.sortListContract![pro.sortListContract!.indexOf(scModel)].address!, pro.sortListContract!.indexOf(scModel), tokenName, tokenSymbol, tokenNetwork);
           },

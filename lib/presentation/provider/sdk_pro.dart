@@ -155,7 +155,6 @@ class SDKProvider with ChangeNotifier {
 
         return false;
       });
-      print("currentAccIndex $currentAccIndex");
 
       setEvmAddress = getUnverifyAcc[currentAccIndex].ethAddress!;
       

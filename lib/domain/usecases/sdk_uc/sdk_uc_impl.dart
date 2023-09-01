@@ -262,10 +262,8 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
   /// Extract Evm Address 0xa..
   @override
   Future<void> extractEvmAddress(String pk) async {
-    print("extractEvmAddress");
     final EthPrivateKey privateKey = EthPrivateKey.fromHex(pk);
     evmAddress = privateKey.address.toString();
-    print("evmAddress $evmAddress");
   }
   
 
@@ -298,7 +296,6 @@ class BitrielSDKImpl implements BitrielSDKUseCase{
     //   contractPro.notifyListeners();
 
     } catch (e) {
-      debugPrint("error queryBtcData $e");
       // await customDialog(context, 'Oops', e.toString());
     }
   }
