@@ -28,7 +28,7 @@ PreferredSizeWidget appBar(final BuildContext context, {required final String ti
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext context,
-  required MultiAccountImpl multiAccountImpl,
+  required MultiAccountImpl multiAccountImpl
 }) {
 
   const appBarHeight = 80.0;
@@ -38,7 +38,8 @@ PreferredSizeWidget defaultAppBar({
   return AppBar(
     scrolledUnderElevation: 0,
     elevation: 0,
-    backgroundColor: hexaCodeToColor(AppColors.white),
+    // ignore: unrelated_type_equality_checks
+    // backgroundColor: ValueListenableProvider.value(value: index!) != 3 ? hexaCodeToColor(AppColors.white) : Colors.black,
     automaticallyImplyLeading: false,
     toolbarHeight: appBarHeight,
     centerTitle: true,
@@ -132,7 +133,7 @@ PreferredSizeWidget defaultAppBar({
                   ),
 
                   MyTextConstant(
-                    text: "Selendra Main Network", 
+                    text: "Selendra Network", 
                     color2: hexaCodeToColor(AppColors.darkGrey), 
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

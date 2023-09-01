@@ -51,29 +51,33 @@ class WalletProvider with ChangeNotifier {
   /// Get Asset and Sort Asset
   Future<void> getAsset() async {
 
-    initState();
-    
-    try {
+    if (defaultListContract == null || defaultListContract!.isEmpty){
 
-      await _walletUsecases.fetchCoinsFromLocalStorage().then((value) {
-        defaultListContract = value[0];
-        addedContract = value[1];
-      });
+      initState();
+      
+      try {
 
-      await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
+        await _walletUsecases.fetchCoinsFromLocalStorage().then((value) {
+          defaultListContract = value[0];
+          addedContract = value[1];
+        });
 
-      if (sdkProvider!.isMainnet.value == true) {
+        await SecureStorage.writeData(key: DbKey.listContract, encodeValue: json.encode(SmartContractModel.encode(defaultListContract!)) );
 
-        await assetStateManipulate();
-        
+        if (sdkProvider!.isMainnet.value == true) {
+
+          await assetStateManipulate();
+          
+        }
+        else {
+
+          await coinsTestnet();
+          
+        }
+
+      } catch (e) {
+        print("Error getAsset $e");
       }
-      else {
-
-        await coinsTestnet();
-        
-      }
-    } catch (e) {
-      print("Error getAsset $e");
     }
 
   }

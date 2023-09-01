@@ -15,7 +15,10 @@ class MarketUCImpl implements MarketUseCases {
   @override
   Future<void> getMarkets() async {
 
-    lstMarket.value = await marketRepoImpl.getMarkets();
+    if (lstMarket.value.isEmpty){
+
+      lstMarket.value = await marketRepoImpl.getMarkets();
+    }
 
   }
 

@@ -84,14 +84,17 @@ class AccountManagementImpl extends AccountMangementUC {
 
   Future<void> fetchAccount() async {
 
-    await SecureStorage.readData(key: DbKey.privateList).then((value) {
+    if (unVerifyAccount.isEmpty){
 
-      print("fetchAccount bart $value");
-      unVerifyAccount = UnverifySeed().fromJsonDb( List<Map<String, dynamic>>.from(json.decode(value!)) );
+      await SecureStorage.readData(key: DbKey.privateList).then((value) {
 
-      // Reverse Index Acconts
-      // unVerifyAccount = unVerifyAccount.reversed.toList();
-    });
+        print("fetchAccount bart $value");
+        unVerifyAccount = UnverifySeed().fromJsonDb( List<Map<String, dynamic>>.from(json.decode(value!)) );
+
+        // Reverse Index Acconts
+        // unVerifyAccount = unVerifyAccount.reversed.toList();
+      });
+    }
     
   }
 

@@ -8,7 +8,9 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
+    print("Wallet");
+
+    // final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
 
     final walletPro = Provider.of<WalletProvider>(context, listen: false);
 
@@ -23,91 +25,88 @@ class WalletScreen extends StatelessWidget {
     //   }
     // }
 
-    return Scaffold(
-      appBar: defaultAppBar(context: context, multiAccountImpl: multiAccountImpl),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            
-            _cardPortfolio(context),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          
+          _cardPortfolio(context),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  
-                  const Expanded(child: Divider()),
-                  // Expanded(child: _searchBar(searchController)),
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                
+                const Expanded(child: Divider()),
+                // Expanded(child: _searchBar(searchController)),
 
-                  IconButton(
-                    onPressed: () {
-                      
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const AddAsset())
-                      );
+                IconButton(
+                  onPressed: () {
                     
-                    }, 
-                    icon: const Icon(Iconsax.add_circle)
-                  ),
-            
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AddAsset())
+                    );
                   
-                ],
-              ),
-            ),
-
-            Consumer<WalletProvider>(
-              builder: (context, pro, wg) {
+                  }, 
+                  icon: const Icon(Iconsax.add_circle)
+                ),
+          
                 
-                if (pro.sortListContract == null) {
-                  return const CircularProgressIndicator();
-                }
-                else if (pro.sortListContract!.isEmpty) {
-                  return const Text("No token found");
-                }
+              ],
+            ),
+          ),
 
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: pro.sortListContract!.length,
-                  itemBuilder: (context, index){
-                    return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, index: index, assetsModel: pro.sortListContract!);
-                  },
-                  // children: pro.sortListContract!.map((e) {
-
-                  //   return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.sortListContract!);
-
-                  // }).toList(),
-                );
+          Consumer<WalletProvider>(
+            builder: (context, pro, wg) {
+              
+              if (pro.sortListContract == null) {
+                return const CircularProgressIndicator();
               }
-            ),
+              else if (pro.sortListContract!.isEmpty) {
+                return const Text("No token found");
+              }
 
-            // Consumer<WalletProvider>(
-            //   builder: (context, pro, wg) {
-                
-            //     if (pro.listErc20 == null) {
-            //       return const CircularProgressIndicator();
-            //     }
-            //     else if (pro.listErc20!.isEmpty) {
-            //       return const Text("No token found");
-            //     }
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: pro.sortListContract!.length,
+                itemBuilder: (context, index){
+                  return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, index: index, assetsModel: pro.sortListContract!);
+                },
+                // children: pro.sortListContract!.map((e) {
 
-            //     return ListView(
-            //       shrinkWrap: true,
-            //       physics: const NeverScrollableScrollPhysics(),
-            //       children: pro.listErc20!.map((e) {
+                //   return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.sortListContract!);
 
-            //         return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listErc20!);
+                // }).toList(),
+              );
+            }
+          ),
 
-            //       }).toList(),
-            //     );
-            //   }
-            // ),
+          // Consumer<WalletProvider>(
+          //   builder: (context, pro, wg) {
+              
+          //     if (pro.listErc20 == null) {
+          //       return const CircularProgressIndicator();
+          //     }
+          //     else if (pro.listErc20!.isEmpty) {
+          //       return const Text("No token found");
+          //     }
 
-          ],
-        ),
+          //     return ListView(
+          //       shrinkWrap: true,
+          //       physics: const NeverScrollableScrollPhysics(),
+          //       children: pro.listErc20!.map((e) {
+
+          //         return _getItem(ctx: context, coinMarketCap: walletPro.marketUCImpl, element: e, assetsModel: pro.listErc20!);
+
+          //       }).toList(),
+          //     );
+          //   }
+          // ),
+
+        ],
       ),
     );
      
