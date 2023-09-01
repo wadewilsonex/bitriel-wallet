@@ -175,7 +175,7 @@ export 'package:bitriel_wallet/presentation/widget/text_c.dart';
 export 'package:bitriel_wallet/presentation/widget/shimmer_market_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/dropdown_widget.dart';
 export 'package:bitriel_wallet/presentation/widget/swap_numpad_c.dart';
-export 'package:bitriel_wallet/presentation/widget/navbar_widget.dart';
+export 'package:bitriel_wallet/presentation/screen/main_screen.dart';
 
 // Provider
 export 'package:bitriel_wallet/presentation/provider/asset_pro.dart';

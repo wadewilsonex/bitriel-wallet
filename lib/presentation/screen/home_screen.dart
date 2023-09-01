@@ -7,7 +7,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final MultiAccountImpl multiAccountImpl = MultiAccountImpl();
+    print("Home");
     
     final walletProvider = Provider.of<WalletProvider>(context, listen: false);
 
@@ -25,19 +25,7 @@ class HomeScreen extends StatelessWidget {
 
     Provider.of<WalletProvider>(context, listen: false).getAsset();
 
-    // final walletPro = Provider.of<WalletProvider>(context, listen: false);
-
-    // if (context.mounted){
-
-    //   walletPro.setBuildContext = context;
-      
-    //   if (walletPro.defaultListContract == null || walletPro.defaultListContract!.isEmpty) {
-      
-    //   }
-    // }
-
     return Scaffold(
-      appBar: defaultAppBar(context: context, multiAccountImpl: multiAccountImpl),
       body: SingleChildScrollView(
         controller: walletProvider.marketUCImpl.scrollController,
         physics: const BouncingScrollPhysics(),

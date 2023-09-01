@@ -4,10 +4,19 @@ class NavbarUsecaseImpl implements NavbarUsecase{
 
   final ValueNotifier<int> currentIndex = ValueNotifier(0);
 
-  @override
-  void changeIndex({required int index}) async {
+  PageController pageController = PageController();
 
-    currentIndex.value = index; // THIS IS CRITICAL!! Don't miss it!
+  @override
+  void changeIndex(int? index) async {
+    print("changeIndex $index");
+
+    if (currentIndex.value != index!){
+
+      pageController.jumpToPage(index);
+      
+      currentIndex.value = index; // THIS IS CRITICAL!! Don't miss it!
+    }
+
     
   }
   
