@@ -134,13 +134,16 @@ Widget _warnMsg(ReceiveUcImpl receiveImpl, String? tokenName, String? tokenNetwo
 
         Consumer<SDKProvider>(
           builder: (context, pro, wg) {
+
+            print("tokenNetwork $tokenNetwork");
+
             return Expanded(
               child: RichText(
                 text: TextSpan(
                     style: TextStyle(color: hexaCodeToColor(AppColors.primary)),
                     children: <TextSpan>[
                       const TextSpan(text: "Send only "),
-                      TextSpan(text: "$tokenName ($tokenNetwork) " , style: const TextStyle(fontWeight: FontWeight.bold)),
+                      TextSpan(text: tokenNetwork!.isEmpty ? "$tokenName " : "$tokenName ($tokenNetwork) " , style: const TextStyle(fontWeight: FontWeight.bold)),
                       const TextSpan(text: "to this address.", ),
                       const TextSpan(text: "\nSending any other coins may result in permanent loss", )
                     ],
