@@ -66,19 +66,7 @@ class ShimmerMarketWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: SizedBox(
-                      width: 70,
-                      height: 40,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                  
                   Flexible(
                     fit: FlexFit.tight,
                     child: Padding(

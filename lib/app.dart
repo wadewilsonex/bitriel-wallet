@@ -50,12 +50,33 @@ class SplashScreen extends StatelessWidget {
     // Else Execute AccountExist Function
     if (appImpl.sdkProvider!.isConnected) appImpl.readBio();
 
-    return const Scaffold(
+    return Scaffold(
       body: SizedBox(
         child: Center(
-          child: CircularProgressIndicator()
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+        
+              Lottie.asset(
+                "assets/animation/wallet_splash_screen.json",
+                repeat: true,
+                height: 250,
+                width: 250
+              ),
+        
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10,),
+                child: MyTextConstant(
+                  text: "Please Wait, Requesting data and assets.",
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+        
+            ],
+          ),
         )
-      ),
+      )
     );
   }
 

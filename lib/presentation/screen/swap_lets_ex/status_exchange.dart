@@ -28,12 +28,54 @@ class StatusExchange extends StatelessWidget {
             valueListenable: letsExchangeUCImpl!.lstTx,
             builder: (context, lst, wg) {
 
-              // ignore: curly_braces_in_flow_control_structures, unnecessary_null_comparison
-              if (lst[0] == null) return const Center(child: CircularProgressIndicator());
-
-              else if (lst.isEmpty){
-                return const Text("No Transaction");
+              print(lst.length);
+              if (lst.isEmpty){
+                return Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                
+                      Padding(
+                        padding: const EdgeInsets.only(top: 150),
+                        child: Lottie.asset(
+                          "assets/animation/search_empty.json",
+                          repeat: false,
+                          height: 200,
+                          width: 200
+                        ),
+                      ),
+                
+                      const MyTextConstant(
+                        text: "No request exchange activity.",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      )
+                
+                    ],
+                  ),
+                );
               }
+
+              // ignore: curly_braces_in_flow_control_structures, unnecessary_null_comparison
+              else if (lst[0] == null) return Expanded(
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: ListView.builder(
+                  itemCount: 6,
+                  itemBuilder: (context, index) {
+                    return Card(
+                    elevation: 1.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const SizedBox(height: 80),
+                    );
+                  },
+                  ),
+                )
+              );
               
               return ListView(
                 shrinkWrap: true,

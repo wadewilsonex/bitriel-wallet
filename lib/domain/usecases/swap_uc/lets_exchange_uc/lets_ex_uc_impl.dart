@@ -25,7 +25,7 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
 
   ValueNotifier<List<LetsExCoinByNetworkModel>> lstLECoin = ValueNotifier([]);
 
-  ValueNotifier<List<SwapResModel?>> lstTx = ValueNotifier([]);
+  ValueNotifier<List<SwapResModel?>> lstTx = ValueNotifier([null]);
 
   int? index;
 
@@ -34,10 +34,6 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
   set setContext(BuildContext ctx){
     _context = ctx;
     _paymentUcImpl.setBuildContext = ctx;
-
-    lstTx.value.length = 1;
-    print(lstTx.value.length);
-    print(lstTx.value[0]);
   }
 
   final SecureStorageImpl _secureStorageImpl = SecureStorageImpl();
@@ -49,20 +45,27 @@ class LetsExchangeUCImpl implements LetsExchangeUseCases {
       defaultLstCoins = await _letsExchangeRepoImpl.getLetsExchangeCoin();
     }
 
-    _secureStorageImpl.readSecure(DbKey.lstTxIds)!.then( (localLstTx){
+    print("lstTx.value[0] == null ${lstTx.value[0] == null}");
+    if (lstTx.value[0] == null){
+      _secureStorageImpl.readSecure(DbKey.lstTxIds)!.then( (localLstTx){
 
-      print("localLstTx $localLstTx");
-
-      if (localLstTx.isNotEmpty){
+        print("localLstTx $localLstTx");
 
         lstTx.value.clear();
 
-        lstTx.value = List<Map<String, dynamic>>.from((json.decode(localLstTx))).map((e) {
-          return SwapResModel.fromJson(e);
-        }).toList();
-      }
+        // ignore: unnecessary_null_comparison
+        if (localLstTx.isNotEmpty){
 
-    });
+          lstTx.value = List<Map<String, dynamic>>.from((json.decode(localLstTx))).map((e) {
+            return SwapResModel.fromJson(e);
+          }).toList();
+        }
+
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+        lstTx.notifyListeners();
+
+      });
+    }
 
     lstCoinExtract();
     
