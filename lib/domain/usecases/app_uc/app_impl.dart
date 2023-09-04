@@ -54,12 +54,12 @@ class AppUsecasesImpl implements AppUsecases {
   }
 
   @override
-  Future<void> authPopup() async {
+  Future<void> authPopup(BuildContext context) async {
     
     await authenticateBiometric().then((value) {
       if(value == true) {
         Navigator.pushAndRemoveUntil(
-          _context!,
+          context,
           MaterialPageRoute(builder: (context) => const MainScreen()),
           (route) => false 
         );
@@ -69,28 +69,29 @@ class AppUsecasesImpl implements AppUsecases {
 
   // Called in privacy and splash screen
   @override
-  Future<void> readBio({bool isPrivacy = false}) async{
+  Future<void> readBio(BuildContext context, {bool isPrivacy = false}) async{
+    
     if (await SecureStorage.isContain(DbKey.bio)){
+
+      await SecureStorage.readData(key: DbKey.bio).then((value) async {
       
-      final readBioVal = await SecureStorage.readData(key: DbKey.bio);
+        isAuthenticated.value = bool.parse(value!);
 
-      isAuthenticated.value = bool.parse(readBioVal!);
+        // If False Means Navigation Occure Only For Splash Screen
 
-      // If False Means Navigation Occure Only For Splash Screen
+        // Splash Screen
+        if (isPrivacy == false) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const AuthScreen()),
+            (route) => false 
+          );
+        }
 
-      // Splash Screen
-      if (isPrivacy == false) {
-        Navigator.pushAndRemoveUntil(
-          _context!,
-          MaterialPageRoute(builder: (context) => const AuthScreen()),
-          (route) => false 
-        );
-      }
-
-      // return;
+      });
 
     } else if (isPrivacy == false) {
-      await checkAccountExist();
+      checkAccountExist();
     }
 
   }

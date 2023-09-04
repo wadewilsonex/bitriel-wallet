@@ -59,7 +59,7 @@ class TokenPayment extends StatelessWidget {
                         ),
                       ),
                       title: MyTextConstant(
-                        text: double.parse(paymentUcImpl.lstContractDropDown[value].balance!.replaceAll(",", "")).toStringAsFixed(2),
+                        text: double.parse(paymentUcImpl.lstContractDropDown[value].balance!.replaceAll(",", "")).toStringAsFixed(4),
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
                         textAlign: TextAlign.start,
@@ -228,7 +228,8 @@ Widget _getEnterAmountSection(PaymentUcImpl paymentUcImpl) {
                   Expanded(
                     child: TextFormField(
                       controller: paymentUcImpl.amountController,
-                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,1}'))],
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       // validator: paymentUcImpl.amtValidator,
                       focusNode: paymentUcImpl.amtNode,
                       onChanged: paymentUcImpl.onChanged,

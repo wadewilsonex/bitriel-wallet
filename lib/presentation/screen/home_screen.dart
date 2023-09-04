@@ -9,11 +9,7 @@ class HomeScreen extends StatelessWidget {
     
     final walletProvider = Provider.of<WalletProvider>(context, listen: false);
 
-    walletProvider.marketUCImpl.scrollController.addListener(() {
-      walletProvider.marketUCImpl.backToTop.value = walletProvider.marketUCImpl.scrollController.offset > 400 ? true : false;
-    });
-
-    walletProvider.marketUCImpl.getMarkets();
+    walletProvider.marketUCImpl.getMarkets();    
 
     Provider.of<SDKProvider>(context, listen: false).setBuildContext = context;
     
@@ -22,6 +18,11 @@ class HomeScreen extends StatelessWidget {
     Provider.of<WalletProvider>(context, listen: false).setBuildContext = context;
 
     Provider.of<WalletProvider>(context, listen: false).getAsset();
+
+    walletProvider.marketUCImpl.scrollController.addListener(() {
+      walletProvider.marketUCImpl.backToTop.value = walletProvider.marketUCImpl.scrollController.offset > 400 ? true : false;
+    });
+
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -67,7 +68,7 @@ class HomeScreen extends StatelessWidget {
       // padding: const EdgeInsets.all(14),
       margin: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: hexaCodeToColor(AppColors.cardColor).withOpacity(0.70),
+        color: hexaCodeToColor(AppColors.cardColor),
         borderRadius: const BorderRadius.all(Radius.circular(20))
       ),
       child: Column(
