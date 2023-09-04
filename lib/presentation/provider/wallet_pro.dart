@@ -96,7 +96,9 @@ class WalletProvider with ChangeNotifier {
           element.address = sdkProvider!.getSdkImpl.evmAddress!;
           listEvmNative!.add(element);
         }
-        else if (element.isNative! && element.show == true && element.symbol!.toLowerCase() == "sel") {listNative!.add(element);}
+        else if (element.isNative! && element.show == true && element.symbol!.toLowerCase() == "sel") {
+          listNative!.add(element);
+        }
         
         return true;
       });
@@ -145,7 +147,14 @@ class WalletProvider with ChangeNotifier {
       
       if ( (element.isBSC! || element.isEther!) && element.show == true ) {listEvmNative!.add(element);}
       /// Native include, such as: Polkadot, Substrate and Bitcoin.
-      else if (element.isNative! && element.show == true) {listNative!.add(element);}
+      else if (element.isNative! && element.show == true) {
+
+        if (element.balance!.contains(",")){
+          element.balance = element.balance!.replaceAll(",", "");
+        }
+
+        listNative!.add(element);
+      }
       else if (element.isBep20! && element.show == true) {listBep20!.add(element);} 
       else if (element.isErc20! && element.show == true) {listErc20!.add(element);} 
 
@@ -171,6 +180,10 @@ class WalletProvider with ChangeNotifier {
       
       if (element.symbol!.toLowerCase() != 'polkadot'){
 
+        if (element.balance!.contains(",")){
+          element.balance = element.balance!.replaceAll(",", "");
+        }
+
         if (element.symbol!.toLowerCase() == 'btc'){
 
           element.address = sdkProvider!.getSdkImpl.btcAddress;
@@ -180,6 +193,10 @@ class WalletProvider with ChangeNotifier {
           
           element.address = sdkProvider!.getSdkImpl.getKeyring.current.address;
           element.balance = await _walletUcImpl.fetchSELAddress();
+        }
+
+        if (element.balance!.contains(",")){
+          element.balance = element.balance!.replaceAll(",", "");
         }
 
         sortListContract!.add(element);
@@ -195,6 +212,10 @@ class WalletProvider with ChangeNotifier {
 
     // Filter EVM Coins
     for(var element in listEvmNative!){
+
+      if (element.balance!.contains(",")){
+        element.balance = element.balance!.replaceAll(",", "");
+      }
 
       await sdkProvider!.getSdkImpl.getEvmBalance(
         element.isEther! ? sdkProvider!.getSdkImpl.getEthClient : sdkProvider!.getSdkImpl.getBscClient,
@@ -219,6 +240,10 @@ class WalletProvider with ChangeNotifier {
 
     try {
       for( var bep20 in listBep20!){
+        
+        if (bep20.balance!.contains(",")){
+          bep20.balance = bep20.balance!.replaceAll(",", "");
+        }
 
         sdkProvider!.getSdkImpl.bscDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/bep20.json", bep20.contract!);
         if (bep20.symbol!.toLowerCase() == "usdt" && sdkProvider!.isMainnet.value == true){
@@ -262,6 +287,10 @@ class WalletProvider with ChangeNotifier {
   Future<void> queryErc20Balance() async {
 
     for( var erc20 in listErc20!){
+
+      if (erc20.balance!.contains(",")){
+        erc20.balance = erc20.balance!.replaceAll(",", "");
+      }
 
       sdkProvider!.getSdkImpl.etherDeployedContract = await sdkProvider!.getSdkImpl.deployContract("assets/json/abi/erc20.json", erc20.contract!);
       

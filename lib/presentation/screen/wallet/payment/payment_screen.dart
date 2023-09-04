@@ -26,8 +26,6 @@ class TokenPayment extends StatelessWidget {
       paymentUcImpl.isReady.value = true;
     }
 
-    // paymentUcImpl.getPrivateKey();
-
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.background),
       appBar: appBar(context, title: "Send"),
@@ -59,7 +57,7 @@ class TokenPayment extends StatelessWidget {
                         ),
                       ),
                       title: MyTextConstant(
-                        text: double.parse(paymentUcImpl.lstContractDropDown[value].balance!.replaceAll(",", "")).toStringAsFixed(4),
+                        text: paymentUcImpl.lstContractDropDown[value].balance,//double.parse(paymentUcImpl.lstContractDropDown[value].balance!).toStringAsFixed(4),
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
                         textAlign: TextAlign.start,
@@ -211,8 +209,7 @@ Widget _getEnterAmountSection(PaymentUcImpl paymentUcImpl) {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
               child: Row(
                 children: <Widget>[
                   // SizedBox(

@@ -140,11 +140,15 @@ class PaymentUcImpl implements PaymentUsecases {
       
         dialogLoading(context!);
 
+        print("walletProvider!.sortListContract![index.value].isNative ${walletProvider!.sortListContract![index.value].isNative}");
+
         // Catch Wrong Pin 
         // And throw To Main Error Handler
         try {
           
           _pk = await _getPrivateKey(pin);
+
+          print("_pk $_pk");
 
         } catch (e) {
           throw "Wrong pin";
@@ -152,86 +156,96 @@ class PaymentUcImpl implements PaymentUsecases {
 
         // Check Input Not Equal 0
         // Check Input Not Less than Existing coin's balance
-        if ( amountController.text.isNotEmpty && double.parse(amountController.text) >= double.parse(lstContractDropDown[index.value].balance!) ){
+        if ( amountController.text.isNotEmpty && double.parse(amountController.text) <= double.parse(lstContractDropDown[index.value].balance!) ){
           
-        txHistoryModel = TxHistoryModel(
-          from: walletProvider!.sortListContract![index.value].address,
-          to: recipientController.text,
-          amt: amountController.text
-        );
+          txHistoryModel = TxHistoryModel(
+            from: walletProvider!.sortListContract![index.value].address,
+            to: recipientController.text,
+            amt: amountController.text
+          );
 
-        if (walletProvider!.sortListContract![index.value].isBep20 == true) {
-          // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
+          if (walletProvider!.sortListContract![index.value].isBep20 == true) {
+            // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![0].balance!), network: "BNB") == true) {
+
+              urlLauncher = "https://testnet.bscscan.com/tx/";
+              
+              await sendBep20();
+
+              addTrxHistory();
+
+            // }
+          }
+          else if (walletProvider!.sortListContract![index.value].isErc20 == true){
+            // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
+
+              urlLauncher = "https://goerli.etherscan.io/tx/";
+
+              await sendErc20();
+
+              addTrxHistory();
+
+            // }
+          }
+          else if (walletProvider!.sortListContract![index.value].isBSC == true){
 
             urlLauncher = "https://testnet.bscscan.com/tx/";
-            
-            await sendBep20();
+
+            await sendBsc();
 
             addTrxHistory();
 
-          // }
-        }
-        else if (walletProvider!.sortListContract![index.value].isErc20 == true){
-          // if (checkFeeAndTrxAmount(double.parse(walletProvider!.listEvmNative![1].balance!), network: "Ethereum") == true) {
-
-            urlLauncher = "https://goerli.etherscan.io/tx/";
-
-            await sendErc20();
-
-            addTrxHistory();
-
-          // }
-        }
-        else if (walletProvider!.sortListContract![index.value].isBSC == true){
-
-          urlLauncher = "https://testnet.bscscan.com/tx/";
-
-          await sendBsc();
-
-          addTrxHistory();
-
-        }
-        else if (walletProvider!.sortListContract![index.value].isEther == true){
-          
-          urlLauncher = "https://goerli.etherscan.io/tx/";
-          
-          await sendEther();
-
-          addTrxHistory();
-        }
-        else {
-          
-          await sendNative();
-
-          addTrxHistory();
-        }
-        
-        // Save Trx Into Local Storage
-        await walletProvider!.storeAssets();
-
-        // Close Dialog Loading
-        Navigator.pop(context!);
-
-        await QuickAlert.show(
-          context: context!,
-          type: QuickAlertType.success,
-          showCancelBtn: true,
-          cancelBtnText: "View Transaction",
-          cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
-          text: 'Transaction Completed Successfully!',
-          onCancelBtnTap: () async {
-            await launchUrl(
-              Uri.parse("$urlLauncher$hash"),
-              mode: LaunchMode.externalApplication,
-            );
           }
-        );
+          else if (walletProvider!.sortListContract![index.value].isEther == true){
+            
+            urlLauncher = "https://goerli.etherscan.io/tx/";
+            
+            await sendEther();
 
-        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-        walletProvider!.notifyListeners();
+            addTrxHistory();
+          }
+          else {
+            
+            await sendNative();
+
+            addTrxHistory();
+          }
+          
+          // Save Trx Into Local Storage
+          await walletProvider!.storeAssets();
+
+          // Close Dialog Loading
+          Navigator.pop(context!);
+
+          await QuickAlert.show(
+            context: context!,
+            type: QuickAlertType.success,
+            showCancelBtn: true,
+            cancelBtnText: "View Transaction",
+            cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
+            text: 'Transaction Completed Successfully!',
+            onCancelBtnTap: () async {
+              await launchUrl(
+                Uri.parse("$urlLauncher$hash"),
+                mode: LaunchMode.externalApplication,
+              );
+            }
+          );
+
+          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+          walletProvider!.notifyListeners();
 
         } else if (trxMessage.value.isEmpty) {
+
+          // Close Dialog
+          Navigator.pop(context!);
+          
           trxMessage.value = "Balance must greater than 0";
+
+          await QuickAlert.show(
+            context: context!,
+            type: QuickAlertType.warning,
+            text: "Balance must greater than 0",
+          );
         }
       }
 
@@ -251,8 +265,10 @@ class PaymentUcImpl implements PaymentUsecases {
 
   /// Send Token: BTC, SEL...
   Future<void> sendNative() async {
-
+    print("sendNative");
+    print(recipientController.text.toLowerCase().contains("se"));
     if (recipientController.text.toLowerCase().contains("se")){
+
       // Send SEL
 
       // 1. Assign Sender indentity.
@@ -287,7 +303,9 @@ class PaymentUcImpl implements PaymentUsecases {
         ]), 
         "111111", 
         (p0) => null
-      );
+      ).then((value) {
+        print("Value $value");
+      });
 
     }
     else {
