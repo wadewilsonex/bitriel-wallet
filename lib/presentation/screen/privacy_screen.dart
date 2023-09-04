@@ -11,7 +11,7 @@ class PrivacyScreen extends StatelessWidget {
 
     appUsecasesImpl.setBuildContext = context;
 
-    appUsecasesImpl.readBio(isPrivacy: true);
+    appUsecasesImpl.readBio(context, isPrivacy: true);
 
     return Scaffold(
       appBar: appBar(context, title: "Privacy"),

@@ -36,6 +36,7 @@ PreferredSizeWidget defaultAppBar({
   multiAccountImpl.setContext(context, listen: false);
 
   return AppBar(
+    backgroundColor: hexaCodeToColor(AppColors.white),
     scrolledUnderElevation: 0,
     elevation: 0,
     // ignore: unrelated_type_equality_checks
@@ -50,7 +51,7 @@ PreferredSizeWidget defaultAppBar({
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(50)),
-          color: hexaCodeToColor(AppColors.cardColor)
+          color: hexaCodeToColor(AppColors.white)
         ),
       ),
     ),

@@ -8,9 +8,9 @@ class AuthScreen extends StatelessWidget {
 
     final AppUsecasesImpl appImpl = AppUsecasesImpl();
 
-    appImpl.setBuildContext = context;
+    // appImpl.setBuildContext = context;
 
-    appImpl.authPopup();
+    appImpl.authPopup(context);
 
     return Scaffold(
       body: Padding(
@@ -45,7 +45,7 @@ class AuthScreen extends StatelessWidget {
                   MyButton(
                     textButton: "Authenticate",
                     action: () async{
-                      await appImpl.authPopup();
+                      await appImpl.authPopup(context);
                     },
                   )
                 ],

@@ -311,13 +311,13 @@ class WalletScreen extends StatelessWidget {
               children: [
 
                 MyTextConstant(
-                  text: assetsModel[index].balance == null ? '0' : double.parse(assetsModel[index].balance!.replaceAll(",", "")).toStringAsFixed(2), //assetsModel[assetsModel.indexOf(assetsModel[index])].balance!,
+                  text: assetsModel[index].balance == null ? '0' : double.parse(assetsModel[index].balance!.replaceAll(",", "")).toStringAsFixed(4), //assetsModel[assetsModel.indexOf(assetsModel[index])].balance!,
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.start,
                 ),
 
                 MyTextConstant(
-                  text: assetsModel[index].money != null ? "\$${assetsModel[index].money!.toStringAsFixed(2)}" : "0.0",
+                  text: assetsModel[index].money != null ? "\$${assetsModel[index].money!.toStringAsFixed(4)}" : "0.0",
                   color2: hexaCodeToColor(AppColors.grey),
                   fontSize: 12,
                   textAlign: TextAlign.start,
