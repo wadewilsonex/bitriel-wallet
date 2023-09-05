@@ -1,201 +1,194 @@
-/* -------------This file is hold all Packages, Path of file -------------*/
-export 'dart:async';
-export 'dart:convert';
-export 'dart:io' show Platform;
-export 'dart:io';
-export 'dart:typed_data';
-
-export 'package:async/async.dart';
-
-/* Package from Pub.dev */
-export 'package:web3dart/web3dart.dart';
-export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:flutter/foundation.dart';
+// Core Flutter
 export 'package:flutter/material.dart';
-export 'package:flutter/rendering.dart';
+export 'dart:io';
 export 'package:flutter/services.dart';
-export 'package:line_awesome_flutter/line_awesome_flutter.dart';
+export 'package:flutter/foundation.dart';
+export 'dart:convert';
+export 'package:dropdown_button2/dropdown_button2.dart';
+export 'package:flutter/rendering.dart';
+
+// Pub & Packages
+export 'package:bitriel_wallet/app.dart';
+export 'package:flutter_dotenv/flutter_dotenv.dart';
+export 'package:path_provider/path_provider.dart';
 export 'package:local_auth/local_auth.dart';
-export 'package:package_info_plus/package_info_plus.dart';
+export 'package:web3dart/web3dart.dart';
+export 'package:web_socket_channel/io.dart';
+export 'package:ua_client_hints/ua_client_hints.dart';
+export 'package:random_avatar/random_avatar.dart';
+export 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
+export 'package:quickalert/quickalert.dart';
 export 'package:qr_flutter/qr_flutter.dart';
-export 'package:store_redirect/store_redirect.dart';
-export 'package:provider/provider.dart';
-export 'package:iconsax/iconsax.dart';
 export 'package:flutter_svg/flutter_svg.dart';
-export 'package:transition/transition.dart';
-export 'package:responsive_sizer/responsive_sizer.dart';
+export 'package:cached_network_image/cached_network_image.dart';
+export 'package:url_launcher/url_launcher.dart';
 export 'package:shimmer/shimmer.dart';
 
-//Component
-export 'package:wallet_apps/src/components/bottom_sheet/bottom_sheet.dart';
-/* Component File */
-export 'package:wallet_apps/src/components/component.dart';
-export 'package:wallet_apps/src/components/dimissible_background.dart';
-export 'package:wallet_apps/src/components/home_c.dart';
-export 'package:wallet_apps/src/components/menu_c.dart';
-export 'package:wallet_apps/src/components/my_input.dart';
-export 'package:wallet_apps/src/components/platform_specific/android_native.dart';
-export 'package:wallet_apps/src/components/platform_specific/ios_native.dart';
-export 'package:wallet_apps/src/components/receive_wallet_c.dart';
-export 'package:wallet_apps/src/components/reuse_widget.dart';
-export 'package:wallet_apps/src/components/route_animation.dart';
-export 'package:wallet_apps/src/components/sms_component.dart';
-export 'package:wallet_apps/src/components/trx_component.dart';
-export 'package:wallet_apps/src/components/trx_option_c.dart';
-export 'package:wallet_apps/src/constants/app_config.dart';
-export 'package:wallet_apps/src/config/size_config.dart';
-export 'package:wallet_apps/src/components/asset_item.dart';
-export 'package:wallet_apps/src/components/portfolio_cus.dart';
-export 'package:wallet_apps/src/components/route_animation.dart';
-export 'package:wallet_apps/src/components/route_animation.dart';
-export 'package:wallet_apps/src/components/passcode/passcode.dart';
-export 'package:wallet_apps/src/components/appbar/appbar_c.dart';
-
-// Add Asset
-export 'package:wallet_apps/src/models/asset_m.dart';
-
-export 'package:wallet_apps/src/models/linechart_m.dart';
-
-export 'package:wallet_apps/src/models/crypto_data.dart';
-
-export 'package:wallet_apps/src/utils/fmt.dart';
-export 'package:wallet_apps/src/models/home_m.dart';
-/* Menu */
-export 'package:wallet_apps/src/models/menu_m.dart';
-
-export 'package:wallet_apps/src/models/token.m.dart';
-
-export 'package:wallet_apps/src/models/m_import_acc.dart';
-// Dashboard
-
-export 'package:wallet_apps/src/models/smart_contract.m.dart';
-
-export 'package:wallet_apps/src/models/checkin.m.dart';
-
-export 'package:wallet_apps/src/models/model_scan_pay.dart';
-/* Main presentation */
-
-export 'package:wallet_apps/src/models/model_user_info.dart';
-
-export 'package:wallet_apps/src/models/tx_history.dart';
-
-export 'package:wallet_apps/src/models/m_import_acc.dart';
-
-/* Home presentation */
-export 'package:wallet_apps/src/models/portfolio_m.dart';
-export 'package:wallet_apps/src/models/portfolio_rate_m.dart';
-// Add Phone
-/* Home presentation */
-export 'package:wallet_apps/src/presentation/home/menu/account/account.dart';
-
-export 'package:wallet_apps/src/presentation/home/claim_airdrop/claim_airdrop.dart';
-export 'package:wallet_apps/src/presentation/home/claim_airdrop/invite_friend.dart';
-export 'package:wallet_apps/src/presentation/home/navigation_drawer/navigation_drawer.dart';
-// Add Assets
-export 'package:wallet_apps/src/presentation/home/menu/add_asset/add_asset.dart';
-export 'package:wallet_apps/src/presentation/home/menu/add_asset/body_add_asset.dart';
-
-/* Menu presentation */
-export 'package:wallet_apps/src/presentation/home/menu/menu.dart';
-export 'package:wallet_apps/src/presentation/home/menu/menu_body.dart';
-export 'package:wallet_apps/src/presentation/home/menu/swap/des_swap.dart';
-
-export 'package:wallet_apps/src/presentation/home/menu/about.dart';
-export 'package:wallet_apps/src/presentation/home/menu/swap/swap.dart';
-
-//Transaction confirmation
-export 'package:wallet_apps/src/models/trx_info.dart';
-
-// Transaction Activiity
-export 'package:wallet_apps/src/presentation/home/menu/trx_activity/reuse_activity_widget.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_activity/trx_activity.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_activity/body_trx_activity.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_activity/trx_activity_details/transaction_activity_details.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_activity/trx_activity_details/body_transaction_activity_details.dart';
-// Transaction History
-export 'package:wallet_apps/src/presentation/home/menu/trx_history/tab_bars_list/all_trx.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_history/tab_bars_list/received_trx.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_history/tab_bars_list/send_transaction.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_history/trx_history.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_history/body_trx_history.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_history/trx_history_details/trx_history_detail.dart';
-export 'package:wallet_apps/src/presentation/home/menu/trx_history/trx_history_details/body_trx_history_detail.dart';
-export 'package:wallet_apps/src/presentation/home/receive_wallet/receive_wallet.dart';
-export 'package:wallet_apps/src/presentation/home/receive_wallet/body_receive_wallet.dart';
-export 'package:wallet_apps/src/presentation/home/transaction/qr_scanner/qr_scanner.dart';
-export 'package:wallet_apps/src/components/fill_pin_dialog.dart';
-export 'package:wallet_apps/src/presentation/home/transaction/submit_trx/submit_trx.dart';
-export 'package:wallet_apps/src/presentation/home/transaction/submit_trx/body_submit_trx.dart';
-export 'package:wallet_apps/src/presentation/home/transaction/confirmation/confimation_tx.dart';
-export 'package:wallet_apps/src/presentation/main/seeds/import_seeds/import_acc.dart';
-export 'package:wallet_apps/src/presentation/main/finger_print.dart';
-// Finger Print
-export 'package:wallet_apps/src/presentation/main/splash_screen.dart';
-
-export 'package:wallet_apps/src/presentation/main/seeds/import_seeds/body_import_acc.dart';
-// Main Screeen
-export 'package:wallet_apps/src/presentation/main/onboarding/onboarding.dart';
-export 'package:wallet_apps/src/presentation/main/onboarding/body_onboarding.dart';
-
-export 'package:wallet_apps/src/presentation/home/contact_book/contact_book.dart';
-
-/* Local File */
-export 'package:wallet_apps/src/utils/local_storage_s.dart';
-export 'package:wallet_apps/src/utils/local_storage_s.dart';
-//Service
-export 'package:wallet_apps/src/utils/secure_storage/storage.dart';
-export 'package:wallet_apps/src/utils/app_utils.dart';
-/* ---------------------Util------------------------ */
-import 'package:wallet_apps/src/config/theme/color.dart';
-
-//Provider
-export 'src/provider/api_p.dart';
-export 'src/provider/contract_p.dart';
-export 'src/provider/wallet_p.dart';
-export 'src/provider/market_p.dart';
-export 'src/provider/theme_p.dart';
-export 'package:wallet_apps/src/provider/mdw_p.dart';
-
-// Asset Info
-export 'src/presentation/home/asset_info/asset_checkin.dart';
-export 'src/presentation/home/asset_info/asset_history.dart';
-export 'src/presentation/home/asset_info/asset_info.dart';
-export 'package:wallet_apps/src/config/theme/global.dart';
-
-
-
-export 'package:wallet_apps/src/backend/get_request.dart';
-export 'package:wallet_apps/src/config/theme/string.dart';
-export 'package:wallet_apps/src/config/theme/style.dart';
-export 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
-export 'package:wallet_apps/index.dart';
-export 'package:wallet_apps/src/graphql/ql_client.dart';
-export 'package:wallet_apps/src/constants/db_key_con.dart';
-export 'package:wallet_apps/src/provider/provider.dart';
-export 'package:wallet_apps/src/presentation/home/home/home.dart';
-export 'package:wallet_apps/src/config/theme/color.dart';
-
-export 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
-export 'package:wallet_apps/src/presentation/home/home/home_func.dart';
-
+// ignore: depend_on_referenced_packages
+export 'package:permission_handler/permission_handler.dart';
+// ignore: depend_on_referenced_packages
+export 'package:http/http.dart';
+export 'package:provider/provider.dart';
+export 'package:iconsax/iconsax.dart';
 export 'package:lottie/lottie.dart';
-export 'package:random_avatar/random_avatar.dart';
-export 'package:wallet_apps/src/components/pie_chart.dart';
-export 'package:wallet_apps/src/constants/ui_helper.dart';
-export 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-export 'package:wallet_apps/src/presentation/home/home/home.dart';
+export 'package:flutter_secure_storage/flutter_secure_storage.dart';
+export 'package:fl_chart/fl_chart.dart';
+export 'package:unicons/unicons.dart';
+export 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
-export 'package:flutter/material.dart';
-export 'package:wallet_apps/src/presentation/main/social_login/email/login_content.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/api/apiKeyring.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/storage/types/keyPairData.dart';
+// ignore: depend_on_referenced_packages
+export 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/utils/index.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/api/types/txInfoData.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/api/apiTx.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/service/tx.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/api/api.dart';
 
-export 'package:wallet_apps/src/components/login_component/animations/change_screen_animation.dart';
-export 'package:wallet_apps/src/components/login_component/helper_functions.dart';
-export 'package:wallet_apps/src/presentation/main/social_login/email/login_content.dart';
+export 'package:bitriel_wallet/data/storage.dart';
 
-export 'package:vibration/vibration.dart';
-export 'package:wallet_apps/src/components/passcode/body_passcode.dart';
-export 'package:wallet_apps/src/constants/db_key_con.dart';
-export 'package:wallet_apps/src/presentation/home/home/home.dart';
-export 'package:wallet_apps/src/presentation/main/seeds/create_seeds/create_seeds.dart';
+export 'package:share_plus/share_plus.dart';
+export 'package:qr_code_scanner/qr_code_scanner.dart';
 
-export 'package:wallet_apps/src/components/dialog_c.dart';
+export 'package:easy_debounce/easy_debounce.dart';
+
+/*---------- Data Layer ----------*/
+
+/// SDK
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/polkawallet_sdk.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/storage/keyring.dart';
+// ignore: depend_on_referenced_packages
+export 'package:polkawallet_sdk/api/types/networkParams.dart';
+export 'package:bitriel_wallet/data/sdk/bitriel_sdk.dart';
+export 'package:bitriel_wallet/data/sdk/web3.dart';
+export 'package:bitriel_wallet/data/api/api_client.dart';
+export 'package:bitriel_wallet/data/api/get_api.dart';
+
+// Repository
+export 'package:bitriel_wallet/data/repository/asset_repo/asset_repo.dart';
+export 'package:bitriel_wallet/data/repository/asset_repo/asset_repo_impl.dart';
+export 'package:bitriel_wallet/data/repository/sdk_repo/sdk_repo_impl.dart';
+export 'package:bitriel_wallet/data/repository/sdk_repo/web3_rep.dart';
+export 'package:bitriel_wallet/data/repository/sdk_repo/web3_impl.dart';
+export 'package:bitriel_wallet/data/repository/http_request_repo/http_request_impl.dart';
+export 'package:bitriel_wallet/data/repository/market_repo/market_repo.dart';
+export 'package:bitriel_wallet/data/repository/market_repo/market_repo_impl.dart';
+export 'package:bitriel_wallet/data/repository/lets_ex_repo/lets_ex_repo.dart';
+export 'package:bitriel_wallet/data/repository/lets_ex_repo/lets_ex_repo_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/swap_uc/lets_exchange_uc/lets_ex_uc_impl.dart';
+
+/*---------- Domain Layer ----------*/
+
+export 'package:bitriel_wallet/domain/validator/validator.dart';
+// Model
+export 'package:bitriel_wallet/domain/model/pin_m.dart';
+export 'package:bitriel_wallet/domain/model/create_acc_m.dart';
+export 'package:bitriel_wallet/domain/model/new_acc_m.dart';
+export 'package:bitriel_wallet/domain/model/smart_contract_m.dart';
+export 'package:bitriel_wallet/domain/model/line_chart_model.dart';
+export 'package:bitriel_wallet/domain/model/market.m.dart';
+export 'package:bitriel_wallet/domain/model/lets_ex_coin_m.dart';
+export 'package:bitriel_wallet/domain/model/swap_m.dart';
+export 'package:bitriel_wallet/domain/model/coin_info_m.dart';
+
+// Usecases
+export 'package:bitriel_wallet/domain/usecases/asset_uc/asset_uc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/pin_uc/pin_uc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/asset_uc/asset_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/sdk_uc/sdk_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/sdk_uc/sdk_uc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/pin_uc/pin_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/secure_storage_uc/secure_storage_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/secure_storage_uc/secure_storage_uc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/acc_manage_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/acc_manage_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/create_wallet/create_wallet_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/create_wallet/create_wallet_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/import_wallet/import_wallet_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/app_uc/app_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/app_uc/app_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/multi_acc/multi_acc_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/acc_manage_uc/multi_acc/multi_acc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/wallet_uc/wallet_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/wallet_uc/wallet_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/market_uc/market_uc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/market_uc/market_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/navbar/navbar_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/navbar/navbar_uc_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/add_asset_uc/add_asset_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/add_asset_uc/add_asset_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/payment_uc/payment_us.dart';
+export 'package:bitriel_wallet/domain/usecases/payment_uc/payment_impl.dart';
+export 'package:bitriel_wallet/domain/usecases/swap_uc/lets_exchange_uc/lets_ex_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/wallet_uc/receive_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/scan_qr_uc/scan_qr_uc.dart';
+export 'package:bitriel_wallet/domain/usecases/scan_qr_uc/scan_qr_uc_impl.dart';
+
+/*---------- Presentation Layer ----------*/
+
+// Screen
+export 'package:bitriel_wallet/presentation/screen/welcome_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/account/create_seed_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/account/import_wallet_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/account/verify_seed_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/pin_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/home_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/account/multi_acc_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/setting_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/wallet/wallet_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/token_info_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/wallet/add_asset_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/swap_lets_ex/swap_ex_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/wallet/payment/payment_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/wallet/receive_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/wallet/transaction_detail_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/swap_lets_ex/select_swap_token_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/about_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/privacy_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/swap_lets_ex/status_exchange.dart';
+export 'package:bitriel_wallet/presentation/screen/account/backup_wallet_screen.dart';
+export 'package:bitriel_wallet/presentation/screen/swap_lets_ex/confirm_swap_ex.dart';
+export 'package:bitriel_wallet/presentation/screen/qr_scanner/qr_scanner_screen.dart';
+
+// Widget
+export 'package:bitriel_wallet/presentation/widget/text_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/account/seed_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/textformfield_wg.dart';
+export 'package:bitriel_wallet/presentation/widget/button_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/pin_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/dialog_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/btn_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/dashboard_menu_items.dart';
+export 'package:bitriel_wallet/presentation/widget/acc_item_c.dart';
+export 'package:bitriel_wallet/presentation/widget/appbar_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/wallet/asset_item_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/wallet/wallet_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/text_c.dart';
+export 'package:bitriel_wallet/presentation/widget/shimmer_market_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/dropdown_widget.dart';
+export 'package:bitriel_wallet/presentation/widget/swap_numpad_c.dart';
+export 'package:bitriel_wallet/presentation/screen/main_screen.dart';
+
+// Provider
+export 'package:bitriel_wallet/presentation/provider/asset_pro.dart';
+export 'package:bitriel_wallet/presentation/provider/sdk_pro.dart';
+export 'package:bitriel_wallet/presentation/provider/wallet_pro.dart';
+
+/*---------- Standalone Layer ----------*/
+export 'package:bitriel_wallet/standalone/utils/routes/router.dart';
+export 'package:bitriel_wallet/standalone/utils/app_utils/app_utils.dart';
+export 'package:bitriel_wallet/standalone/utils/themes/colors.dart';
+export 'package:bitriel_wallet/standalone/utils/app_utils/global.dart';
+export 'package:bitriel_wallet/standalone/core/db_key_con.dart';
+export 'package:bitriel_wallet/standalone/utils/app_utils/fmt.dart';
+export 'package:bitriel_wallet/standalone/utils/app_utils/icon_path_util.dart';

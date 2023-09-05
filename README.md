@@ -1,8 +1,16 @@
-# Welcome to Bitriel Wallet!
+# Bitriel wallet
 
-**Digital wallet** management for cross-chain assets, staking and governance operations, collection and self-owned private key.
+Bitriel is a self-custody digital wallet that supports cross-chain multi-assets, including crypto assets and NFTs. 
 
-This project is build on **polkadot substrate blockchain** technology. 
+Download current operating wallet on [PlayStore](https://play.google.com/store/apps/details?id=com.selendra.secure_wallet&gl=US). 
+
+iOS is in progress. We are still waiting for Apple's permission.
+
+## Decentralized Deriverative Trading (experimenting)
+
+Bitriel also offers a decentralized exchange, fiat/crypto onramp and offramp, an NFT marketplace, and event tickets for cultural sites and travel industry. [link](https://market.bitriel.com/)
+
+Bitriel [website](https://bitriel.com)
 
 <img src="flutter_01.png" width="200"> <img src="flutter_02.png" width="200">
 <img src="flutter_03.png" width="200"> <img src="flutter_04.png" width="200">

@@ -4,7 +4,15 @@
 # This file should be version controlled.
 
 version:
+<<<<<<< HEAD
   revision: b8f7f1f9869bb2d116aa6a70dbeac61000b52849
+=======
+<<<<<<< HEAD
+  revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+=======
+  revision: 85684f9300908116a78138ea4c6036c35c9a1236
+>>>>>>> 271c32a48cd9941280abc24104ead7f5bd19bfc9
+>>>>>>> v9_daveat
   channel: stable
 
 project_type: app
@@ -13,8 +21,32 @@ project_type: app
 migration:
   platforms:
     - platform: root
+<<<<<<< HEAD
       create_revision: b8f7f1f9869bb2d116aa6a70dbeac61000b52849
       base_revision: b8f7f1f9869bb2d116aa6a70dbeac61000b52849
+=======
+<<<<<<< HEAD
+      create_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+      base_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+    - platform: android
+      create_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+      base_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+    - platform: ios
+      create_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+      base_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+    - platform: linux
+      create_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+      base_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+    - platform: web
+      create_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+      base_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+    - platform: windows
+      create_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+      base_revision: b06b8b2710955028a6b562f5aa6fe62941d6febf
+=======
+      create_revision: 85684f9300908116a78138ea4c6036c35c9a1236
+      base_revision: 85684f9300908116a78138ea4c6036c35c9a1236
+>>>>>>> v9_daveat
     - platform: android
       create_revision: b8f7f1f9869bb2d116aa6a70dbeac61000b52849
       base_revision: b8f7f1f9869bb2d116aa6a70dbeac61000b52849
@@ -31,8 +63,14 @@ migration:
       create_revision: b8f7f1f9869bb2d116aa6a70dbeac61000b52849
       base_revision: b8f7f1f9869bb2d116aa6a70dbeac61000b52849
     - platform: windows
+<<<<<<< HEAD
       create_revision: b8f7f1f9869bb2d116aa6a70dbeac61000b52849
       base_revision: b8f7f1f9869bb2d116aa6a70dbeac61000b52849
+=======
+      create_revision: 85684f9300908116a78138ea4c6036c35c9a1236
+      base_revision: 85684f9300908116a78138ea4c6036c35c9a1236
+>>>>>>> 271c32a48cd9941280abc24104ead7f5bd19bfc9
+>>>>>>> v9_daveat
 
   # User provided section
 
