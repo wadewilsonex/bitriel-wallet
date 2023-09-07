@@ -58,7 +58,7 @@ class SDKProvider with ChangeNotifier {
   List<NetworkModel> get getLstSelNetwork => _sdkImpl.lstSelendraNetwork;
 
   /// 1.
-  void connectNetwork() async {
+  Future<bool> connectNetwork() async {
 
     await _sdkImpl.fetchNetwork();
 
@@ -69,7 +69,8 @@ class SDKProvider with ChangeNotifier {
 
     isConnected = true;
 
-    notifyListeners();
+    return isConnected;
+    // notifyListeners();
     
   }
 

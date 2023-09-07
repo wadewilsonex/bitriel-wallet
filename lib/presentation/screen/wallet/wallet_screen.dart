@@ -24,6 +24,7 @@ class WalletScreen extends StatelessWidget {
     // }
 
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           

@@ -20,7 +20,7 @@ class AppUsecasesImpl implements AppUsecases {
 
   set setBuildContext(BuildContext ctx){
     _context = ctx;
-    sdkProvider = Provider.of<SDKProvider>(ctx, listen: true);
+    sdkProvider = Provider.of<SDKProvider>(ctx, listen: false);
   }
     
   @override
@@ -70,7 +70,7 @@ class AppUsecasesImpl implements AppUsecases {
   // Called in privacy and splash screen
   @override
   Future<void> readBio(BuildContext context, {bool isPrivacy = false}) async{
-    
+    print("readBio");
     if (await SecureStorage.isContain(DbKey.bio)){
 
       await SecureStorage.readData(key: DbKey.bio).then((value) async {
@@ -122,7 +122,7 @@ class AppUsecasesImpl implements AppUsecases {
   
   @override
   Future<void> checkAccountExist() async {
-    
+    print("checkAccountExist");
     if (sdkProvider!.getSdkImpl.getKeyring.allAccounts.isNotEmpty){
       await Future.delayed(const Duration(milliseconds: 200), (){
         Navigator.pushAndRemoveUntil(

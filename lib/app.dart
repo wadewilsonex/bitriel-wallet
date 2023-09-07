@@ -12,8 +12,6 @@ class App extends StatelessWidget {
     // Provider.of<SDKProvier>(context, listen: false).fetchNetworkFromGithub().then((value) {
     // });
     Provider.of<SDKProvider>(context, listen: false).setIsMainnet = true;
-
-    Provider.of<SDKProvider>(context, listen: false).connectNetwork();
     
     return MaterialApp(
       title: 'Bitriel',
@@ -46,9 +44,14 @@ class SplashScreen extends StatelessWidget {
 
     appImpl.setBuildContext = context;
 
-    // If BIO exist Execute BIO Function 
-    // Else Execute AccountExist Function
-    if (appImpl.sdkProvider!.isConnected) appImpl.readBio(context);
+    Provider.of<SDKProvider>(context, listen: false).connectNetwork().then((value) {
+      if (value == true){
+
+        // If BIO exist Execute BIO Function 
+        // Else Execute AccountExist Function
+        if (appImpl.sdkProvider!.isConnected) appImpl.readBio(context);
+      }
+    });
 
     return Scaffold(
       body: SizedBox(
