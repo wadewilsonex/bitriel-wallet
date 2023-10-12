@@ -1,3 +1,4 @@
+import 'package:bitriel_wallet/domain/model/exolix_ex_coin_m.dart';
 import 'package:bitriel_wallet/index.dart';
 
 class SwapModel {
@@ -32,6 +33,37 @@ class SwapModel {
       "network_to": networkTo,
       "withdrawal_extra_id": null,
       "affiliate_id": affiliateId,
+    };
+  }
+}
+
+class ExolixSwapModel {
+  
+  String? coinFrom;
+  String? coinTo;
+  String? networkFrom;
+  String? networkTo;
+  String? withdrawalAddress;
+  ValueNotifier<String>? amt;
+
+  ExolixSwapModel(){
+    coinFrom = "";
+    coinTo = "";
+    networkFrom = "";
+    networkTo = "";
+    amt = ValueNotifier("");
+  }
+
+  // Return Encode Json
+  Map<String, dynamic> toJson(){
+    
+    return {
+      "coinFrom": coinFrom,
+      "coinTo": coinTo,
+      "networkFrom": networkFrom,
+      "networkTo": networkTo,
+      "amount": amt!.value,
+      "withdrawalAddress": withdrawalAddress,
     };
   }
 }
@@ -163,6 +195,74 @@ class SwapResModel {
       'confirmations': e.confirmations,
       'email': e.email,
       'aml_error_signals': e.aml_error_signals
+    }).toList();
+    
+  }
+  
+}
+
+class ExolixSwapResModel {
+
+  String? id;
+  String?  amount;
+  String? amountTo;
+  ExolixCoin? coinFrom;
+  ExolixCoin? coinTo;
+  String? comment;
+  String? createdAt;
+  String? depositAddress;
+  String? depositExtraId;
+  String? withdrawalAddress;
+  String? withdrawalExtraId;
+  String? refundAddress;
+  String? refundExtraId;
+  int? rate;
+  String? rateType;
+  String? status;
+  String? email;
+  
+  ExolixSwapResModel();
+
+  ExolixSwapResModel.fromJson(Map<String, dynamic> jsn){
+    id = jsn['id'];
+    status = jsn['status'];
+    coinFrom = jsn['coinFrom'];
+    coinTo = jsn['coinTo'];
+    comment = jsn['comment'];
+    createdAt = jsn['createdAt'];
+    amount = jsn['amount'].toString();
+    amountTo = jsn['amountTo'].toString();;
+    depositAddress = jsn['depositAddress'];
+    depositExtraId = jsn['depositExtraId'];
+    withdrawalAddress = jsn['withdrawalAddress'];
+    withdrawalExtraId = jsn['withdrawalExtraId'];
+    refundAddress = jsn['refundAddress'];
+    refundExtraId = jsn['refundExtraId'];
+    rate = jsn['rate'];
+    rateType = jsn['rateType'];
+    email = jsn['email'];
+  }
+
+  List<Map<String, dynamic>> toJson(List<ExolixSwapResModel?> lstSwapRes){
+
+    return lstSwapRes!.map((e) => {
+      "id": e!.id,
+      "status": e.status,
+      "coinFrom": e.coinFrom,
+      "coinTo": e.coinTo,
+      "comment": e.comment,
+      "createdAt": e.createdAt,
+      "amount": e.amount,
+      "amountTo": e.amountTo,
+      "depositAddress": e.depositAddress,
+      "depositExtraId": e.depositExtraId,
+      "withdrawalAddress": e.withdrawalAddress,
+      "withdrawalExtraId": e.withdrawalExtraId,
+      "refundAddress": e.refundAddress,
+      "refundExtraId": e.refundExtraId,
+      "rate": e.rate,
+      "rateType": e.rateType,
+      "email": e.email,
     }).toList();
     
   }
