@@ -5,13 +5,14 @@
 import 'package:bitriel_wallet/index.dart';
 
 class ExolixCoin {
-  final String? coinCode;
-  final String? coinName;
-  final String? network;
-  final String? networkName;
-  final String? networkShortName;
-  final String? icon;
-  final String? memoName;
+  
+  String? coinCode;
+  String? coinName;
+  String? network;
+  String? networkName;
+  String? networkShortName;
+  String? icon;
+  String? memoName;
 
   ExolixCoin({
     this.coinCode, 
@@ -22,6 +23,17 @@ class ExolixCoin {
     this.icon,
     this.memoName,
   });
+
+  ExolixCoin.fromJson(Map<String, dynamic> jsn){
+    coinCode = jsn['coinCode'];
+    coinName = jsn['coinName'];
+    network = jsn['network'];
+    networkName = jsn['networkName'];
+    networkShortName = jsn['networkShortName'];
+    icon = jsn['icon'];
+    memoName = jsn['memoName'];
+  }
+  
 }
 
 class ExolixExchangeCoin {

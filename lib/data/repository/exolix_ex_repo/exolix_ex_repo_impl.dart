@@ -5,17 +5,20 @@ import 'package:bitriel_wallet/index.dart';
 
 class ExolixExchangeRepoImpl implements ExolixExchangeRepository {
 
+  List<ExolixExchangeCoin> lstExoCoin = [];
+
   @override
   Future<List<ExolixExchangeCoin>> getExolixExchangeCoin() async {
     
-    List<ExolixExchangeCoin> lstExoCoin = [];
-    
     await GetRequest.getExolixExchangeCoin().then((value) {
+
       if (value.statusCode == 200) {
-        var json = jsonDecode(value.body);
-        for (var jsonExoCoin in json){
-          var exoCoin = ExolixExchangeCoin.fromJson(jsonExoCoin);
-          lstExoCoin.add(exoCoin);
+
+        List<dynamic> json = jsonDecode(value.body)['data'];
+
+        for (dynamic jsonExoCoin in json){
+          
+          lstExoCoin.add(ExolixExchangeCoin.fromJson(jsonExoCoin));
         }
       }
     });

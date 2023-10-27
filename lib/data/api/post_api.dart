@@ -88,16 +88,16 @@ class PostRequest {
   }
 
   Future<http.Response> exolixSwap(Map<String, dynamic> mapData) async {
+
     var url = dotenv.get('EXOLIX_URL');
     var api = dotenv.get('EXOLIX_API');
     var token = dotenv.get('EXOLIX_TOKEN');
     var uri = Uri.parse("$url/$api/transactions");
-    mapData.addAll({ 'apiToken': token });
 
     return await http.post(
       uri,
       body: json.encode(mapData),
-      headers: conceteHeader()
+      headers: conceteHeader(key: "Authorization", value: "Bearer $token")
     );
   }
 }

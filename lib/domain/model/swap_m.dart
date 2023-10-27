@@ -157,7 +157,7 @@ class SwapResModel {
 
   List<Map<String, dynamic>> toJson(List<SwapResModel?> lstSwapRes){
 
-    return lstSwapRes!.map((e) => {
+    return lstSwapRes.map((e) => {
       'is_float': e!.is_float,
       'status': e.status,
       'coin_from': e.coin_from,
@@ -216,7 +216,7 @@ class ExolixSwapResModel {
   String? withdrawalExtraId;
   String? refundAddress;
   String? refundExtraId;
-  int? rate;
+  dynamic rate;
   String? rateType;
   String? status;
   String? email;
@@ -226,12 +226,12 @@ class ExolixSwapResModel {
   ExolixSwapResModel.fromJson(Map<String, dynamic> jsn){
     id = jsn['id'];
     status = jsn['status'];
-    coinFrom = jsn['coinFrom'];
-    coinTo = jsn['coinTo'];
+    coinFrom = ExolixCoin.fromJson(jsn['coinFrom']);
+    coinTo = ExolixCoin.fromJson(jsn['coinTo']);
     comment = jsn['comment'];
     createdAt = jsn['createdAt'];
     amount = jsn['amount'].toString();
-    amountTo = jsn['amountTo'].toString();;
+    amountTo = jsn['amountTo'].toString();
     depositAddress = jsn['depositAddress'];
     depositExtraId = jsn['depositExtraId'];
     withdrawalAddress = jsn['withdrawalAddress'];
@@ -245,7 +245,7 @@ class ExolixSwapResModel {
 
   List<Map<String, dynamic>> toJson(List<ExolixSwapResModel?> lstSwapRes){
 
-    return lstSwapRes!.map((e) => {
+    return lstSwapRes.map((e) => {
       "id": e!.id,
       "status": e.status,
       "coinFrom": e.coinFrom,

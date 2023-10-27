@@ -28,7 +28,6 @@ class StatusExchange extends StatelessWidget {
             valueListenable: letsExchangeUCImpl!.lstTx,
             builder: (context, lst, wg) {
 
-              print(lst.length);
               if (lst.isEmpty){
                 return Center(
                   child: Column(

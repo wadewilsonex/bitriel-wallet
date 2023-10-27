@@ -5,6 +5,8 @@ import 'package:bitriel_wallet/index.dart';
 import 'package:bitriel_wallet/presentation/screen/swap_exolix_ex/select_swap_token_screen.dart' as exo_swap_screen;
 import 'package:bitriel_wallet/presentation/screen/swap_exolix_ex/confirm_swap_ex.dart' as exo_confirm_swap;
 
+Map map = {"id":"excbb7dadcd446","amount":0.028,"amountTo":0.21790163,"coinFrom":{"coinCode":"ETH","coinName":"Ethereum","network":"BSC","networkName":"BNB Smart Chain (BEP20)","networkShortName":"BEP20","icon":"https://exolix.com/icons/coins/ETH.png","memoName":""},"coinTo":{"coinCode":"BNB","coinName":"BNB","network":"BSC","networkName":"BNB Smart Chain (BEP20)","networkShortName":"BEP20","icon":"https://exolix.com/icons/coins/BNB.png","memoName":""},"comment":null,"createdAt":"2023-10-26T16:38:18.576Z","depositAddress":"0xF8Aa60E01dd625Ccc9Ce2DEb267ad91c9a8a80ad","depositExtraId":null,"withdrawalAddress":"0x8b8aa19ad5fa4e08980de2285e2038d50844f83a","withdrawalExtraId":null,"refundAddress":null,"refundExtraId":null,"hashIn":{"hash":null,"link":null},"hashOut":{"hash":null,"link":null},"rate":7.78220107,"rateType":"fixed","affiliateToken":null,"status":"wait","email":null};
+
 class ExolixExchangeUCImpl implements ExolixExchangeUseCases {
 
   BuildContext? _context;
@@ -30,10 +32,10 @@ class ExolixExchangeUCImpl implements ExolixExchangeUseCases {
   ValueNotifier<List<ExolixExCoinByNetworkModel>> lstLECoin = ValueNotifier([]);
 
   ValueNotifier<List<ExolixSwapResModel?>> lstTx = ValueNotifier([null]);
+  
+  ValueNotifier<bool> isReady = ValueNotifier(false);
 
   int? index;
-
-  ValueNotifier<bool> isReady = ValueNotifier(false);
 
   set setContext(BuildContext ctx){
     _context = ctx;
@@ -44,12 +46,15 @@ class ExolixExchangeUCImpl implements ExolixExchangeUseCases {
 
   @override
   Future<void> getExolixExchangeCoin() async {
+
+    print("getExolixExchangeCoin");
     
     if(defaultLstCoins.isEmpty){
       defaultLstCoins = await _exolixExchangeRepoImpl.getExolixExchangeCoin();
     }
 
     if (lstTx.value[0] == null){
+
       _secureStorageImpl.readSecure(DbKey.lstTxIds)!.then( (localLstTx){
 
         lstTx.value.clear();
@@ -221,12 +226,16 @@ class ExolixExchangeUCImpl implements ExolixExchangeUseCases {
 
   @override
   Future<void> exolixSwap() async {
-    
+
     try {
+
+      // Response value = Response(json.encode(map), 200);
 
       dialogLoading(_context!);
 
       await _exolixExchangeRepoImpl.exolixSwap(swapModel.toJson()).then((value) async {
+
+        print("Value ${value.body}");
         
         if (value.statusCode == 401){
           throw json.decode(value.body)['error'];
@@ -242,7 +251,7 @@ class ExolixExchangeUCImpl implements ExolixExchangeUseCases {
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           lstTx.notifyListeners();
           
-          await SecureStorageImpl().writeSecure(DbKey.lstTxIds, json.encode(ExolixSwapResModel().toJson(lstTx.value)));
+          await SecureStorageImpl().writeSecure(DbKey.lstTxIds, value.body);
 
           // Close Dialog
           Navigator.pop(_context!);
@@ -255,8 +264,8 @@ class ExolixExchangeUCImpl implements ExolixExchangeUseCases {
             cancelBtnTextStyle: TextStyle(fontSize: 14, color: hexaCodeToColor(AppColors.primaryBtn)),
             confirmBtnText: "Confirm",
             text: 'Swap Successfully!',
-            onConfirmBtnTap: () {
-              exolixConfirmSwap(lstTx.value.length-1);
+            onConfirmBtnTap: () async {
+              await exolixConfirmSwap(lstTx.value.length-1);
             },
           );
         } else {
@@ -302,7 +311,7 @@ class ExolixExchangeUCImpl implements ExolixExchangeUseCases {
     index = indx;
     Navigator.push(
       _context!,
-      MaterialPageRoute(builder: (context) => exo_confirm_swap.ConfirmSwapExchange(swapResModel: lstTx.value[index!], confirmSwap: exolixSwapping, getStatus: getStatus))
+      MaterialPageRoute(builder: (context) => exo_confirm_swap.ConfirmSwapExchange(swapResModel: lstTx.value[indx], confirmSwap: exolixSwapping, getStatus: getStatus))
     );
   }
 

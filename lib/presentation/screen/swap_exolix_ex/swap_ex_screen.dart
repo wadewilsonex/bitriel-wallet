@@ -1,18 +1,19 @@
 import 'package:bitriel_wallet/domain/usecases/swap_uc/exolix_uc/exolix_ex_uc_impl.dart';
 import 'package:bitriel_wallet/index.dart';
+import 'package:bitriel_wallet/presentation/screen/swap_exolix_ex/status_exchange.dart';
 
-class SwapExchange extends StatelessWidget {
+class SwapExolicExchange extends StatelessWidget {
   
-  const SwapExchange({super.key});
+  SwapExolicExchange({super.key});
+
+  final ExolixExchangeUCImpl exolicUCImpl = ExolixExchangeUCImpl();
 
   @override
   Widget build(BuildContext context) {
 
-    final LetsExchangeUCImpl letsExchangeUCImpl = LetsExchangeUCImpl();
+    exolicUCImpl.setContext = context;
 
-    letsExchangeUCImpl.setContext = context;
-
-    letsExchangeUCImpl.getLetsExchangeCoin();
+    exolicUCImpl.getExolixExchangeCoin();
 
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +21,7 @@ class SwapExchange extends StatelessWidget {
         centerTitle: true,
         backgroundColor: hexaCodeToColor(AppColors.background),
         title: MyTextConstant(
-          text: "Swap",
+          text: "Swap Exolix",
           fontSize: 26,
           color2: hexaCodeToColor(AppColors.midNightBlue),
           fontWeight: FontWeight.w600,
@@ -38,7 +39,7 @@ class SwapExchange extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (builder) => StatusExchange(letsExchangeUCImpl: letsExchangeUCImpl,))
+                MaterialPageRoute(builder: (builder) => StatusExolixExchange(exolixExchangeUCImpl: exolicUCImpl,))
               );
             }, 
             child: MyTextConstant(
@@ -62,12 +63,12 @@ class SwapExchange extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10))
                 ),
                 child: ValueListenableBuilder(
-                  valueListenable: letsExchangeUCImpl.swapModel.amt!,
+                  valueListenable: exolicUCImpl.swapModel.amt!,
                   builder: (context, value, wg) {
                     return Column(
                       children: [
 
-                        _payInput(context, letsExchangeUCImpl),
+                        _payInput(context, exolicUCImpl),
 
                         const SizedBox(height: 10),
 
@@ -81,7 +82,7 @@ class SwapExchange extends StatelessWidget {
                           ),
                         ),
                       
-                        _getDisplay(context, letsExchangeUCImpl),
+                        _getDisplay(context, exolicUCImpl),
                       ],
                     );
                   }
@@ -94,18 +95,20 @@ class SwapExchange extends StatelessWidget {
             ),
 
             Center(
-              child: _buildNumberPad(context, letsExchangeUCImpl.swapModel.amt!.value, letsExchangeUCImpl.onDeleteTxt, letsExchangeUCImpl.formatDouble)
+              child: _buildNumberPad(context, exolicUCImpl.swapModel.amt!.value, exolicUCImpl.onDeleteTxt, exolicUCImpl.formatDouble)
             ),
 
+            // Swap Button
             ValueListenableBuilder(
-              valueListenable: letsExchangeUCImpl.isReady,
+              valueListenable: exolicUCImpl.isReady,
               builder: (context, isReady, wg) {
                 return MyButton(
                   edgeMargin: const EdgeInsets.all(paddingSize),
                   textButton: "Swap",
                   buttonColor: isReady == false ? AppColors.greyCode : AppColors.primaryBtn,
-                  action: isReady == false ? null : () async {
-                    await letsExchangeUCImpl.swap();
+                  action: isReady == false ? null : 
+                  () async {
+                    await exolicUCImpl.exolixSwap();
                   },
                 );
               }
@@ -117,7 +120,7 @@ class SwapExchange extends StatelessWidget {
     );
   }
 
-  Widget _payInput(BuildContext context, LetsExchangeUCImpl leUCImpl) {
+  Widget _payInput(BuildContext context, ExolixExchangeUCImpl leUCImpl) {
     return Padding(
       padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
       child: Column(
@@ -247,7 +250,7 @@ class SwapExchange extends StatelessWidget {
     );
   }
   
-  Widget _getDisplay(BuildContext context, LetsExchangeUCImpl leUCImpl){
+  Widget _getDisplay(BuildContext context, ExolixExchangeUCImpl leUCImpl){
     return Padding(
       padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
       child: Column(

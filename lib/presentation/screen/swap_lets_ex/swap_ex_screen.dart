@@ -2,12 +2,12 @@ import 'package:bitriel_wallet/index.dart';
 
 class SwapExchange extends StatelessWidget {
   
-  const SwapExchange({super.key});
+  SwapExchange({super.key});
+
+  final LetsExchangeUCImpl letsExchangeUCImpl = LetsExchangeUCImpl();
 
   @override
   Widget build(BuildContext context) {
-
-    final LetsExchangeUCImpl letsExchangeUCImpl = LetsExchangeUCImpl();
 
     letsExchangeUCImpl.setContext = context;
 

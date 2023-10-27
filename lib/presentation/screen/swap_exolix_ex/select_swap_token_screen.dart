@@ -10,7 +10,7 @@ class SelectSwapToken extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final TextEditingController searchController = TextEditingController();
+    // final TextEditingController searchController = TextEditingController();
 
     return Scaffold(
       appBar: appBar(context, title: "Select Token"),

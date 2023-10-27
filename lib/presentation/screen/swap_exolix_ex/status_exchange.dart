@@ -1,11 +1,11 @@
 import 'package:bitriel_wallet/domain/usecases/swap_uc/exolix_uc/exolix_ex_uc_impl.dart';
 import 'package:bitriel_wallet/index.dart';
 
-class StatusExchange extends StatelessWidget {
+class StatusExolixExchange extends StatelessWidget {
 
   final ExolixExchangeUCImpl? exolixExchangeUCImpl;
 
-  const StatusExchange({super.key, required this.exolixExchangeUCImpl});
+  const StatusExolixExchange({super.key, required this.exolixExchangeUCImpl});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,6 @@ class StatusExchange extends StatelessWidget {
             valueListenable: exolixExchangeUCImpl!.lstTx,
             builder: (context, lst, wg) {
 
-              print(lst.length);
               if (lst.isEmpty){
                 return Center(
                   child: Column(
